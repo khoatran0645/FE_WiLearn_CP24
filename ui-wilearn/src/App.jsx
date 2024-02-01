@@ -1,19 +1,19 @@
-import React from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
-import './App.css'
-import Home from './pages/Home/Home';
-import SignIn from './pages/Login/SignIn';
-import Register from './pages/Register/Register';
+// /* eslint-disable perfectionist/sort-imports */
+import 'src/global.css';
+
+import { useScrollToTop } from 'src/hooks/use-scroll-to-top';
+
+import Router from 'src/routes/sections';
+import ThemeProvider from 'src/theme';
+
+// ----------------------------------------------------------------------
+
 export default function App() {
+  useScrollToTop();
 
   return (
-      <Router>
-        <Routes>
-          <Route path="/home" element={<Home/>} />
-          <Route path="/" element={<SignIn />} />
-          <Route path="/register" element={<Register />} />
-        </Routes>
-      </Router>
-    );
+    <ThemeProvider>
+      <Router />
+    </ThemeProvider>
+  );
 }
-
