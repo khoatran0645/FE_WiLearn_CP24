@@ -1,10 +1,11 @@
-import React from "react";
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
+import Navbarmenu from "../../components/Nabar/Navbarmenu";
 
 const Home = () => {
   return (
     <>
+      <Navbarmenu/>
       <Sidebar
         collapsed={false}
         rootStyles={{
@@ -20,10 +21,7 @@ const Home = () => {
           <MenuItem component={<Link to="/" />}>Settings</MenuItem>
         </Menu>
       </Sidebar>
-      <div>
-        <h1>Welcome to Home Page</h1>
-      </div>
-    </>
+      </>
   );
 };
 
