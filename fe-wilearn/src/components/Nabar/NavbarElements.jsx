@@ -60,16 +60,13 @@ white-space: nowrap; */
 	}
 `;
 
-export const NavBtn = styled.nav`
+export const AvatarUser = styled`
 	display: flex;
 	align-items: center;
-	margin-right: 24px;
-    margin-top: 0;
 	/* Third Nav */
 	/* justify-content: flex-end;
 width: 100vw; */
 	@media screen and (max-width: 768px) {
-        padding: 0 10px;
 		display: none;
 	}
 `;

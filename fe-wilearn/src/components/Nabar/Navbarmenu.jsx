@@ -1,4 +1,5 @@
-import { Nav, NavLink, Bars, NavMenu, NavBtn, NavBtnLink } from "./NavbarElements";
+import AvatarUser from "../AvatarUser";
+import { Nav, NavLink, Bars, NavMenu} from "./NavbarElements";
 
 
 export default function Navbarmenu() {
@@ -22,11 +23,7 @@ export default function Navbarmenu() {
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
                 </NavMenu>
-                <NavBtn>
-                    <NavBtnLink to="/signin">
-                        Sign In
-                    </NavBtnLink>
-                </NavBtn>
+                <AvatarUser/>
             </Nav>
         </>
     );
