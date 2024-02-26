@@ -71,6 +71,15 @@ width: 100vw; */
 	}
 `;
 
+export const Search = styled`
+	display: flex;
+	align-items: center;
+	padding-left: 100px;
+	@media screen and (max-width: 768px) {
+		display: none;
+	}
+`;
+
 export const NavBtnLink = styled(Link)`
 	border-radius: 4px;
 	background: #808080;
