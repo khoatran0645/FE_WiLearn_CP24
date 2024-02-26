@@ -1,27 +1,36 @@
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
-import { Link } from "react-router-dom";
 import Navbarmenu from "../../components/Nabar/Navbarmenu";
+import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import { styled } from "@mui/material/styles";
+import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
+import OurSidebar from "../../components/OurSidebar";
 
+const Item = styled(Paper)(({ theme }) => ({
+  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
+  ...theme.typography.body2,
+  padding: theme.spacing(1),
+  textAlign: "center",
+  color: theme.palette.text.secondary,
+}));
 const Home = () => {
   return (
-    <>
-      <Navbarmenu/>
-      <Sidebar
-        collapsed={false}
-        rootStyles={{
-          backgroundColor: '#195cee',
-        }}
-      >
-        <Menu closeOnClick={true}>
-          <MenuItem component={<Link to="/" />}>Members</MenuItem>
-          <MenuItem component={<Link to="/" />}>Discussion</MenuItem>
-          <MenuItem component={<Link to="/" />}>Schedule</MenuItem>
-          <MenuItem component={<Link to="/" />}>Study Documents</MenuItem>
-          <MenuItem component={<Link to="/" />}>Statistics</MenuItem>
-          <MenuItem component={<Link to="/" />}>Settings</MenuItem>
-        </Menu>
-      </Sidebar>
-      </>
+    <Box sx={{ flexGrow: 1 }}>
+      <Grid container spacing={2}>
+        <Grid xs={12} sm={12} md={12} lg={12}>
+          <Item>
+            <Navbarmenu />
+          </Item>
+        </Grid>
+        <Grid xs={2}>
+          <Item>
+            <OurSidebar />
+          </Item>
+        </Grid>
+        <Grid xs={10}>
+          <Item>Other components here</Item>
+        </Grid>
+      </Grid>
+    </Box>
   );
 };
 
