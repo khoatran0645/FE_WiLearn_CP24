@@ -1,5 +1,6 @@
 import AvatarUser from "../AvatarUser";
 import { Nav, NavLink, Bars, NavMenu} from "./NavbarElements";
+import Search from "./Search";
 
 
 export default function Navbarmenu() {
@@ -22,7 +23,8 @@ export default function Navbarmenu() {
                     </NavLink>
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
-                </NavMenu>
+                    <Search/>
+                </NavMenu>              
                 <AvatarUser/>
             </Nav>
         </>
