@@ -51,7 +51,7 @@ export default function AddDiscussion() {
   return (
     <div style={{maxWidth:'900px', margin:'0 auto', height: '100vh', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
       <div>
-        <div style={{ textAlign: 'center' }}>
+        <div style={{ textAlign: 'center', fontFamily: 'Segoe UI' }}>
           <h2>Add Discussion</h2>
         </div>
         <input
