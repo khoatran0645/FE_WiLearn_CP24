@@ -4,6 +4,9 @@ import Search from "./Search";
 
 
 export default function Navbarmenu() {
+    const handleSearch = (searchTerm) => {
+    console.log('Searching for:', searchTerm);
+  };
     return (
         <>
             <Nav>
@@ -23,7 +26,7 @@ export default function Navbarmenu() {
                     </NavLink>
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
-                    <Search/>
+                    <Search onSearch={handleSearch} />
                 </NavMenu>              
                 <AvatarUser/>
             </Nav>
