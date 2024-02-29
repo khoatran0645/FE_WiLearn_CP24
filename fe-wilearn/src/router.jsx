@@ -10,6 +10,7 @@ import Schedule from "./components/Schedule";
 import StudyDocs from "./components/StudyDocs";
 import Statistics from "./components/Statistics";
 import Settings from "./components/Settings";
+import Groups from "./components/Groups";
 const router = createBrowserRouter([
   {
     path: "/",
@@ -24,8 +25,13 @@ const router = createBrowserRouter([
     path: "/home",
     element: <Home />,
     children: [
+      {index: true, element: <Groups />},
       {
-        path: "member",
+        path: "group",
+        element: <Groups />,
+      },
+      {
+        path: "members",
         element: <MemberList />,
       },
       {

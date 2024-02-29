@@ -5,8 +5,12 @@ import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-import WifiCalling3Icon from "@mui/icons-material/WifiCalling3";
 import Container from "@mui/material/Container";
+import Stack from "@mui/material/Stack";
+import CardMedia from "@mui/material/CardMedia";
+import CardHeader from "@mui/material/CardHeader";
+import { CardActionArea } from "@mui/material";
+
 export default function MemberList() {
   const userList = [
     { id: 1, name: "Linh", avartar: "" },
@@ -58,13 +62,23 @@ export default function MemberList() {
           Group: SWP490
         </Typography>
       </Grid>
-      <Grid xs={4} sx={{ textAlign: "right" }}>
-        <Button variant="contained" size="large" endIcon={<WifiCalling3Icon />}>
-          Study Together
+      <Grid xs={4} sx={{ textAlign: "right", paddingRight: 10 }}>
+        <Button variant="contained" size="medium">
+          Update
         </Button>
       </Grid>
 
-      <Grid>
+      <Grid xs={2} container justifyContent={"center"}>
+        <Stack spacing={1} justifyContent={"center"}>
+          <Button variant="outlined" size="small">
+            Request to join
+          </Button>
+          <Button variant="contained" size="small">
+            Invite new member
+          </Button>
+        </Stack>
+      </Grid>
+      <Grid xs={10}>
         <Card
           sx={{
             display: "flex",
@@ -75,6 +89,111 @@ export default function MemberList() {
         >
           {memberList}
         </Card>
+      </Grid>
+
+      <Grid xs={12}>
+        <Typography variant="h4" textAlign={"left"}>
+          Lessons
+        </Typography>
+      </Grid>
+
+      <Grid xs={2} container justifyContent={"center"}>
+        <Stack spacing={1} justifyContent={"center"}>
+          <Button variant="outlined" size="small">
+            Planning
+          </Button>
+          <Button variant="contained" size="small">
+            Meeting now
+          </Button>
+        </Stack>
+      </Grid>
+      <Grid
+        xs={10}
+        container
+        justifyContent={"flex-start"}
+        sx={{ overflow: "auto" }}
+      >
+        <Grid xs={12}>
+          <Stack direction="row" spacing={1}>
+            <Card
+              key="1"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Meeting name
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: on tap kiem tra Ly
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect: 29/02 10:34 - 11:19
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: 29/02 10:49
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Can join now
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+            <Card
+              key="1"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Meeting name
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: on tap kiem tra Ly
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect: 29/02 10:34 - 11:19
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: 29/02 10:49
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Can start now
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+            <Card
+              key="1"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid red" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6" component="div">
+                    Meeting name
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: on tap kiem tra Ly
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect: 29/02 10:34 - 11:19
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: 29/02 10:49
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Cannot start
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Stack>
+        </Grid>
+      </Grid>
+      <Grid xs={12} paddingTop={3}>
+        <Button variant="contained" fullWidth>
+          Meeting history
+        </Button>
       </Grid>
     </Grid>
   );
