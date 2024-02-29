@@ -1,6 +1,6 @@
 import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
 import { Link } from "react-router-dom";
-import People from "@mui/icons-material/People";
+import GroupsIcon from '@mui/icons-material/Groups';
 import LocalLibraryIcon from '@mui/icons-material/LocalLibrary';
 import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
@@ -16,7 +16,7 @@ export default function OurSidebar() {
       }}
     >
       <Menu>
-        <MenuItem component={<Link to="member" />} icon={<People />}>Members</MenuItem>
+        <MenuItem component={<Link to="group" />} icon={<GroupsIcon />}>Groups</MenuItem>
         <MenuItem component={<Link to="discussion" />} icon={<LocalLibraryIcon /> }>Discussion</MenuItem>
         <MenuItem component={<Link to="schedule" />} icon={<CalendarMonthIcon />}>Schedule</MenuItem>
         <MenuItem component={<Link to="docs" />} icon={<UploadFileIcon />}>Study Documents</MenuItem>
