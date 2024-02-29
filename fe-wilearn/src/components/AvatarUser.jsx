@@ -21,7 +21,7 @@ export default function AvatarUser() {
     <>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar alt="User Avatar" src="/static/images/avatar/2.jpg" />
+          <Avatar alt="User Avatar" src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp" />
         </IconButton>
       </Tooltip>
       <Menu

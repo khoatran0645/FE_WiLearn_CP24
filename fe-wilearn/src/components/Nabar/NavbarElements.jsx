@@ -21,8 +21,9 @@ export const NavLink = styled(Link)`
 	display: flex;
 	align-items: center;
 	text-decoration: none;
-	padding: 0 1rem;
+	padding: 0 1.5rem;
 	height: 100%;
+	font-size: 1.2rem;
 	cursor: pointer;
 	&.active {
 		color: #000000;
@@ -32,7 +33,7 @@ export const NavLink = styled(Link)`
 export const Bars = styled(FaBars)`
 	display: none;
 	color: #808080;
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 1000px) {
 		display: block;
 		position: absolute;
         padding: 0 10px;
@@ -47,14 +48,14 @@ export const Bars = styled(FaBars)`
 export const NavMenu = styled.div`
 	display: flex;
 	align-items: center;
-	margin-right: -24px;
+	margin-right: 20px;
     margin-top: 0;
 	/* Second Nav */
 	/* margin-right: 24px; */
 	/* Third Nav */
 	/* width: 100vw;
 white-space: nowrap; */
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 1000px) {
         padding: 0 10px;
 		display: none;
 	}
@@ -66,7 +67,7 @@ export const AvatarUser = styled`
 	/* Third Nav */
 	/* justify-content: flex-end;
 width: 100vw; */
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 1000px) {
 		display: none;
 	}
 `;
@@ -75,7 +76,7 @@ export const Search = styled`
 	display: flex;
 	align-items: center;
 	padding-left: 100px;
-	@media screen and (max-width: 768px) {
+	@media screen and (max-width: 1000px) {
 		display: none;
 	}
 `;
