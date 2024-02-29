@@ -7,8 +7,6 @@ import Button from "@mui/material/Button";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
-import CardMedia from "@mui/material/CardMedia";
-import CardHeader from "@mui/material/CardHeader";
 import { CardActionArea } from "@mui/material";
 
 export default function MemberList() {

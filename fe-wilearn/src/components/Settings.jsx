@@ -26,9 +26,9 @@ export default function Settings() {
         </Typography>
         <FormContainer
           defaultValues={{
-            old_password: "a",
-            new_password: "b",
-            confirm_password: "12",
+            old_password: "",
+            new_password: "",
+            confirm_password: "",
           }}
           onSuccess={(data) => console.log(data)}
         >
@@ -64,7 +64,7 @@ export default function Settings() {
         </Typography>
         <FormContainer
           defaultValues={{
-            full_name: "Tran Minh Khoa",
+            full_name: "Thuy Linh",
             phone_number: "0123456789",
             birth_date: dayjs(),
           }}
