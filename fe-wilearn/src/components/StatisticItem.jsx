@@ -3,7 +3,7 @@ export default function StatisticItem() {
   const containerStyle = {
     display: 'flex',
     gap: '200px',
-    marginLeft: '300px',
+    marginLeft: '200px',
     marginTop: '20px',
   };
 
@@ -14,7 +14,7 @@ export default function StatisticItem() {
     borderRadius: '8px',
     boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
     maxWidth: '400px',
-    marginLeft: '300px',
+    marginLeft: '60px',
   };
 
   const headingStyle = {
