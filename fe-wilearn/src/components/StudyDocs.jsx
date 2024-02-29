@@ -1,6 +1,6 @@
+import { useState } from 'react';
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Typography from "@mui/material/Typography";
-import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import CloudUploadIcon from "@mui/icons-material/CloudUpload";
@@ -19,6 +19,18 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function StudyDocs() {
+  const [uploadedFile, setUploadedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setUploadedFile(file);
+  };
+
+  const handleUploadNewFile = () => {
+    // Gọi hàm để reset trạng thái đã upload (nếu cần)
+    setUploadedFile(null);
+  };
+
   return (
     <Grid container spacing={2}>
       <Grid xs={12}>
@@ -44,11 +56,22 @@ export default function StudyDocs() {
           variant="contained"
           size="small"
           startIcon={<CloudUploadIcon />}
+          onClick={handleUploadNewFile}
         >
           Upload new file
-          <VisuallyHiddenInput type="file" />
+          <VisuallyHiddenInput
+            type="file"
+            onChange={handleFileChange}
+          />
         </Button>
       </Grid>
+      {uploadedFile && (
+        <Grid xs={12}>
+          <Typography variant="body1" gutterBottom>
+            Uploaded File: {uploadedFile.name}
+          </Typography>
+        </Grid>
+      )}
     </Grid>
   );
 }
