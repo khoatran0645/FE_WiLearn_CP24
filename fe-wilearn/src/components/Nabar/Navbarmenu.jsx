@@ -21,8 +21,8 @@ export default function Navbarmenu() {
                     <NavLink to="/contact" activeStyle>
                         Contact
                     </NavLink>
-                    <NavLink to="/sign-up" activeStyle>
-                        Sign Up
+                    <NavLink to="/logout" activeStyle>
+                        Logout
                     </NavLink>
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
