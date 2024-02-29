@@ -29,6 +29,7 @@ export default function Navbarmenu() {
                     <Search onSearch={handleSearch} />
                 </NavMenu>              
                 <AvatarUser/>
+                <div style={{marginTop:'30px', fontSize:'20px', fontWeight:'bold'}}>Thuy Linh</div>
             </Nav>
         </>
     );
