@@ -6,31 +6,19 @@ import Paper from "@mui/material/Paper";
 import OurSidebar from "../../components/OurSidebar";
 import { Outlet } from "react-router-dom"; // Outlet from 'react-router-dom'
 
-const Item = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === "dark" ? "#1A2027" : "#fff",
-  ...theme.typography.body2,
-  padding: theme.spacing(1),
-  textAlign: "center",
-  color: theme.palette.text.secondary,
-}));
+
 const Home = () => {
   return (
     <Box sx={{ flexGrow: 1 }}>
       <Grid container spacing={2}>
         <Grid xs={12} sm={12} md={12} lg={12}>
-          <Item>
-            <Navbarmenu />
-          </Item>
+          <Navbarmenu />
         </Grid>
         <Grid xs={2}>
-          <Item>
-            <OurSidebar />
-          </Item>
+          <OurSidebar />
         </Grid>
         <Grid xs={10}>
-          <Item>
-            <Outlet />
-          </Item>
+          <Outlet />
         </Grid>
       </Grid>
     </Box>

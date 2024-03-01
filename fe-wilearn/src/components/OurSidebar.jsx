@@ -11,7 +11,7 @@ export default function OurSidebar() {
     <Sidebar
       collapsed={false}
       rootStyles={{
-        backgroundColor: "#195cee",
+        backgroundColor: "#ffffff",
         height: "100vh",
       }}
     >
