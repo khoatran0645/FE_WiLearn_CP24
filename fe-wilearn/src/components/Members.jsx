@@ -8,6 +8,7 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
+import { useNavigate } from "react-router-dom";
 
 export default function MemberList() {
   const userList = [
@@ -39,7 +40,7 @@ export default function MemberList() {
     >
       <Avatar
         alt={user.name}
-        src="/fe-wilearn/src/assets/11276378.png"
+        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
         sx={{ width: 100, height: 100, marginTop: 2 }}
       />
       <CardContent>
@@ -52,6 +53,11 @@ export default function MemberList() {
       </CardActions>
     </Container>
   ));
+
+  const navigate = useNavigate();
+  const handleClick = () => {
+    navigate("/meeting");
+  };
 
   return (
     <Grid container spacing={1} direction={"row"}>
@@ -100,7 +106,7 @@ export default function MemberList() {
           <Button variant="outlined" size="small">
             Planning
           </Button>
-          <Button variant="contained" size="small">
+          <Button variant="contained" size="small" onClick={handleClick}>
             Meeting now
           </Button>
         </Stack>

@@ -21,13 +21,13 @@ export default function Navbarmenu() {
                     <NavLink to="/contact" activeStyle>
                         Contact
                     </NavLink>
-                    <NavLink to="/logout" activeStyle>
+                    <NavLink to="/" activeStyle>
                         Logout
                     </NavLink>
                     {/* Second Nav */}
                     {/* <NavBtnLink to='/sign-in'>Sign In</NavBtnLink> */}
                     <Search onSearch={handleSearch} />
-                </NavMenu>              
+                </NavMenu>
                 <AvatarUser/>
                 <div style={{marginTop:'30px', fontSize:'20px', fontWeight:'bold'}}>Thuy Linh</div>
             </Nav>

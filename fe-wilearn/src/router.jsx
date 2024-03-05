@@ -11,6 +11,8 @@ import StudyDocs from "./components/StudyDocs";
 import Statistics from "./components/Statistics";
 import Settings from "./components/Settings";
 import Groups from "./components/Groups";
+import MeetingPage from "./pages/Meeting/MeetingPage";
+
 const router = createBrowserRouter([
   {
     path: "/",
@@ -20,6 +22,10 @@ const router = createBrowserRouter([
   {
     path: "/register",
     element: <Register />,
+  },
+  {
+    path: "/meeting",
+    element: <MeetingPage/>,
   },
   {
     path: "/home",
@@ -60,3 +66,4 @@ const router = createBrowserRouter([
 ]);
 
 export default router;
+
