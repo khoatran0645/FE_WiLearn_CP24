@@ -1,24 +1,15 @@
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
-import Typography from "@mui/material/Typography";
-import { Button, CardActionArea, CardActions } from "@mui/material";
 import ImageListItem from "@mui/material/ImageListItem";
 import Paper from "@mui/material/Paper";
 import ImageList from "@mui/material/ImageList";
 import Box from "@mui/material/Box";
 import BottomNavigation from "@mui/material/BottomNavigation";
 import BottomNavigationAction from "@mui/material/BottomNavigationAction";
-import RestoreIcon from "@mui/icons-material/Restore";
-import FavoriteIcon from "@mui/icons-material/Favorite";
-import ArchiveIcon from "@mui/icons-material/Archive";
+
 import Switch from "@mui/material/Switch";
 import FormGroup from "@mui/material/FormGroup";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import FormControl from "@mui/material/FormControl";
-import FormLabel from "@mui/material/FormLabel";
+
 import MoreVertIcon from "@mui/icons-material/MoreVert";
 import BackHandIcon from "@mui/icons-material/BackHand";
 import ScreenShareIcon from "@mui/icons-material/ScreenShare";
