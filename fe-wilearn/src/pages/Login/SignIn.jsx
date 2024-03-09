@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import CssBaseline from '@mui/material/CssBaseline';
@@ -12,7 +11,7 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
-import LandingPage from '../Landing/LandingPage';
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 
 
@@ -22,8 +21,6 @@ export default function SignIn() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const navigate = useNavigate();
-  const [showLandingPage, setShowLandingPage] = useState(true);
-
   const handleLogin = () => {
     // Kiểm tra thông tin đăng nhập, ví dụ: nếu username và password là 'admin'
     if (username === 'user@gmail.com' && password === '123456') {
@@ -43,18 +40,11 @@ export default function SignIn() {
     });
   };
 
-  const handleSignIn = () => {
-    setShowLandingPage(false);
-  };
-
   return (
-    <div style={{backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`, backgroundSize: 'cover', height: '100vh'}}>
-    <ThemeProvider theme={defaultTheme}>
-      {showLandingPage ? (
-        <LandingPage onSignIn={handleSignIn} /> // Truyền prop onSignIn vào LandingPage
-      ) : (
+    <Grid style={{backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`, backgroundSize: 'cover', height: '100vh'}}>
+        <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
-          <CssBaseline/>
+          <CssBaseline />
           <Box
             sx={{
               display: 'flex',
@@ -119,8 +109,7 @@ export default function SignIn() {
             </Box>
           </Box>
         </Container>
-      )}
-    </ThemeProvider>
-    </div>
+      </ThemeProvider>
+    </Grid>
   );
 }
