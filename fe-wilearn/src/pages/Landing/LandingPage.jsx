@@ -4,7 +4,7 @@ import { navigate } from 'react-router-dom';
 
 function LandingPage() {
   const handleSignIn = () => {
-    navigate('/sign-in');
+    navigate('/login');
   };
 
   return (
@@ -28,9 +28,5 @@ function LandingPage() {
     </Grid>
   );
 }
-
-LandingPage.propTypes = {
-  onSignIn: PropTypes.func.isRequired,
-};
 
 export default LandingPage;
