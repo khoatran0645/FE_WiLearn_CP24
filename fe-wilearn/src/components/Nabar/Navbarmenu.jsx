@@ -12,7 +12,7 @@ import Button from '@mui/material/Button';
 import AvatarUser from "../AvatarUser";
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
-import Search from './SearchBar';
+import SearchBar from './SearchBar';
 
 const pages = ['Home', 'Contact', 'About', 'Privacy'];
 
@@ -118,14 +118,14 @@ export default function Navbarmenu() {
             ))}
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
-                <Search/>
+                <SearchBar/>
           </Box>
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
               <AvatarUser />
               <Typography variant="body1" sx={{ ml: 1 }}>
                 Thuy Linh
               </Typography>
-            </Box>
+          </Box>
         </Toolbar>
       </Container>
     </AppBar>
