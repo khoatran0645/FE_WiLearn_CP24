@@ -1,14 +1,15 @@
+import { useNavigate } from 'react-router-dom';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
-import { navigate } from 'react-router-dom';
 
 function LandingPage() {
+  const navigate = useNavigate(); // Import the useNavigate hook from react-router-dom
   const handleSignIn = () => {
-    navigate('/login');
+    navigate('/signin');
   };
 
   return (
-    <Grid>     
+    <Grid>
           <Button
             color="inherit"
             onClick={handleSignIn}

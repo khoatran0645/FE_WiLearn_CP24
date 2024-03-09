@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import Grid from '@mui/material/Grid';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";

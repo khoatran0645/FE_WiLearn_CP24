@@ -1,10 +1,21 @@
-import Grid from '@mui/material/Unstable_Grid2';
-import {Outlet} from 'react-router-dom';
+import Grid from "@mui/material/Grid";
+import { Outlet } from "react-router-dom";
 
 export default function EmptyLayout() {
   return (
-    <Grid sx={{ flexGrow: 1, border: '5px solid black', alignItems: 'center', alignContent: 'center' }}>
-      <Outlet/>
+    <Grid
+      container
+      sx={{
+        flexGrow: 1,
+        justifyContent: "center",
+        alignItems: "center",
+        alignContent: "center",
+      }}
+    >
+      
+      <Grid item xs={12}>
+        <Outlet />
+      </Grid>
     </Grid>
   );
 }

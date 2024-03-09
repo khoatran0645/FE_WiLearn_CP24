@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
+import Grid from '@mui/material/Grid';
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
