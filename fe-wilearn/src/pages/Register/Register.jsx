@@ -9,12 +9,17 @@ import Box from '@mui/material/Box';
 import LockOutlinedIcon from '@mui/icons-material/LockOutlined';
 import Typography from '@mui/material/Typography';
 import Container from '@mui/material/Container';
+import { MenuItem } from '@mui/material';
 import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { useNavigate } from 'react-router-dom';
 
 function Register() {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [phone, setPhone] = useState('');
+  const [dob, setDob] = useState('');
+  const [field, setField] = useState('');
   const navigate = useNavigate();
 
   const handleRegister = async () => {
@@ -60,14 +65,14 @@ function Register() {
             alignItems: 'center',
           }}
         >
-          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', marginTop: '100px' }}>
+          <Avatar sx={{ m: 1, bgcolor: 'secondary.main', marginTop: '10px' }}>
             <LockOutlinedIcon />
           </Avatar>
           <Typography component="h1" variant="h5">
             Register
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
-          <Grid container spacing={2}>
+          <Grid container spacing={0.5}>
                 <Grid item xs={12} sm={6}>
                     <TextField
                     autoComplete="given-name"
@@ -115,6 +120,63 @@ function Register() {
                     onChange={(e) => setPassword(e.target.value)}
                     />
                 </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="confirmPassword"
+                    label="Confirm Password"
+                    type="password"
+                    id="confirmPassword"
+                    autoComplete="new-password"
+                    onChange={(e) => setConfirmPassword(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="phone"
+                    label="Phone"
+                    type="tel"
+                    id="phone"
+                    autoComplete="tel"
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="dob"
+                    label="Date of Birth"
+                    type="date"
+                    id="dob"
+                    autoComplete="bday"
+                    InputLabelProps={{
+                      shrink: true,
+                    }}
+                    onChange={(e) => setDob(e.target.value)}
+                  />
+                </Grid>
+                <Grid item xs={12}>
+                  <TextField
+                    select
+                    margin="normal"
+                    required
+                    fullWidth
+                    name="field"
+                    label="Role"
+                    value={field}
+                    onChange={(e) => setField(e.target.value)}
+                  >
+                    <MenuItem value="student">Student</MenuItem>
+                    <MenuItem value="worker">Worker</MenuItem>
+                  </TextField>
+                </Grid>
             </Grid>
             <Button
               type="submit"
@@ -151,6 +213,11 @@ async function registerUser(username, password) {
         body: JSON.stringify({
           username: username,
           password: password,
+          confirmPassword: confirmPassword,
+          phone: phone,
+          dob: dob,
+          field: field,
+
         }),
       });
   
