@@ -3,13 +3,12 @@ import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
 import Box from "@mui/material/Box";
 import { Outlet } from "react-router-dom"; // Outlet from 'react-router-dom'
 
-
-const HomePage = () => {
+export default function HomePage() {
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={2}>
+      <Grid container spacing={0}>
         <Grid xs={12}>
-          <Navbarmenu/>
+          <Navbarmenu />
         </Grid>
         <Grid xs={12}>
           <Outlet />
@@ -17,6 +16,4 @@ const HomePage = () => {
       </Grid>
     </Box>
   );
-};
-
-export default HomePage;
+}

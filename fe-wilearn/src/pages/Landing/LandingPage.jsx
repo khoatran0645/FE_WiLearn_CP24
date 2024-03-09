@@ -29,4 +29,8 @@ function LandingPage() {
   );
 }
 
+LandingPage.propTypes = {
+  onSignIn: PropTypes.func.isRequired,
+};
+
 export default LandingPage;
