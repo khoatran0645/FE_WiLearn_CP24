@@ -1,18 +1,19 @@
-import { useState } from "react";
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import Avatar from '@mui/material/Avatar';
+import Button from '@mui/material/Button';
+import CssBaseline from '@mui/material/CssBaseline';
+import TextField from '@mui/material/TextField';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
+import Link from '@mui/material/Link';
+import Grid from '@mui/material/Grid';
+import Box from '@mui/material/Box';
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
-import { createTheme, ThemeProvider } from "@mui/material/styles";
-import { useNavigate } from "react-router-dom";
+import Typography from '@mui/material/Typography';
+import Container from '@mui/material/Container';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
+import LandingPage from '../Landing/LandingPage';
+import { useNavigate } from 'react-router-dom';
+
 
 const defaultTheme = createTheme();
 
@@ -20,7 +21,6 @@ export default function SignIn() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
-
   const handleLogin = () => {
     // Kiểm tra thông tin đăng nhập, ví dụ: nếu username và password là 'admin'
     if (username === "user@gmail.com" && password === "123456") {
@@ -41,14 +41,8 @@ export default function SignIn() {
   };
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`,
-        backgroundSize: "cover",
-        height: "1000px",
-      }}
-    >
-      <ThemeProvider theme={defaultTheme}>
+    <Grid style={{backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`, backgroundSize: 'cover', height: '100vh'}}>
+        <ThemeProvider theme={defaultTheme}>
         <Container component="main" maxWidth="xs">
           <CssBaseline />
           <Box
@@ -122,7 +116,8 @@ export default function SignIn() {
             </Box>
           </Box>
         </Container>
-      </ThemeProvider>
+      )}
+    </ThemeProvider>
     </div>
   );
 }

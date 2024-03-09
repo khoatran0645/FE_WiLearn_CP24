@@ -1,6 +1,5 @@
 import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Unstable_Grid2"; // Grid version 2
-import TextField from "@mui/material/TextField";
 import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
@@ -8,6 +7,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import ButtonFindGroup from "./ButtonFindGroup";
 
 export default function Groups() {
   const groupcreatedList = [
@@ -99,10 +99,7 @@ export default function Groups() {
   return (
     <Grid container spacing={2}>
       <Grid xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
-        <TextField label="Search groups" variant="outlined" size="small" />
-        <Button variant="contained" size="small">
-          Search
-        </Button>
+        <ButtonFindGroup/>
       </Grid>
       <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
         <Stack direction="row" spacing={1}>
