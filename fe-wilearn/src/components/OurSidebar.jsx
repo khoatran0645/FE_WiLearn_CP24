@@ -8,7 +8,7 @@ import EqualizerIcon from '@mui/icons-material/Equalizer';
 import SettingsIcon from '@mui/icons-material/Settings';
 export default function OurSidebar() {
   return (
-    <Sidebar
+    <Sidebar 
       collapsed={false}
       rootStyles={{
         backgroundColor: "#ffffff",

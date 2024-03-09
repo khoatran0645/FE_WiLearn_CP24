@@ -48,7 +48,7 @@ export default function SignIn() {
   };
 
   return (
-    <div style={{backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`, backgroundSize: 'cover', height: '1000px'}}>
+    <div style={{backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`, backgroundSize: 'cover', height: '100vh'}}>
     <ThemeProvider theme={defaultTheme}>
       {showLandingPage ? (
         <LandingPage onSignIn={handleSignIn} /> // Truyền prop onSignIn vào LandingPage
