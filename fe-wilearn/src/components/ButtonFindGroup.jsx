@@ -34,7 +34,7 @@ export default function ButtonFindGroup() {
         <DialogTitle>Find Group</DialogTitle>
         <DialogContent>
           {/* Các trường tìm kiếm (ví dụ: TextField) sẽ ở đây */}
-          <TextField label="Group Name" fullWidth />
+          <TextField label="Group Name" fullWidth sx={{marginTop:'10px'}} />
           {/* Thêm các trường tìm kiếm khác nếu cần thiết */}
         </DialogContent>
         <DialogActions>
