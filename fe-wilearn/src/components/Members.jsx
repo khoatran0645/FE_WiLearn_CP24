@@ -9,6 +9,7 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import InviteUser from "./InviteUser";
 
 export default function MemberList() {
   const userList = [
@@ -77,9 +78,7 @@ export default function MemberList() {
           <Button variant="outlined" size="small">
             Request to join
           </Button>
-          <Button variant="contained" size="small">
-            Invite new member
-          </Button>
+          <InviteUser/>
         </Stack>
       </Grid>
       <Grid xs={10}>
