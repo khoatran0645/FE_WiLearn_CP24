@@ -8,6 +8,7 @@ import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ButtonFindGroup from "./ButtonFindGroup";
+import CreateGroup from "./CreateGroup";
 
 export default function Groups() {
   const groupcreatedList = [
@@ -103,9 +104,7 @@ export default function Groups() {
       </Grid>
       <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
         <Stack direction="row" spacing={1}>
-          <Button variant="outlined" size="small">
-            Create new group
-          </Button>
+          <CreateGroup/>
           <Button variant="contained" size="small">
             Invite
           </Button>
