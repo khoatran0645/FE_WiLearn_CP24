@@ -1,11 +1,9 @@
-import { useState } from 'react';
-import GroupsIcon from '@mui/icons-material/Groups';
+import {useState} from 'react'
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 
-export default function ButtonFindGroup() {
+export default function InviteUser() {
   const [openDialog, setOpenDialog] = useState(false);
-
-  const handleSearch = () => {
+  const handleSearchUser = () => {
     setOpenDialog(true);
   };
 
@@ -23,21 +21,18 @@ export default function ButtonFindGroup() {
   return (
     <>
       <Button
-        onClick={handleSearch}
-        variant="contained"
-        startIcon={<GroupsIcon />}
+        onClick={handleSearchUser}
+        variant="contained" size="small"
       >
-        Find Group
+        Invite
       </Button>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Find Group</DialogTitle>
+        <DialogTitle>Search for user</DialogTitle>
         <DialogContent>
-          {/* Các trường tìm kiếm (ví dụ: TextField) sẽ ở đây */}
-          <TextField label="Group Name" fullWidth sx={{marginTop:'10px'}} />
-          {/* Thêm các trường tìm kiếm khác nếu cần thiết */}
+          <TextField label="User's ID" fullWidth sx={{marginTop:'10px'}} />
         </DialogContent>
-        <DialogActions>
+        <DialogActions sx={{marginRight: '10px'}}>
           <Button onClick={handleCloseDialog} color="primary">
             Cancel
           </Button>
@@ -49,4 +44,3 @@ export default function ButtonFindGroup() {
     </>
   );
 }
-

@@ -1,14 +1,14 @@
 import Typography from "@mui/material/Typography";
 import Grid from '@mui/material/Grid';
-import Button from "@mui/material/Button";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ButtonFindGroup from "./ButtonFindGroup";
 import CreateGroup from "./CreateGroup";
+import InviteUser from "./InviteUser";
+import ButtonSearchGroup from "./ButtonSearchGroup";
 
 export default function Groups() {
   const groupcreatedList = [
@@ -100,14 +100,12 @@ export default function Groups() {
   return (
     <Grid container spacing={2}>
       <Grid xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
-        <ButtonFindGroup/>
+        <ButtonSearchGroup/>
       </Grid>
       <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
         <Stack direction="row" spacing={1}>
           <CreateGroup/>
-          <Button variant="contained" size="small">
-            Invite
-          </Button>
+          <InviteUser/>
         </Stack>
       </Grid>
       <Grid
