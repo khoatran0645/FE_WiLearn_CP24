@@ -1,4 +1,4 @@
-import {useState} from 'react'
+import {useState} from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 
 export default function InviteUser() {
@@ -24,7 +24,7 @@ export default function InviteUser() {
         onClick={handleSearchUser}
         variant="contained" size="small"
       >
-        Invite
+        Invite new member
       </Button>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
