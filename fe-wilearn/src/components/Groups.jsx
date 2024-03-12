@@ -1,15 +1,20 @@
 import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import Stack from "@mui/material/Stack";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
-import { CardActionArea } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Navigate, Link } from "react-router-dom";
 import CreateGroup from "./CreateGroup";
 import ButtonSearchGroup from "./ButtonSearchGroup";
 import Invitation from "./Invitation";
-
+import {
+  Backdrop,
+  CircularProgress,
+  CardActionArea,
+  Button,
+} from "@mui/material";
+import { useState } from "react";
 export default function Groups() {
   const groupcreatedList = [
     {
@@ -21,7 +26,8 @@ export default function Groups() {
     {
       id: 2,
       name: "Nhóm A2",
-      image: "https://img.freepik.com/free-vector/nature-scene-with-river-hills-forest-mountain-landscape-flat-cartoon-style-illustration_1150-37326.jpg",
+      image:
+        "https://img.freepik.com/free-vector/nature-scene-with-river-hills-forest-mountain-landscape-flat-cartoon-style-illustration_1150-37326.jpg",
     },
     {
       id: 3,
@@ -73,39 +79,52 @@ export default function Groups() {
     },
   ];
 
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/home/members");
+  const [open, setOpen] = useState(false);
+  const handleClose = () => {
+    setOpen(false);
+  };
+  const handleOpen = () => {
+    setOpen(true);
   };
 
   const showList = groupcreatedList.map((group) => (
-    <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
+    <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }} >
       <CardActionArea>
-        <CardMedia
-          onClick={handleClick}
-          component="img"
-          height="140"
-          image={group.image}
-          alt="scene"
-        />
-        <CardContent>
-          <Typography gutterBottom variant="h5" component="div">
-            {group.name}
-          </Typography>
-        </CardContent>
+        <Link
+          to={`groups/${group.id}`}
+          style={{ textDecoration: "none", color: "black" }}
+        >
+          <CardMedia
+            component="img"
+            height="140"
+            image={group.image}
+            alt="scene"
+          />
+          <CardContent>
+            <Typography
+              gutterBottom
+              variant="h5"
+              component="div"
+              align="center"
+            >
+              {group.name}
+            </Typography>
+          </CardContent>
+        </Link>
       </CardActionArea>
     </Card>
   ));
 
   return (
-    <Grid container spacing={2}>
+    <Grid container spacing={0}>
       <Grid xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
-        <ButtonSearchGroup/>
+        <ButtonSearchGroup />
+        <Button onClick={handleOpen}>Show backdrop</Button>
       </Grid>
       <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
         <Stack direction="row" spacing={1}>
-          <CreateGroup/>
-          <Invitation/>
+          <CreateGroup />
+          <Invitation />
         </Stack>
       </Grid>
       <Grid
@@ -130,6 +149,18 @@ export default function Groups() {
       >
         <Typography variant="h4">I joined these groups</Typography>
       </Grid>
+
+      <Backdrop
+        onTransitionEnd={handleClose}
+        transitionDuration={{ enter: 1000, exit: 100 }}
+        unmountOnExit
+        sx={{ color: "#fff", zIndex: (theme) => theme.zIndex.drawer + 1 }}
+        open={open}
+        onClick={handleClose}
+      >
+        <CircularProgress color="inherit" />
+      </Backdrop>
+
       <Grid>
         <Stack direction="row" spacing={1}>
           <Card sx={{ maxWidth: 345, minWidth: 200 }}>

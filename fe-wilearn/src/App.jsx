@@ -9,6 +9,8 @@ import MeetingPage from "./pages/Meeting/MeetingPage";
 import GuestLayout from "./layouts/GuestLayout";
 import LandingPage from "./pages/Landing/LandingPage";
 import Groups from "./components/Groups";
+import Members from "./components/Members";
+import Discussion from "./components/Discussion";
 
 export default function App() {
   const routes = useRoutes([
@@ -60,6 +62,14 @@ export default function App() {
             {
               index: true,
               element: <Groups />,
+            },
+            {
+              path: "groups/:id",
+              element: <Members />,
+            },
+            {
+              path: "home/discussion",
+              element: <Discussion />,
             },
           ],
         },
