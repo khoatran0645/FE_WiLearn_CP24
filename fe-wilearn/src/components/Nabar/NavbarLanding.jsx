@@ -28,15 +28,17 @@ export default function NavbarLanding() {
   };
 
   return (
-    <Box sx={{ display: "flex" }}>
+    <Box>
+      <CssBaseline />
       <AppBar
+        position="static"
         sx={{
-          backgroundColor: "#ccc",
+          boxShadow: 'none',
+          borderBottom: '1px solid #ccc',
+          backgroundColor: "transparent",
           color: "black",
-          
         }}
       >
-        <CssBaseline />
         <Container maxWidth="xl">
           <Toolbar disableGutters>
             <img
