@@ -63,7 +63,7 @@ function Register() {
             alignItems: 'center',
           }}
         >
-          <Typography component="h1" variant="h5" sx={{marginTop:'35px'}}>
+          <Typography component="h1" variant="h5" sx={{marginTop:'15px'}}>
             Register
           </Typography>
           <Box component="form" onSubmit={handleSubmit} noValidate sx={{ mt: 3 }}>
@@ -177,7 +177,7 @@ function Register() {
               type="submit"
               fullWidth
               variant="contained"
-              sx={{ mt: 3, mb: 2 }}
+              sx={{ mt: 3, mb: 2, backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)" }}
               onClick={handleRegister}
             >
               Register

@@ -2,30 +2,30 @@ import PropTypes from 'prop-types';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 
-function ButtonSignin({ onClick }) {
+function ButtonRegister({ onClick }) {
   return (
     <Grid>
       <Button
         color="inherit"
         sx={{
-          backgroundImage: "linear-gradient(to right, #00b4db, #0083b0)",
+          backgroundImage: "linear-gradient(to bottom right, purple, pink)",
           color: '#fff',
           borderRadius: '5px',
           padding: '8px 10px',
           '&:hover': {
-            backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
+            backgroundImage: "linear-gradient(180deg, purple, pink)",
           },
         }}
         onClick={onClick}
       >
-        Sign In
+        Register
       </Button>
     </Grid>
   );
 }
 
-ButtonSignin.propTypes = {
+ButtonRegister.propTypes = {
   onClick: PropTypes.func.isRequired,
 };
 
-export default ButtonSignin;
+export default ButtonRegister;
