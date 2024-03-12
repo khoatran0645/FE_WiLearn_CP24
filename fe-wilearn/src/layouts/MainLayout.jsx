@@ -4,7 +4,7 @@ import NavbarMenu from "../components/Nabar/NavbarMenu";
 
 export default function MainLayout() {
   return (
-    <Grid container spacing={14} sx={{ flexGrow: 1 }}>
+    <Grid container spacing={12} sx={{ flexGrow: 1 }}>
       <Grid item xs={12} sm={12} md={12} lg={12}>
         <NavbarMenu />
       </Grid>
