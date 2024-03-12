@@ -21,7 +21,7 @@ export default function UpdateGroup() {
             Update
         </Button>
         <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
-                <DialogTitle>Create New Group</DialogTitle>
+                <DialogTitle>Update Group</DialogTitle>
                 <DialogContent>
                     <TextField
                         label="Group Name"

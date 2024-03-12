@@ -48,10 +48,10 @@ export default function CreateGroup() {
                     </FormControl>
                 </DialogContent>
                 <DialogActions style={{ padding: '16px' }}>
-                    <Button onClick={handleCloseDialog} color="secondary">
+                    <Button onClick={handleCloseDialog}>
                         Cancel
                     </Button>
-                    <Button onClick={handleCreateGroup} color="primary">
+                    <Button onClick={handleCreateGroup}>
                         Create
                     </Button>
                 </DialogActions>
