@@ -19,10 +19,11 @@ export default function Content() {
   ];
 
   return (
+    //img and button Get Started
     <Grid container spacing={2} justifyContent="center" alignItems="center" direction="row">
       <Grid item xs={12}>
         <Box style={{ position: 'relative', height: '500px', display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-          <img src={bgImage} alt="Background" style={{ width: '100%', height: '100%', objectFit: 'cover', borderRadius: '8px' }} />
+          <img src={bgImage} alt="Background" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <Box style={{ position: 'absolute', bottom: '0', left: '0', width: '100%', background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%)', padding: '20px', textAlign: 'center' }}>
             <Box style={{marginBottom: '100px'}}>
               <Typography variant="h4" style={{ color: 'white' }}>Welcome to WiLearn</Typography>
@@ -34,6 +35,7 @@ export default function Content() {
           </Box>
         </Box>
       </Grid>
+      {/* Các thẻ Card */}
       <Grid item container spacing={3} justifyContent="center">
         {cardsData.map((card, index) => (
           <Grid item key={index}>
@@ -47,6 +49,10 @@ export default function Content() {
             </Card>
           </Grid>
         ))}
+      </Grid>
+      {/* Giới thiệu tính năng */}
+      <Grid item xs={12} justifyContent="center" sx={{ background: '#4CAF50', padding: '20px', textAlign: 'center', marginTop:'20px' }}>
+        <Typography variant="h5" style={{ color: 'white' }}>Hi</Typography>
       </Grid>
     </Grid>
   )
