@@ -1,8 +1,8 @@
 import { useState } from "react";
-import AddDiscussion from "./AddDiscussion";
 import Popup from "reactjs-popup";
-import DiscussionDetail from "./DiscussionDetail";
 import "reactjs-popup/dist/index.css";
+import DiscussionDetail from "./DiscussionDetail";
+import AddDiscussion from "./AddDiscussion";
 
 export default function Discussion() {
   const [showDiscussion, setAddDiscussion] = useState(false);

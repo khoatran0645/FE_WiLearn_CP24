@@ -10,7 +10,8 @@ import GuestLayout from "./layouts/GuestLayout";
 import LandingPage from "./pages/Landing/LandingPage";
 import Groups from "./components/Groups";
 import Members from "./components/Members";
-import Discussion from "./components/Discussion";
+import Discussion from "./pages/Discussion/components/Discussion";
+
 
 export default function App() {
   const routes = useRoutes([
