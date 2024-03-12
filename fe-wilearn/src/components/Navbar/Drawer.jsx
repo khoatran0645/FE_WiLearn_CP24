@@ -1,110 +1,107 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
-import AppBar from "@mui/material/AppBar";
 import CssBaseline from "@mui/material/CssBaseline";
 import Toolbar from "@mui/material/Toolbar";
 import List from "@mui/material/List";
-import Typography from "@mui/material/Typography";
-import Divider from "@mui/material/Divider";
+
 import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
-import MailIcon from "@mui/icons-material/Mail";
-import AdbIcon from "@mui/icons-material/Adb";
 
-const drawerWidth = 180;
+import { Link } from "react-router-dom";
+import GroupsIcon from "@mui/icons-material/Groups";
+import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
+import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
+import UploadFileIcon from "@mui/icons-material/UploadFile";
+import EqualizerIcon from "@mui/icons-material/Equalizer";
+import SettingsIcon from "@mui/icons-material/Settings";
+
+const drawerWidth = 200;
 
 export default function ClippedDrawer() {
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <AppBar
-        position="fixed"
-        sx={{ zIndex: (theme) => theme.zIndex.drawer + 1 }}
-      >
-        <Toolbar>
-          <AdbIcon sx={{ display: { xs: "none", md: "flex" }, mr: 1 }} />
-          <Typography variant="h6" noWrap component="div">
-            Wilearn
-          </Typography>
-        </Toolbar>
-      </AppBar>
       <Drawer
-        //    hidden={true}
-        variant="permanent"
         sx={{
           width: drawerWidth,
-          flexShrink: 0,
-          [`& .MuiDrawer-paper`]: {
+          flexShrink: 100,
+          "& .MuiDrawer-paper": {
             width: drawerWidth,
             boxSizing: "border-box",
           },
         }}
+        variant="permanent"
+        anchor="left"
       >
         <Toolbar />
-        <Box sx={{ overflow: "auto" }}>
-          <List>
-            {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-          <Divider />
-          <List>
-            {["All mail", "Trash", "Spam"].map((text, index) => (
-              <ListItem key={text} disablePadding>
-                <ListItemButton>
-                  <ListItemIcon>
-                    {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                  </ListItemIcon>
-                  <ListItemText primary={text} />
-                </ListItemButton>
-              </ListItem>
-            ))}
-          </List>
-        </Box>
+
+        <List>
+          <ListItem>
+            <Link to="groups" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <GroupsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Groups" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+
+          <ListItem>
+            <Link to="/discussion" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <LocalLibraryIcon />
+                </ListItemIcon>
+                <ListItemText primary="Discussion" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/schedule" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <CalendarMonthIcon />
+                </ListItemIcon>
+                <ListItemText primary="Schedule" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/docs" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <UploadFileIcon />
+                </ListItemIcon>
+                <ListItemText primary="Study Document" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/statistics" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <EqualizerIcon />
+                </ListItemIcon>
+                <ListItemText primary="Statistics" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+          <ListItem>
+            <Link to="/settings" style={{ textDecoration: "none", color: "black" }}>
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </Link>
+          </ListItem>
+        </List>
       </Drawer>
-      <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
-        <Toolbar />
-        <Typography paragraph>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-          eiusmod tempor incididunt ut labore et dolore magna aliqua. Rhoncus
-          dolor purus non enim praesent elementum facilisis leo vel. Risus at
-          ultrices mi tempus imperdiet. Semper risus in hendrerit gravida rutrum
-          quisque non tellus. Convallis convallis tellus id interdum velit
-          laoreet id donec ultrices. Odio morbi quis commodo odio aenean sed
-          adipiscing. Amet nisl suscipit adipiscing bibendum est ultricies
-          integer quis. Cursus euismod quis viverra nibh cras. Metus vulputate
-          eu scelerisque felis imperdiet proin fermentum leo. Mauris commodo
-          quis imperdiet massa tincidunt. Cras tincidunt lobortis feugiat
-          vivamus at augue. At augue eget arcu dictum varius duis at consectetur
-          lorem. Velit sed ullamcorper morbi tincidunt. Lorem donec massa sapien
-          faucibus et molestie ac.
-        </Typography>
-        <Typography paragraph>
-          Consequat mauris nunc congue nisi vitae suscipit. Fringilla est
-          ullamcorper eget nulla facilisi etiam dignissim diam. Pulvinar
-          elementum integer enim neque volutpat ac tincidunt. Ornare suspendisse
-          sed nisi lacus sed viverra tellus. Purus sit amet volutpat consequat
-          mauris. Elementum eu facilisis sed odio morbi. Euismod lacinia at quis
-          risus sed vulputate odio. Morbi tincidunt ornare massa eget egestas
-          purus viverra accumsan in. In hendrerit gravida rutrum quisque non
-          tellus orci ac. Pellentesque nec nam aliquam sem et tortor. Habitant
-          morbi tristique senectus et. Adipiscing elit duis tristique
-          sollicitudin nibh sit. Ornare aenean euismod elementum nisi quis
-          eleifend. Commodo viverra maecenas accumsan lacus vel facilisis. Nulla
-          posuere sollicitudin aliquam ultrices sagittis orci a.
-        </Typography>
-      </Box>
     </Box>
   );
 }
