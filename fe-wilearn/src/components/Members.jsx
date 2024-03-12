@@ -10,6 +10,7 @@ import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import InviteUser from "./InviteUser";
+import UpdateGroup from "./UpdateGroup";
 
 export default function MemberList() {
   const userList = [
@@ -68,9 +69,7 @@ export default function MemberList() {
         </Typography>
       </Grid>
       <Grid xs={4} sx={{ textAlign: "right", paddingRight: 10 }}>
-        <Button variant="contained" size="medium">
-          Update
-        </Button>
+        <UpdateGroup/>
       </Grid>
 
       <Grid xs={2} container justifyContent={"center"}>
