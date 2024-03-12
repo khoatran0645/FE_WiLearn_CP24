@@ -7,6 +7,7 @@ import Toolbar from "@mui/material/Toolbar";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
+import ButtonRegister from "../ButtonRegister";
 
 const pageRoutes = [
     { label: 'Home', path: '/landing' },
@@ -21,6 +22,11 @@ export default function NavbarLanding() {
   const handleSignIn = () => {
     navigate("/signin");
   };
+
+  const handleRegister = () => {
+    navigate("/register");
+  };
+
   return (
     <AppBar style={{ backgroundColor: '#ccc', color: 'black' }}>
       <Container maxWidth="xl">
@@ -55,10 +61,11 @@ export default function NavbarLanding() {
               </Button>
             ))}
           </Box>
-          <Box sx={{ display: "flex", alignItems: "center" }}>
-            <Box>
-              <ButtonSignin onClick={handleSignIn} />
-            </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
+            <ButtonRegister onClick={handleRegister}/>
+          </Box>
+          <Box sx={{ display: 'flex', alignItems: 'center' }}>
+            <ButtonSignin onClick={handleSignIn} />
           </Box>
         </Toolbar>
       </Container>
