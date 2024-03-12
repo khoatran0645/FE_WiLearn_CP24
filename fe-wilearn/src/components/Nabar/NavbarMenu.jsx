@@ -17,7 +17,7 @@ const pageRoutes = [
 
 export default function NavbarMenu() {
   return (
-    <AppBar style={{ backgroundColor: '#ccc', color: 'black', zIndex: (theme) => theme.zIndex.drawer + 24, }}>
+    <AppBar sx={{ background: '#ccc', borderBottom: '1px solid #ccc', color: 'black', zIndex: (theme) => theme.zIndex.drawer + 24 }}>
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img src="/src/assets/11276378.png" alt="Logo" style={{ marginRight: '8px', width: '40px', height:'40px' }} />

@@ -33,7 +33,6 @@ export default function NavbarLanding() {
       <AppBar
         position="static"
         sx={{
-          boxShadow: 'none',
           borderBottom: '1px solid #ccc',
           backgroundColor: "transparent",
           color: "black",
