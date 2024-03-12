@@ -8,12 +8,12 @@ function ButtonRegister({ onClick }) {
       <Button
         color="inherit"
         sx={{
-          backgroundImage: "linear-gradient(to bottom right, purple, pink)",
+          backgroundImage: "linear-gradient(to right, #EB3349 0%, #F45C43  51%, #EB3349  100%)",
           color: '#fff',
           borderRadius: '5px',
           padding: '8px 10px',
           '&:hover': {
-            backgroundImage: "linear-gradient(180deg, purple, pink)",
+            backgroundImage: "linear-gradient(to left, #EB3349 50%, #F45C43  100%, #EB3349  50%)",
           },
         }}
         onClick={onClick}
