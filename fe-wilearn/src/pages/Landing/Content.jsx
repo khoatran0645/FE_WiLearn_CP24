@@ -51,9 +51,9 @@ export default function Content() {
         ))}
       </Grid>
       {/* Giới thiệu tính năng */}
-      <Grid item xs={12} justifyContent="center" sx={{ background: '#4CAF50', padding: '20px', textAlign: 'center', marginTop:'20px' }}>
+      {/* <Grid item xs={12} justifyContent="center" sx={{ background: '#4CAF50', padding: '20px', textAlign: 'center', marginTop:'20px' }}>
         <Typography variant="h5" style={{ color: 'white' }}>Hi</Typography>
-      </Grid>
+      </Grid> */}
     </Grid>
   )
 }
