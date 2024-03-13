@@ -10,7 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -40,65 +40,65 @@ export default function ClippedDrawer() {
 
         <List>
           <ListItem>
-            <Link to="groups" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="members" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <GroupsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Groups" />
+                <ListItemText primary="Members" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
 
           <ListItem>
-            <Link to="/discussion" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="discussions" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <LocalLibraryIcon />
                 </ListItemIcon>
                 <ListItemText primary="Discussion" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
           <ListItem>
-            <Link to="/schedule" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="schedules" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <CalendarMonthIcon />
                 </ListItemIcon>
                 <ListItemText primary="Schedule" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
           <ListItem>
-            <Link to="/docs" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="docs" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <UploadFileIcon />
                 </ListItemIcon>
                 <ListItemText primary="Study Document" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
           <ListItem>
-            <Link to="/statistics" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="statistics" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <EqualizerIcon />
                 </ListItemIcon>
                 <ListItemText primary="Statistics" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
           <ListItem>
-            <Link to="/settings" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink to="settings" style={{ textDecoration: "none", color: "black" }}>
               <ListItemButton>
                 <ListItemIcon>
                   <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Settings" />
               </ListItemButton>
-            </Link>
+            </NavLink>
           </ListItem>
         </List>
       </Drawer>

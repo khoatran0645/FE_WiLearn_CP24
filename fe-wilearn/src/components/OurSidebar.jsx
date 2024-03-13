@@ -6,14 +6,14 @@ import CalendarMonthIcon from '@mui/icons-material/CalendarMonth';
 import UploadFileIcon from '@mui/icons-material/UploadFile';
 import EqualizerIcon from '@mui/icons-material/Equalizer';
 import SettingsIcon from '@mui/icons-material/Settings';
-export default function OurSidebar() {
+ function OurSidebar() {
   return (
     <Sidebar 
-      collapsed={false}
-      rootStyles={{
-        backgroundColor: "#ffffff",
-        height: "100vh",
-      }}
+    collapsed={false}
+    rootStyles={{
+      backgroundColor: "#ffffff",
+      height: "100vh",
+    }}
     >
       <Menu>
         <MenuItem component={<Link to="group" />} icon={<GroupsIcon />}>Groups</MenuItem>
@@ -27,3 +27,4 @@ export default function OurSidebar() {
   );
 }
 
+export default  OurSidebar;
