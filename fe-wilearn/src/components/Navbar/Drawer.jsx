@@ -18,7 +18,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
 
-const drawerWidth = 200;
+const drawerWidth = 220;
 
 export default function ClippedDrawer() {
   return (
@@ -27,10 +27,10 @@ export default function ClippedDrawer() {
       <Drawer
         sx={{
           width: drawerWidth,
-          flexShrink: 0,
+          flexShrink: 100,
           "& .MuiDrawer-paper": {
             width: drawerWidth,
-            boxSizing: "border-box",
+            boxSizing: "content-box",
           },
         }}
         variant="permanent"
@@ -40,7 +40,10 @@ export default function ClippedDrawer() {
 
         <List>
           <ListItem>
-            <NavLink to="members" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="members"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <GroupsIcon />
@@ -51,7 +54,10 @@ export default function ClippedDrawer() {
           </ListItem>
 
           <ListItem>
-            <NavLink to="discussions" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="discussions"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <LocalLibraryIcon />
@@ -61,7 +67,10 @@ export default function ClippedDrawer() {
             </NavLink>
           </ListItem>
           <ListItem>
-            <NavLink to="schedules" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="schedules"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <CalendarMonthIcon />
@@ -71,17 +80,23 @@ export default function ClippedDrawer() {
             </NavLink>
           </ListItem>
           <ListItem>
-            <NavLink to="docs" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="docs"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <UploadFileIcon />
                 </ListItemIcon>
-                <ListItemText primary="Study Document" />
+                <ListItemText primary="Documents" />
               </ListItemButton>
             </NavLink>
           </ListItem>
           <ListItem>
-            <NavLink to="statistics" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="statistics"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <EqualizerIcon />
@@ -91,7 +106,10 @@ export default function ClippedDrawer() {
             </NavLink>
           </ListItem>
           <ListItem>
-            <NavLink to="settings" style={{ textDecoration: "none", color: "black" }}>
+            <NavLink
+              to="settings"
+              style={{ textDecoration: "none", color: "black" }}
+            >
               <ListItemButton>
                 <ListItemIcon>
                   <SettingsIcon />

@@ -4,7 +4,7 @@ import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
 import Button from "@mui/material/Button";
-import Grid from '@mui/material/Grid';
+import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
@@ -17,24 +17,115 @@ import RequestJoin from "../pages/Groups/RequestJoin";
 import JoinMeetingButton from "../pages/Meeting/JoinMeetingButton";
 import StartMeetingButton from "../pages/Meeting/StartMeetingButton";
 import UpdateMeetingButton from "../pages/Meeting/UpdateMeetingButton";
+import UserMoreInfo from "./UserMoreInfo";
 
 export default function MemberList() {
   const userList = [
-    { id: 1, name: "Linh", avartar: "" },
-    { id: 2, name: "Khoi", avartar: "" },
-    { id: 3, name: "Duy", avartar: "" },
-    { id: 4, name: "Minh", avartar: "" },
-    { id: 5, name: "Minh", avartar: "" },
-    { id: 6, name: "Đức", avartar: "" },
-    { id: 7, name: "Phượng", avartar: "" },
-    { id: 8, name: "Tâm", avartar: "" },
-    { id: 9, name: "Trung", avartar: "" },
-    { id: 10, name: "Hậu", avartar: "" },
-    { id: 11, name: "Nga", avartar: "" },
-    { id: 12, name: "Tiên", avartar: "" },
-    { id: 13, name: "Mai", avartar: "" },
-    { id: 14, name: "Đào", avartar: "" },
-    { id: 15, name: "Piano", avartar: "" },
+    {
+      id: 1,
+      name: "Linh",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 2,
+      name: "Khoi",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 3,
+      name: "Duy",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 4,
+      name: "Minh",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 5,
+      name: "Minh",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 6,
+      name: "Đức",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 7,
+      name: "Phượng",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 8,
+      name: "Tâm",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 9,
+      name: "Trung",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 10,
+      name: "Hậu",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 11,
+      name: "Nga",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 12,
+      name: "Tiên",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 13,
+      name: "Mai",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 14,
+      name: "Đào",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
+    {
+      id: 15,
+      name: "Piano",
+      avartar: "",
+      email: "XXXXXXXXXXXXXX",
+      phone: "0987654321",
+    },
   ];
 
   const memberList = userList.map((user) => (
@@ -57,7 +148,7 @@ export default function MemberList() {
         </Typography>
       </CardContent>
       <CardActions>
-        <Button size="medium">More</Button>
+        <UserMoreInfo fullname={user.name} email={user.email} phone={user.phone} />
       </CardActions>
     </Container>
   ));
@@ -68,20 +159,20 @@ export default function MemberList() {
   // };
 
   return (
-    <Grid container spacing={1} direction={"row"}>
+    <Grid container spacing={0} direction={"row"}>
       <Grid xs={8}>
         <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
           Group: SWP490
         </Typography>
       </Grid>
       <Grid xs={4} sx={{ textAlign: "right", paddingRight: 10 }}>
-        <UpdateGroup/>
+        <UpdateGroup />
       </Grid>
 
       <Grid xs={2} container justifyContent={"center"}>
         <Stack spacing={1} justifyContent={"center"}>
-          <RequestJoin/>
-          <InviteUser/>
+          <RequestJoin />
+          <InviteUser />
         </Stack>
       </Grid>
       <Grid xs={10}>
@@ -105,8 +196,8 @@ export default function MemberList() {
 
       <Grid xs={2} container justifyContent={"center"}>
         <Stack spacing={1} justifyContent={"center"}>
-          <PlanningButton/>
-          <MeetingNowButton/>
+          <PlanningButton />
+          <MeetingNowButton />
         </Stack>
       </Grid>
       <Grid
@@ -138,7 +229,7 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can join now
                   </Typography>
-                  <JoinMeetingButton/>
+                  <JoinMeetingButton />
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -163,8 +254,8 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
                   </Typography>
-                  <StartMeetingButton/>
-                  <UpdateMeetingButton/>
+                  <StartMeetingButton />
+                  <UpdateMeetingButton />
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -189,7 +280,7 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Cannot start
                   </Typography>
-                  <UpdateMeetingButton/>
+                  <UpdateMeetingButton />
                 </CardContent>
               </CardActionArea>
             </Card>

@@ -11,7 +11,7 @@ import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 
-export default function Settings() {
+export default function UserSettings() {
   return (
     <Grid border={0} container direction={"row"}>
       <Grid xs={12}>

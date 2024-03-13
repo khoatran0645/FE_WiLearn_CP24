@@ -15,7 +15,7 @@ import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
 import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
-import Settings from "../components/Settings";
+import UserSettings from "../components/UserSettings";
 
 export default function Router() {
   const routes = useRoutes([
@@ -99,7 +99,7 @@ export default function Router() {
                 },
                 {
                   path: "settings",
-                  element: <Settings />,
+                  element: <UserSettings />,
                 },
                 {
                   path: "meetings",
