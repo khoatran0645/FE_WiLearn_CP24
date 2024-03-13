@@ -11,6 +11,7 @@ import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import InviteUser from "./InviteUser";
 import UpdateGroup from "./UpdateGroup";
+import PlanningButton from "../pages/Groups/PlanningButton";
 
 export default function MemberList() {
   const userList = [
@@ -101,9 +102,7 @@ export default function MemberList() {
 
       <Grid xs={2} container justifyContent={"center"}>
         <Stack spacing={1} justifyContent={"center"}>
-          <Button variant="outlined" size="small">
-            Planning
-          </Button>
+          <PlanningButton/>
           <Button variant="contained" size="small" onClick={handleClick}>
             Meeting now
           </Button>

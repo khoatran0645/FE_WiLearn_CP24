@@ -12,6 +12,11 @@ import Groups from "./components/Groups";
 import Members from "./components/Members";
 import Discussion from "./pages/Discussion/components/Discussion";
 import GroupLayout from "./layouts/GroupLayout";
+import Schedule from "./pages/Schedules/components/Schedule";
+import Statistics from "./pages/Statistic/components/Statistics";
+import StudyDocs from './components/StudyDocs';
+import Settings from "./components/Settings";
+
 
 
 export default function App() {
@@ -81,6 +86,22 @@ export default function App() {
                 {
                   path: "discussions",
                   element: <Discussion />,
+                },
+                {
+                  path: "schedules",
+                  element: <Schedule/>
+                },
+                {
+                  path: "docs",
+                  element: <StudyDocs/>
+                },
+                {
+                  path: "statistics",
+                  element: <Statistics/>
+                },
+                {
+                  path: "settings",
+                  element: <Settings/>
                 },
                 {
                   path: "meetings",
