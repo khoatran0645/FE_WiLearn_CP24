@@ -11,6 +11,7 @@ import LandingPage from "./pages/Landing/LandingPage";
 import Groups from "./components/Groups";
 import Members from "./components/Members";
 import Discussion from "./pages/Discussion/components/Discussion";
+import GroupLayout from "./layouts/GroupLayout";
 
 
 export default function App() {
@@ -61,22 +62,37 @@ export default function App() {
           element: <HomePage />,
           children: [
             {
+              path:"",
               index: true,
               element: <Groups />,
             },
             {
               path: "groups/:id",
-              element: <Members />,
-            },
-            {
-              path: "home/discussion",
-              element: <Discussion />,
+              element: <GroupLayout />,
+              children:[
+                {
+                  index: true,
+                  element: <Members />
+                },
+                {
+                  path:"members",
+                  element: <Members />
+                },
+                {
+                  path: "discussions",
+                  element: <Discussion />,
+                },
+                {
+                  path: "meetings",
+                  element: <h1>Meetings list page with big calender</h1>,
+                },
+                {
+                  path: "meetings/:meetingId",
+                  element: <MeetingPage />,
+                },
+              ]
             },
           ],
-        },
-        {
-          path: "meeting",
-          element: <MeetingPage />,
         },
       ],
     },
