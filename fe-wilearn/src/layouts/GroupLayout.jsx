@@ -6,7 +6,7 @@ import { Outlet } from 'react-router-dom';
 function GroupLayout() {
     return (
         <>
-            <Grid container paddingTop={12} sx={{ flexGrow: 1 }}>
+            <Grid container sx={{ flexGrow: 1 }}>
                 <Grid item xs={2}>
                     <Drawer />
                 </Grid>
