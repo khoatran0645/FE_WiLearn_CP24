@@ -9,7 +9,10 @@ export default function MainLayout() {
       <Grid item xs={12}>
         <NavbarMenu />
       </Grid>
-      <Outlet />
+      <Grid item xs={12}>
+        <Outlet />
+      </Grid>
+
       {/* <Grid item xs={2}>
         <Drawer />
       </Grid>

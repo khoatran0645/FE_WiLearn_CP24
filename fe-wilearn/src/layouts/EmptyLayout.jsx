@@ -12,7 +12,6 @@ export default function EmptyLayout() {
         alignContent: "center",
       }}
     >
-      
       <Grid item xs={12}>
         <Outlet />
       </Grid>
