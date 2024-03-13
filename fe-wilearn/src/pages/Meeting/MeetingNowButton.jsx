@@ -43,7 +43,7 @@ export default function MeetingNowButton() {
                         Cancel
                     </Button>
                     <Button onClick={handleCreateRoom}>
-                        Update
+                        Create
                     </Button>
                 </DialogActions>
         </Dialog>

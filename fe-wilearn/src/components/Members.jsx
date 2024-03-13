@@ -14,6 +14,9 @@ import UpdateGroup from "./UpdateGroup";
 import PlanningButton from "../pages/Groups/PlanningButton";
 import MeetingNowButton from "../pages/Meeting/MeetingNowButton";
 import RequestJoin from "../pages/Groups/RequestJoin";
+import JoinMeetingButton from "../pages/Meeting/JoinMeetingButton";
+import StartMeetingButton from "../pages/Meeting/StartMeetingButton";
+import UpdateMeetingButton from "../pages/Meeting/UpdateMeetingButton";
 
 export default function MemberList() {
   const userList = [
@@ -135,6 +138,7 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can join now
                   </Typography>
+                  <JoinMeetingButton/>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -159,6 +163,8 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
                   </Typography>
+                  <StartMeetingButton/>
+                  <UpdateMeetingButton/>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -183,6 +189,7 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Cannot start
                   </Typography>
+                  <UpdateMeetingButton/>
                 </CardContent>
               </CardActionArea>
             </Card>
