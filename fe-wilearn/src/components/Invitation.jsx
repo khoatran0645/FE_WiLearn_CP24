@@ -39,7 +39,7 @@ export default function Invitation() {
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', padding: '20px', marginLeft:'70px' }}>
                 <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>Group's name:</span> {groupInfo.name}
+                <span style={{ fontWeight: 'bold' }}>Group name:</span> {groupInfo.name}
                 </Typography>
                 <Typography variant="body1" sx={{ marginBottom: '10px'}}>
                     <span style={{ fontWeight: 'bold' }}>Subject:</span> {groupInfo.subject}
@@ -48,7 +48,7 @@ export default function Invitation() {
                     <span style={{ fontWeight: 'bold' }}>Number of members:</span> {groupInfo.members}
                 </Typography>
             </DialogContent>
-            <DialogActions>
+            <DialogActions sx={{marginRight:'20px'}}>
                 <Button onClick={handleReject} color="primary">
                     Deny
                 </Button>
