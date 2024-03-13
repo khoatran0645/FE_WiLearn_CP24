@@ -13,6 +13,7 @@ import InviteUser from "./InviteUser";
 import UpdateGroup from "./UpdateGroup";
 import PlanningButton from "../pages/Groups/PlanningButton";
 import MeetingNowButton from "../pages/Meeting/MeetingNowButton";
+import RequestJoin from "../pages/Groups/RequestJoin";
 
 export default function MemberList() {
   const userList = [
@@ -76,9 +77,7 @@ export default function MemberList() {
 
       <Grid xs={2} container justifyContent={"center"}>
         <Stack spacing={1} justifyContent={"center"}>
-          <Button variant="outlined" size="small">
-            Request to join
-          </Button>
+          <RequestJoin/>
           <InviteUser/>
         </Stack>
       </Grid>
