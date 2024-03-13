@@ -8,10 +8,11 @@ import Grid from '@mui/material/Grid';
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import InviteUser from "./InviteUser";
 import UpdateGroup from "./UpdateGroup";
 import PlanningButton from "../pages/Groups/PlanningButton";
+import MeetingNowButton from "../pages/Meeting/MeetingNowButton";
 
 export default function MemberList() {
   const userList = [
@@ -57,10 +58,10 @@ export default function MemberList() {
     </Container>
   ));
 
-  const navigate = useNavigate();
-  const handleClick = () => {
-    navigate("/meeting");
-  };
+  // const navigate = useNavigate();
+  // const handleClick = () => {
+  //   navigate("/meeting");
+  // };
 
   return (
     <Grid container spacing={1} direction={"row"}>
@@ -103,9 +104,7 @@ export default function MemberList() {
       <Grid xs={2} container justifyContent={"center"}>
         <Stack spacing={1} justifyContent={"center"}>
           <PlanningButton/>
-          <Button variant="contained" size="small" onClick={handleClick}>
-            Meeting now
-          </Button>
+          <MeetingNowButton/>
         </Stack>
       </Grid>
       <Grid
