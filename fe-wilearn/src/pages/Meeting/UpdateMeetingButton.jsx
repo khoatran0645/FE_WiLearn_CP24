@@ -60,7 +60,7 @@ export default function UpdateMeetingButton() {
           p: 4,
         }}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:'10px', textAlign:'center'}}>
-            Planning
+            Update lesson
           </Typography>
           <Box sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
             <TextField
