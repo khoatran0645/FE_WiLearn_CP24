@@ -3,7 +3,7 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Modal from "react-modal";
-import { TextField, Button, Box } from "@mui/material";
+import { TextField, Button, Box, Typography } from "@mui/material";
 
 export default function Schedule() {
   const localizer = momentLocalizer(moment);
@@ -56,8 +56,8 @@ export default function Schedule() {
   };
 
   return (
-    <div style={{ maxWidth: "1200px", marginLeft: "20px" }}>
-      <h1>My Schedule</h1>
+    <Box sx={{ maxWidth: "1200px", marginLeft: "20px" }}>
+      <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left", marginBottom:"20px" }}>My Schedule</Typography>
       <Calendar
         localizer={localizer}
         events={events}
@@ -89,16 +89,16 @@ export default function Schedule() {
           },
         }}
       >
-        <div style={{ fontFamily: "sans-serif", display: "flex", justifyContent: "center" }}>
-          <h3>Create Event</h3>
-        </div>
+        <Box sx={{ fontFamily: "sans-serif", display: "flex", justifyContent: "center" }}>
+          <Typography variant="h6" sx={{ textAlign: "left", marginBottom:"20px" }}>Create Event</Typography>
+        </Box>
         <TextField
           label="Event name"
           value={newEventTitle}
           onChange={(e) => setNewEventTitle(e.target.value)}
-          style={{ marginBottom: "20px" }}
+          sx={{ marginBottom: "20px" }}
         />
-        <div style={{ display: "flex", alignItems: "center" }}>
+        <Box sx={{ display: "flex", alignItems: "center" }}>
           <TextField
             label="Start Time"
             type="time"
@@ -110,7 +110,7 @@ export default function Schedule() {
             inputProps={{
               step: 300, // 5 min
             }}
-            style={{ marginRight: "60px" }}
+            sx={{ marginRight: "60px" }}
           />
           <TextField
             label="End Time"
@@ -123,11 +123,11 @@ export default function Schedule() {
             inputProps={{
               step: 300, // 5 min
             }}
-            style={{ marginLeft: "20px" }}
+            sx={{ marginLeft: "20px" }}
           />
-        </div>
+        </Box>
         <Box sx={{ marginTop: "20px"}}>
-          <Button variant="contained" color="primary" onClick={handleCreateEvent} style={{  marginRight: "20px" }}>
+          <Button variant="contained" color="primary" onClick={handleCreateEvent} sx={{  marginRight: "20px" }}>
             Save
           </Button>
           <Button variant="outlined" onClick={handleModalClose}>
@@ -135,6 +135,6 @@ export default function Schedule() {
           </Button>
         </Box>
       </Modal>
-    </div>
+    </Box>
   );
 }
