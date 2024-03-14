@@ -234,7 +234,7 @@ export default function MemberList() {
               </CardActionArea>
             </Card>
             <Card
-              key="1"
+              key="2"
               sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
             >
               <CardActionArea>
@@ -262,7 +262,7 @@ export default function MemberList() {
               </CardActionArea>
             </Card>
             <Card
-              key="1"
+              key="3"
               sx={{ maxWidth: 345, minWidth: 200, border: "3px solid red" }}
             >
               <CardActionArea>
@@ -284,7 +284,7 @@ export default function MemberList() {
                   </Typography>
                   <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
                   <UpdateMeetingButton />
-                  </Grid>                 
+                  </Grid>
                 </CardContent>
               </CardActionArea>
             </Card>

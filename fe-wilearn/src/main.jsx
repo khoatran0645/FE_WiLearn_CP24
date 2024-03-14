@@ -10,12 +10,24 @@ import "@fontsource/roboto/700.css";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { BrowserRouter } from "react-router-dom";
+
+import { ThemeProvider, createTheme } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+
+const theme = createTheme({
+  palette: {
+    mode: "light",
+  },
+});
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-    <LocalizationProvider dateAdapter={AdapterDayjs}>
-      <BrowserRouter >
-        <Router />
-      </BrowserRouter>
-    </LocalizationProvider>
+    <ThemeProvider theme={theme}>
+      <LocalizationProvider dateAdapter={AdapterDayjs}>
+        <BrowserRouter>
+          <CssBaseline />
+          <Router />
+        </BrowserRouter>
+      </LocalizationProvider>
+    </ThemeProvider>
   </React.StrictMode>
 );

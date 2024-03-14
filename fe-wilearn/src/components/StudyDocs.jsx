@@ -32,8 +32,8 @@ export default function StudyDocs() {
   };
 
   return (
-    <Grid container spacing={2}>
-      <Grid xs={12}>
+    <Grid container spacing={0}>
+      <Grid item xs={12}>
         <Typography
           variant="h4"
           component="h1"
@@ -44,13 +44,13 @@ export default function StudyDocs() {
         </Typography>
       </Grid>
 
-      <Grid xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
+      <Grid item xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
         <TextField label="Search groups" variant="outlined" size="small" />
         <Button variant="contained" size="small">
           Search
         </Button>
       </Grid>
-      <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
+      <Grid item xs={6} container justifyContent={"flex-end"} paddingRight={5}>
         <Button
           component="label"
           variant="contained"
@@ -64,12 +64,13 @@ export default function StudyDocs() {
             onChange={handleFileChange}
           />
         </Button>
-      </Grid>
+      </Grid >
       {uploadedFile && (
-        <Grid xs={12}>
-          <Typography variant="body1" gutterBottom>
+        <Grid item xs={12}>
+          <Typography variant="h6" >
             Uploaded File: {uploadedFile.name}
           </Typography>
+          
         </Grid>
       )}
     </Grid>

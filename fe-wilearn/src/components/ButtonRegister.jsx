@@ -4,7 +4,7 @@ import Grid from '@mui/material/Grid';
 
 function ButtonRegister({ onClick }) {
   return (
-    <Grid>
+    <Grid container>
       <Button
         color="inherit"
         sx={{

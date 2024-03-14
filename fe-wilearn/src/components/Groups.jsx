@@ -15,6 +15,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+
 export default function Groups() {
   const groupcreatedList = [
     {
@@ -88,10 +89,11 @@ export default function Groups() {
   };
 
   const showList = groupcreatedList.map((group) => (
-    <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }} >
+    <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
       <CardActionArea>
         <Link
           to={`groups/${group.id}`}
+          state={{ group: group }}
           style={{ textDecoration: "none", color: "black" }}
         >
           <CardMedia
@@ -131,23 +133,14 @@ export default function Groups() {
         xs={12}
         container
         justifyContent={"flex-start"}
-        sx={{ overflow: "auto", paddingTop: 5 }}
+        sx={{ overflow: "auto", paddingTop: 5, paddingLeft: 5 }}
       >
         <Typography variant="h4">My own groups</Typography>
-        <Grid xs={12}>
+        <Grid item xs={12}>
           <Stack direction="row" spacing={1}>
             {showList}
           </Stack>
         </Grid>
-      </Grid>
-
-      <Grid
-        xs={12}
-        container
-        justifyContent={"flex-start"}
-        sx={{ overflow: "auto", paddingTop: 5 }}
-      >
-        <Typography variant="h4">I joined these groups</Typography>
       </Grid>
 
       <Backdrop
@@ -161,24 +154,34 @@ export default function Groups() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Grid>
-        <Stack direction="row" spacing={1}>
-          <Card sx={{ maxWidth: 345, minWidth: 200 }}>
-            <CardActionArea>
-              <CardMedia
-                component="img"
-                height="140"
-                image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QgxfB2v5SxI80ZfdR4Q4OvZi-3oHkRkHAw"
-                alt="scene"
-              />
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="div">
-                  Nhóm D
-                </Typography>
-              </CardContent>
-            </CardActionArea>
-          </Card>
-        </Stack>
+      <Grid container paddingLeft={5}>
+        <Grid
+          xs={12}
+          container
+          justifyContent={"flex-start"}
+          sx={{ overflow: "auto", paddingTop: 5}}
+        >
+          <Typography variant="h4">I joined these groups</Typography>
+        </Grid>
+        <Grid container>
+          <Stack direction="row" spacing={1}>
+            <Card sx={{ maxWidth: 345, minWidth: 200 }}>
+              <CardActionArea>
+                <CardMedia
+                  component="img"
+                  height="140"
+                  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QgxfB2v5SxI80ZfdR4Q4OvZi-3oHkRkHAw"
+                  alt="scene"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    Nhóm D
+                  </Typography>
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Stack>
+        </Grid>
       </Grid>
     </Grid>
   );
