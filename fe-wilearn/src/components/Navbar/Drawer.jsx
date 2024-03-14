@@ -107,7 +107,7 @@ export default function ClippedDrawer() {
           </ListItem>
           <ListItem>
             <NavLink
-              to="settings"
+              to="groupsettings"
               style={{ textDecoration: "none", color: "black" }}
             >
               <ListItemButton>
