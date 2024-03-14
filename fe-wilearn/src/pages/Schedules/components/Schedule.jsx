@@ -3,18 +3,10 @@ import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import Modal from "react-modal";
-import { TextField } from "@mui/material";
+import { TextField, Button, Box } from "@mui/material";
 
 export default function Schedule() {
   const localizer = momentLocalizer(moment);
-  const [hovered, setHover] = useState(false);
-  const [newEventTitle, setNewEventTitle] = useState("");
-
-  const closeModal = () => {
-    setModalIsOpen(false);
-    document.body.style.overflow = "auto"; // Bật lại scroll khi đóng popup
-  };
-
   const [events, setEvents] = useState([
     {
       title: "Math Class",
@@ -33,6 +25,7 @@ export default function Schedule() {
     },
   ]);
   const [modalIsOpen, setModalIsOpen] = useState(false);
+  const [newEventTitle, setNewEventTitle] = useState("");
   const [selectedSlot, setSelectedSlot] = useState(null);
   const [selectedStartTime, setSelectedStartTime] = useState(null);
   const [selectedEndTime, setSelectedEndTime] = useState(null);
@@ -54,72 +47,12 @@ export default function Schedule() {
     if (newEventTitle && selectedSlot && selectedStartTime && selectedEndTime) {
       const newEvent = {
         title: newEventTitle,
-        start: new Date(
-          selectedSlot.start.getFullYear(),
-          selectedSlot.start.getMonth(),
-          selectedSlot.start.getDate(),
-          selectedStartTime.getHours(),
-          selectedStartTime.getMinutes()
-        ),
-        end: new Date(
-          selectedSlot.end.getFullYear(),
-          selectedSlot.end.getMonth(),
-          selectedSlot.end.getDate(),
-          selectedEndTime.getHours(),
-          selectedEndTime.getMinutes()
-        ),
+        start: selectedStartTime,
+        end: selectedEndTime,
       };
       setEvents([...events, newEvent]);
       handleModalClose();
-      closeModal();
     }
-  };
-
-  const buttonHoverStyleSave = {
-    backgroundColor: "#008000",
-    border: "none",
-    color: "white",
-  };
-
-  const buttonStyle = {
-    backgroundColor: "#4CAF50",
-    border: "none",
-    color: "white",
-    padding: "8px 15px",
-    textAlign: "center",
-    textDecoration: "none",
-    display: "inline-block",
-    fontSize: "16px",
-    margin: "4px 2px",
-    cursor: "pointer",
-    borderRadius: "4px",
-    marginLeft: "22px",
-    transition: "background-color 0.3s ease",
-    ...(hovered && buttonHoverStyleSave),
-  };
-
-  const buttonHoverStyle = {
-    backgroundColor: "#666666",
-    border: "none",
-    color: "white",
-  };
-
-  const closeButtonStyle = {
-    backgroundColor: "#808080",
-    border: "none",
-    color: "white",
-    padding: "8px 15px",
-    textAlign: "center",
-    textDecoration: "none",
-    display: "inline-block",
-    fontSize: "16px",
-    margin: "4px 2px",
-    cursor: "pointer",
-    borderRadius: "4px",
-    marginTop: "50px",
-    transition: "background-color 0.3s ease",
-    marginLeft: "120px",
-    ...(hovered && buttonHoverStyle),
   };
 
   return (
@@ -137,109 +70,70 @@ export default function Schedule() {
 
       <Modal
         isOpen={modalIsOpen}
-        onRequestClose={closeModal}
+        onRequestClose={handleModalClose}
         contentLabel="Create Event Modal"
         style={{
           overlay: {
             position: "fixed",
-            top: 0,
-            left: 0,
-            right: 0,
-            bottom: 0,
             backgroundColor: "rgba(255, 255, 255, 0.75)",
             zIndex: 1000,
           },
           content: {
             width: "400px",
-            height: "250px",
+            height: "300px",
             margin: "auto",
             marginTop: "50px",
             backgroundColor: "white",
             display: "flex",
             flexDirection: "column",
-            alignItems: "center",
           },
         }}
       >
-        <div style={{ fontFamily: "sans-serif" }}>
+        <div style={{ fontFamily: "sans-serif", display: "flex", justifyContent: "center" }}>
           <h3>Create Event</h3>
         </div>
-        <label style={{ marginTop: "20px" }}>
-          Event's name
-          <input
-            style={{ marginLeft: "20px" }}
-            type="text"
-            value={newEventTitle}
-            onChange={(e) => setNewEventTitle(e.target.value)}
-          />
-        </label>
-        <div
-          style={{ marginTop: "20px", display: "flex", alignItems: "center" }}
-        >
+        <TextField
+          label="Event name"
+          value={newEventTitle}
+          onChange={(e) => setNewEventTitle(e.target.value)}
+          style={{ marginBottom: "20px" }}
+        />
+        <div style={{ display: "flex", alignItems: "center" }}>
           <TextField
             label="Start Time"
             type="time"
-            value={
-              selectedStartTime
-                ? selectedStartTime.toTimeString().split(" ")[0]
-                : ""
-            }
-            onChange={(e) =>
-              setSelectedStartTime(new Date(`2000-01-01T${e.target.value}:00`))
-            }
+            value={selectedStartTime ? selectedStartTime.toTimeString().slice(0, 5) : ""}
+            onChange={(e) => setSelectedStartTime(new Date(`2000-01-01T${e.target.value}:00`))}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
               step: 300, // 5 min
             }}
+            style={{ marginRight: "60px" }}
           />
-          <span style={{ margin: "0 20px" }}>to</span>
           <TextField
             label="End Time"
             type="time"
-            value={
-              selectedEndTime
-                ? selectedEndTime.toTimeString().split(" ")[0]
-                : ""
-            }
-            onChange={(e) =>
-              setSelectedEndTime(new Date(`2000-01-01T${e.target.value}:00`))
-            }
+            value={selectedEndTime ? selectedEndTime.toTimeString().slice(0, 5) : ""}
+            onChange={(e) => setSelectedEndTime(new Date(`2000-01-01T${e.target.value}:00`))}
             InputLabelProps={{
               shrink: true,
             }}
             inputProps={{
               step: 300, // 5 min
             }}
+            style={{ marginLeft: "20px" }}
           />
         </div>
-        <div>
-          <button
-            style={buttonStyle}
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleCreateEvent}
-          >
+        <Box sx={{ marginTop: "20px"}}>
+          <Button variant="contained" color="primary" onClick={handleCreateEvent} style={{  marginRight: "20px" }}>
             Save
-          </button>
-          <button
-            style={closeButtonStyle}
-            onMouseEnter={() => {
-              setHover(true);
-            }}
-            onMouseLeave={() => {
-              setHover(false);
-            }}
-            onClick={handleModalClose}
-          >
+          </Button>
+          <Button variant="outlined" onClick={handleModalClose}>
             Close
-          </button>
-        </div>
+          </Button>
+        </Box>
       </Modal>
     </div>
   );
