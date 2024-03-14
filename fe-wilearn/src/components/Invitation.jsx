@@ -33,7 +33,7 @@ export default function Invitation() {
 
   return (
     <>
-      <Button onClick={handleInvitationClick} variant="contained" size="small">
+      <Button onClick={handleInvitationClick} variant="outlined" size="small">
         Invitation
       </Button>
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>

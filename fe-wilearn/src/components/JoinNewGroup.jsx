@@ -2,7 +2,7 @@ import { useState } from 'react';
 import GroupsIcon from '@mui/icons-material/Groups';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions } from '@mui/material';
 
-export default function ButtonSearchGroup() {
+export default function JoinNewGroup() {
   const [openDialog, setOpenDialog] = useState(false);
 
   const handleSearch = () => {
@@ -27,7 +27,7 @@ export default function ButtonSearchGroup() {
         variant="contained"
         startIcon={<GroupsIcon />}
       >
-        Search for group
+        Join new group
       </Button>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>

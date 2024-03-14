@@ -17,7 +17,7 @@ export default function CreateGroup() {
 
     return (
         <>
-            <Button variant="outlined" size="small" onClick={() => setOpenDialog(true)}>
+            <Button variant="contained" size="small" onClick={() => setOpenDialog(true)}>
                 Create new group
             </Button>
 

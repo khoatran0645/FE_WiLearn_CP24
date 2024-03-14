@@ -6,7 +6,6 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CreateGroup from "./CreateGroup";
-import ButtonSearchGroup from "./ButtonSearchGroup";
 import Invitation from "./Invitation";
 import {
   Backdrop,
@@ -15,6 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
+import JoinNewGroup from "./JoinNewGroup";
 
 export default function Groups() {
   const groupcreatedList = [
@@ -84,9 +84,9 @@ export default function Groups() {
   const handleClose = () => {
     setOpen(false);
   };
-  const handleOpen = () => {
-    setOpen(true);
-  };
+  // const handleOpen = () => {
+  //   setOpen(true);
+  // };
 
   const showList = groupcreatedList.map((group) => (
     <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
@@ -119,21 +119,15 @@ export default function Groups() {
 
   return (
     <Grid container spacing={0}>
-      <Grid xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
-        <ButtonSearchGroup />
-        <Button onClick={handleOpen}>Show backdrop</Button>
-      </Grid>
-      <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
-        <Stack direction="row" spacing={1}>
+      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}> 
+      {/* <Button onClick={handleOpen}>Show backdrop</Button> */}    
           <CreateGroup />
-          <Invitation />
-        </Stack>
       </Grid>
       <Grid
         xs={12}
         container
         justifyContent={"flex-start"}
-        sx={{ overflow: "auto", paddingTop: 5, paddingLeft: 5 }}
+        sx={{ overflow: "auto", paddingTop: 1, paddingLeft: 5 }}
       >
         <Typography variant="h4">My own groups</Typography>
         <Grid item xs={12}>
@@ -155,11 +149,17 @@ export default function Groups() {
       </Backdrop>
 
       <Grid container paddingLeft={5}>
+      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
+        <Stack direction="row" spacing={4} paddingTop={"1rem"}>
+          <JoinNewGroup />
+          <Invitation />
+        </Stack>
+      </Grid>
         <Grid
           xs={12}
           container
           justifyContent={"flex-start"}
-          sx={{ overflow: "auto", paddingTop: 5}}
+          sx={{ overflow: "auto", paddingTop: 0}}
         >
           <Typography variant="h4">I joined these groups</Typography>
         </Grid>
