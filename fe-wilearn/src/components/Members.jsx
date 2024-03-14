@@ -3,7 +3,6 @@ import Typography from "@mui/material/Typography";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import CardActions from "@mui/material/CardActions";
-import Button from "@mui/material/Button";
 import Grid from "@mui/material/Grid";
 import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
@@ -18,6 +17,7 @@ import JoinMeetingButton from "../pages/Meeting/JoinMeetingButton";
 import StartMeetingButton from "../pages/Meeting/StartMeetingButton";
 import UpdateMeetingButton from "../pages/Meeting/UpdateMeetingButton";
 import UserMoreInfo from "./UserMoreInfo";
+import HistoryMeeting from "../pages/Meeting/HistoryMeeting";
 
 export default function MemberList() {
   const userList = [
@@ -291,10 +291,8 @@ export default function MemberList() {
           </Stack>
         </Grid>
       </Grid>
-      <Grid xs={12} paddingTop={3}>
-        <Button variant="contained" fullWidth>
-          Meeting history
-        </Button>
+      <Grid xs={11.5} paddingTop={3}>
+        <HistoryMeeting/>
       </Grid>
     </Grid>
   );
