@@ -7,6 +7,7 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
+import DeleteMemButton from "../pages/Groups/DeleteMemButton";
 
 export default function UserMoreInfo(props) {
   const [open, setOpen] = useState(false);
@@ -54,6 +55,7 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
+          <DeleteMemButton/>
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
