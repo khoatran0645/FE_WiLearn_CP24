@@ -1,5 +1,5 @@
 import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Grid'; // Grid version 2
+import Grid from '@mui/material/Grid';
 import {
   FormContainer,
   TextFieldElement,
@@ -12,15 +12,16 @@ import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 
 export default function UserSettings() {
+
   return (
-    <Grid border={0} container direction={"row"}>
+    <Grid container direction={"row"} paddingLeft={10}>
       <Grid xs={12}>
-        <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
+        <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "start" }}>
           Settings
         </Typography>
       </Grid>
 
-      <Grid xs={6}>
+      <Grid xs={6} >
         <Typography variant="h5" textAlign={"left"}>
           Change password
         </Typography>
@@ -70,7 +71,7 @@ export default function UserSettings() {
           }}
           onSuccess={(data) => console.log(data)}
         >
-          <Stack spacing={2} maxWidth={500} paddingTop={2}>
+          <Stack spacing={2} maxWidth={500} paddingTop={2} >
             <TextFieldElement
               name="full_name"
               label="Full name"

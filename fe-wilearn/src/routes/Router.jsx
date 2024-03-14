@@ -16,6 +16,7 @@ import Schedule from "../pages/Schedules/components/Schedule";
 import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
 import UserSettings from "../components/UserSettings";
+import GroupSettings from "../components/GroupSettings";
 
 export default function Router() {
   const routes = useRoutes([
@@ -70,6 +71,10 @@ export default function Router() {
               element: <Groups />,
             },
             {
+              path: "usersettings",
+              element: <UserSettings />,
+            },
+            {
               path: "groups/:id",
               element: <GroupLayout />,
               children: [
@@ -98,9 +103,10 @@ export default function Router() {
                   element: <Statistics />,
                 },
                 {
-                  path: "settings",
-                  element: <UserSettings />,
+                  path: "groupsettings",
+                  element: <GroupSettings />,
                 },
+
                 {
                   path: "meetings",
                   element: <h1>Meetings list page with big calender</h1>,
