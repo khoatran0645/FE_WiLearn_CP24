@@ -80,6 +80,7 @@ export default function Router() {
               children: [
                 {
                   index: true,
+                  path: "",
                   element: <Members />,
                 },
                 {
@@ -106,7 +107,6 @@ export default function Router() {
                   path: "groupsettings",
                   element: <GroupSettings />,
                 },
-
                 {
                   path: "meetings",
                   element: <h1>Meetings list page with big calender</h1>,

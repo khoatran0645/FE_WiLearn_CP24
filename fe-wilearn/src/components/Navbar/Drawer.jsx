@@ -17,7 +17,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
-
+import LogoutIcon from "@mui/icons-material/Logout";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
@@ -115,6 +115,22 @@ export default function ClippedDrawer() {
                   <SettingsIcon />
                 </ListItemIcon>
                 <ListItemText primary="Settings" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        </List>
+
+        <List style={{ position: "absolute", bottom: "0" }}>
+          <ListItem>
+            <NavLink
+              to="/"
+              style={{ textDecoration: "none", color: "black" }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <LogoutIcon />
+                </ListItemIcon>
+                <ListItemText primary="Logout" />
               </ListItemButton>
             </NavLink>
           </ListItem>
