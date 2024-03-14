@@ -254,8 +254,10 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
                   </Typography>
-                  <StartMeetingButton />
-                  <UpdateMeetingButton />
+                  <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
+                    <StartMeetingButton/>
+                    <UpdateMeetingButton />
+                  </Grid>
                 </CardContent>
               </CardActionArea>
             </Card>
@@ -280,7 +282,9 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Cannot start
                   </Typography>
+                  <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
                   <UpdateMeetingButton />
+                  </Grid>                 
                 </CardContent>
               </CardActionArea>
             </Card>

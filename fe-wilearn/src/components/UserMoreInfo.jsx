@@ -19,7 +19,7 @@ export default function UserMoreInfo(props) {
 
   return (
     <>
-      <Button variant="outlined" size="medium" onClick={() => handleOpen()}>
+      <Button variant="outlined" sx={{ width: "100px" }} size="small" onClick={() => handleOpen()}>
         More info
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
