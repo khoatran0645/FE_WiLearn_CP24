@@ -26,9 +26,9 @@ export default function Content() {
           <img src={bgImage} alt="Background" style={{ width: '100%', height: '100%', objectFit: 'cover' }} />
           <Box style={{ position: 'absolute', bottom: '0', left: '0', width: '100%', background: 'linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%)', padding: '20px', textAlign: 'center' }}>
             <Box style={{marginBottom: '100px'}}>
-              <Typography variant="h4" style={{ color: 'white' }}>Welcome to WiLearn</Typography>
-              <Typography variant="h6" style={{ color: 'white' }}>Online meeting system for learning that will support anyone studying effectively in groups online</Typography>
-              <Box style={{ marginTop: '40px', display: 'flex', justifyContent: 'center' }}>
+              <Typography variant="h2" style={{ color: 'white' }}>Welcome to WiLearn</Typography>
+              <Typography variant="h6" style={{ color: 'white', lineHeight: '1.5', textAlign: 'center' }}>A system for online meetings designed to facilitate effective group learning,<br/>supporting individuals studying collaboratively over the internet.</Typography>
+              <Box style={{ marginTop: '20px', display: 'flex', justifyContent: 'center' }}>
                 <ButtonGetStarted onClick={handleSignIn}/>
               </Box>
             </Box>

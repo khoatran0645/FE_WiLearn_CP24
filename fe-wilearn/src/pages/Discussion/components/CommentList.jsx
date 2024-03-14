@@ -1,3 +1,4 @@
+import { Grid } from "@mui/material";
 import Comment from "./Comment";
 
 const CommentList = () => {
@@ -17,8 +18,7 @@ const CommentList = () => {
   ];
 
   return (
-    <div style={{maxWidth:'900px', marginLeft: '200px', textAlign: 'left'}}>
-      <h2>Comments</h2>
+    <Grid style={{maxWidth:'900px', marginLeft: '200px', textAlign: 'left', paddingTop:"20px"}}>
       {comments.map((comment, index) => (
         <Comment
           key={index}
@@ -28,7 +28,7 @@ const CommentList = () => {
           timestamp={comment.timestamp}
         />
       ))}
-    </div>
+    </Grid>
   );
 };
 
