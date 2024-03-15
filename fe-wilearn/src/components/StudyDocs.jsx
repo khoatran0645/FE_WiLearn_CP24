@@ -87,14 +87,7 @@ export default function StudyDocs() {
           Study Docs
         </Typography>
       </Grid>
-
-      <Grid item xs={6} container justifyContent={"flex-start"} paddingLeft={5}>
-        <TextField label="Search groups" variant="outlined" size="small" />
-        <Button variant="contained" size="small">
-          Search
-        </Button>
-      </Grid>
-      <Grid item xs={6} container justifyContent={"flex-end"} paddingRight={5}>
+      <Grid item xs={6} container paddingLeft={1}>
         <Button
           component="label"
           variant="contained"
@@ -102,7 +95,7 @@ export default function StudyDocs() {
           startIcon={<CloudUploadIcon />}
           onClick={handleUploadNewFile}
         >
-          Upload new file
+          Share File
           <VisuallyHiddenInput type="file" onChange={handleFileChange} />
         </Button>
       </Grid>

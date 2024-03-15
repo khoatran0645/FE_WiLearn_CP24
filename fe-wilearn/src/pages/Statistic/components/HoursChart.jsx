@@ -21,7 +21,7 @@ const HoursChart = () => {
       {
         label: 'Hours',
         data: data.map(row => row.count),
-        backgroundColor: 'rgba(236, 171, 83, 0.2)', // Change to RGBA format for transparency
+        backgroundColor: 'rgba(236, 171, 83, 0.2)',
         borderColor: '#ECAB53',
         borderWidth: 1,
       },
