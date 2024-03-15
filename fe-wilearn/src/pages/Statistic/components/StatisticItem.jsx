@@ -1,48 +1,31 @@
+import { Box, Card, Grid, Typography } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
 
 export default function StatisticItem() {
-    const containerStyle = {
-      display: 'flex',
-      gap: '200px',
-      marginLeft: '200px',
-      marginTop: '20px',
-    };
-  
-    const statisticContainerStyle = {
-      backgroundColor: '#f0f0f0',
-      border: '1px solid #ccc',
-      padding: '20px',
-      borderRadius: '8px',
-      boxShadow: '0 0 10px rgba(0, 0, 0, 0.1)',
-      maxWidth: '400px',
-      marginLeft: '60px',
-    };
-  
-    const headingStyle = {
-      color: '#333',
-      marginBottom: '10px',
-    };
-  
-    const paragraphStyle = {
-      color: '#555',
-      margin: '10px 0',
-      textAlign: 'left',
-    };
-  
-    return (
-      <div style={containerStyle}>
-        <div style={statisticContainerStyle}>
-          <h2 style={headingStyle}>Meeting Statistics</h2>
-          <p style={paragraphStyle}>Total Meetings: 17</p>
-          <p style={paragraphStyle}>Attended Meetings: 12</p>
-          <p style={paragraphStyle}>Absent Meetings: 5</p>
-        </div>
-  
-        <div style={statisticContainerStyle}>
-          <h2 style={headingStyle}>Discussion Statistics</h2>
-          <p style={paragraphStyle}>Total Discussion: 38</p>
-        </div>
-      </div>
-    );
-  }
-  
-  
+  return (
+    <Grid container direction="column" paddingTop={5}>
+      <Grid item>
+        <DatePicker label={'"month" and "year"'} views={['month', 'year']} />
+      </Grid>
+      <Grid container direction="row" paddingTop={4} spacing={2}>
+        <Grid item>
+          <Card sx={{ marginRight: 10, color: "white", padding: '20px', boxShadow: '0 4px 8px rgba(0, 128, 128, 0.2)', borderRadius: '8px', border: '2px solid #2374c0', backgroundColor: '#5466ae', width: '270px', height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
+            <Typography variant="h6">Meeting Statistics</Typography>
+           <Box>
+            <Typography>Total Meetings: 17</Typography>
+            <Typography>Attended Meetings: 12</Typography>
+            <Typography>Absent Meetings: 5</Typography>
+           </Box>
+          </Card>
+        </Grid>
+        <Grid item>
+          <Card sx={{ marginRight: 10, color: "white", padding: '20px', boxShadow: '0 4px 8px rgba(0, 128, 128, 0.2)', borderRadius: '8px', border: '2px solid #2374c0', backgroundColor: '#5466ae', width: '270px', height: '200px', display: 'flex', flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }} >
+            <Typography variant="h6">Discussion Statistics</Typography>
+            <Typography>Total Discussion: 38</Typography>
+            <Typography>Total Answer: 15</Typography>
+          </Card>
+        </Grid>
+      </Grid>
+    </Grid>
+  );
+}
