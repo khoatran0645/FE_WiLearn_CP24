@@ -1,5 +1,6 @@
 import { Bar } from 'react-chartjs-2';
 import 'chart.js/auto';
+import { Grid, Typography } from '@mui/material';
 
 const ChartMeeting = () => {
   const data = [
@@ -45,10 +46,10 @@ const ChartMeeting = () => {
   };
 
   return (
-    <div style={{maxWidth:'800px', marginLeft:'200px'}}>
-      <h1>Meeting Hours Chart</h1>
+    <Grid style={{maxWidth:'800px', marginLeft:'200px'}}>
+      <Typography variant='h5'>Meeting Hours Chart</Typography>
       <Bar data={chartData} options={chartOptions} />
-    </div>
+    </Grid>
   );
 };
 
