@@ -7,7 +7,7 @@ const discussionsData = [
   {
     id: 1,
     topic: "Tại sao chọn .NET?",
-    creator: "John Doe",
+    creator: "Minia Doe",
     dateTime: "March 17, 2024 10:00 AM",
     content: ".NET là một nền tảng nguồn mở để xây dựng các ứng dụng trên máy tính để bàn, web và thiết bị di động có thể chạy nguyên bản trên bất kỳ hệ điều hành nào. Hệ thống .NET bao gồm các công cụ, thư viện và ngôn ngữ hỗ trợ phát triển phần mềm hiện đại, có quy mô linh hoạt và..."
   },

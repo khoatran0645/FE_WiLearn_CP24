@@ -1,3 +1,4 @@
+import { Avatar, Grid, Typography } from '@mui/material';
 import PropTypes from 'prop-types';
 
 const Comment = ({ avatarUrl, username, content, timestamp }) => {
@@ -6,12 +7,6 @@ const Comment = ({ avatarUrl, username, content, timestamp }) => {
       display: 'flex',
       alignItems: 'center',
       marginBottom: '15px',
-    },
-    avatar: {
-      width: '40px',
-      height: '40px',
-      borderRadius: '50%',
-      marginRight: '10px',
     },
     userInfo: {
       display: 'flex',
@@ -30,24 +25,33 @@ const Comment = ({ avatarUrl, username, content, timestamp }) => {
     content: {
       fontSize: '14px',
       marginBottom: '5px',
+      marginLeft: '40px',
     },
     timestamp: {
       fontSize: '12px',
       color: '#888',
+      marginLeft: '40px',
+    },
+    avatar: {
+      width: '30px',
+      height: '30px',
+      marginRight: '10px',
     },
   };
 
   return (
-    <div style={styles.commentContainer}>
-      <div style={styles.userInfo}>
-        <img src={avatarUrl} alt="Avatar" style={styles.avatar} />
-        <div style={styles.userDetail}>
-          <div style={styles.username}>{username}</div>
-          <div style={styles.content}>{content}</div>
-          <div style={styles.timestamp}>{timestamp}</div>
-        </div>
-      </div>
-    </div>
+    <Grid style={styles.commentContainer}>
+      <Grid style={styles.userInfo}>       
+        <Grid style={styles.userDetail}>
+          <Grid sx={{display: 'flex'}}>
+          <Avatar src={avatarUrl} alt="Avatar" style={styles.avatar} />
+          <Typography style={styles.username}>{username}</Typography>
+          </Grid>
+          <Typography style={styles.content}>{content}</Typography>          
+          <Typography style={styles.timestamp}>{timestamp}</Typography>
+        </Grid>
+      </Grid>
+    </Grid>
   );
 };
 
