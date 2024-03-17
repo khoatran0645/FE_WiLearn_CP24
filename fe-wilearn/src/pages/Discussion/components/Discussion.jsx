@@ -41,13 +41,11 @@ export default function Discussion() {
         >
           <AddDiscussion discussionId={1} onClose={closeModal} />
         </Popup>
-        <button
+        <Button
           onClick={handleClick}
           style={{
             textAlign: "center",
-            cursor: "pointer",
-            padding: "8px 16px",
-            fontSize: "16px",
+            fontSize: "14px",
             backgroundColor: "#4CAF50",
             color: "white",
             border: "none",
@@ -57,7 +55,7 @@ export default function Discussion() {
           }}
         >
           + Add Discussion
-        </button>
+        </Button>
       </Grid>
       <div
         style={{

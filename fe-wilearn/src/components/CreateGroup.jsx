@@ -17,8 +17,17 @@ export default function CreateGroup() {
 
     return (
         <>
-            <Button variant="contained" size="small" onClick={() => setOpenDialog(true)}>
-                Create group
+            <Button style={{
+            textAlign: "center",
+            fontSize: "14px",
+            backgroundColor: "#4CAF50",
+            color: "white",
+            border: "none",
+            borderRadius: "5px",
+            marginLeft: "900px",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"}}
+            onClick={() => setOpenDialog(true)}>
+               + Create group
             </Button>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
