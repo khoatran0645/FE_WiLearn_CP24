@@ -17,6 +17,7 @@ import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
 import UserSettings from "../components/UserSettings";
 import GroupSettings from "../components/GroupSettings";
+import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
 
 export default function Router() {
   const routes = useRoutes([
@@ -90,6 +91,10 @@ export default function Router() {
                 {
                   path: "discussions",
                   element: <Discussion />,
+                },
+                {
+                  path: "discussionDetail",
+                  element: <DiscussionDetail/>
                 },
                 {
                   path: "schedules",
