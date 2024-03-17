@@ -1,257 +1,73 @@
-import { useState } from "react";
-import Popup from "reactjs-popup";
-import "reactjs-popup/dist/index.css";
-import DiscussionDetail from "./DiscussionDetail";
-import AddDiscussion from "./AddDiscussion";
-import { Button, Grid, Typography } from "@mui/material";
+import { useState } from 'react';
+import { Grid, List, ListItem, Typography, Card, CardContent } from '@mui/material';
+import AddDiscussion from './AddDiscussion';
+import SeeMore from './SeeMore';
 
-export default function Discussion() {
-  const [showDiscussion, setAddDiscussion] = useState(false);
-  const [redirectToDetail, setRedirectToDetail] = useState(false);
-
-  const handleClick = () => {
-    setAddDiscussion(true);
-  };
-
-  const closeModal = () => {
-    setAddDiscussion(false);
-  };
-
-  const handleDetailClick = () => {
-    setRedirectToDetail(true);
-  };
-
-  if (redirectToDetail) {
-    return <DiscussionDetail />;
+const discussionsData = [
+  {
+    id: 1,
+    topic: "Tại sao chọn .NET?",
+    creator: "John Doe",
+    dateTime: "March 17, 2024 10:00 AM",
+    content: ".NET là một nền tảng nguồn mở để xây dựng các ứng dụng trên máy tính để bàn, web và thiết bị di động có thể chạy nguyên bản trên bất kỳ hệ điều hành nào. Hệ thống .NET bao gồm các công cụ, thư viện và ngôn ngữ hỗ trợ phát triển phần mềm hiện đại, có quy mô linh hoạt và..."
+  },
+  {
+    id: 2,
+    topic: "ViteJS - Người chơi hệ Hackspeed trong làng Frontend build tools",
+    creator: "Jane Smith",
+    dateTime: "March 17, 2024 11:30 AM",
+    content: "Trước kia khi làm việc với Laravel, Laravel support Vue khá tốt và thứ để giúp mình build phần Vue là webpack built-in Laravel. Việc đó khiến cho khi chúng ta không làm việc với Laravel, thì việc xây dựng 1 cấu trúc dự án Vue nói riêng và Frontend nói chung sẽ mất thời gian vì..."
+  },
+  {
+    id: 3,
+    topic: "IT Là Ngành Gì? Công Việc IT Là Làm Gì?",
+    creator: "Alice Johnson",
+    dateTime: "March 17, 2024 2:45 PM",
+    content: "IT có tên đầy đủ của cụm từ Information Technology, trong tiếng Việt thường được gọi là Công nghệ thông tin. Hiểu đơn giản, đây là ngành sử dụng máy tính và các phần mềm để tạo ra, truyền dẫn, lưu trữ và bảo mật thông tin..."
   }
+];
+
+export default function DiscussionList() {
+  const [discussions] = useState(discussionsData);
 
   return (
-    <Grid>
-      <Typography variant="h4" sx={{ fontWeight: "bold", marginLeft:"200px" }}>Discussion</Typography>
-      <Grid>
-        <Popup
-          modal
-          open={showDiscussion}
-          onClose={closeModal}
-          contentStyle={{
-            width: "60%",
-            height: "60%",
-            borderRadius: "10px",
-          }}
-        >
-          <AddDiscussion discussionId={1} onClose={closeModal} />
-        </Popup>
-        <Button
-          onClick={handleClick}
-          style={{
-            textAlign: "center",
-            fontSize: "14px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "900px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-          }}
-        >
-          + Add Discussion
-        </Button>
+    <Grid container justifyContent="center" spacing={2}>
+      <Grid item xs={12} textAlign="center" mb={4}>
+        <Typography variant="h4" sx={{ fontWeight: "bold" }}>Discussions</Typography>
       </Grid>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          overflow: "hidden",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          maxWidth: "900px",
-          margin: "20px auto 0",
-        }}
-      >
-        <div
-          style={{
-            background: "#f8f8f8",
-            padding: "20px",
-            borderBottom: "1px solid #ccc",
-          }}
-        >
-          <h2 style={{ fontSize: "20px", margin: "0", color: "#333" }}>
-            Topic: How to add posts using React?
-          </h2>
-          <p style={{ fontSize: "14px", color: "#888", margin: "5px 0" }}>
-            Date: 28/02/2023 Time: 12:03:15
-          </p>
-        </div>
-        <div style={{ padding: "20px" }}>
-          <p style={{ fontSize: "14px", color: "#888", textAlign: "justify" }}>
-            We use HTTP requests, such as POST, to “talk to” APIs over the web.
-            With HTTP requests, we can access resources outside of our own
-            domain (where our web app is stored). These resources can include
-            files, databases, compute functions, and more. Besides added
-            capability, using outside resources allows us to make data
-            accessible to all instances of our web app. For example, if we want
-            to keep track of user data for logins ...
-          </p>
-          <button
-            style={{
-              backgroundColor: "#3498db",
-              color: "#fff",
-              padding: "8px 16px",
-              cursor: "pointer",
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "16px",
-              transition: "background-color 0.3s",
-            }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#2980b9")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#3498db")}
-            onClick={handleDetailClick}
-          >
-            See More
-          </button>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "#555",
-              marginTop: "10px",
-              textAlign: "left",
-              fontWeight: "bold",
-              fontStyle: "italic",
-              background: "#eee",
-              padding: "5px",
-              borderRadius: "5px",
-            }}
-          >
-            Created by: Phuong Nam
-          </p>
-        </div>
-      </div>
-      <div
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          overflow: "hidden",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          maxWidth: "900px",
-          margin: "20px auto 0",
-        }}
-      >
-        <div
-          style={{
-            background: "#f8f8f8",
-            padding: "20px",
-            borderBottom: "1px solid #ccc",
-          }}
-        >
-          <h2 style={{ fontSize: "20px", margin: "0", color: "#333" }}>
-            Topic: How to add posts using React?
-          </h2>
-          <p style={{ fontSize: "14px", color: "#888", margin: "5px 0" }}>
-            Date: 28/02/2023 Time: 12:03:15
-          </p>
-        </div>
-        <div style={{ padding: "20px" }}>
-          <p style={{ fontSize: "14px", color: "#888", textAlign: "justify" }}>
-            We use HTTP requests, such as POST, to “talk to” APIs over the web.
-            With HTTP requests, we can access resources outside of our own
-            domain (where our web app is stored). These resources can include
-            files, databases, compute functions, and more. Besides added
-            capability, using outside resources allows us to make data
-            accessible to all instances of our web app. For example, if we want
-            to keep track of user data for logins ...
-          </p>
-          <button
-            style={{
-              backgroundColor: "#3498db",
-              color: "#fff",
-              padding: "8px 16px",
-              cursor: "pointer",
-              border: "none",
-              borderRadius: "5px",
-              fontSize: "16px",
-              transition: "background-color 0.3s",
-            }}
-            onMouseOver={(e) => (e.target.style.backgroundColor = "#2980b9")}
-            onMouseOut={(e) => (e.target.style.backgroundColor = "#3498db")}
-            onClick={handleDetailClick}
-          >
-            See More
-          </button>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "#555",
-              marginTop: "10px",
-              textAlign: "left",
-              fontWeight: "bold",
-              fontStyle: "italic",
-              background: "#eee",
-              padding: "5px",
-              borderRadius: "5px",
-            }}
-          >
-            Created by: Phuong Nam
-          </p>
-        </div>
-      </div>
-      <Grid
-        style={{
-          border: "1px solid #ccc",
-          borderRadius: "8px",
-          overflow: "hidden",
-          boxShadow: "0 4px 8px rgba(0, 0, 0, 0.1)",
-          maxWidth: "900px",
-          margin: "20px auto 0",
-        }}
-      >
-        <div
-          style={{
-            background: "#f8f8f8",
-            padding: "20px",
-            borderBottom: "1px solid #ccc",
-          }}
-        >
-          <h2 style={{ fontSize: "20px", margin: "0", color: "#333" }}>
-            Topic: How to add posts using React?
-          </h2>
-          <p style={{ fontSize: "14px", color: "#888", margin: "5px 0" }}>
-            Date: 28/02/2023 Time: 12:03:15
-          </p>
-        </div>
-        <Grid style={{ padding: "20px" }}>
-          <p style={{ fontSize: "14px", color: "#888", textAlign: "justify" }}>
-            We use HTTP requests, such as POST, to “talk to” APIs over the web.
-            With HTTP requests, we can access resources outside of our own
-            domain (where our web app is stored). These resources can include
-            files, databases, compute functions, and more. Besides added
-            capability, using outside resources allows us to make data
-            accessible to all instances of our web app. For example, if we want
-            to keep track of user data for logins ...
-          </p>
-          <Button
-              variant="contained"
-              onMouseOver={(e) => (e.target.style.backgroundColor = "#2980b9")}
-              onMouseOut={(e) => (e.target.style.backgroundColor = "#3498db")}
-              onClick={handleDetailClick}
-          >
-            See More
-          </Button>
-          <p
-            style={{
-              fontSize: "14px",
-              color: "#555",
-              marginTop: "10px",
-              textAlign: "left",
-              fontWeight: "bold",
-              fontStyle: "italic",
-              background: "#eee",
-              padding: "5px",
-              borderRadius: "5px",
-            }}
-          >
-            Created by: Phuong Nam
-          </p>
-        </Grid>
+      <AddDiscussion/>
+      <Grid item xs={12} md={8}>
+        <List>
+          {discussions.map(discussion => (
+            <ListItem key={discussion.id} mb={3}>
+              <Card sx={{
+                width: '100%',
+                backgroundColor: '#f7f7f7',
+                boxShadow: '0 4px 8px rgba(0, 0, 0, 0.1)',
+                borderRadius: '12px',
+                transition: 'transform 0.3s ease-in-out',
+                '&:hover': {
+                  transform: 'scale(1.02)',
+                  boxShadow: '0 8px 16px rgba(0, 0, 0, 0.2)'
+                }
+              }}>
+                <CardContent>
+                  <Typography variant="h6" gutterBottom>
+                    {discussion.topic}
+                  </Typography>
+                  <Typography variant="body2" color="textSecondary" component="p">
+                    {discussion.creator} - {discussion.dateTime}
+                  </Typography>
+                  <Typography variant="body1" component="p">
+                    {discussion.content}
+                  </Typography>
+                  <SeeMore/>
+                </CardContent>
+              </Card>
+            </ListItem>
+          ))}
+        </List>
       </Grid>
-    </Grid>
+    </Grid>   
   );
 }
