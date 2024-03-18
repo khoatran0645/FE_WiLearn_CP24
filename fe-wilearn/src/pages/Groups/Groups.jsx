@@ -162,17 +162,22 @@ export default function Groups() {
           <Stack direction="row" spacing={1}>
             <Card sx={{ maxWidth: 345, minWidth: 200 }}>
               <CardActionArea>
-                <CardMedia
-                  component="img"
-                  height="140"
-                  image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QgxfB2v5SxI80ZfdR4Q4OvZi-3oHkRkHAw"
-                  alt="scene"
-                />
-                <CardContent>
-                  <Typography gutterBottom variant="h5">
-                    Nhóm D
-                  </Typography>
-                </CardContent>
+                <Link
+                  to={`groups/joined`}
+                  style={{ textDecoration: "none", color: "black" }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="140"
+                    image="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS0QgxfB2v5SxI80ZfdR4Q4OvZi-3oHkRkHAw"
+                    alt="scene"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h5">
+                      Nhóm D
+                    </Typography>
+                  </CardContent>
+                </Link>
               </CardActionArea>
             </Card>
           </Stack>

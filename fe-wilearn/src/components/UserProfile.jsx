@@ -1,5 +1,14 @@
-import Typography from "@mui/material/Typography";
-import Grid from '@mui/material/Grid';
+import {
+  Grid,
+  Typography,
+  Card,
+  CardHeader,
+  CardContent,
+  Stack,
+  Button,
+  Avatar,
+  Box,
+} from "@mui/material";
 import {
   FormContainer,
   TextFieldElement,
@@ -7,21 +16,57 @@ import {
   PasswordRepeatElement,
   DatePickerElement,
 } from "react-hook-form-mui";
-import Stack from "@mui/material/Stack";
-import Button from "@mui/material/Button";
 import dayjs from "dayjs";
 
-export default function UserSettings() {
-
+export default function UserProfile() {
   return (
-    <Grid container direction={"row"} paddingLeft={10}>
-      <Grid xs={12}>
-        <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "start" }}>
-          Settings
+    <Grid
+      container
+      direction={"row"}
+      paddingLeft={10}
+      columnSpacing={{ xs: 1, sm: 2, md: 3 }}
+    >
+      <Grid item xs={12}>
+        <Typography
+          variant="h4"
+          sx={{ fontWeight: "bold", textAlign: "start" }}
+        >
+          Profile
         </Typography>
       </Grid>
 
-      <Grid xs={6} >
+      <Grid item xs={2}>
+        <Card>
+          <Grid
+            container
+            direction={"column"}
+            display="flex"
+            justifyContent="center"
+            alignItems="center"
+            p={2}
+          >
+            <Grid item>
+              <Avatar sx={{ width: 100, height: 100 }}>TL</Avatar>
+            </Grid>
+            <Grid item>
+              <Typography variant="h5">Thuy Linh</Typography>
+            </Grid>
+          </Grid>
+
+          <CardContent justifyContent="center" p={2}>
+            <Typography variant="h6" color="text.secondary">
+              Bio
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Thuy Linh is a Junior Web Developer for FPT Software. She&apos;s
+              an accomplished programmer and enjoys using his skills to
+              contribute to the exciting work of FPT Software.
+            </Typography>
+          </CardContent>
+        </Card>
+      </Grid>
+
+      <Grid item xs={3}>
         <Typography variant="h5" textAlign={"left"}>
           Change password
         </Typography>
@@ -59,7 +104,7 @@ export default function UserSettings() {
         </FormContainer>
       </Grid>
 
-      <Grid xs={6}>
+      <Grid item xs={3}>
         <Typography variant="h5" textAlign={"left"}>
           Update information
         </Typography>
@@ -71,7 +116,7 @@ export default function UserSettings() {
           }}
           onSuccess={(data) => console.log(data)}
         >
-          <Stack spacing={2} maxWidth={500} paddingTop={2} >
+          <Stack spacing={2} maxWidth={500} paddingTop={2}>
             <TextFieldElement
               name="full_name"
               label="Full name"
@@ -85,11 +130,7 @@ export default function UserSettings() {
               margin="dense"
             />
 
-            <DatePickerElement
-              label="Birth date"
-              name="birth_date"
-              required
-            />
+            <DatePickerElement label="Birth date" name="birth_date" required />
             <Button type="submit">Submit</Button>
           </Stack>
         </FormContainer>
