@@ -5,57 +5,119 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import {
-  Dialog,
-  DialogTitle,
-  DialogContent,
   TextField,
-  DialogActions,
-  Select,
-  MenuItem,
-  FormControl,
-  InputLabel,
+  Box,
+  Autocomplete,
+  Chip,
+  Avatar,
+  Input,
 } from "@mui/material";
 export default function GroupSettings() {
-  const [subject, setSubject] = useState("");
-  return (
-    <Grid xs={6}>
-      {/* title */}
-      <Typography variant="h5" textAlign={"left"}>
-        Group&apos;s information
-      </Typography>
+  const [subject, setSubject] = useState([]);
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [groupIntro, setGroupIntro] = useState('');
 
-      <FormContainer
-        onSuccess={(data) => console.log(data)}
-        defaultValues={{
-          group_name: "Nhóm 1",
-          subject: "React",
-        }}
-      >
-        <Stack spacing={2} maxWidth={"15rem"} paddingTop={2}>
-          <TextFieldElement
-            name="group_name"
-            label="Group name"
-            required
-            margin="dense"
+  const handleFileChange = (event) => {
+      const file = event.target.files[0];
+      setSelectedFile(file);
+  };
+
+  return (
+    <Grid container marginLeft={10} paddingTop={10}>
+      <Grid item xs={6}>
+        {/* title */}
+        <Typography variant="h5" textAlign={"center"}>
+          Update group
+        </Typography>
+
+        <FormContainer
+          onSuccess={(data) => console.log(data)}
+          defaultValues={{
+            group_name: "Nhóm 1",
+            subject: "React",
+          }}
+        >
+          <Stack spacing={2} paddingTop={2}>
+            <TextFieldElement
+              name="group_name"
+              label="Group name"
+              required
+              margin="dense"
+            />
+            <TextField
+              label="Introduction"
+              fullWidth
+              multiline
+              rows={4}
+              sx={{ marginTop: '15px' }}
+              value={groupIntro}
+              onChange={(e) => setGroupIntro(e.target.value)}
+            />
+            <Box sx={{ marginTop: '1rem' }}>
+              <Autocomplete
+                id="tags-outlined"
+                options={["React", "Python", "Java"]}
+                value={subject}
+                onChange={(event, newValue) => {
+                  setSubject(newValue);
+                }}
+                multiple
+                renderTags={(value, getTagProps) =>
+                  value.map((option, index) => (
+                    <Chip key={option} variant="outlined" label={option} {...getTagProps({ index })} />
+                  ))
+                }
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Subject"
+                    placeholder="Select subject"
+                  />
+                )}
+              />
+            </Box>
+          </Stack>
+        </FormContainer>
+      </Grid>
+
+      <Grid item xs={5}>
+        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+          <Typography variant="body1" marginBottom={1}>Avatar group</Typography>
+          <Avatar
+            style={{ width: '120px', height: '120px', borderRadius: 0 }}
+            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
           />
-        </Stack>
-        <FormControl sx={{ marginTop: "20px", minWidth: "15rem" }}>
-          <InputLabel htmlFor="subject-label">Subject</InputLabel>
-          <Select
-            fullWidth
-            labelId="subject-label"
-            id="demo-simple-select"
-            value={subject}
-            label="Subject"
-            onChange={(e) => setSubject(e.target.value)}
-          >
-            <MenuItem value="React">React</MenuItem>
-            <MenuItem value="Python">Python</MenuItem>
-            <MenuItem value="Java">Java</MenuItem>
-          </Select>
-          <Button type="submit">Update</Button>
-        </FormControl>
-      </FormContainer>
+          <Input
+            accept="image/*"
+            type="file"
+            id="avatar-upload"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="avatar-upload">
+            <Button
+              variant="contained"
+              component="span"
+              style={{
+                marginTop: '16px',
+                padding: '2px 5px',
+                backgroundColor: 'transparent',
+                color: '#000',
+                border: '1px solid #000',
+                fontSize: '12px',
+              }}
+            >
+              Choose File
+            </Button>
+          </label>
+          {selectedFile ? (
+            <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
+          ) : (
+            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
+          )}
+        </Box>
+      </Grid>
     </Grid>
   );
 }
