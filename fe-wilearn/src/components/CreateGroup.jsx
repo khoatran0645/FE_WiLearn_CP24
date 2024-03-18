@@ -1,33 +1,41 @@
-import { useState } from 'react';
-import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Select, MenuItem, FormControl, InputLabel } from '@mui/material';
+import React, { useState } from 'react';
+import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Box, Autocomplete, Chip, Typography, Avatar, Input } from '@mui/material';
 
 export default function CreateGroup() {
     const [openDialog, setOpenDialog] = useState(false);
     const [groupName, setGroupName] = useState('');
-    const [subject, setSubject] = useState('');
+    const [subject, setSubject] = useState([]);
+    const [selectedFile, setSelectedFile] = useState(null);
+    const [groupIntro, setGroupIntro] = useState('');
 
     const handleCloseDialog = () => {
         setOpenDialog(false);
     };
 
     const handleCreateGroup = () => {
-        console.log('Creating group:', { groupName, subject });
+        console.log('Creating group:', { groupName, subject, groupIntro });
         setOpenDialog(false);
+    };
+
+    const handleFileChange = (event) => {
+        const file = event.target.files[0];
+        setSelectedFile(file);
     };
 
     return (
         <>
             <Button style={{
-            textAlign: "center",
-            fontSize: "14px",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            marginLeft: "900px",
-            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"}}
-            onClick={() => setOpenDialog(true)}>
-               + Create group
+                textAlign: "center",
+                fontSize: "14px",
+                backgroundColor: "#4CAF50",
+                color: "white",
+                border: "none",
+                borderRadius: "5px",
+                marginLeft: "900px",
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+            }}
+                onClick={() => setOpenDialog(true)}>
+                + Create group
             </Button>
 
             <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
@@ -40,21 +48,74 @@ export default function CreateGroup() {
                         value={groupName}
                         onChange={(e) => setGroupName(e.target.value)}
                     />
-                    <FormControl fullWidth sx={{ marginTop: '20px' }}>
-                        <InputLabel htmlFor="subject-label">Subject</InputLabel>
-                        <Select
-                            fullWidth
-                            labelId="subject-label"
-                            id="demo-simple-select"
+                    <TextField
+                        label="Introduction"
+                        fullWidth
+                        multiline
+                        rows={4}
+                        sx={{ marginTop: '15px' }}
+                        value={groupIntro}
+                        onChange={(e) => setGroupIntro(e.target.value)}
+                    />
+                    <Box sx={{ marginTop: '1rem' }}>
+                        <Autocomplete
+                            id="tags-outlined"
+                            options={["React", "Python", "Java"]}
                             value={subject}
-                            label="Subject"
-                            onChange={(e) => setSubject(e.target.value)}
-                        >
-                            <MenuItem value="React">React</MenuItem>
-                            <MenuItem value="Python">Python</MenuItem>
-                            <MenuItem value="Java">Java</MenuItem>
-                        </Select>
-                    </FormControl>
+                            onChange={(event, newValue) => {
+                                setSubject(newValue);
+                            }}
+                            multiple
+                            renderTags={(value, getTagProps) =>
+                                value.map((option, index) => (
+                                    <Chip key={option} variant="outlined" label={option} {...getTagProps({ index })} />
+                                ))
+                            }
+                            renderInput={(params) => (
+                                <TextField
+                                    {...params}
+                                    variant="outlined"
+                                    label="Subject"
+                                    placeholder="Select subject"
+                                />
+                            )}
+                        />
+                    </Box>
+                    <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+                        <Typography variant="h7" marginBottom={1}>Avatar group</Typography>
+                        <Avatar
+                            style={{ width: '120px', height: '120px', borderRadius: 0 }}
+                            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+                        />
+                        <Input
+                            accept="image/*"
+                            type="file"
+                            id="avatar-upload"
+                            style={{ display: 'none' }}
+                            onChange={handleFileChange}
+                        />
+                        <label htmlFor="avatar-upload">
+                            <Button
+                            variant="contained"
+                            component="span"
+                            style={{
+                                marginTop: '16px',
+                                padding: '2px 5px',
+                                backgroundColor: 'transparent',
+                                color: '#000',
+                                border: '1px solid #000',
+                                fontSize: '12px', 
+                            }}
+                            >
+                            Choose File
+                            </Button>
+                        </label>
+                        {selectedFile ? (
+                            <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
+                        ) : (
+                            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
+                        )}
+                    </Box>
                 </DialogContent>
                 <DialogActions style={{ padding: '16px' }}>
                     <Button onClick={handleCloseDialog}>
