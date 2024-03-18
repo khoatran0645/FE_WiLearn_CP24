@@ -9,7 +9,7 @@ import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
 import InviteUser from "./InviteUser";
-import UpdateGroup from "./UpdateGroup";
+// import UpdateGroup from "./UpdateGroup";
 import PlanningButton from "../pages/Groups/PlanningButton";
 import MeetingNowButton from "../pages/Meeting/MeetingNowButton";
 import RequestJoin from "../pages/Groups/RequestJoin";
@@ -166,7 +166,7 @@ export default function MemberList() {
         </Typography>
       </Grid>
       <Grid xs={4} sx={{ textAlign: "right", paddingRight: 10 }}>
-        <UpdateGroup />
+        {/* <UpdateGroup /> */}
       </Grid>
 
       <Grid xs={2} container justifyContent={"center"}>
