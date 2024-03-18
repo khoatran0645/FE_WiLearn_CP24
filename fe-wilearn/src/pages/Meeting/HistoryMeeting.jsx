@@ -27,7 +27,7 @@ export default function HistoryMeeting() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     On tap kiem tra Ly
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
@@ -54,7 +54,7 @@ export default function HistoryMeeting() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     On tap kiem tra Toan
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
@@ -81,7 +81,7 @@ export default function HistoryMeeting() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     On tap kiem tra Toan
                   </Typography>
                   <Typography variant="body1" color="text.secondary">

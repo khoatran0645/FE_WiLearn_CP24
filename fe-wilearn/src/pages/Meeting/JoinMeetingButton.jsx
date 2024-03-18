@@ -7,7 +7,7 @@ export default function JoinMeetingButton() {
         <Button
           variant="contained"
           size="small"
-          sx={{ 
+          sx={{
             backgroundColor: "#258f3b",
             '&:hover': {
               backgroundColor: "#258f3b"

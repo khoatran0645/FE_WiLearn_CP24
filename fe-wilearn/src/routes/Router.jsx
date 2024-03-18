@@ -81,11 +81,10 @@ export default function Router() {
               children: [
                 {
                   index: true,
-                  path: "",
                   element: <Members />,
                 },
                 {
-                  path: "members",
+                  path: "",
                   element: <Members />,
                 },
                 {
@@ -94,7 +93,7 @@ export default function Router() {
                 },
                 {
                   path: "discussionDetail",
-                  element: <DiscussionDetail/>
+                  element: <DiscussionDetail />,
                 },
                 {
                   path: "schedules",
@@ -115,6 +114,10 @@ export default function Router() {
                 {
                   path: "meetings",
                   element: <h1>Meetings list page with big calender</h1>,
+                },
+                {
+                  path: "meetings/:meetingId",
+                  element: <MeetingPage />,
                 },
                 {
                   path: "meetings/:meetingId",

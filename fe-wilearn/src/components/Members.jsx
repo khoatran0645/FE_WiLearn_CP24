@@ -143,7 +143,7 @@ export default function MemberList() {
         sx={{ width: 100, height: 100, marginTop: 2 }}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5" component="div">
+        <Typography gutterBottom variant="h5">
           {user.name}
         </Typography>
       </CardContent>
@@ -214,7 +214,7 @@ export default function MemberList() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     Meeting name
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
@@ -239,7 +239,7 @@ export default function MemberList() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     Meeting name
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
@@ -267,7 +267,7 @@ export default function MemberList() {
             >
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6" component="div">
+                  <Typography gutterBottom variant="h6">
                     Meeting name
                   </Typography>
                   <Typography variant="body1" color="text.secondary">

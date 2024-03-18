@@ -110,7 +110,7 @@ export default function StudyDocs() {
 
       <Grid container xs={12}>
         <Grid item xs={12}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6" component="div">
+          <Typography sx={{ mt: 4, mb: 2 }} variant="h6">
             List of files
           </Typography>
         </Grid>

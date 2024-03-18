@@ -41,7 +41,7 @@ export default function ClippedDrawer() {
         <List>
           <ListItem>
             <NavLink
-              to="members"
+              to=""
               style={{ textDecoration: "none", color: "black" }}
             >
               <ListItemButton>
