@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Box, Autocomplete, Chip, Typography, Avatar, Input } from '@mui/material';
 
 export default function CreateGroup() {
