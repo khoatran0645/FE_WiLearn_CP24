@@ -18,6 +18,7 @@ import StudyDocs from "../components/StudyDocs";
 import GroupSettings from "../components/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
 import UserProfile from './../components/UserProfile';
+import SearchPage from './../pages/SearchGr/components/SearchPage';
 
 export default function Router() {
   const routes = useRoutes([
@@ -75,6 +76,10 @@ export default function Router() {
             {
               path: "usersettings",
               element: <UserProfile />,
+            },
+            {
+              path: "searchgroup",
+              element: <SearchPage/>
             },
             {
               path: "groups/:id",
