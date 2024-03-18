@@ -15,9 +15,9 @@ import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
 import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
-import UserSettings from "../components/UserSettings";
 import GroupSettings from "../components/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
+import UserProfile from './../components/UserProfile';
 
 export default function Router() {
   const routes = useRoutes([
@@ -65,6 +65,7 @@ export default function Router() {
         {
           path: "home",
           element: <HomePage />,
+          errorElement: <ErrorPage />,
           children: [
             {
               path: "",
@@ -73,11 +74,12 @@ export default function Router() {
             },
             {
               path: "usersettings",
-              element: <UserSettings />,
+              element: <UserProfile />,
             },
             {
               path: "groups/:id",
               element: <GroupLayout />,
+              errorElement: <ErrorPage />,
               children: [
                 {
                   index: true,
