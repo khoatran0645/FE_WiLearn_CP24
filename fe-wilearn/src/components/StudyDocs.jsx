@@ -17,6 +17,8 @@ import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import Paper from "@mui/material/Paper";
+
+import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -30,16 +32,16 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function StudyDocs() {
-  const [uploadedFile, setUploadedFile] = useState(null);
+  const [uploadedFile, setUploadedFile] = useState([]);
 
   const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setUploadedFile(file);
+    event.target.files?.length &&
+      setUploadedFile(Array.from(event.target.files));
   };
 
   const handleUploadNewFile = () => {
     // Gọi hàm để reset trạng thái đã upload (nếu cần)
-    setUploadedFile(null);
+    // setUploadedFile(null);
   };
 
   const listFile = [
@@ -58,26 +60,30 @@ export default function StudyDocs() {
 
   const listFiles = listFile.map((file) => (
     <Paper elevation={3} key={file.name}>
-      <ListItem
-        secondaryAction={
-          <IconButton edge="end" aria-label="delete">
-            <DeleteIcon />
-          </IconButton>
-        }
-      >
+      <ListItem>
         <ListItemAvatar>
           <Avatar>
             <InsertDriveFileIcon />
           </Avatar>
         </ListItemAvatar>
         <ListItemText primary={file.name} secondary="alternate content" />
+        <ListItemIcon>
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </ListItemIcon>
+        <ListItemIcon>
+          <IconButton aria-label="delete">
+            <DeleteIcon />
+          </IconButton>
+        </ListItemIcon>
       </ListItem>
     </Paper>
   ));
 
   return (
-    <Grid container spacing={0}>
-      <Grid item xs={12}>
+    <Grid>
+      <Grid item xs={6}>
         <Typography
           variant="h4"
           component="h1"
@@ -87,38 +93,54 @@ export default function StudyDocs() {
           Study Docs
         </Typography>
       </Grid>
-      <Grid item xs={6} container paddingLeft={1}>
-        <Button
-          component="label"
-          variant="contained"
-          size="small"
-          startIcon={<CloudUploadIcon />}
-          onClick={handleUploadNewFile}
-        >
-          Share File
-          <VisuallyHiddenInput type="file" onChange={handleFileChange} />
-        </Button>
-      </Grid>
 
-      {uploadedFile && (
-        <Grid item xs={12}>
-          <Typography variant="h6">
-            Uploaded File: {uploadedFile.name}
-          </Typography>
-        </Grid>
-      )}
+      <Grid
+        container
+        direction="row"
+        justifyContent="space-around"
+        alignItems="baseline"
+        padding={2}
+      >
+        <Grid item xs={6}>
+          <Grid xs={12}>
+            <Typography variant="h6">List of files</Typography>
+          </Grid>
 
-      <Grid container xs={12}>
-        <Grid item xs={12}>
-          <Typography sx={{ mt: 4, mb: 2 }} variant="h6">
-            List of files
-          </Typography>
+          <Grid xs={10}>
+            <Paper style={{ maxHeight: "50vh", overflow: "auto" }}>
+              <List>{listFiles}</List>
+            </Paper>
+          </Grid>
         </Grid>
 
-        <Grid item xs={4}>
-          <Paper style={{ maxHeight: "50vh", overflow: "auto" }}>
-            <List>{listFiles}</List>
-          </Paper>
+        <Grid item xs={6}>
+          <Button
+            component="label"
+            variant="contained"
+            size="small"
+            startIcon={<CloudUploadIcon />}
+            onClick={handleUploadNewFile}
+          >
+            Share File
+            <VisuallyHiddenInput
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
+          </Button>
+
+          <Grid item xs={12}>
+            <Typography variant="h6">
+              Uploaded File: {uploadedFile.name}
+            </Typography>
+            <DocViewer
+              documents={uploadedFile.map((file) => ({
+                uri: window.URL.createObjectURL(file),
+                fileName: file.name,
+              }))}
+              pluginRenderers={DocViewerRenderers}
+            />
+          </Grid>
         </Grid>
       </Grid>
     </Grid>
