@@ -49,7 +49,7 @@ export default function Invitation() {
                 </Typography>
             </DialogContent>
             <DialogActions sx={{marginRight:'20px'}}>
-                <Button onClick={handleReject} color="primary">
+                <Button onClick={handleReject} color="warning">
                     Deny
                 </Button>
                 <Button onClick={handleAccept} color="primary">

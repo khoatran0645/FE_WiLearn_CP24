@@ -104,7 +104,7 @@ export default function CreateGroup() {
                                 backgroundColor: 'transparent',
                                 color: '#000',
                                 border: '1px solid #000',
-                                fontSize: '12px', 
+                                fontSize: '12px',
                             }}
                             >
                             Choose File
@@ -118,10 +118,10 @@ export default function CreateGroup() {
                     </Box>
                 </DialogContent>
                 <DialogActions style={{ padding: '16px' }}>
-                    <Button onClick={handleCloseDialog}>
+                    <Button onClick={handleCloseDialog} color='inherit'>
                         Cancel
                     </Button>
-                    <Button onClick={handleCreateGroup}>
+                    <Button onClick={handleCreateGroup} color='success' >
                         Create
                     </Button>
                 </DialogActions>

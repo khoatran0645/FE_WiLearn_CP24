@@ -6,7 +6,7 @@ import CardContent from "@mui/material/CardContent";
 import CardMedia from "@mui/material/CardMedia";
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CreateGroup from "./CreateGroup";
-import Invitation from "./Invitation";
+import Invitation from "../../components/Invitation";
 import {
   Backdrop,
   CircularProgress,
@@ -14,7 +14,7 @@ import {
   Button,
 } from "@mui/material";
 import { useState } from "react";
-import JoinNewGroup from "./JoinNewGroup";
+import JoinNewGroup from "../../components/JoinNewGroup";
 
 export default function Groups() {
   const groupcreatedList = [
