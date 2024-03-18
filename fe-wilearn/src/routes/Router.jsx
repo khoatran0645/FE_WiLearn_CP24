@@ -8,7 +8,7 @@ import MainLayout from "../layouts/MainLayout";
 import MeetingPage from "../pages/Meeting/MeetingPage";
 import GuestLayout from "../layouts/GuestLayout";
 import LandingPage from "../pages/Landing/LandingPage";
-import Groups from "../components/Groups";
+import Groups from "../pages/Groups/Groups";
 import Members from "../components/Members";
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
