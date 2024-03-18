@@ -103,12 +103,7 @@ export default function Groups() {
             alt="scene"
           />
           <CardContent>
-            <Typography
-              gutterBottom
-              variant="h5"
-              component="div"
-              align="center"
-            >
+            <Typography gutterBottom variant="h5" align="center">
               {group.name}
             </Typography>
           </CardContent>
@@ -119,9 +114,9 @@ export default function Groups() {
 
   return (
     <Grid container spacing={0}>
-      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}> 
-      {/* <Button onClick={handleOpen}>Show backdrop</Button> */}    
-          <CreateGroup />
+      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
+        {/* <Button onClick={handleOpen}>Show backdrop</Button> */}
+        <CreateGroup />
       </Grid>
       <Grid
         xs={12}
@@ -149,17 +144,17 @@ export default function Groups() {
       </Backdrop>
 
       <Grid container paddingLeft={5}>
-      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
-        <Stack direction="row" spacing={4} paddingTop={"1rem"}>
-          <JoinNewGroup />
-          <Invitation />
-        </Stack>
-      </Grid>
+        <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
+          <Stack direction="row" spacing={4} paddingTop={"1rem"}>
+            <JoinNewGroup />
+            <Invitation />
+          </Stack>
+        </Grid>
         <Grid
           xs={12}
           container
           justifyContent={"flex-start"}
-          sx={{ overflow: "auto", paddingTop: 0}}
+          sx={{ overflow: "auto", paddingTop: 0 }}
         >
           <Typography variant="h4">I joined these groups</Typography>
         </Grid>
@@ -174,7 +169,7 @@ export default function Groups() {
                   alt="scene"
                 />
                 <CardContent>
-                  <Typography gutterBottom variant="h5" component="div">
+                  <Typography gutterBottom variant="h5">
                     Nhóm D
                   </Typography>
                 </CardContent>
