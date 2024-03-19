@@ -59,7 +59,7 @@ export default function UserProfile() {
             </Typography>
             <Typography variant="body1" color="text.secondary">
               Thuy Linh is a Junior Web Developer for FPT Software. She&apos;s
-              an accomplished programmer and enjoys using his skills to
+              an accomplished programmer and enjoys using her skills to
               contribute to the exciting work of FPT Software.
             </Typography>
           </CardContent>

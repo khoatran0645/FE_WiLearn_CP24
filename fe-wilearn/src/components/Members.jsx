@@ -190,7 +190,7 @@ export default function MemberList() {
 
       <Grid xs={12}>
         <Typography variant="h4" textAlign={"left"}>
-          Lessons
+          Meeting
         </Typography>
       </Grid>
 
