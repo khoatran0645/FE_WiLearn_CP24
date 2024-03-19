@@ -47,7 +47,7 @@ function Schedule() {
   return (
     <Grid>
       <Grid paddingLeft={5}>
-          <Typography variant="h4" sx={{ fontWeight: "bold" }}>Statistics</Typography>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>Schedule</Typography>
       </Grid>
       <CreateEvent addNewEvent={addNewEvent} />
       <Grid height={700}>
