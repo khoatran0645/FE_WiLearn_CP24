@@ -56,16 +56,17 @@ export default function SearchPage() {
     <Grid>
       <Grid container justifyContent="center" alignItems="center">      
         <Grid item xs={12} sm={4}>
-          <TextField
-            label="Search"
-            variant="outlined"
-            value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
-            fullWidth
-          />
+        <TextField
+        placeholder="Type for search"
+        variant="outlined"
+        size="small"
+        sx={{ width: '510px' }}
+        value={searchTerm}
+        onChange={(e) => setSearchTerm(e.target.value)}
+        />
         </Grid>
         <Grid item xs={12} sm={1.5}>
-          <FormControl fullWidth>
+          <FormControl fullWidth size='small'>
             <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
             <Select
               labelId="demo-multiple-checkbox-label"
@@ -91,7 +92,7 @@ export default function SearchPage() {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={1} paddingLeft={1}>
-          <Button variant="contained" fullWidth onClick={handleSearchClick}>
+          <Button variant="contained" fullWidth onClick={handleSearchClick} sx={{backgroundImage: 'linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)'}}>
             Search
           </Button>
         </Grid>       
