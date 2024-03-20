@@ -5,8 +5,8 @@ const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Sat
 
 export default function PlanningButton() {
   const [open, setOpen] = useState(false);
-  const [lessonName, setLessonName] = useState('');
-  const [lessonContent, setLessonContent] = useState('');
+  const [meetingName, setMeetingName] = useState('');
+  const [meetingContent, setMeetingContent] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -23,8 +23,8 @@ export default function PlanningButton() {
 
   const handleCreateMeeting = () => {
     console.log('Submitted:', {
-      lessonName,
-      lessonContent,
+      meetingName,
+      meetingContent,
       selectedDate,
       startTime,
       endTime,
@@ -67,19 +67,19 @@ export default function PlanningButton() {
           </Tabs>
           <Box hidden={currentTab !== 0} sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
             <TextField
-              label="Lesson name"
+              label="Meeting name"
               fullWidth
-              value={lessonName}
-              onChange={(e) => setLessonName(e.target.value)}
+              value={meetingName}
+              onChange={(e) => setMeetingName(e.target.value)}
             />          
             <TextField
               label="Content"
               fullWidth
-              value={lessonContent}
-              onChange={(e) => setLessonContent(e.target.value)}
+              value={meetingContent}
+              onChange={(e) => setMeetingContent(e.target.value)}
             />
             <TextField
-              label="Lesson date"
+              label="Meeting date"
               type="date"
               fullWidth
               value={selectedDate}
@@ -117,19 +117,19 @@ export default function PlanningButton() {
           </Box>
           <Box hidden={currentTab !== 1} sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
             <TextField
-              label="Lesson name"
+              label="Meeting name"
               fullWidth
-              value={lessonName}
-              onChange={(e) => setLessonName(e.target.value)}
+              value={meetingName}
+              onChange={(e) => setMeetingName(e.target.value)}
             />          
             <TextField
               label="Content"
               fullWidth
-              value={lessonContent}
-              onChange={(e) => setLessonContent(e.target.value)}
+              value={meetingContent}
+              onChange={(e) => setMeetingContent(e.target.value)}
             />
             <TextField
-              label="Lesson date"
+              label="Meeting date"
               type="date"
               fullWidth
               value={selectedDate}

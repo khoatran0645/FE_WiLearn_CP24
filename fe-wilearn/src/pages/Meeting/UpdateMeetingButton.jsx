@@ -4,8 +4,8 @@ import {useState} from 'react'
 
 export default function UpdateMeetingButton() {
   const [open, setOpen] = useState(false);
-  const [lessonName, setLessonName] = useState('');
-  const [lessonContent, setLessonContent] = useState('');
+  const [meetingName, setMeetingName] = useState('');
+  const [meetingContent, setMeetingContent] = useState('');
   const [selectedDate, setSelectedDate] = useState(null);
   const [startTime, setStartTime] = useState('');
   const [endTime, setEndTime] = useState('');
@@ -20,8 +20,8 @@ export default function UpdateMeetingButton() {
 
   const handleCreateMeeting = () => {
     console.log('Submitted:', {
-      lessonName,
-      lessonContent,
+      meetingName,
+      meetingContent,
       selectedDate,
       startTime,
       endTime,
@@ -60,23 +60,23 @@ export default function UpdateMeetingButton() {
           p: 4,
         }}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:'10px', textAlign:'center'}}>
-            Update lesson
+            Update meeting
           </Typography>
           <Box sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
             <TextField
-              label="Lesson name"
+              label="Meeting name"
               fullWidth
-              value={lessonName}
-              onChange={(e) => setLessonName(e.target.value)}
+              value={meetingName}
+              onChange={(e) => setMeetingName(e.target.value)}
             />          
             <TextField
               label="Content"
               fullWidth
-              value={lessonContent}
-              onChange={(e) => setLessonContent(e.target.value)}
+              value={meetingContent}
+              onChange={(e) => setMeetingContent(e.target.value)}
             />
             <TextField
-              label="Lesson date"
+              label="Meeting date"
               type="date"
               fullWidth
               value={selectedDate}
