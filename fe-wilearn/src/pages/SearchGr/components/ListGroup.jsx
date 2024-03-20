@@ -75,7 +75,7 @@ export default function ListGroup() {
                 </Typography>          
               </CardContent>
               <Grid container justifyContent="center">
-                    <Button variant="contained" color="primary" size="small" style={{ padding: '4px 8px', fontSize: '11px' }}>
+                    <Button variant="contained" size="small" style={{ padding: '4px 8px', fontSize: '11px', backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)" }}>
                     Join Group
                     </Button>
               </Grid>
