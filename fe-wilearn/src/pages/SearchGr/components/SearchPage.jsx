@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { Button, Checkbox, FormControl, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
+import ListGroup from './ListGroup';
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -18,6 +19,8 @@ const names = [
   'Python',
   '.Net',
   'Golang',
+  'Kotlin',
+  'Flutter',
   'FullStack',
   'Web',
   'Mobile',
@@ -26,6 +29,7 @@ const names = [
 export default function SearchPage() {
   const [subject, setSubject] = useState([]);
   const [searchTerm, setSearchTerm] = useState('');
+  const [showListGroup, setShowListGroup] = useState(false); 
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -44,48 +48,61 @@ export default function SearchPage() {
     name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
+  const handleSearchClick = () => {
+    setShowListGroup(true);
+  };
+
   return (
-    <Grid container justifyContent="center" alignItems="center">
-      <Grid item xs={12} sm={4}>
-        <TextField
-          label="Search"
-          variant="outlined"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
-          fullWidth
-        />
-      </Grid>
-      <Grid item xs={12} sm={1.5}>
-        <FormControl fullWidth>
-          <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
-          <Select
-            labelId="demo-multiple-checkbox-label"
-            id="demo-multiple-checkbox"
-            multiple
-            value={subject}
-            onChange={handleChange}
-            input={<OutlinedInput label="Subject" />}
-            renderValue={(selected) => selected.join(', ')}
-            MenuProps={MenuProps}
-          >
-            <MenuItem key="Select All" value="Select All">
-              <Checkbox checked={subject.length === names.length} />
-              <ListItemText primary="Select All" />
-            </MenuItem>
-            {filteredSubjects.map((name) => (
-              <MenuItem key={name} value={name}>
-                <Checkbox checked={subject.indexOf(name) > -1} />
-                <ListItemText primary={name} />
+    <Grid>
+      <Grid container justifyContent="center" alignItems="center">      
+        <Grid item xs={12} sm={4}>
+          <TextField
+            label="Search"
+            variant="outlined"
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+            fullWidth
+          />
+        </Grid>
+        <Grid item xs={12} sm={1.5}>
+          <FormControl fullWidth>
+            <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
+            <Select
+              labelId="demo-multiple-checkbox-label"
+              id="demo-multiple-checkbox"
+              multiple
+              value={subject}
+              onChange={handleChange}
+              input={<OutlinedInput label="Subject" />}
+              renderValue={(selected) => selected.join(', ')}
+              MenuProps={MenuProps}
+            >
+              <MenuItem key="Select All" value="Select All">
+                <Checkbox checked={subject.length === names.length} />
+                <ListItemText primary="Select All" />
               </MenuItem>
-            ))}
-          </Select>
-        </FormControl>
+              {filteredSubjects.map((name) => (
+                <MenuItem key={name} value={name}>
+                  <Checkbox checked={subject.indexOf(name) > -1} />
+                  <ListItemText primary={name} />
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </Grid>
+        <Grid item xs={12} sm={1} paddingLeft={1}>
+          <Button variant="contained" fullWidth onClick={handleSearchClick}>
+            Search
+          </Button>
+        </Grid>       
       </Grid>
-      <Grid item xs={12} sm={1} paddingLeft={1}>
-        <Button variant="contained" fullWidth>
-          Search
-        </Button>
-      </Grid>
+      {showListGroup && (
+        <Grid container justifyContent="center" alignItems="center">
+          <Grid item xs={12} sm={8}>
+            <ListGroup/>
+          </Grid>
+        </Grid>
+      )}
     </Grid>
   );
 }
