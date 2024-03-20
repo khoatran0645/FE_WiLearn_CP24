@@ -67,7 +67,7 @@ export default function SearchPage() {
         placeholder="Type for search"
         variant="outlined"
         size="small"
-        sx={{ width: '510px' }}
+        sx={{ width: '500px' }}
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
         />
