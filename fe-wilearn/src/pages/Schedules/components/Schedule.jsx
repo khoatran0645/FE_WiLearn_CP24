@@ -61,12 +61,15 @@ function Schedule() {
 
   return (
     <Grid>
-      <Grid paddingLeft={5}>
+      <Grid container paddingLeft={5}>
+        <Grid item>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Schedule
         </Typography>
+        </Grid>
+        <CreateEvent addNewEvent={addNewEvent} />
       </Grid>
-      <CreateEvent addNewEvent={addNewEvent} />
+      
       <Grid height={700}>
         <Box style={{ height: 600 }}>
           <Calendar
@@ -82,17 +85,18 @@ function Schedule() {
         </Box>
       </Grid>
 
-      <Grid xs={12} paddingTop={2}>
-        <Typography variant="h4" textAlign={"left"}>
-          Meetings
-        </Typography>
-      </Grid>
-
-      <Grid xs={2} container justifyContent={"center"}>
-        <Stack spacing={1} justifyContent={"center"}>
-          <PlanningButton />
-          <MeetingNowButton />
-        </Stack>
+      <Grid container>
+        <Grid xs={6} item justifyContent={"flex-start"}>
+          <Typography variant="h4">
+            Meetings
+          </Typography>
+        </Grid>
+        <Grid xs={6} item >
+          <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={5}>
+            <PlanningButton />
+            <MeetingNowButton />
+          </Stack>
+        </Grid>
       </Grid>
 
       <Grid
