@@ -32,9 +32,9 @@ export default function InviteUser() {
       </Button>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
-        <DialogTitle>Search for user</DialogTitle>
+        <DialogTitle>Search user</DialogTitle>
         <DialogContent>
-          <TextField label="UserID" fullWidth sx={{ marginTop: "10px" }} />
+          <TextField label="Email" fullWidth sx={{ marginTop: "10px" }} />
         </DialogContent>
         <DialogActions sx={{ marginRight: "10px" }}>
           <Button onClick={handleCloseDialog} color="primary">

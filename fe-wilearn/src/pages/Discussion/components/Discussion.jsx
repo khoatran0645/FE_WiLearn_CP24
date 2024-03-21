@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { Grid, List, ListItem, Typography, Card, CardContent } from '@mui/material';
 import AddDiscussion from './AddDiscussion';
 import SeeMore from './SeeMore';
+import Paginate from './../../../components/Paginate';
 
 const discussionsData = [
   {
@@ -67,6 +68,9 @@ export default function DiscussionList() {
             </ListItem>
           ))}
         </List>
+        <Grid container justifyContent="center" alignItems="center" paddingTop={5}>
+            <Paginate count={10}/>
+        </Grid>
       </Grid>
     </Grid>   
   );
