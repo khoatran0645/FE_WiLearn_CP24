@@ -8,16 +8,16 @@ import Container from "@mui/material/Container";
 import Stack from "@mui/material/Stack";
 import { CardActionArea } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
-import InviteUser from "./InviteUser";
+import InviteUser from "../../components/InviteUser";
 // import UpdateGroup from "./UpdateGroup";
-import PlanningButton from "../pages/Groups/PlanningButton";
-import MeetingNowButton from "../pages/Meeting/MeetingNowButton";
-import RequestJoin from "../pages/Groups/RequestJoin";
-import JoinMeetingButton from "../pages/Meeting/JoinMeetingButton";
-import StartMeetingButton from "../pages/Meeting/StartMeetingButton";
-import UpdateMeetingButton from "../pages/Meeting/UpdateMeetingButton";
-import UserMoreInfo from "./UserMoreInfo";
-import HistoryMeeting from "../pages/Meeting/HistoryMeeting";
+import PlanningButton from "./PlanningButton";
+import MeetingNowButton from "../Meeting/MeetingNowButton";
+import RequestJoin from "./RequestJoin";
+import JoinMeetingButton from "../Meeting/JoinMeetingButton";
+import StartMeetingButton from "../Meeting/StartMeetingButton";
+import UpdateMeetingButton from "../Meeting/UpdateMeetingButton";
+import UserMoreInfo from "../../components/UserMoreInfo";
+import HistoryMeeting from "../Meeting/HistoryMeeting";
 
 export default function MemberList() {
   const userList = [
@@ -148,7 +148,11 @@ export default function MemberList() {
         </Typography>
       </CardContent>
       <CardActions>
-        <UserMoreInfo fullname={user.name} email={user.email} phone={user.phone} />
+        <UserMoreInfo
+          fullname={user.name}
+          email={user.email}
+          phone={user.phone}
+        />
       </CardActions>
     </Container>
   ));
@@ -159,22 +163,32 @@ export default function MemberList() {
   // };
 
   return (
-    <Grid container spacing={0} direction={"row"}>
-      <Grid xs={8}>
+    <Grid container spacing={0} direction={"row"} >
+      <Grid xs={6} justifyContent={"flex-start"}>
         <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
-          Group: SWP490
+          Members
         </Typography>
       </Grid>
-      <Grid xs={4} sx={{ textAlign: "right", paddingRight: 10 }}>
+      <Grid
+        xs={6}
+        sx={{ textAlign: "right", paddingRight: 5 }}
+        justifyContent={"flex-end"}
+      >
         {/* <UpdateGroup /> */}
-      </Grid>
-
-      <Grid xs={2} container justifyContent={"center"}>
-        <Stack spacing={1} justifyContent={"center"}>
+        <Stack spacing={1} direction={"row"} justifyContent={"flex-end"}>
           <RequestJoin />
           <InviteUser />
         </Stack>
       </Grid>
+
+      {/* <Grid xs={2} container justifyContent={"center"}>
+        <Stack spacing={1} justifyContent={"center"}>
+          <RequestJoin />
+          <InviteUser />
+        </Stack>
+      </Grid> */}
+
+
       <Grid xs={10}>
         <Card
           sx={{
@@ -188,9 +202,9 @@ export default function MemberList() {
         </Card>
       </Grid>
 
-      <Grid xs={12}>
+      <Grid xs={12} paddingTop={2}>
         <Typography variant="h4" textAlign={"left"}>
-          Meeting
+          Meetings
         </Typography>
       </Grid>
 
@@ -254,8 +268,12 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
                   </Typography>
-                  <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
-                    <StartMeetingButton/>
+                  <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ paddingTop: "1rem" }}
+                  >
+                    <StartMeetingButton />
                     <UpdateMeetingButton />
                   </Grid>
                 </CardContent>
@@ -282,8 +300,12 @@ export default function MemberList() {
                   <Typography variant="body1" color="text.secondary">
                     Status: Cannot start
                   </Typography>
-                  <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
-                  <UpdateMeetingButton />
+                  <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ paddingTop: "1rem" }}
+                  >
+                    <UpdateMeetingButton />
                   </Grid>
                 </CardContent>
               </CardActionArea>
@@ -292,7 +314,7 @@ export default function MemberList() {
         </Grid>
       </Grid>
       <Grid xs={11.5} paddingTop={3}>
-        <HistoryMeeting/>
+        <HistoryMeeting />
       </Grid>
     </Grid>
   );
