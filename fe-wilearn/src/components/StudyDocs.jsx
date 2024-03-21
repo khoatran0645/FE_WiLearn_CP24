@@ -92,6 +92,29 @@ export default function StudyDocs() {
             <CloseIcon />
           </IconButton>
         </ListItemIcon>
+        {/* <ListItemIcon>
+          <IconButton aria-label="delete" color="success">
+            <CheckIcon />
+          </IconButton>
+        </ListItemIcon> */}
+      </ListItem>
+      <Divider component="li" />
+    </Paper>
+  ));
+  const pendinglist = approvedFile.map((file) => (
+    <Paper elevation={0} key={file.name}>
+      <ListItem>
+        <ListItemAvatar>
+          <Avatar>
+            <InsertDriveFileIcon />
+          </Avatar>
+        </ListItemAvatar>
+        <ListItemText primary={file.name} secondary="alternate content" />
+        <ListItemIcon>
+          <IconButton aria-label="delete" color="error">
+            <CloseIcon />
+          </IconButton>
+        </ListItemIcon>
         <ListItemIcon>
           <IconButton aria-label="delete" color="success">
             <CheckIcon />
@@ -170,7 +193,7 @@ export default function StudyDocs() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved" value="1" />
-                <Tab label="Not yet approve" value="2" />
+                <Tab label="Pending" value="2" />
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -180,7 +203,7 @@ export default function StudyDocs() {
             </TabPanel>
             <TabPanel value="2">
               <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                <List overflow="auto">{approvedList}</List>
+                <List overflow="auto">{pendinglist}</List>
               </Paper>
             </TabPanel>
           </TabContext>
