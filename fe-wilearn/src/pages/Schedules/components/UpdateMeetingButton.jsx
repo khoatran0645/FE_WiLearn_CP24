@@ -27,6 +27,11 @@ export default function UpdateMeetingButton() {
     });
   };
 
+  const handleDeleteMeeting = () => {
+    console.log("Deleted meeting");
+    handleClose();
+  };
+
   return (
     <>
       <Button
@@ -124,6 +129,7 @@ export default function UpdateMeetingButton() {
             </Grid>
           </Box>
           <Button color="success" onClick={handleCreateMeeting}>Update</Button>
+          <Button onClick={handleDeleteMeeting} color="error">Delete</Button>
           <Button onClick={handleClose}>Close</Button>
         </Box>
       </Modal>
