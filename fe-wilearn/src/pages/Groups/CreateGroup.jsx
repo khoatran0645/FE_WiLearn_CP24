@@ -1,6 +1,8 @@
 import { useState } from 'react';
 import { Button, Dialog, DialogTitle, DialogContent, TextField, DialogActions, Box, Autocomplete, Chip, Typography, Avatar, Input } from '@mui/material';
 
+const defaultAvatar = '/src/assets/default.jpg';
+
 export default function CreateGroup() {
     const [openDialog, setOpenDialog] = useState(false);
     const [groupName, setGroupName] = useState('');
@@ -84,8 +86,8 @@ export default function CreateGroup() {
                     <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
                         <Typography variant="h7" marginBottom={1}>Image group</Typography>
                         <Avatar
-                            style={{ width: '120px', height: '120px', borderRadius: 0 }}
-                            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+                            style={{ width: '150px', height: '150px', borderRadius: 0 }}
+                            src={selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar}
                         />
                         <Input
                             accept="image/*"
