@@ -2,11 +2,16 @@ import {
   Avatar,
   Typography,
   Card,
+  CardHeader,
+  CardMedia,
   CardContent,
   CardActions,
   Grid,
   Container,
   Stack,
+  ImageList,
+  ImageListItem,
+  Button,
 } from "@mui/material";
 
 import InviteUser from "../../components/InviteUser";
@@ -124,32 +129,45 @@ export default function MemberList() {
   ];
 
   const memberList = userList.map((user) => (
-    <Container
-      key={user.id}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        alignItems: "center",
-      }}
-    >
-      <Avatar
-        alt={user.name}
-        src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
-        sx={{ width: 100, height: 100, marginTop: 2 }}
-      />
-      <CardContent>
-        <Typography gutterBottom variant="h6">
-          {user.name}
-        </Typography>
-      </CardContent>
-      <CardActions>
-        <UserMoreInfo
-          fullname={user.name}
-          email={user.email}
-          phone={user.phone}
+    // <Container key={user.id}>
+    //   <Avatar
+    //     alt={user.name}
+    //     src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+    //     sx={{ width: 100, height: 100, marginTop: 2 }}
+    //   />
+    //   <CardContent>
+    //     <Typography gutterBottom variant="h6">
+    //       {user.name}
+    //     </Typography>
+    //   </CardContent>
+    //   <CardActions>
+    //     <UserMoreInfo
+    //       fullname={user.name}
+    //       email={user.email}
+    //       phone={user.phone}
+    //     />
+    //   </CardActions>
+    // </Container>
+
+    <ImageListItem key={user.id}>
+      <Card sx={{ maxWidth: 200 }} elevation={5}>
+        {/* <CardHeader textAlign="center" title="abc" subheader="a"/> */}
+        <CardMedia
+          component="img"
+          height="auto"
+          image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
+          alt="avatar"
         />
-      </CardActions>
-    </Container>
+        <CardContent>
+          <Typography variant="h6" textAlign={"center"}>
+            {user.name}
+          </Typography>
+        </CardContent>
+        <CardActions sx={{ justifyContent: "center" }}>
+          <UserMoreInfo />
+        </CardActions>
+      </Card>
+    </ImageListItem>
   ));
 
   // const navigate = useNavigate();
@@ -183,19 +201,15 @@ export default function MemberList() {
         </Stack>
       </Grid> */}
 
-      <Grid xs={12}>
-        <Card
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            alignItems: "center",
-            overflow: "auto",
-          }}
+      <Grid container xs={12}>
+        <ImageList
+          sx={{ width: 1, height: 1, paddingLeft: 5 }}
+          cols={5}
+          rowHeight={"auto"}
         >
           {memberList}
-        </Card>
+        </ImageList>
       </Grid>
-
       {/* <Grid xs={12} paddingTop={2}>
         <Typography variant="h4" textAlign={"left"}>
           Meetings
