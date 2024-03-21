@@ -2,185 +2,182 @@ import {
   Avatar,
   Typography,
   Card,
-  CardHeader,
-  CardMedia,
   CardContent,
   CardActions,
   Grid,
   Container,
   Stack,
-  ImageList,
-  ImageListItem,
-  Button,
+  Box,
 } from "@mui/material";
 
 import InviteUser from "../../components/InviteUser";
 // import UpdateGroup from "./UpdateGroup";
 import RequestJoin from "./RequestJoin";
 import UserMoreInfo from "../../components/UserMoreInfo";
+import Paginate from "../../components/Paginate";
 
 export default function MemberList() {
   const userList = [
     {
       id: 1,
       name: "Linh",
-      avartar: "",
+      avatar: "https://livewiredemos.com/images/avatar.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 2,
       name: "Khoi",
-      avartar: "",
+      avatar: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 3,
       name: "Duy",
-      avartar: "",
+      avatar: "https://i.pinimg.com/474x/4b/71/f8/4b71f8137985eaa992d17a315997791e.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 4,
       name: "Minh",
-      avartar: "",
+      avatar: "https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 5,
       name: "Minh",
-      avartar: "",
+      avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGQ8dQ-LMiMmTEyBijR0FzpQHC7tH6qTE2g&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 6,
       name: "Đức",
-      avartar: "",
+      avatar: "https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 7,
       name: "Phượng",
-      avartar: "",
+      avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZQHtkC_0XJu5cyn28YqkueoSBnqH4hgx7Q&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 8,
       name: "Tâm",
-      avartar: "",
+      avatar: "https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 9,
       name: "Trung",
-      avartar: "",
+      avatar: "https://png.pngtree.com/png-clipart/20190921/original/pngtree-user-avatar-boy-png-image_4693645.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 10,
       name: "Hậu",
-      avartar: "",
+      avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMx1itTXTXLB8p4ALTTL8mUPa9TFN_m9h5VQ&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 11,
       name: "Nga",
-      avartar: "",
+      avatar: "https://storage.needpix.com/rsynced_images/user-307993_1280.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 12,
       name: "Tiên",
-      avartar: "",
+      avatar: "https://toppng.com/uploads/preview/user-pro-avatar-scalable-vector-graphics-icon-woman-icon-11553526869tcdfa31pvo.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
-    {
-      id: 13,
-      name: "Mai",
-      avartar: "",
-      email: "XXXXXXXXXXXXXX",
-      phone: "0987654321",
-    },
-    {
-      id: 14,
-      name: "Đào",
-      avartar: "",
-      email: "XXXXXXXXXXXXXX",
-      phone: "0987654321",
-    },
-    {
-      id: 15,
-      name: "Piano",
-      avartar: "",
-      email: "XXXXXXXXXXXXXX",
-      phone: "0987654321",
-    },
+    // {
+    //   id: 13,
+    //   name: "Mai",
+    //   avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4oz0KdCvHj_hvY5exy-qFr06SPFjyA4ZoPg&usqp=CAU",
+    //   email: "XXXXXXXXXXXXXX",
+    //   phone: "0987654321",
+    // },
+    // {
+    //   id: 14,
+    //   name: "Đào",
+    //   avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLSDBGl63KMyzp0oqzKaQDgLn6PHLmQ6EejQ&usqp=CAU",
+    //   email: "XXXXXXXXXXXXXX",
+    //   phone: "0987654321",
+    // },
+    // {
+    //   id: 15,
+    //   name: "Piano",
+    //   avatar: "https://static.vecteezy.com/system/resources/thumbnails/009/749/751/small/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg",
+    //   email: "XXXXXXXXXXXXXX",
+    //   phone: "0987654321",
+    // },
   ];
 
-  const memberList = userList.map((user) => (
-    // <Container key={user.id}>
-    //   <Avatar
-    //     alt={user.name}
-    //     src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
-    //     sx={{ width: 100, height: 100, marginTop: 2 }}
-    //   />
-    //   <CardContent>
-    //     <Typography gutterBottom variant="h6">
-    //       {user.name}
-    //     </Typography>
-    //   </CardContent>
-    //   <CardActions>
-    //     <UserMoreInfo
-    //       fullname={user.name}
-    //       email={user.email}
-    //       phone={user.phone}
-    //     />
-    //   </CardActions>
-    // </Container>
-
-    <ImageListItem key={user.id}>
-      <Card sx={{ maxWidth: 200 }} elevation={5}>
-        {/* <CardHeader textAlign="center" title="abc" subheader="a"/> */}
-        <CardMedia
-          component="img"
-          height="auto"
-          image="https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png"
-          alt="avatar"
-        />
+  const renderMemberCard = (user) => (
+    <Grid key={user.id} item xs={12} sm={6} md={4} lg={2}>
+      <Card sx={{ maxWidth: 180 }} elevation={5}>
         <CardContent>
-          <Typography variant="h6" textAlign={"center"}>
-            {user.name}
-          </Typography>
+          <Container
+            sx={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+            }}
+          >
+            <Avatar
+              alt={user.name}
+              src={user.avatar}
+              sx={{ width: 100, height: 100, marginTop: 2 }}
+            />
+            <Typography gutterBottom variant="h6">
+              {user.name}
+            </Typography>
+          </Container>
         </CardContent>
-        <CardActions sx={{ justifyContent: "center" }}>
-          <UserMoreInfo />
+        <CardActions>
+          <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', paddingBottom: '10px' }}>
+            <UserMoreInfo
+              fullname={user.name}
+              email={user.email}
+              phone={user.phone}
+            />
+          </Box>
         </CardActions>
       </Card>
-    </ImageListItem>
-  ));
-
+    </Grid>
+  );
   // const navigate = useNavigate();
   // const handleClick = () => {
   //   navigate("/meeting");
   // };
 
   return (
-    <Grid container spacing={0} direction={"row"}>
-      <Grid xs={6} justifyContent={"flex-start"}>
-        <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
-          Members
-        </Typography>
+    <Grid container direction={"row"}>
+      <Grid container paddingBottom={2}>
+        <Grid xs={6} justifyContent={"flex-start"}>
+          <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
+              Members
+          </Typography>
+        </Grid>     
+        <Stack spacing={1} direction={"row"} justifyContent={"flex-end"} paddingLeft={35}>
+            <RequestJoin />
+            <InviteUser />
+        </Stack>
+      </Grid>
+      <Grid container spacing={2}>
+      {userList.map((user) => renderMemberCard(user))}
       </Grid>
       <Grid
         xs={6}
@@ -188,10 +185,7 @@ export default function MemberList() {
         justifyContent={"flex-end"}
       >
         {/* <UpdateGroup /> */}
-        <Stack spacing={1} direction={"row"} justifyContent={"flex-end"}>
-          <RequestJoin />
-          <InviteUser />
-        </Stack>
+        
       </Grid>
 
       {/* <Grid xs={2} container justifyContent={"center"}>
@@ -201,15 +195,6 @@ export default function MemberList() {
         </Stack>
       </Grid> */}
 
-      <Grid container xs={12}>
-        <ImageList
-          sx={{ width: 1, height: 1, paddingLeft: 5 }}
-          cols={5}
-          rowHeight={"auto"}
-        >
-          {memberList}
-        </ImageList>
-      </Grid>
       {/* <Grid xs={12} paddingTop={2}>
         <Typography variant="h4" textAlign={"left"}>
           Meetings
@@ -325,6 +310,9 @@ export default function MemberList() {
       <Grid xs={11.5} paddingTop={3}>
         <HistoryMeeting />
       </Grid> */}
+      <Grid container justifyContent="center" alignItems="center" paddingTop={5}>
+            <Paginate count={10}/>
+        </Grid>
     </Grid>
   );
 }
