@@ -34,7 +34,7 @@ export default function RequestJoin() {
   return (
     <>
     <Button variant="outlined" size="small" onClick={handleRequestClick}>
-        Join requests
+        Joining applications
     </Button>
     <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', padding: '20px', marginLeft:'90px', paddingTop: '3rem' }}>
