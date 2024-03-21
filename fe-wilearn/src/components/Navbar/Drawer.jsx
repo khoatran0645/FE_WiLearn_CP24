@@ -123,14 +123,14 @@ export default function ClippedDrawer() {
         <List style={{ position: "absolute", bottom: "0" }}>
           <ListItem>
             <NavLink
-              to="/"
+              to="/home"
               style={{ textDecoration: "none", color: "black" }}
             >
               <ListItemButton>
                 <ListItemIcon>
                   <LogoutIcon />
                 </ListItemIcon>
-                <ListItemText primary="Logout" />
+                <ListItemText primary="Out group" />
               </ListItemButton>
             </NavLink>
           </ListItem>
