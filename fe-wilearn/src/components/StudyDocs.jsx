@@ -9,15 +9,26 @@ import {
   ListItemAvatar,
   ListItemIcon,
   ListItemText,
+  ListItemButton,
   Avatar,
   IconButton,
   Paper,
+  Box,
+  Tab,
+  Tabs,
+  Card,
+  Divider,
 } from "@mui/material";
 
+import TabContext from "@mui/lab/TabContext";
+import TabList from "@mui/lab/TabList";
+import TabPanel from "@mui/lab/TabPanel";
 
-import CloudUploadIcon from '@mui/icons-material/CloudUpload';
-import DeleteIcon from '@mui/icons-material/Delete';
-import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
+import CloudUploadIcon from "@mui/icons-material/CloudUpload";
+import DeleteIcon from "@mui/icons-material/Delete";
+import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
+import CheckIcon from "@mui/icons-material/Check";
+import CloseIcon from "@mui/icons-material/Close";
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const VisuallyHiddenInput = styled("input")({
@@ -45,7 +56,13 @@ export default function StudyDocs() {
     // setUploadedFile(null);
   };
 
-  const listFile = [
+  const [value, setValue] = useState("1");
+
+  const handleChange = (event, newValue) => {
+    setValue(newValue);
+  };
+
+  const approvedFile = [
     { name: "file1.pdf" },
     { name: "file2.pdf" },
     { name: "file3.pdf" },
@@ -59,8 +76,10 @@ export default function StudyDocs() {
     { name: "file11.pdf" },
   ];
 
-  const listFiles = listFile.map((file) => (
-    <Paper elevation={3} key={file.name}>
+
+
+  const approvedList = approvedFile.map((file) => (
+    <Paper elevation={0} key={file.name}>
       <ListItem>
         <ListItemAvatar>
           <Avatar>
@@ -69,22 +88,23 @@ export default function StudyDocs() {
         </ListItemAvatar>
         <ListItemText primary={file.name} secondary="alternate content" />
         <ListItemIcon>
-          <IconButton aria-label="delete">
-            <DeleteIcon />
+          <IconButton aria-label="delete" color="error">
+            <CloseIcon />
           </IconButton>
         </ListItemIcon>
         <ListItemIcon>
-          <IconButton aria-label="delete">
-            <DeleteIcon />
+          <IconButton aria-label="delete" color="success">
+            <CheckIcon />
           </IconButton>
         </ListItemIcon>
       </ListItem>
+      <Divider component="li" />
     </Paper>
   ));
 
   return (
     <Grid container>
-      <Grid item xs={6}>
+      <Grid item xs={12}>
         <Typography
           variant="h4"
           component="h1"
@@ -144,6 +164,28 @@ export default function StudyDocs() {
           </Grid>
         </Grid>
       </Grid> */}
+      <Grid xs={6}>
+        <Box sx={{ width: "100%", typography: "body1" }}>
+          <TabContext value={value}>
+            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+              <TabList onChange={handleChange}>
+                <Tab label="Approved" value="1" />
+                <Tab label="Not yet approve" value="2" />
+              </TabList>
+            </Box>
+            <TabPanel value="1">
+              <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                <List overflow="auto">{approvedList}</List>
+              </Paper>
+            </TabPanel>
+            <TabPanel value="2">
+              <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                <List overflow="auto">{approvedList}</List>
+              </Paper>
+            </TabPanel>
+          </TabContext>
+        </Box>
+      </Grid>
     </Grid>
   );
 }
