@@ -123,7 +123,7 @@ export default function Groups() {
           justifyContent={"flex-start"}
           sx={{ overflow: "auto", paddingTop: 0 }}
         >
-          <Typography variant="h4">Groups I joined</Typography>
+          <Typography variant="h4">Groups I manage</Typography>
         </Grid>
 
         <Grid
