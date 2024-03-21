@@ -239,7 +239,7 @@ export default function StudyDocs() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved" value="1" />
-                {isAdmin && <Tab label="Not yet approve" value="2" />}
+                {isAdmin && <Tab label="Pending" value="2" />}
               </TabList>
             </Box>
             <TabPanel value="1">
