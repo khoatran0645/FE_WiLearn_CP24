@@ -143,21 +143,24 @@ export default function Groups() {
         <CircularProgress color="inherit" />
       </Backdrop>
 
-      <Grid container paddingLeft={5}>
-        <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
+      <Grid container paddingLeft={5} paddingTop={5}>
+        
+        <Grid
+          xs={6}
+          container
+          justifyContent={"flex-start"}
+          sx={{ overflow: "auto", paddingTop: 0 }}
+        >
+          <Typography variant="h4">Groups I joined</Typography>
+        </Grid>
+
+        <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
           <Stack direction="row" spacing={4} paddingTop={"1rem"}>
             <JoinNewGroup />
             <Invitation />
           </Stack>
         </Grid>
-        <Grid
-          xs={12}
-          container
-          justifyContent={"flex-start"}
-          sx={{ overflow: "auto", paddingTop: 0 }}
-        >
-          <Typography variant="h4">I joined these groups</Typography>
-        </Grid>
+
         <Grid container>
           <Stack direction="row" spacing={1}>
             <Card sx={{ maxWidth: 345, minWidth: 200 }}>

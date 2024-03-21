@@ -34,7 +34,7 @@ export default function RequestJoin() {
   return (
     <>
     <Button variant="outlined" size="small" onClick={handleRequestClick}>
-        Request to join
+        Join requests
     </Button>
     <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
             <DialogContent sx={{ display: 'flex', flexDirection: 'column', padding: '20px', marginLeft:'90px', paddingTop: '3rem' }}>
@@ -49,7 +49,7 @@ export default function RequestJoin() {
                 </Typography>
                 <Typography variant="body1" sx={{ marginBottom: '10px' }}>
                     <span style={{ fontWeight: 'bold' }}>Email:</span> {userInfo.email}
-                </Typography>               
+                </Typography>
             </DialogContent>
             <DialogActions sx={{marginRight:'20px'}}>
                 <Button onClick={handleReject} color="primary">

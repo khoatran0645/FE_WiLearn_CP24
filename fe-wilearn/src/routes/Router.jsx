@@ -9,7 +9,7 @@ import MeetingPage from "../pages/Meeting/MeetingPage";
 import GuestLayout from "../layouts/GuestLayout";
 import LandingPage from "../pages/Landing/LandingPage";
 import Groups from "../pages/Groups/Groups";
-import Members from "../components/Members";
+import Members from "../pages/Groups/Members";
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
