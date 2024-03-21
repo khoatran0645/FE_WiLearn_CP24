@@ -14,11 +14,10 @@ import {
   Paper,
 } from "@mui/material";
 
-import {
-  CloudUploadIcon,
-  DeleteIcon,
-  InsertDriveFileIcon,
-} from "@mui/icons-material/CloudUpload";
+
+import CloudUploadIcon from '@mui/icons-material/CloudUpload';
+import DeleteIcon from '@mui/icons-material/Delete';
+import InsertDriveFileIcon from '@mui/icons-material/InsertDriveFile';
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const VisuallyHiddenInput = styled("input")({
