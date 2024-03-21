@@ -65,23 +65,23 @@ const CreateEvent = ({ addNewEvent }) => {
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
-        + Create event
+        + Schedule meeting
       </Button>
       <Dialog open={open} onClose={handleClose}>
-        <DialogTitle>Create event</DialogTitle>
+        <DialogTitle>Create Schedule meeting</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
             margin="dense"
             id="eventName"
-            label="Event name"
+            label="Meeting name"
             fullWidth
             value={eventName}
             onChange={(e) => setEventName(e.target.value)}
           />
           <Grid style={{ marginTop: "15px" }}>
             <DatePicker
-              label="Event date"
+              label="Meeting date"
               value={eventDate}
               onChange={(newValue) => setEventDate(newValue)}
               renderInput={(params) => <TextField {...params} />}

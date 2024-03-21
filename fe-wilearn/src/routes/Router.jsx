@@ -77,7 +77,6 @@ export default function Router() {
               path: "statistics",
               element: (
                 <>
-                  <h1>Temporary page</h1>
                   <Statistics />
                 </>
               ),
@@ -86,7 +85,6 @@ export default function Router() {
               path: "schedules",
               element: (
                 <>
-                  <h1>Temporary page</h1>
                   <Schedule />
                 </>
               ),
