@@ -34,7 +34,9 @@ export default function CreateGroup() {
                 border: "none",
                 borderRadius: "5px",
                 marginLeft: "900px",
-                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)"
+                boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
+                '&:hover': {
+                    backgroundColor: "#4CAF50"},
             }}
                 onClick={() => setOpenDialog(true)}>
                 + Create group
