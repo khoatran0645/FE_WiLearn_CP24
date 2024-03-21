@@ -83,7 +83,7 @@ export default function GroupSettings() {
 
       <Grid item xs={5}>
         <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-          <Typography variant="body1" marginBottom={1}>Avatar group</Typography>
+          <Typography variant="body1" marginBottom={1}></Typography>
           <Avatar
             style={{ width: '120px', height: '120px', borderRadius: 0 }}
             src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
