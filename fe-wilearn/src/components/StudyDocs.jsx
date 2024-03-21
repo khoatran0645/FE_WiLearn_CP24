@@ -83,7 +83,7 @@ export default function StudyDocs() {
   ));
 
   return (
-    <Grid>
+    <Grid container>
       <Grid item xs={6}>
         <Typography
           variant="h4"
@@ -95,7 +95,7 @@ export default function StudyDocs() {
         </Typography>
       </Grid>
 
-      <Grid
+      {/* <Grid
         container
         direction="row"
         justifyContent="space-around"
@@ -143,7 +143,7 @@ export default function StudyDocs() {
             />
           </Grid>
         </Grid>
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

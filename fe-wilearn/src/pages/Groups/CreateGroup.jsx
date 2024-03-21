@@ -26,7 +26,7 @@ export default function CreateGroup() {
 
     return (
         <>
-            <Button style={{
+            <Button sx={{
                 textAlign: "center",
                 fontSize: "14px",
                 backgroundColor: "#4CAF50",

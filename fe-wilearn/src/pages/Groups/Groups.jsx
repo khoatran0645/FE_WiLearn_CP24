@@ -1,18 +1,20 @@
-import Typography from "@mui/material/Typography";
-import Grid from "@mui/material/Grid";
-import Stack from "@mui/material/Stack";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardMedia from "@mui/material/CardMedia";
+import {
+  Typography,
+  Grid,
+  Stack,
+  Card,
+  CardContent,
+  CardMedia,
+  CardActionArea,
+  Backdrop,
+  CircularProgress,
+  Button,
+} from "@mui/material";
+
 import { useNavigate, Navigate, Link } from "react-router-dom";
 import CreateGroup from "./CreateGroup";
 import Invitation from "../../components/Invitation";
-import {
-  Backdrop,
-  CircularProgress,
-  CardActionArea,
-  Button,
-} from "@mui/material";
+
 import { useState } from "react";
 import JoinNewGroup from "../../components/JoinNewGroup";
 
@@ -113,26 +115,37 @@ export default function Groups() {
   ));
 
   return (
-    <Grid container spacing={0}>
-      <Grid xs={12} container justifyContent={"flex-end"} paddingRight={5}>
-        {/* <Button onClick={handleOpen}>Show backdrop</Button> */}
-        <CreateGroup />
-      </Grid>
-      <Grid
-        xs={12}
-        container
-        justifyContent={"flex-start"}
-        sx={{ overflow: "auto", paddingTop: 1, paddingLeft: 5 }}
-      >
-        <Typography variant="h4">My own groups</Typography>
-        <Grid item xs={12}>
+    <Grid container>
+      <Grid container paddingLeft={5} paddingTop={5}>
+        <Grid
+          xs={6}
+          container
+          justifyContent={"flex-start"}
+          sx={{ overflow: "auto", paddingTop: 0 }}
+        >
+          <Typography variant="h4">Groups I joined</Typography>
+        </Grid>
+
+        <Grid
+          xs={6}
+          container
+          justifyContent={"flex-end"}
+          paddingRight={5}
+          alignContent={"center"}
+        >
+          <Stack direction="row" spacing={4} paddingTop={"1rem"}>
+            <CreateGroup />
+          </Stack>
+        </Grid>
+
+        <Grid container sx={{ overflow: "auto" }}>
           <Stack direction="row" spacing={1}>
             {showList}
           </Stack>
         </Grid>
       </Grid>
 
-      <Backdrop
+      {/* <Backdrop
         onTransitionEnd={handleClose}
         transitionDuration={{ enter: 1000, exit: 100 }}
         unmountOnExit
@@ -141,10 +154,9 @@ export default function Groups() {
         onClick={handleClose}
       >
         <CircularProgress color="inherit" />
-      </Backdrop>
+      </Backdrop> */}
 
       <Grid container paddingLeft={5} paddingTop={5}>
-        
         <Grid
           xs={6}
           container
