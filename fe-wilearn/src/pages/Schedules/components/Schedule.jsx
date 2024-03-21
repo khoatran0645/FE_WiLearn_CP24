@@ -61,38 +61,14 @@ function Schedule() {
 
   return (
     <Grid>
-      <Grid container paddingLeft={5}>
-        <Grid item>
-        <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-          Schedule
-        </Typography>
-        </Grid>
-        <CreateEvent addNewEvent={addNewEvent} />
-      </Grid>
-      
-      <Grid height={700}>
-        <Box style={{ height: 600 }}>
-          <Calendar
-            localizer={localizer}
-            events={events}
-            startAccessor="start"
-            endAccessor="end"
-            style={{ margin: "50px" }}
-            components={{
-              event: EventComponent,
-            }}
-          />
-        </Box>
-      </Grid>
-
-      <Grid container>
+      <Grid container paddingTop={2}>
         <Grid xs={6} item justifyContent={"flex-start"}>
-          <Typography variant="h4">
+          <Typography variant="h4" sx={{fontWeight: "bold"}}>
             Meetings
           </Typography>
         </Grid>
         <Grid xs={6} item >
-          <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={5}>
+          <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
             <PlanningButton />
             <MeetingNowButton />
           </Stack>
@@ -100,7 +76,7 @@ function Schedule() {
       </Grid>
 
       <Grid
-        xs={10}
+        xs={12}
         container
         justifyContent={"flex-start"}
         sx={{ overflow: "auto" }}
@@ -114,10 +90,10 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                    Meeting name
+                    Meeting Kteam
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Content: on tap kiem tra Ly
+                    Content: Metaprogramming
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Expect: 29/02 10:34 - 11:19
@@ -139,10 +115,10 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                    Meeting name
+                   Java basic
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Content: on tap kiem tra Ly
+                    Content: Java basic for you
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Expect: 29/02 10:34 - 11:19
@@ -171,10 +147,10 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                    Meeting name
+                   Data Structures
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Content: on tap kiem tra Ly
+                    Content: Deep dive using C#
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Expect: 29/02 10:34 - 11:19
@@ -195,12 +171,94 @@ function Schedule() {
                 </CardContent>
               </CardActionArea>
             </Card>
+            <Card
+              key="4"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6">
+                    Meeting Kteam
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: Metaprogramming
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect: 29/02 10:34 - 11:19
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: 29/02 10:49
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Can join now
+                  </Typography>
+                  <JoinMeetingButton />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+            <Card
+              key="5"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6">
+                   Java basic
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: Java basic for you
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect: 29/02 10:34 - 11:19
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: 29/02 10:49
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Can start now
+                  </Typography>
+                  <Grid
+                    container
+                    justifyContent="center"
+                    sx={{ paddingTop: "1rem" }}
+                  >
+                    <StartMeetingButton />
+                    <UpdateMeetingButton />
+                  </Grid>
+                </CardContent>
+              </CardActionArea>
+            </Card>
           </Stack>
         </Grid>
       </Grid>
-      <Grid xs={11.5} paddingTop={3}>
+      <Grid xs={11.5} paddingTop={3} paddingBottom={2}>
         <HistoryMeeting />
       </Grid>
+      <Grid container paddingLeft={5}>
+        <Grid item>
+        <Typography variant="h4" sx={{ fontWeight: "bold"}}>
+          Schedule
+        </Typography>
+        </Grid>
+        <CreateEvent addNewEvent={addNewEvent} />
+      </Grid>
+      
+      <Grid height={700}>
+        <Box style={{ height: 600 }}>
+          <Calendar
+            localizer={localizer}
+            events={events}
+            startAccessor="start"
+            endAccessor="end"
+            style={{ margin: "50px" }}
+            components={{
+              event: EventComponent,
+            }}
+          />
+        </Box>
+      </Grid>
+
+      
     </Grid>
   );
 }
