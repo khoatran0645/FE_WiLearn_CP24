@@ -83,7 +83,7 @@ export default function GroupSettings() {
 
       <Grid item xs={5} paddingLeft={2}>
         <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-          <Typography variant="body1" marginBottom={1}>Avatar group</Typography>
+          <Typography variant="body1" marginBottom={1}>Image group</Typography>
           <Avatar
             style={{ width: '150px', height: '150px', borderRadius: 0 }}
             src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
@@ -114,7 +114,7 @@ export default function GroupSettings() {
           {selectedFile ? (
             <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
           ) : (
-            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
+            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local image.</Typography>
           )}
         </Box>
       </Grid>

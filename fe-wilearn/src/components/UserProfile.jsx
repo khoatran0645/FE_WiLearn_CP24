@@ -1,13 +1,12 @@
+import {useState} from 'react';
 import {
   Grid,
   Typography,
-  Card,
-  CardHeader,
-  CardContent,
   Stack,
   Button,
   Avatar,
   Box,
+  Input,
 } from "@mui/material";
 import {
   FormContainer,
@@ -19,11 +18,18 @@ import {
 import dayjs from "dayjs";
 
 export default function UserProfile() {
+  const [selectedFile, setSelectedFile] = useState(null);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+  };
+
   return (
     <Grid
       container
       direction={"row"}
-      paddingLeft={10}
+      paddingLeft={25}
       columnSpacing={{ xs: 1, sm: 2, md: 3 }}
     >
       <Grid item xs={12}>
@@ -34,38 +40,6 @@ export default function UserProfile() {
           Profile
         </Typography>
       </Grid>
-
-      <Grid item xs={2}>
-        <Card>
-          <Grid
-            container
-            direction={"column"}
-            display="flex"
-            justifyContent="center"
-            alignItems="center"
-            p={2}
-          >
-            <Grid item>
-              <Avatar sx={{ width: 100, height: 100 }}>TL</Avatar>
-            </Grid>
-            <Grid item>
-              <Typography variant="h5">Thuy Linh</Typography>
-            </Grid>
-          </Grid>
-
-          <CardContent justifyContent="center" p={2}>
-            <Typography variant="h6" color="text.secondary">
-              Bio
-            </Typography>
-            <Typography variant="body1" color="text.secondary">
-              Thuy Linh is a Junior Web Developer for FPT Software. She&apos;s
-              an accomplished programmer and enjoys using her skills to
-              contribute to the exciting work of FPT Software.
-            </Typography>
-          </CardContent>
-        </Card>
-      </Grid>
-
       <Grid item xs={3}>
         <Typography variant="h5" textAlign={"left"}>
           Change password
@@ -134,6 +108,43 @@ export default function UserProfile() {
             <Button type="submit">Submit</Button>
           </Stack>
         </FormContainer>
+      </Grid>
+      <Grid item xs={5} paddingLeft={2}>
+        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+          <Typography variant="body1" marginBottom={1}>Avatar</Typography>
+          <Avatar
+            style={{ width: '150px', height: '150px' }}
+            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+          />
+          <Input
+            accept="image/*"
+            type="file"
+            id="avatar-upload"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="avatar-upload">
+            <Button
+              variant="contained"
+              component="span"
+              style={{
+                marginTop: '16px',
+                padding: '2px 5px',
+                backgroundColor: 'transparent',
+                color: '#000',
+                border: '1px solid #000',
+                fontSize: '12px',
+              }}
+            >
+              Choose File
+            </Button>
+          </label>
+          {selectedFile ? (
+            <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
+          ) : (
+            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
+          )}
+        </Box>
       </Grid>
     </Grid>
   );
