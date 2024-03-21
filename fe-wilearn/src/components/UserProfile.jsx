@@ -1,4 +1,4 @@
-import {useState} from 'react';
+import { useState } from 'react';
 import {
   Grid,
   Typography,
@@ -87,6 +87,7 @@ export default function UserProfile() {
             full_name: "Thuy Linh",
             phone_number: "0123456789",
             birth_date: dayjs(),
+            email: "linhbt@gmail.com",
           }}
           onSuccess={(data) => console.log(data)}
         >
@@ -103,7 +104,12 @@ export default function UserProfile() {
               required
               margin="dense"
             />
-
+            <TextFieldElement
+              name="email"
+              label="Email"
+              required
+              margin="dense"
+            />
             <DatePickerElement label="Birth date" name="birth_date" required />
             <Button type="submit">Submit</Button>
           </Stack>
