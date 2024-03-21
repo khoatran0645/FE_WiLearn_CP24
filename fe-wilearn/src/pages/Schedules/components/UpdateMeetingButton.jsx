@@ -130,7 +130,7 @@ export default function UpdateMeetingButton() {
           </Box>
           <Button color="success" onClick={handleCreateMeeting}>Update</Button>
           <Button onClick={handleDeleteMeeting} color="error">Delete</Button>
-          <Button onClick={handleClose}>Close</Button>
+          <Button sx={{marginLeft: '100px'}} onClick={handleClose}>Close</Button>
         </Box>
       </Modal>
     </>
