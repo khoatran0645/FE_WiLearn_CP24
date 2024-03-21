@@ -1,6 +1,5 @@
-import PropTypes from 'prop-types';
-import Button from '@mui/material/Button';
-import Grid from '@mui/material/Grid';
+import PropTypes from "prop-types";
+import { Button, Grid } from "@mui/material";
 
 function ButtonSignin({ onClick }) {
   return (
@@ -9,10 +8,10 @@ function ButtonSignin({ onClick }) {
         color="inherit"
         sx={{
           backgroundImage: "linear-gradient(to right, #00b4db, #0083b0)",
-          color: '#fff',
-          borderRadius: '5px',
-          padding: '8px 10px',
-          '&:hover': {
+          color: "#fff",
+          borderRadius: "5px",
+          padding: "8px 10px",
+          "&:hover": {
             backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
           },
         }}

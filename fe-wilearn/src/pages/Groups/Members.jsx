@@ -10,7 +10,7 @@ import { CardActionArea } from "@mui/material";
 // import { useNavigate } from "react-router-dom";
 import InviteUser from "../../components/InviteUser";
 // import UpdateGroup from "./UpdateGroup";
-import PlanningButton from "./PlanningButton";
+import PlanningButton from "../Schedules/components/PlanningButton";
 import MeetingNowButton from "../Meeting/MeetingNowButton";
 import RequestJoin from "./RequestJoin";
 import JoinMeetingButton from "../Meeting/JoinMeetingButton";
@@ -143,7 +143,7 @@ export default function MemberList() {
         sx={{ width: 100, height: 100, marginTop: 2 }}
       />
       <CardContent>
-        <Typography gutterBottom variant="h5">
+        <Typography gutterBottom variant="h6">
           {user.name}
         </Typography>
       </CardContent>
@@ -189,7 +189,7 @@ export default function MemberList() {
       </Grid> */}
 
 
-      <Grid xs={10}>
+      <Grid xs={12}>
         <Card
           sx={{
             display: "flex",
@@ -202,7 +202,7 @@ export default function MemberList() {
         </Card>
       </Grid>
 
-      <Grid xs={12} paddingTop={2}>
+      {/* <Grid xs={12} paddingTop={2}>
         <Typography variant="h4" textAlign={"left"}>
           Meetings
         </Typography>
@@ -213,8 +213,10 @@ export default function MemberList() {
           <PlanningButton />
           <MeetingNowButton />
         </Stack>
-      </Grid>
-      <Grid
+      </Grid> */}
+
+
+      {/* <Grid
         xs={10}
         container
         justifyContent={"flex-start"}
@@ -315,7 +317,7 @@ export default function MemberList() {
       </Grid>
       <Grid xs={11.5} paddingTop={3}>
         <HistoryMeeting />
-      </Grid>
+      </Grid> */}
     </Grid>
   );
 }

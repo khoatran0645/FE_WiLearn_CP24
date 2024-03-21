@@ -1,21 +1,24 @@
 import * as React from "react";
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
-import Typography from "@mui/material/Typography";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import Tooltip from "@mui/material/Tooltip";
+import {
+  Menu,
+  MenuItem,
+  Typography,
+  Avatar,
+  IconButton,
+  Tooltip,
+  Paper,
+  ListItemIcon,
+} from "@mui/material";
+
+import AccountBoxIcon from "@mui/icons-material/AccountBox";
+import DashboardIcon from "@mui/icons-material/Dashboard";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { NavLink } from "react-router-dom";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import Paper from "@mui/material/Paper";
-import AccountBoxIcon from '@mui/icons-material/AccountBox';
-import LogoutIcon from '@mui/icons-material/Logout';
-import DashboardIcon from '@mui/icons-material/Dashboard';
 const settings = [
   {
     name: "Profile",
     link: "/home/usersettings",
-    icon: <AccountBoxIcon  />,
+    icon: <AccountBoxIcon />,
   },
   {
     name: "Dashboard",
@@ -78,7 +81,9 @@ export default function AvatarUser() {
               >
                 <ListItemIcon>
                   {setting.icon}
-                  <Typography textAlign="center" paddingLeft={2}>{setting.name}</Typography>
+                  <Typography textAlign="center" paddingLeft={2}>
+                    {setting.name}
+                  </Typography>
                 </ListItemIcon>
               </NavLink>
             </MenuItem>
