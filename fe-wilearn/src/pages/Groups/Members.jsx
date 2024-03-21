@@ -1,23 +1,18 @@
-import Avatar from "@mui/material/Avatar";
-import Typography from "@mui/material/Typography";
-import Card from "@mui/material/Card";
-import CardContent from "@mui/material/CardContent";
-import CardActions from "@mui/material/CardActions";
-import Grid from "@mui/material/Grid";
-import Container from "@mui/material/Container";
-import Stack from "@mui/material/Stack";
-import { CardActionArea } from "@mui/material";
-// import { useNavigate } from "react-router-dom";
+import {
+  Avatar,
+  Typography,
+  Card,
+  CardContent,
+  CardActions,
+  Grid,
+  Container,
+  Stack,
+} from "@mui/material";
+
 import InviteUser from "../../components/InviteUser";
 // import UpdateGroup from "./UpdateGroup";
-import PlanningButton from "../Schedules/components/PlanningButton";
-import MeetingNowButton from "../Meeting/MeetingNowButton";
 import RequestJoin from "./RequestJoin";
-import JoinMeetingButton from "../Meeting/JoinMeetingButton";
-import StartMeetingButton from "../Meeting/StartMeetingButton";
-import UpdateMeetingButton from "../Meeting/UpdateMeetingButton";
 import UserMoreInfo from "../../components/UserMoreInfo";
-import HistoryMeeting from "../Meeting/HistoryMeeting";
 
 export default function MemberList() {
   const userList = [
@@ -163,7 +158,7 @@ export default function MemberList() {
   // };
 
   return (
-    <Grid container spacing={0} direction={"row"} >
+    <Grid container spacing={0} direction={"row"}>
       <Grid xs={6} justifyContent={"flex-start"}>
         <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
           Members
@@ -187,7 +182,6 @@ export default function MemberList() {
           <InviteUser />
         </Stack>
       </Grid> */}
-
 
       <Grid xs={12}>
         <Card
@@ -214,7 +208,6 @@ export default function MemberList() {
           <MeetingNowButton />
         </Stack>
       </Grid> */}
-
 
       {/* <Grid
         xs={10}

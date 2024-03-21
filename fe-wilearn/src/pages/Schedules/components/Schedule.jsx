@@ -6,7 +6,7 @@ import {
   Stack,
   Card,
   CardActionArea,
-  CardContent
+  CardContent,
 } from "@mui/material";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -15,10 +15,10 @@ import CreateEvent from "./CreateEvent";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import JoinMeetingButton from "../../Meeting/JoinMeetingButton";
 import StartMeetingButton from "../../Meeting/StartMeetingButton";
-import UpdateMeetingButton from "../../Meeting/UpdateMeetingButton";
+import UpdateMeetingButton from "./UpdateMeetingButton";
 import HistoryMeeting from "../../Meeting/HistoryMeeting";
-import PlanningButton from "../components/PlanningButton";
-import MeetingNowButton from "../../Meeting/MeetingNowButton";
+import PlanningButton from "./PlanningButton";
+import MeetingNowButton from "./MeetingNowButton";
 
 const localizer = momentLocalizer(moment);
 

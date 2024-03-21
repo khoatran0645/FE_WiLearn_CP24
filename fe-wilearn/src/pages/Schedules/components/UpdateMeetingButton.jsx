@@ -1,14 +1,13 @@
-import { Box, Button, Grid, Modal, TextField, Typography } from '@mui/material'
-import {useState} from 'react'
-
+import { Box, Button, Grid, Modal, TextField, Typography } from "@mui/material";
+import { useState } from "react";
 
 export default function UpdateMeetingButton() {
   const [open, setOpen] = useState(false);
-  const [meetingName, setMeetingName] = useState('');
-  const [meetingContent, setMeetingContent] = useState('');
+  const [meetingName, setMeetingName] = useState("");
+  const [meetingContent, setMeetingContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
 
   const handleOpen = () => {
     setOpen(true);
@@ -19,7 +18,7 @@ export default function UpdateMeetingButton() {
   };
 
   const handleCreateMeeting = () => {
-    console.log('Submitted:', {
+    console.log("Submitted:", {
       meetingName,
       meetingContent,
       selectedDate,
@@ -29,19 +28,19 @@ export default function UpdateMeetingButton() {
   };
 
   return (
-      <>
+    <>
       <Button
-          variant="contained"
-          size="small"
-          sx={{ 
+        variant="contained"
+        size="small"
+        sx={{
+          backgroundColor: "#E6731e",
+          "&:hover": {
             backgroundColor: "#E6731e",
-            '&:hover': {
-              backgroundColor: "#E6731e"
-            },
-         }}
-          onClick={handleOpen}
-        >
-          Update
+          },
+        }}
+        onClick={handleOpen}
+      >
+        Update
       </Button>
       <Modal
         open={open}
@@ -49,26 +48,38 @@ export default function UpdateMeetingButton() {
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:'10px', textAlign:'center'}}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ marginBottom: "10px", textAlign: "center" }}
+          >
             Update meeting
           </Typography>
-          <Box sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
+          <Box
+            sx={{
+              marginTop: "1rem",
+              "& > :not(style)": { marginBottom: "1rem" },
+            }}
+          >
             <TextField
               label="Meeting name"
               fullWidth
               value={meetingName}
               onChange={(e) => setMeetingName(e.target.value)}
-            />          
+            />
             <TextField
               label="Content"
               fullWidth
@@ -110,12 +121,12 @@ export default function UpdateMeetingButton() {
                   }}
                 />
               </Grid>
-            </Grid>         
+            </Grid>
           </Box>
-          <Button onClick={handleCreateMeeting}>Create</Button>
+          <Button color="success" onClick={handleCreateMeeting}>Update</Button>
           <Button onClick={handleClose}>Close</Button>
         </Box>
       </Modal>
-      </>
-  )
+    </>
+  );
 }
