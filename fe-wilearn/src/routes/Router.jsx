@@ -17,8 +17,8 @@ import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
 import GroupSettings from "../components/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
-import UserProfile from './../components/UserProfile';
-import SearchPage from './../pages/SearchGr/components/SearchPage';
+import UserProfile from "./../components/UserProfile";
+import SearchPage from "./../pages/SearchGr/components/SearchPage";
 
 export default function Router() {
   const routes = useRoutes([
@@ -77,7 +77,7 @@ export default function Router() {
               path: "statistics",
               element: (
                 <>
-                  <h1>Temporary page</h1>
+                  
                   <Statistics />
                 </>
               ),
@@ -86,7 +86,7 @@ export default function Router() {
               path: "schedules",
               element: (
                 <>
-                  <h1>Temporary page</h1>
+                  
                   <Schedule />
                 </>
               ),
@@ -97,7 +97,7 @@ export default function Router() {
             },
             {
               path: "searchgroup",
-              element: <SearchPage />
+              element: <SearchPage />,
             },
             {
               path: "groups/:id",
@@ -122,7 +122,14 @@ export default function Router() {
                 },
                 {
                   path: "schedules",
-                  element: <Schedule />,
+                  element: <EmptyLayout />,
+                  children: [
+                    { path: "", index: true, element: <Schedule /> },
+                    {
+                      path: "meetings/:meetingId",
+                      element: <MeetingPage />,
+                    },
+                  ],
                 },
                 {
                   path: "docs",
@@ -140,10 +147,6 @@ export default function Router() {
                 //   path: "meetings",
                 //   element: <h1>Meetings list page with big calender</h1>,
                 // },
-                {
-                  path: "meetings/:meetingId",
-                  element: <MeetingPage />,
-                },
                 {
                   path: "meetings/:meetingId",
                   element: <MeetingPage />,

@@ -2,7 +2,6 @@ import { useState } from "react";
 import {
   Grid,
   Typography,
-  Button,
   styled,
   List,
   ListItem,
@@ -15,20 +14,15 @@ import {
   Paper,
   Box,
   Tab,
-  Tabs,
-  Card,
-  Divider,
+
 } from "@mui/material";
 
 import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import DeleteIcon from "@mui/icons-material/Delete";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CheckIcon from "@mui/icons-material/Check";
-import CloseIcon from "@mui/icons-material/Close";
 import BlockIcon from "@mui/icons-material/Block";
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
@@ -59,7 +53,7 @@ export default function StudyDocs() {
 
   const [value, setValue] = useState("1");
 
-  const isAdmin = true;
+  const isLeader = true;
 
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -101,49 +95,6 @@ export default function StudyDocs() {
           </ListItemAvatar>
           <ListItemText primary={file.name} secondary="alternate content" />
 
-          <ListItemIcon>
-            <IconButton
-              aria-label="deny"
-              color="error"
-              onClick={() => {
-                console.log("deny");
-              }}
-            >
-              <BlockIcon fontSize="large" />
-            </IconButton>
-          </ListItemIcon>
-          <ListItemIcon>
-            <IconButton
-              aria-label="accept"
-              color="success"
-              onClick={() => {
-                console.log("accept");
-              }}
-            >
-              <CheckIcon fontSize="large" />
-            </IconButton>
-          </ListItemIcon>
-        </ListItemButton>
-      </ListItem>
-    </Paper>
-  ));
-
-  const showcheckList = checkList.map((file) => (
-    <Paper elevation={0} key={file.name}>
-      <ListItem>
-        <ListItemButton
-          divider
-          onClick={() => {
-            console.log("open");
-          }}
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <InsertDriveFileIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={file.name} secondary="alternate content" />
-
           {/* <ListItemIcon>
             <IconButton
               aria-label="deny"
@@ -166,6 +117,49 @@ export default function StudyDocs() {
               <CheckIcon fontSize="large" />
             </IconButton>
           </ListItemIcon> */}
+        </ListItemButton>
+      </ListItem>
+    </Paper>
+  ));
+
+  const showcheckList = checkList.map((file) => (
+    <Paper elevation={0} key={file.name}>
+      <ListItem>
+        <ListItemButton
+          divider
+          onClick={() => {
+            console.log("open");
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar>
+              <InsertDriveFileIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={file.name} secondary="alternate content" />
+
+          <ListItemIcon>
+            <IconButton
+              aria-label="deny"
+              color="error"
+              onClick={() => {
+                console.log("deny");
+              }}
+            >
+              <BlockIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon>
+          <ListItemIcon>
+            <IconButton
+              aria-label="accept"
+              color="success"
+              onClick={() => {
+                console.log("accept");
+              }}
+            >
+              <CheckIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon>
         </ListItemButton>
       </ListItem>
     </Paper>
@@ -239,7 +233,7 @@ export default function StudyDocs() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved" value="1" />
-                {isAdmin && <Tab label="Pending" value="2" />}
+                {isLeader && <Tab label="Pending" value="2" />}
               </TabList>
             </Box>
             <TabPanel value="1">
