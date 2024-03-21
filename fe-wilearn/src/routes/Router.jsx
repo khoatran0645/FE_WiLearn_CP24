@@ -74,12 +74,30 @@ export default function Router() {
               element: <Groups />,
             },
             {
+              path: "statistics",
+              element: (
+                <>
+                  <h1>Temporary page</h1>
+                  <Statistics />
+                </>
+              ),
+            },
+            {
+              path: "schedules",
+              element: (
+                <>
+                  <h1>Temporary page</h1>
+                  <Schedule />
+                </>
+              ),
+            },
+            {
               path: "usersettings",
               element: <UserProfile />,
             },
             {
               path: "searchgroup",
-              element: <SearchPage/>
+              element: <SearchPage />
             },
             {
               path: "groups/:id",
@@ -118,10 +136,10 @@ export default function Router() {
                   path: "groupsettings",
                   element: <GroupSettings />,
                 },
-                {
-                  path: "meetings",
-                  element: <h1>Meetings list page with big calender</h1>,
-                },
+                // {
+                //   path: "meetings",
+                //   element: <h1>Meetings list page with big calender</h1>,
+                // },
                 {
                   path: "meetings/:meetingId",
                   element: <MeetingPage />,
