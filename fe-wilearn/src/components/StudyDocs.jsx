@@ -29,6 +29,7 @@ import DeleteIcon from "@mui/icons-material/Delete";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CheckIcon from "@mui/icons-material/Check";
 import CloseIcon from "@mui/icons-material/Close";
+import BlockIcon from "@mui/icons-material/Block";
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const VisuallyHiddenInput = styled("input")({
@@ -58,6 +59,8 @@ export default function StudyDocs() {
 
   const [value, setValue] = useState("1");
 
+  const isAdmin = true;
+
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
@@ -76,29 +79,95 @@ export default function StudyDocs() {
     { name: "file11.pdf" },
   ];
 
-
+  const checkList = [
+    { name: "file1.pdf" },
+    { name: "file2.pdf" },
+    { name: "file3.pdf" },
+  ];
 
   const approvedList = approvedFile.map((file) => (
     <Paper elevation={0} key={file.name}>
       <ListItem>
-        <ListItemAvatar>
-          <Avatar>
-            <InsertDriveFileIcon />
-          </Avatar>
-        </ListItemAvatar>
-        <ListItemText primary={file.name} secondary="alternate content" />
-        <ListItemIcon>
-          <IconButton aria-label="delete" color="error">
-            <CloseIcon />
-          </IconButton>
-        </ListItemIcon>
-        <ListItemIcon>
-          <IconButton aria-label="delete" color="success">
-            <CheckIcon />
-          </IconButton>
-        </ListItemIcon>
+        <ListItemButton
+          divider
+          onClick={() => {
+            console.log("open");
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar>
+              <InsertDriveFileIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={file.name} secondary="alternate content" />
+
+          <ListItemIcon>
+            <IconButton
+              aria-label="deny"
+              color="error"
+              onClick={() => {
+                console.log("deny");
+              }}
+            >
+              <BlockIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon>
+          <ListItemIcon>
+            <IconButton
+              aria-label="accept"
+              color="success"
+              onClick={() => {
+                console.log("accept");
+              }}
+            >
+              <CheckIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon>
+        </ListItemButton>
       </ListItem>
-      <Divider component="li" />
+    </Paper>
+  ));
+
+  const showcheckList = checkList.map((file) => (
+    <Paper elevation={0} key={file.name}>
+      <ListItem>
+        <ListItemButton
+          divider
+          onClick={() => {
+            console.log("open");
+          }}
+        >
+          <ListItemAvatar>
+            <Avatar>
+              <InsertDriveFileIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={file.name} secondary="alternate content" />
+
+          {/* <ListItemIcon>
+            <IconButton
+              aria-label="deny"
+              color="error"
+              onClick={() => {
+                console.log("deny");
+              }}
+            >
+              <BlockIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon>
+          <ListItemIcon>
+            <IconButton
+              aria-label="accept"
+              color="success"
+              onClick={() => {
+                console.log("accept");
+              }}
+            >
+              <CheckIcon fontSize="large" />
+            </IconButton>
+          </ListItemIcon> */}
+        </ListItemButton>
+      </ListItem>
     </Paper>
   ));
 
@@ -170,7 +239,7 @@ export default function StudyDocs() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved" value="1" />
-                <Tab label="Not yet approve" value="2" />
+                {isAdmin && <Tab label="Not yet approve" value="2" />}
               </TabList>
             </Box>
             <TabPanel value="1">
@@ -180,7 +249,7 @@ export default function StudyDocs() {
             </TabPanel>
             <TabPanel value="2">
               <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                <List overflow="auto">{approvedList}</List>
+                <List overflow="auto">{showcheckList}</List>
               </Paper>
             </TabPanel>
           </TabContext>
