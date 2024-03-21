@@ -38,9 +38,9 @@ export default function DeleteMemButton() {
             </DialogContentText>
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose}>Disagree</Button>
-            <Button onClick={handleClose} autoFocus>
-              Agree
+            <Button onClick={handleClose}>Cancle</Button>
+            <Button onClick={handleClose} autoFocus variant="contained" color="error">
+              Confirm
             </Button>
           </DialogActions>
         </Dialog>
