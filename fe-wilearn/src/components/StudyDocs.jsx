@@ -1,22 +1,24 @@
 import { useState } from "react";
-import Grid from "@mui/material/Grid";
-import Typography from "@mui/material/Typography";
-import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import CloudUploadIcon from "@mui/icons-material/CloudUpload";
-import { styled } from "@mui/material/styles";
-import Stack from "@mui/material/Stack";
-import List from "@mui/material/List";
-import FolderIcon from "@mui/icons-material/Folder";
-import DeleteIcon from "@mui/icons-material/Delete";
-import ListItem from "@mui/material/ListItem";
-import ListItemAvatar from "@mui/material/ListItemAvatar";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
-import Avatar from "@mui/material/Avatar";
-import IconButton from "@mui/material/IconButton";
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
-import Paper from "@mui/material/Paper";
+import {
+  Grid,
+  Typography,
+  Button,
+  styled,
+  List,
+  ListItem,
+  ListItemAvatar,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  IconButton,
+  Paper,
+} from "@mui/material";
+
+import {
+  CloudUploadIcon,
+  DeleteIcon,
+  InsertDriveFileIcon,
+} from "@mui/icons-material/CloudUpload";
 
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 const VisuallyHiddenInput = styled("input")({
