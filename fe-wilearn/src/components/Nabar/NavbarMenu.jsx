@@ -11,8 +11,10 @@ import DropdownMenu from './DropdownMenu';
 
 const pageRoutes = [
   { label: 'Home', path: '/home' },
-  { label: 'Contact', path: '/contact' },
-  { label: 'About', path: '/about' },
+  // { label: 'Contact', path: '/contact' },
+  // { label: 'About', path: '/about' },
+  { label: 'Schedule', path: 'home/schedules' },
+  { label: 'Stat', path: 'home/statistics' },
 ];
 
 export default function NavbarMenu() {
