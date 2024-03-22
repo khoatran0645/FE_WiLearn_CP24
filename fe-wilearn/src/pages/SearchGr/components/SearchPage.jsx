@@ -64,7 +64,7 @@ export default function SearchPage() {
       <Grid container justifyContent="center" alignItems="center">      
         <Grid item xs={12} sm={4}>
         <TextField
-        placeholder="Type for search"
+        placeholder="Type to search"
         variant="outlined"
         size="small"
         sx={{ width: '500px' }}

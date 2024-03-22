@@ -18,6 +18,7 @@ import UploadFileIcon from "@mui/icons-material/UploadFile";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
+import { Avatar, Grid, Typography } from "@mui/material";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
@@ -37,8 +38,19 @@ export default function ClippedDrawer() {
         anchor="left"
       >
         <Toolbar />
-
+      
         <List>
+          <ListItem>
+            <Grid container alignItems="center" spacing={2}>
+              <Grid item>
+                <Avatar alt="Group Avatar" src="/path/to/group-avatar.jpg" />
+              </Grid>
+              <Grid item>
+                <Typography variant="body1">Nhóm 1</Typography>
+              </Grid>
+            </Grid>
+          </ListItem>
+
           <ListItem>
             <NavLink
               to=""

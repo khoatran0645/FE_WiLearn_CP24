@@ -150,7 +150,7 @@ export default function MemberList() {
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', paddingBottom: '10px' }}>
             <UserMoreInfo
               fullname={user.name}
-              email={user.email}
+              email={user.name}
               phone={user.phone}
             />
           </Box>

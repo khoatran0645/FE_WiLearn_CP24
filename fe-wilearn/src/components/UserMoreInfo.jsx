@@ -1,4 +1,4 @@
-import { useId, useState } from "react";
+import { useState } from "react";
 import {
   Button,
   Dialog,
@@ -37,7 +37,7 @@ export default function UserMoreInfo(props) {
           />
           <TextField
             label="Email"
-            defaultValue={props.fullname + "_" + useId() + "@gmail.com"}
+            defaultValue={props.fullname+ "@gmail.com"}
             fullWidth
             InputProps={{
               readOnly: true,

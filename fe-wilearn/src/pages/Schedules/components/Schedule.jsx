@@ -11,19 +11,18 @@ import {
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
-import CreateEvent from "./CreateEvent";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
 import JoinMeetingButton from "../../Meeting/JoinMeetingButton";
 import StartMeetingButton from "../../Meeting/StartMeetingButton";
 import UpdateMeetingButton from "./UpdateMeetingButton";
 import HistoryMeeting from "../../Meeting/HistoryMeeting";
-import PlanningButton from "./PlanningButton";
 import MeetingNowButton from "./MeetingNowButton";
+import CreateSchedule from "./CreateSchedule";
 
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
-  const [events, setEvents] = useState([
+  const [schedule, setSchedule] = useState([
     {
       id: 1,
       title: "Math class",
@@ -55,21 +54,21 @@ function Schedule() {
     );
   };
 
-  const addNewEvent = (newEvent) => {
-    setEvents([...events, newEvent]);
-  };
+  // const addNewSchedule = (newSchedule) => {
+  //   setSchedule([...schedule, newSchedule]);
+  // };
 
   return (
     <Grid>
       <Grid container paddingTop={2}>
         <Grid xs={6} item justifyContent={"flex-start"}>
-          <Typography variant="h4" sx={{fontWeight: "bold"}}>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Meetings
           </Typography>
         </Grid>
-        <Grid xs={6} item >
+        <Grid xs={6} item>
           <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
-            
+
             <MeetingNowButton />
           </Stack>
         </Grid>
@@ -115,7 +114,7 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                   Java basic
+                    Java basic
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Content: Java basic for you
@@ -147,7 +146,7 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                   Data Structures
+                    Data Structures
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Content: Deep dive using C#
@@ -203,7 +202,7 @@ function Schedule() {
               <CardActionArea>
                 <CardContent sx={{ textAlign: "left" }}>
                   <Typography gutterBottom variant="h6">
-                   Java basic
+                    Java basic
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Content: Java basic for you
@@ -236,20 +235,20 @@ function Schedule() {
       </Grid>
       <Grid container paddingLeft={5}>
         <Grid item>
-        <Typography variant="h4" sx={{ fontWeight: "bold"}}>
-          Schedule
-        </Typography>
+          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+            Schedule
+          </Typography>
         </Grid>
-        <Grid sx={{marginLeft:"800px"}}>
-          <PlanningButton />
+        <Grid sx={{ marginLeft: "800px" }}>
+          <CreateSchedule />
         </Grid>
       </Grid>
-      
+
       <Grid height={700}>
         <Box style={{ height: 600 }}>
           <Calendar
             localizer={localizer}
-            events={events}
+            events={schedule}
             startAccessor="start"
             endAccessor="end"
             style={{ margin: "50px" }}
@@ -260,7 +259,7 @@ function Schedule() {
         </Box>
       </Grid>
 
-      
+
     </Grid>
   );
 }
