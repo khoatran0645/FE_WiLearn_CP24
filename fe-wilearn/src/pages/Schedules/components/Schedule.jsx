@@ -69,7 +69,7 @@ function Schedule() {
         </Grid>
         <Grid xs={6} item >
           <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
-            <PlanningButton />
+            
             <MeetingNowButton />
           </Stack>
         </Grid>
@@ -240,7 +240,9 @@ function Schedule() {
           Schedule
         </Typography>
         </Grid>
-        <CreateEvent addNewEvent={addNewEvent} />
+        <Grid sx={{marginLeft:"800px"}}>
+          <PlanningButton />
+        </Grid>
       </Grid>
       
       <Grid height={700}>

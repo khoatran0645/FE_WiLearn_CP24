@@ -40,7 +40,7 @@ export default function PlanningButton() {
   return (
     <>
       <Button variant="outlined" size="small" onClick={handleOpen}>
-        Planning
+        + Schedule meeting
       </Button>
       <Modal
         open={open}
