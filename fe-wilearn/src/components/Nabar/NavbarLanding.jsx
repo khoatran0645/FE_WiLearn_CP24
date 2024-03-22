@@ -13,7 +13,6 @@ const pageRoutes = [
   { label: "Home", path: "/landing" },
   { label: "Contact", path: "/contact" },
   { label: "About", path: "/about" },
-  { label: "Groups", path: "/home" },
 ];
 
 export default function NavbarLanding() {
