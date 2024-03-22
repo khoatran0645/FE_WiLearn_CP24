@@ -120,7 +120,7 @@ export default function ClippedDrawer() {
           </ListItem>
         </List>
 
-        <List style={{ position: "absolute", bottom: "0" }}>
+        {/* <List style={{ position: "absolute", bottom: "0" }}>
           <ListItem>
             <NavLink
               to="/home"
@@ -134,7 +134,7 @@ export default function ClippedDrawer() {
               </ListItemButton>
             </NavLink>
           </ListItem>
-        </List>
+        </List> */}
       </Drawer>
     </Box>
   );

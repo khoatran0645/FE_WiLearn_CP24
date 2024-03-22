@@ -53,9 +53,9 @@ export default function NavbarMenu() {
             ))}
             <DropdownMenu/>
           </Box>
-          <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
+          {/* <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
             <SearchBar/>
-          </Box>
+          </Box> */}
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AvatarUser />
             <Typography variant="body1" sx={{ ml: 1 }}>
