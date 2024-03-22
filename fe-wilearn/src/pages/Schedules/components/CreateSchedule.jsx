@@ -3,7 +3,7 @@ import { Button, Modal, Box, Typography, TextField, Tab, Tabs, Grid, Autocomplet
 
 const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
 
-export default function PlanningButton() {
+export default function CreateSchedule() {
   const [open, setOpen] = useState(false);
   const [meetingName, setMeetingName] = useState('');
   const [meetingContent, setMeetingContent] = useState('');
@@ -39,9 +39,18 @@ export default function PlanningButton() {
 
   return (
     <>
-      <Button variant="outlined" size="small" onClick={handleOpen}>
-        + Schedule meeting
-      </Button>
+      <Button
+          variant="contained"
+          sx={{
+            backgroundColor: "#4CAF50",
+            '&:hover': {
+              backgroundColor: "#4CAF50"
+            },
+         }}
+         onClick={handleOpen}
+        >
+          + Schedule
+        </Button>
       <Modal
         open={open}
         onClose={handleClose}
@@ -59,7 +68,7 @@ export default function PlanningButton() {
           p: 4,
         }}>
           <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:'10px', textAlign:'center'}}>
-            Planning
+            Create schedule
           </Typography>
           <Tabs value={currentTab} onChange={handleTabChange} centered>
             <Tab label="Do not repeat" />
@@ -189,8 +198,8 @@ export default function PlanningButton() {
               />
             </Box>
           </Box>
-          <Button onClick={handleCreateMeeting}>Create</Button>
-          <Button onClick={handleClose}>Close</Button>
+          <Button onClick={handleCreateMeeting} color='success'>Create</Button>
+          <Button onClick={handleClose} color='inherit'>Close</Button>
         </Box>
       </Modal>
     </>
