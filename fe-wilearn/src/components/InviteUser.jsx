@@ -41,7 +41,7 @@ export default function InviteUser() {
             Cancel
           </Button>
           <Button onClick={handleSearchSubmit} color="primary">
-            Search
+            Invite
           </Button>
         </DialogActions>
       </Dialog>
