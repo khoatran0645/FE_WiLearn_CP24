@@ -14,6 +14,7 @@ import {
   Paper,
   Box,
   Tab,
+  Button,
 
 } from "@mui/material";
 
@@ -198,20 +199,7 @@ export default function StudyDocs() {
         </Grid>
 
         <Grid item xs={6}>
-          <Button
-            component="label"
-            variant="contained"
-            size="small"
-            startIcon={<CloudUploadIcon />}
-            onClick={handleUploadNewFile}
-          >
-            Share File
-            <VisuallyHiddenInput
-              type="file"
-              multiple
-              onChange={handleFileChange}
-            />
-          </Button>
+          
 
           <Grid item xs={12}>
             <Typography variant="h6">
@@ -248,6 +236,22 @@ export default function StudyDocs() {
             </TabPanel>
           </TabContext>
         </Box>
+      </Grid>
+      <Grid sx={{marginLeft: "400px"}}>
+      <Button
+            component="label"
+            variant="contained"
+            
+            // startIcon={<CloudUploadIcon />}
+            onClick={handleUploadNewFile}
+          >
+            Share File
+            <VisuallyHiddenInput
+              type="file"
+              multiple
+              onChange={handleFileChange}
+            />
+          </Button>
       </Grid>
     </Grid>
   );

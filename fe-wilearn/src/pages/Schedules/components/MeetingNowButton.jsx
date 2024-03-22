@@ -37,10 +37,10 @@ export default function MeetingNowButton() {
         maxWidth="xs"
         fullWidth
       >
-        <DialogTitle>Create room</DialogTitle>
+        <DialogTitle>Create meeting</DialogTitle>
         <DialogContent>
           <TextField
-            label="Room Name"
+            label="Meeting Name"
             fullWidth
             sx={{ marginTop: "10px" }}
             value={nameRoom}
