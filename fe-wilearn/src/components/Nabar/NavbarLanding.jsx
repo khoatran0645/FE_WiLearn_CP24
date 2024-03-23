@@ -28,17 +28,7 @@ export default function NavbarLanding() {
 
   return (
     <Box>
-      <CssBaseline />
-      <AppBar
-        position="static"
-        sx={{
-          borderBottom: '1px solid #ccc',
-          backgroundColor: "transparent",
-          color: "black",
-        }}
-      >
         <Container maxWidth="xl">
-          <Toolbar disableGutters>
             <img
               src="/src/assets/11276378.png"
               alt="Logo"
@@ -62,37 +52,18 @@ export default function NavbarLanding() {
             </Typography>
             <Box
               sx={{
-                flexGrow: 1,
-                display: { xs: "none", md: "flex", marginLeft: "400px" },
-              }}
-            >
-              {pageRoutes.map((page) => (
-                <Button
-                  key={page.label}
-                  component={Link}
-                  to={page.path}
-                  color="inherit"
-                  sx={{ fontSize: "inherit", mr: 2, my: 2, display: "block" }}
-                >
-                  {page.label}
-                </Button>
-              ))}
-            </Box>
-            <Box
-              sx={{
                 display: "flex",
                 alignItems: "center",
                 marginRight: "1rem",
               }}
+              justifyContent={"flex-end"}
             >
               <ButtonRegister onClick={handleRegister} />
             </Box>
             <Box sx={{ display: "flex", alignItems: "center" }}>
               <ButtonSignin onClick={handleSignIn} />
             </Box>
-          </Toolbar>
         </Container>
-      </AppBar>
     </Box>
   );
 }
