@@ -166,7 +166,11 @@ export default function MemberList() {
   return (
     <Grid container direction={"row"}>
       <Grid container paddingBottom={2}>
-        <Grid xs={6} justifyContent={"flex-start"}>
+        <Grid 
+          xs={6} 
+          justifyContent={"flex-start"}
+          item={true}
+        >
           <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
               Members
           </Typography>
@@ -183,6 +187,7 @@ export default function MemberList() {
         xs={6}
         sx={{ textAlign: "right", paddingRight: 5 }}
         justifyContent={"flex-end"}
+        item={true}
       >
         {/* <UpdateGroup /> */}
         
