@@ -60,96 +60,106 @@ export default function Router() {
     {
       // use Main Layout, protected route
       path: "/",
-      element: <MainLayout />,
+      element: (
+        <MainLayout>
+          <HomePage/>
+        </MainLayout>
+        ),
       errorElement: <ErrorPage />,
       children: [
         {
-          path: "home",
-          element: <HomePage />,
+          path: "",
+          index: true,
+          element: <Groups />,
+        },
+        {
+          path:"home",
+          element:(
+            <>
+              <h1>Đổi thành trang hiện thông báo</h1>
+              <Groups/>
+            </>
+          )
+        },
+        {
+          path: "groups",
+          element: <Groups />,
+        },
+        {
+          path: "statistics",
+          element: (
+            <>
+              <Statistics />
+            </>
+          ),
+        },
+        {
+          path: "schedules",
+          element: (
+            <>
+              <Schedule />
+            </>
+          ),
+        },
+        {
+          path: "usersettings",
+          element: <UserProfile />,
+        },
+        {
+          path: "searchgroup",
+          element: <SearchPage />,
+        },
+        {
+          path: "groups/:id",
+          element: <GroupLayout />,
           errorElement: <ErrorPage />,
           children: [
             {
-              path: "",
               index: true,
-              element: <Groups />,
+              element: <Members />,
             },
             {
-              path: "statistics",
-              element: (
-                <>
-                  <Statistics />
-                </>
-              ),
+              path: "",
+              element: <Members />,
+            },
+            {
+              path: "discussions",
+              element: <Discussion />,
+            },
+            {
+              path: "discussionDetail",
+              element: <DiscussionDetail />,
             },
             {
               path: "schedules",
-              element: (
-                <>
-                  <Schedule />
-                </>
-              ),
-            },
-            {
-              path: "usersettings",
-              element: <UserProfile />,
-            },
-            {
-              path: "searchgroup",
-              element: <SearchPage />,
-            },
-            {
-              path: "groups/:id",
-              element: <GroupLayout />,
-              errorElement: <ErrorPage />,
+              element: <EmptyLayout />,
               children: [
-                {
-                  index: true,
-                  element: <Members />,
-                },
-                {
-                  path: "",
-                  element: <Members />,
-                },
-                {
-                  path: "discussions",
-                  element: <Discussion />,
-                },
-                {
-                  path: "discussionDetail",
-                  element: <DiscussionDetail />,
-                },
-                {
-                  path: "schedules",
-                  element: <EmptyLayout />,
-                  children: [
-                    { path: "", index: true, element: <Schedule /> },
-                    {
-                      path: "meetings/:meetingId",
-                      element: <MeetingPage />,
-                    },
-                  ],
-                },
-                {
-                  path: "docs",
-                  element: <StudyDocs />,
-                },
-                {
-                  path: "statistics",
-                  element: <Statistics />,
-                },
-                {
-                  path: "groupsettings",
-                  element: <GroupSettings />,
-                },
-                // {
-                //   path: "meetings",
-                //   element: <h1>Meetings list page with big calender</h1>,
-                // },
+                { path: "", index: true, element: <Schedule /> },
                 {
                   path: "meetings/:meetingId",
                   element: <MeetingPage />,
                 },
               ],
+            },
+            {
+              path: "docs",
+              element: <StudyDocs />,
+            },
+            {
+              path: "statistics",
+              element: <Statistics />,
+            },
+            {
+              path: "groupsettings",
+              element: <GroupSettings />,
+            },
+            // {
+            //   path: "meetings",
+            //   element: <h1>Meetings list page with big calender</h1>,
+            // },
+            {
+              path: "meetings/:meetingId",
+              element: <MeetingPage />,
             },
           ],
         },

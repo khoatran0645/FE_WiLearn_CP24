@@ -13,8 +13,8 @@ const pageRoutes = [
   { label: 'Home', path: '/home' },
   // { label: 'Contact', path: '/contact' },
   // { label: 'About', path: '/about' },
-  { label: 'Schedule', path: 'home/schedules' },
-  { label: 'Stat', path: 'home/statistics' },
+  { label: 'Schedule', path: 'schedules' },
+  { label: 'Stat', path: 'statistics' },
 ];
 
 export default function NavbarMenu() {
