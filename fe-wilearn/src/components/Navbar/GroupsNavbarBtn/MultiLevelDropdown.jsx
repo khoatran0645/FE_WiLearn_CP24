@@ -24,7 +24,7 @@ const MultiLevelDropdown = () => {
 
   const handleSubMenu1Close = () => {
     setSubMenu1AnchorEl(null);
-    handleClose();
+    // handleClose();
   };
 
   const handleSubMenu2Click = (event) => {
@@ -33,7 +33,7 @@ const MultiLevelDropdown = () => {
 
   const handleSubMenu2Close = () => {
     setSubMenu2AnchorEl(null);
-    handleClose();
+    // handleClose();
   };
 
   const ownGroups = [
@@ -72,6 +72,12 @@ const MultiLevelDropdown = () => {
             horizontal: 'left',
           }}
         >
+          <MenuItem 
+            component={Link}
+            to={`groups`}
+          >
+            All
+          </MenuItem>
           <MenuItem onClick={handleSubMenu1Click}>
             Manage
             <ListItemIcon>
@@ -103,7 +109,7 @@ const MultiLevelDropdown = () => {
             {ownGroups.map((group) => (
               <MenuItem
                 component={Link}
-                to={`home/groups/${group.id}`}
+                to={`groups/${group.id}`}
                 onClick={handleSubMenu1Close}
                 key={group.id}
               >
@@ -130,7 +136,7 @@ const MultiLevelDropdown = () => {
             {joinGroups.map((group) => (
               <MenuItem
                 component={Link}
-                to={`home/groups/${group.id}`}
+                to={`groups/${group.id}`}
                 onClick={handleSubMenu2Close}
                 key={group.id}
               >

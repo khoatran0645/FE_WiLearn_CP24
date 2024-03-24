@@ -94,7 +94,7 @@ export default function Groups() {
     <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
       <CardActionArea>
         <Link
-          to={`groups/${group.id}`}
+          to={`${group.id}`}
           state={{ group: group }}
           style={{ textDecoration: "none", color: "black" }}
         >
