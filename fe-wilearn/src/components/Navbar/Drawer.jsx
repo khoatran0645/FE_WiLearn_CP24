@@ -38,7 +38,7 @@ export default function ClippedDrawer() {
         anchor="left"
       >
         <Toolbar />
-      
+
         <List>
           <ListItem>
             <Grid container alignItems="center" spacing={2}>
@@ -53,8 +53,13 @@ export default function ClippedDrawer() {
 
           <ListItem>
             <NavLink
-              to=""
-              style={{ textDecoration: "none", color: "black" }}
+              to="members"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -68,7 +73,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="discussions"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -81,7 +91,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="schedules"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -94,7 +109,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="docs"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -107,7 +127,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="statistics"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -120,7 +145,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="groupsettings"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>

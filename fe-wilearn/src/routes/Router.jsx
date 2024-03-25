@@ -23,7 +23,7 @@ import SearchPage from "./../pages/SearchGr/components/SearchPage";
 export default function Router() {
   const routes = useRoutes([
     {
-      //start of the app, change to Landing page when done
+      //start of the app
       path: "/",
       index: true,
       element: <Navigate to="/landing" />,
@@ -32,8 +32,7 @@ export default function Router() {
     {
       //landing page
       path: "/",
-      element: <GuestLayout />,
-      errorElement: <ErrorPage />,
+      element: <EmptyLayout />,
       children: [
         {
           path: "landing",
@@ -59,67 +58,59 @@ export default function Router() {
     },
     {
       // use Main Layout, protected route
-      path: "/",
+      path: "",
       element: (
         <MainLayout>
-          <HomePage/>
+          <HomePage />
         </MainLayout>
-        ),
-      errorElement: <ErrorPage />,
+      ),
       children: [
         {
-          path: "",
+          path: "home",
           index: true,
-          element: <Groups />,
-        },
-        {
-          path:"home",
-          element:(
-            <>
-              <h1>Đổi thành trang hiện thông báo</h1>
-              <Groups/>
-            </>
-          )
+          element: <h1>Đổi thành trang hiện thông báo</h1>,
         },
         {
           path: "groups",
-          element: <Groups />,
+          element: <EmptyLayout />,
+          children: [
+            {
+              path: "",
+              index: true,
+              element: <Groups />,
+            },
+            {
+              path: "searchgroup",
+              element: <SearchPage />,
+            },
+          ],
         },
         {
           path: "statistics",
-          element: (
-            <>
-              <Statistics />
-            </>
-          ),
+          element: <Statistics />,
         },
         {
           path: "schedules",
-          element: (
-            <>
-              <Schedule />
-            </>
-          ),
+          element: <Schedule />,
         },
         {
           path: "usersettings",
           element: <UserProfile />,
         },
-        {
-          path: "searchgroup",
-          element: <SearchPage />,
-        },
+        // {
+        //   path: "searchgroup",
+        //   element: <SearchPage />,
+        // },
         {
           path: "groups/:id",
           element: <GroupLayout />,
-          errorElement: <ErrorPage />,
           children: [
             {
               index: true,
               element: <Members />,
             },
             {
-              path: "",
+              path: "members",
               element: <Members />,
             },
             {
@@ -153,10 +144,6 @@ export default function Router() {
               path: "groupsettings",
               element: <GroupSettings />,
             },
-            // {
-            //   path: "meetings",
-            //   element: <h1>Meetings list page with big calender</h1>,
-            // },
             {
               path: "meetings/:meetingId",
               element: <MeetingPage />,

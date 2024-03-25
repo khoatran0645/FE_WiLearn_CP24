@@ -1,8 +1,16 @@
-import React, { useState } from 'react';
-import { Box, Button, ListItemIcon, Menu, MenuItem, Popover, Typography } from '@mui/material';
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
-import { Link } from 'react-router-dom';
+import React, { useState } from "react";
+import {
+  Box,
+  Button,
+  ListItemIcon,
+  Menu,
+  MenuItem,
+  Popover,
+  Typography,
+} from "@mui/material";
+import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
+import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
+import { Link } from "react-router-dom";
 
 const MultiLevelDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -39,22 +47,22 @@ const MultiLevelDropdown = () => {
   const ownGroups = [
     { id: 1, name: "Nhóm 1" },
     { id: 2, name: "Nhóm 2" },
-  ]
+  ];
   const joinGroups = [
     { id: 3, name: "Nhóm 3" },
     { id: 4, name: "Nhóm 4" },
-  ]
+  ];
 
   return (
-    <Box sx={{ display: 'flex', alignItems: 'center' }}>
+    <Box sx={{ display: "flex", alignItems: "center" }}>
       <div>
         <Button
-          // onClick={handleClick} 
+          // onClick={handleClick}
           onMouseOver={handleClick}
           color="inherit"
           aria-controls="menu-groups"
           aria-haspopup="true"
-          sx={{ fontSize: 'inherit' }}
+          sx={{ fontSize: "inherit" }}
           endIcon={<KeyboardArrowDownIcon />}
         >
           Groups
@@ -64,18 +72,15 @@ const MultiLevelDropdown = () => {
           open={Boolean(anchorEl)}
           onClose={handleClose}
           anchorOrigin={{
-            vertical: 'bottom',
-            horizontal: 'left',
+            vertical: "bottom",
+            horizontal: "left",
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
+            vertical: "top",
+            horizontal: "left",
           }}
         >
-          <MenuItem 
-            component={Link}
-            to={`groups`}
-          >
+          <MenuItem component={Link} to={`groups`}>
             All
           </MenuItem>
           <MenuItem onClick={handleSubMenu1Click}>
@@ -97,12 +102,12 @@ const MultiLevelDropdown = () => {
           anchorEl={subMenu1AnchorEl}
           onClose={handleSubMenu1Close}
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
+            vertical: "top",
+            horizontal: "left",
           }}
         >
           <div>
@@ -124,12 +129,12 @@ const MultiLevelDropdown = () => {
           anchorEl={subMenu2AnchorEl}
           onClose={handleSubMenu2Close}
           anchorOrigin={{
-            vertical: 'top',
-            horizontal: 'right',
+            vertical: "top",
+            horizontal: "right",
           }}
           transformOrigin={{
-            vertical: 'top',
-            horizontal: 'left',
+            vertical: "top",
+            horizontal: "left",
           }}
         >
           <div>
@@ -145,8 +150,8 @@ const MultiLevelDropdown = () => {
             ))}
           </div>
         </Popover>
-      </div >
-    </Box >
+      </div>
+    </Box>
   );
 };
 
