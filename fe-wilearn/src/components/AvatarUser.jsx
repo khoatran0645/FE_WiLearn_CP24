@@ -17,7 +17,7 @@ import { NavLink } from "react-router-dom";
 const settings = [
   {
     name: "Profile",
-    link: "/home/usersettings",
+    link: "usersettings",
     icon: <AccountBoxIcon />,
   },
   {

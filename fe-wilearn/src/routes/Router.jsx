@@ -97,10 +97,6 @@ export default function Router() {
           path: "usersettings",
           element: <UserProfile />,
         },
-        // {
-        //   path: "searchgroup",
-        //   element: <SearchPage />,
-        // },
         {
           path: "groups/:id",
           element: <GroupLayout />,
