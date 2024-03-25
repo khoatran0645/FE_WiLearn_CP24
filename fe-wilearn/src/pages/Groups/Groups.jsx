@@ -16,7 +16,7 @@ import CreateGroup from "./CreateGroup";
 import Invitation from "../../components/Invitation";
 
 import { useState } from "react";
-import JoinNewGroup from "../../components/JoinNewGroup";
+import JoinNewGroup from "./JoinNewGroup";
 
 export default function Groups() {
   const groupcreatedList = [

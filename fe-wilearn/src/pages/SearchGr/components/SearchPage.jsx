@@ -1,7 +1,18 @@
-import { useState } from 'react';
-import { Button, Checkbox, FormControl, Grid, InputLabel, ListItemText, MenuItem, OutlinedInput, Select, TextField } from '@mui/material';
-import ListGroup from './ListGroup';
-import Paginate from './../../../components/Paginate';
+import { useState } from "react";
+import {
+  Button,
+  Checkbox,
+  FormControl,
+  Grid,
+  InputLabel,
+  ListItemText,
+  MenuItem,
+  OutlinedInput,
+  Select,
+  TextField,
+} from "@mui/material";
+import ListGroup from "./ListGroup";
+import Paginate from "./../../../components/Paginate";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -15,22 +26,22 @@ const MenuProps = {
 };
 
 const names = [
-  'Java',
-  'React',
-  'Python',
-  '.Net',
-  'Golang',
-  'Kotlin',
-  'Flutter',
-  'FullStack',
-  'Web',
-  'Mobile',
+  "Java",
+  "React",
+  "Python",
+  ".Net",
+  "Golang",
+  "Kotlin",
+  "Flutter",
+  "FullStack",
+  "Web",
+  "Mobile",
 ];
 
 export default function SearchPage() {
   const [subject, setSubject] = useState([]);
-  const [searchTerm, setSearchTerm] = useState('');
-  const [showListGroup, setShowListGroup] = useState(false); 
+  const [searchTerm, setSearchTerm] = useState("");
+  const [showListGroup, setShowListGroup] = useState(false);
   const [page, setPage] = useState(1);
 
   const handlePageChange = (pageNumber) => {
@@ -40,7 +51,7 @@ export default function SearchPage() {
 
   const handleChange = (event) => {
     const { value } = event.target;
-    if (value.includes('Select All')) {
+    if (value.includes("Select All")) {
       if (subject.length === names.length) {
         setSubject([]);
       } else {
@@ -61,19 +72,19 @@ export default function SearchPage() {
 
   return (
     <Grid>
-      <Grid container justifyContent="center" alignItems="center">      
+      <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={4}>
-        <TextField
-        placeholder="Type to search"
-        variant="outlined"
-        size="small"
-        sx={{ width: '500px' }}
-        value={searchTerm}
-        onChange={(e) => setSearchTerm(e.target.value)}
-        />
+          <TextField
+            placeholder="Type to search"
+            variant="outlined"
+            size="small"
+            sx={{ width: "500px" }}
+            value={searchTerm}
+            onChange={(e) => setSearchTerm(e.target.value)}
+          />
         </Grid>
         <Grid item xs={12} sm={1.5}>
-          <FormControl fullWidth size='small'>
+          <FormControl fullWidth size="small">
             <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
             <Select
               labelId="demo-multiple-checkbox-label"
@@ -82,7 +93,7 @@ export default function SearchPage() {
               value={subject}
               onChange={handleChange}
               input={<OutlinedInput label="Subject" />}
-              renderValue={(selected) => selected.join(', ')}
+              renderValue={(selected) => selected.join(", ")}
               MenuProps={MenuProps}
             >
               <MenuItem key="Select All" value="Select All">
@@ -99,21 +110,29 @@ export default function SearchPage() {
           </FormControl>
         </Grid>
         <Grid item xs={12} sm={1} paddingLeft={1}>
-          <Button variant="contained" fullWidth onClick={handleSearchClick} sx={{backgroundImage: 'linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)'}}>
+          <Button
+            variant="contained"
+            fullWidth
+            onClick={handleSearchClick}
+            sx={{
+              backgroundImage:
+                "linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)",
+            }}
+          >
             Search
           </Button>
-        </Grid>       
+        </Grid>
       </Grid>
       {showListGroup && (
         <Grid container justifyContent="center" alignItems="center">
           <Grid item xs={12} sm={8}>
-            <ListGroup/>
+            <ListGroup />
           </Grid>
         </Grid>
       )}
       {showListGroup && (
         <Grid container justifyContent="center" alignItems="center">
-            <Paginate count={10} page={page} onPageChange={handlePageChange} />
+          <Paginate count={10} page={page} onPageChange={handlePageChange} />
         </Grid>
       )}
     </Grid>
