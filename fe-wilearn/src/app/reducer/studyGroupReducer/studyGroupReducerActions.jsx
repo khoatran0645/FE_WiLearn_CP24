@@ -26,7 +26,7 @@ import {
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
-import axiosClient, * as client from "../../../services/axiosClient";
+import axiosClient from "../../../services/axiosClient";
 // import { API_GET_SUBJECT_LISTS } from "../../../constants";
 // import { useNavigate } from 'react-router-dom';
 // import * as RequestUtils from 'src/common/requestUtils';
@@ -72,7 +72,7 @@ export const getSubjectLists = createAsyncThunk(
 export const getMeetingList = createAsyncThunk(
   "studyGroup/getMeetingLists",
   async (_, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_MEETING_PARENT)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -83,7 +83,7 @@ export const createGroup = createAsyncThunk(
   "studyGroup/createGroup",
   async (values, { rejectWithValue }) => {
     const submitData = values;
-    return await client
+    return await axiosClient
       .post(API_CREATE_GROUP, submitData)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -93,7 +93,7 @@ export const createGroup = createAsyncThunk(
 export const getGroupLists = createAsyncThunk(
   "studyGroup/getGroupLists",
   async (_, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_GROUP_LEAD)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -103,7 +103,7 @@ export const getGroupLists = createAsyncThunk(
 export const searchStudent = createAsyncThunk(
   "studyGroup/searchStudent",
   async ({ search, groupId }, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(
         API_SEARCH_STUDENT.replace("{search}", search).replace(
           "{groupId}",
@@ -120,7 +120,7 @@ export const searchStudent = createAsyncThunk(
 export const inviteStudent = createAsyncThunk(
   "studyGroup/inviteStudent",
   async ({ studentId, groupId }, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .post(API_INVITE_STUDENT, {
         accountId: parseInt(studentId),
         groupId,
@@ -135,7 +135,7 @@ export const inviteStudent = createAsyncThunk(
 export const getStudentInvites = createAsyncThunk(
   "studyGroup/getStudentInvites",
   async (_, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_STUDENT_INVITES)
       .then((response) => {
         return response;
@@ -147,7 +147,7 @@ export const getStudentInvites = createAsyncThunk(
 export const acceptInvitation = createAsyncThunk(
   "studyGroup/acceptInvitation",
   async (inviteId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .put(API_ACCEPT_INVITATION.replace("{inviteId}", inviteId))
       .then((response) => {
         return response;
@@ -158,7 +158,7 @@ export const acceptInvitation = createAsyncThunk(
 export const getClassLists = createAsyncThunk(
   "studyGroup/getClassLists",
   async (_, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_LIST_CLASS)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -167,7 +167,7 @@ export const getClassLists = createAsyncThunk(
 export const declineInvitation = createAsyncThunk(
   "studyGroup/declineInvitation",
   async (inviteId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .put(API_DECLINE_INVITATION.replace("{inviteId}", inviteId))
       .then((response) => {
         return response;
@@ -179,7 +179,7 @@ export const declineInvitation = createAsyncThunk(
 export const getGroupMemberLists = createAsyncThunk(
   "studyGroup/getGroupMemberLists",
   async (_, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_GROUP_MEMBER)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -189,7 +189,7 @@ export const getGroupMemberLists = createAsyncThunk(
 export const getGroupInfo = createAsyncThunk(
   "studyGroup/getGroupInfo",
   async (groupId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_LEAD_GROUP_INFO.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => {
@@ -204,7 +204,7 @@ export const getGroupInfo = createAsyncThunk(
 export const getGroupInfoAsMember = createAsyncThunk(
   "studyGroup/getGroupInfo",
   async (groupId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_MEMBER_GROUP_INFO.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -214,7 +214,7 @@ export const getGroupInfoAsMember = createAsyncThunk(
 export const updateGroupInfo = createAsyncThunk(
   "studyGroup/updateGroupInfo",
   async (data, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .put(API_UPDATE_GROUP_INFO.replace("{groupId}", data.id), data)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -224,7 +224,7 @@ export const updateGroupInfo = createAsyncThunk(
 export const scheduleMeeting = createAsyncThunk(
   "studyGroup/scheduleMeeting",
   async (data, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .post(API_SCHEDULE_MEETING, data)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -234,7 +234,7 @@ export const scheduleMeeting = createAsyncThunk(
 export const searchGroups = createAsyncThunk(
   "studyGroup/searchGroups",
   async (keyword, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_SEARCH_GROUP.replace("{keyword}", keyword))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -248,7 +248,7 @@ export const meetingNow = createAsyncThunk(
       name: "Họp ngay",
       groupId: parseInt(groupId),
     };
-    return await client
+    return await axiosClient
       .post(API_MEETING_NOW, data)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -258,7 +258,7 @@ export const meetingNow = createAsyncThunk(
 export const requestJoinGroup = createAsyncThunk(
   "studyGroup/requestJoinGroup",
   async ({ groupId, studentId }, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .post(API_REQUEST_JOIN_GROUP, {
         groupId,
         accountId: studentId,
@@ -278,7 +278,7 @@ export const requestJoinGroup = createAsyncThunk(
 export const getRequestFormList = createAsyncThunk(
   "studyGroup/getRequestFormList",
   async (groupId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .get(API_GET_REQUEST_FORM_LIST.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -288,7 +288,7 @@ export const getRequestFormList = createAsyncThunk(
 export const acceptJoinGroup = createAsyncThunk(
   "studyGroup/acceptJoinGroup",
   async (requestId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .put(API_ACCEPT_JOIN_REQUEST.replace("{requestId}", requestId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
@@ -298,7 +298,7 @@ export const acceptJoinGroup = createAsyncThunk(
 export const declineJoinGroup = createAsyncThunk(
   "studyGroup/declineJoinGroup",
   async (requestId, { rejectWithValue }) => {
-    return await client
+    return await axiosClient
       .put(API_DECLINE_JOIN_REQUEST.replace("{requestId}", requestId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));

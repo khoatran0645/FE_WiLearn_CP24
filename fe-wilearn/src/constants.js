@@ -28,7 +28,7 @@ export const API_END_REVIEW = "/api/Reviews/End?meetingId={meetingId}";
 export const API_VOTE = "/api/Reviews/Vote";
 export const API_GET_LEAD_GROUP_INFO = "/api/Groups/Lead/{groupId}";
 export const API_GET_GROUP_MEMBER = "/api/Groups/Member";
-export const API_GET_MEMBER_GROUP_INFO = "/api/ /Member/{groupId}";
+export const API_GET_MEMBER_GROUP_INFO = "/api/Groups/Member/{groupId}";
 export const API_UPDATE_GROUP_INFO = "/api/Groups/{groupId}";
 export const API_ADD_GROUP = "/api/studyGroup/add";
 export const API_MEETING_NOW = "/api/Meetings/Instant";

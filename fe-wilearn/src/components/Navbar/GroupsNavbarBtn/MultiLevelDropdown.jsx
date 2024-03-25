@@ -3,6 +3,7 @@ import { Box, Button, ListItemIcon, Menu, MenuItem, Popover, Typography } from '
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import KeyboardArrowRightIcon from '@mui/icons-material/KeyboardArrowRight';
 import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 
 const MultiLevelDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -36,21 +37,27 @@ const MultiLevelDropdown = () => {
     // handleClose();
   };
 
-  const ownGroups = [
+  const { userInfo } = useSelector(state => state.user);
+
+  let leadGroups = [
     { id: 1, name: "Nhóm 1" },
     { id: 2, name: "Nhóm 2" },
   ]
-  const joinGroups = [
+  let joinGroups = [
     { id: 3, name: "Nhóm 3" },
     { id: 4, name: "Nhóm 4" },
   ]
+  if (userInfo) {
+    leadGroups = userInfo.leadGroups;
+    joinGroups = userInfo.joinGroups;
+  }
 
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
       <div>
         <Button
-          // onClick={handleClick} 
-          onMouseOver={handleClick}
+          onClick={handleClick}
+          // onMouseOver={handleClick}
           color="inherit"
           aria-controls="menu-groups"
           aria-haspopup="true"
@@ -72,7 +79,7 @@ const MultiLevelDropdown = () => {
             horizontal: 'left',
           }}
         >
-          <MenuItem 
+          <MenuItem
             component={Link}
             to={`groups`}
           >
@@ -106,7 +113,7 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
-            {ownGroups.map((group) => (
+            {leadGroups.map((group) => (
               <MenuItem
                 component={Link}
                 to={`groups/${group.id}`}

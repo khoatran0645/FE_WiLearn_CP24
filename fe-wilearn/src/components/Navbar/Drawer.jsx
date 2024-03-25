@@ -22,12 +22,12 @@ import { Avatar, Grid, Typography } from "@mui/material";
 import { getGroupInfo, getSubjectLists } from "../../app/reducer/studyGroupReducer";
 import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupReducerActions";
 import { useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
   const { groupId } = useParams();
-  alert("useParams groupId: ", groupId)
+  const {groupInfo} = useSelector(state=>state.studyGroup)
   console.log("useParams groupId ", groupId)
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -35,7 +35,7 @@ export default function ClippedDrawer() {
     // dispatch(getRoomsByGroupId(groupId));
     dispatch(getSubjectLists());
     const response = dispatch(getGroupInfo(groupId));
-    dispatch(getGroupInfoAsMember(groupId));
+    const response2 = dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
@@ -64,7 +64,7 @@ export default function ClippedDrawer() {
     // return () => {
     //   groupHub.stop().catch((error) => {});
     // };
-  }, []);
+  }, [groupId]);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -89,7 +89,7 @@ export default function ClippedDrawer() {
                 <Avatar alt="Group Avatar" src="/path/to/group-avatar.jpg" />
               </Grid>
               <Grid item>
-                <Typography variant="body1">Nhóm 1</Typography>
+                <Typography variant="body1">{groupInfo?.name}</Typography>
               </Grid>
             </Grid>
           </ListItem>

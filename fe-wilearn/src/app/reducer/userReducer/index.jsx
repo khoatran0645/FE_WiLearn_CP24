@@ -97,7 +97,8 @@ const userSlice = createSlice({
     // },
     builder.addCase(getUserInfo.fulfilled,(state, { payload }) => {
       state.loading = false;
-      state.userInfo = payload;
+      const token = localStorage.getItem("token");
+      state.userInfo ={ ...payload, token};
     });
     // [getUserInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;

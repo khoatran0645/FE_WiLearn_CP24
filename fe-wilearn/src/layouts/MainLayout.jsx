@@ -14,6 +14,10 @@ export default function MainLayout() {
     if (!userInfo) {
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
+          
+          const token = localStorage.getItem("token");
+          alert(token);
+          alert(response.type);
           alert("You have not login")
           navigate("signin");
         }
