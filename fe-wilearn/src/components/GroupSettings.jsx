@@ -13,7 +13,6 @@ import {
   Input,
 } from "@mui/material";
 
-// Hình ảnh mặc định
 const defaultAvatar = '/src/assets/default.jpg';
 
 export default function GroupSettings() {
@@ -81,6 +80,7 @@ export default function GroupSettings() {
                 )}
               />
             </Box>
+            <Button type="submit">Submit</Button>
           </Stack>
         </FormContainer>
       </Grid>

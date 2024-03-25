@@ -68,7 +68,7 @@ export default function Router() {
         {
           path: "home",
           index: true,
-          element: <h1>Đổi thành trang hiện thông báo</h1>,
+          element: <HomePage/>,
         },
         {
           path: "groups",
