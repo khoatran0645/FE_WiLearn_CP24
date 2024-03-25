@@ -17,8 +17,11 @@ import Invitation from "../../components/Invitation";
 
 import { useState } from "react";
 import JoinNewGroup from "../../components/JoinNewGroup";
+import { useSelector } from "react-redux";
 
 export default function Groups() {
+  const {userInfo} = useSelector(state=>state.user);
+  // const {leadGroups, joinGroups} = userInfo; 
   const groupcreatedList = [
     {
       id: 1,
@@ -90,7 +93,7 @@ export default function Groups() {
   //   setOpen(true);
   // };
 
-  const showList = groupcreatedList.map((group) => (
+  const showCreatedList = (groupcreatedList) => groupcreatedList.map((group) => (
     <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
       <CardActionArea>
         <Link
@@ -101,7 +104,7 @@ export default function Groups() {
           <CardMedia
             component="img"
             height="140"
-            image={group.image}
+            image={"https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"}
             alt="scene"
           />
           <CardContent>
@@ -140,7 +143,7 @@ export default function Groups() {
 
         <Grid container sx={{ overflow: "auto" }}>
           <Stack direction="row" spacing={1}>
-            {showList}
+            {userInfo?.leadGroups && showCreatedList(userInfo?.leadGroups)}
           </Stack>
         </Grid>
       </Grid>
@@ -175,7 +178,7 @@ export default function Groups() {
 
         <Grid container>
           <Stack direction="row" spacing={1}>
-            <Card sx={{ maxWidth: 345, minWidth: 200 }}>
+            {/* <Card sx={{ maxWidth: 345, minWidth: 200 }}>
               <CardActionArea>
                 <Link
                   to={`groups/joined`}
@@ -194,7 +197,8 @@ export default function Groups() {
                   </CardContent>
                 </Link>
               </CardActionArea>
-            </Card>
+            </Card> */}
+            {userInfo?.joinGroups && showCreatedList(userInfo?.joinGroups)}
           </Stack>
         </Grid>
       </Grid>

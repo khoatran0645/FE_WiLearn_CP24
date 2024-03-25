@@ -81,19 +81,32 @@ const userSlice = createSlice({
     //   state.loading = false;
     //   state.error = payload;
     // },
-    // // Reducers for getUserInfo action
+
+    // Reducers for getUserInfo action
     // [getUserInfo.pending]: (state) => {
     //   state.loading = true;
     //   state.error = null;
     // },
+    builder.addCase(getUserInfo.pending,(state) => {
+      state.loading = true;
+      state.error = null;
+    });
     // [getUserInfo.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.userInfo = payload;
     // },
+    builder.addCase(getUserInfo.fulfilled,(state, { payload }) => {
+      state.loading = false;
+      state.userInfo = payload;
+    });
     // [getUserInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // }
+    builder.addCase(getUserInfo.rejected,(state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   }
 });
 
