@@ -41,43 +41,43 @@ export default function UserProfile() {
         </Typography>
       </Grid>
       <Grid item xs={3}>
-        <Typography variant="h5" textAlign={"left"}>
-          Change password
-        </Typography>
-        <FormContainer
-          defaultValues={{
-            old_password: "",
-            new_password: "",
-            confirm_password: "",
-          }}
-          onSuccess={(data) => console.log(data)}
-        >
-          <Stack spacing={2} maxWidth={500} paddingTop={2}>
-            <PasswordElement
-              margin={"dense"}
-              label={"Current password"}
-              required
-              name={"old_password"}
-            />
-            <PasswordElement
-              margin={"dense"}
-              label={"New password"}
-              required
-              type="password"
-              name={"new_password"}
-            />
-            <PasswordRepeatElement
-              passwordFieldName={"new-password"}
-              name={"password_repeat"}
-              margin={"dense"}
-              label={"Repeat Password"}
-              required
-            />
-            <Button type="submit">Submit</Button>
-          </Stack>
-        </FormContainer>
+        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
+          <Typography variant="body1" marginBottom={1}>Avatar</Typography>
+          <Avatar
+            style={{ width: '150px', height: '150px' }}
+            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
+          />
+          <Input
+            accept="image/*"
+            type="file"
+            id="avatar-upload"
+            style={{ display: 'none' }}
+            onChange={handleFileChange}
+          />
+          <label htmlFor="avatar-upload">
+            <Button
+              variant="contained"
+              component="span"
+              style={{
+                marginTop: '16px',
+                padding: '2px 5px',
+                backgroundColor: 'transparent',
+                color: '#000',
+                border: '1px solid #000',
+                fontSize: '12px',
+              }}
+            >
+              Choose File
+            </Button>
+          </label>
+          {selectedFile ? (
+            <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
+          ) : (
+            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
+          )}
+        </Box>
       </Grid>
-
+      
       <Grid item xs={3}>
         <Typography variant="h5" textAlign={"left"}>
           Update information
@@ -115,42 +115,43 @@ export default function UserProfile() {
           </Stack>
         </FormContainer>
       </Grid>
-      <Grid item xs={5} paddingLeft={2}>
-        <Box style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', marginTop: '10px' }}>
-          <Typography variant="body1" marginBottom={1}>Avatar</Typography>
-          <Avatar
-            style={{ width: '150px', height: '150px' }}
-            src={selectedFile ? URL.createObjectURL(selectedFile) : ''}
-          />
-          <Input
-            accept="image/*"
-            type="file"
-            id="avatar-upload"
-            style={{ display: 'none' }}
-            onChange={handleFileChange}
-          />
-          <label htmlFor="avatar-upload">
-            <Button
-              variant="contained"
-              component="span"
-              style={{
-                marginTop: '16px',
-                padding: '2px 5px',
-                backgroundColor: 'transparent',
-                color: '#000',
-                border: '1px solid #000',
-                fontSize: '12px',
-              }}
-            >
-              Choose File
-            </Button>
-          </label>
-          {selectedFile ? (
-            <Typography variant="body2" marginTop="10px">Local avatar selected: {selectedFile.name}</Typography>
-          ) : (
-            <Typography variant="body2" marginTop="10px">No local avatar is set. Use the upload field to add a local avatar.</Typography>
-          )}
-        </Box>
+      
+      <Grid item xs={3} marginLeft={5}>
+        <Typography variant="h5" textAlign={"left"}>
+          Change password
+        </Typography>
+        <FormContainer
+          defaultValues={{
+            old_password: "",
+            new_password: "",
+            confirm_password: "",
+          }}
+          onSuccess={(data) => console.log(data)}
+        >
+          <Stack spacing={2} maxWidth={500} paddingTop={2}>
+            <PasswordElement
+              margin={"dense"}
+              label={"Current password"}
+              required
+              name={"old_password"}
+            />
+            <PasswordElement
+              margin={"dense"}
+              label={"New password"}
+              required
+              type="password"
+              name={"new_password"}
+            />
+            <PasswordRepeatElement
+              passwordFieldName={"new-password"}
+              name={"password_repeat"}
+              margin={"dense"}
+              label={"Repeat Password"}
+              required
+            />
+            <Button type="submit">Submit</Button>
+          </Stack>
+        </FormContainer>
       </Grid>
     </Grid>
   );
