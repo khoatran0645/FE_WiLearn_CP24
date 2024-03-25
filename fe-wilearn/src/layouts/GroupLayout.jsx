@@ -1,4 +1,3 @@
-import React from "react";
 import Drawer from "../components/Navbar/Drawer";
 import { Grid } from "@mui/material";
 import { Outlet } from "react-router-dom";

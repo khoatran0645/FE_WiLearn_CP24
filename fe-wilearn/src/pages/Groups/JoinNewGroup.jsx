@@ -5,7 +5,7 @@ import { NavLink } from "react-router-dom";
 export default function JoinNewGroup() {
   return (
     <Grid>
-      <NavLink to={"/home/searchgroup"} style={{ textDecoration: "none" }}>
+      <NavLink to={"searchgroup"} style={{ textDecoration: "none" }}>
         <Button variant="contained" startIcon={<GroupsIcon />}>
           Join new group
         </Button>
