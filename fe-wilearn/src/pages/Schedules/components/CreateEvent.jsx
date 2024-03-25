@@ -65,7 +65,7 @@ const CreateEvent = ({ addNewEvent }) => {
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
-        + Schedule meeting
+         Schedule new meeting
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create Schedule meeting</DialogTitle>

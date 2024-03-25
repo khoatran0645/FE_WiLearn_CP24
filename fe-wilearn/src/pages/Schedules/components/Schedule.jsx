@@ -18,10 +18,14 @@ import UpdateMeetingButton from "./UpdateMeetingButton";
 import HistoryMeeting from "../../Meeting/HistoryMeeting";
 import MeetingNowButton from "./MeetingNowButton";
 import CreateSchedule from "./CreateSchedule";
+import { useSelector } from "react-redux";
 
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
+  const { groupInfo } = useSelector(state => state.studyGroup);
+  // let liveMeetings, scheduleMeeting;
+  let { liveMeetings, scheduleMeetings } = groupInfo;
   const [schedule, setSchedule] = useState([
     {
       id: 1,
@@ -57,11 +61,103 @@ function Schedule() {
   // const addNewSchedule = (newSchedule) => {
   //   setSchedule([...schedule, newSchedule]);
   // };
-
+  const LiveMeetingCard = (meeting) => {
+    return (
+      <Card
+        key="1"
+        sx={{ maxWidth: 345, minWidth: 200, border: `3px solid green` }}
+      >
+        <CardActionArea>
+          <CardContent sx={{ textAlign: "left" }}>
+            <Typography gutterBottom variant="h6">
+              {meeting.name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Content: {meeting.content}
+            </Typography>
+            {meeting.scheduleStart && (
+              <Typography variant="body1" color="text.secondary">
+                Expected: {moment(meeting.scheduleStart).format('DD/MM HH:mm')}
+                {meeting.scheduleEnd && (
+                  ` - ${moment(meeting.scheduleEnd).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {meeting.start && (
+              <Typography variant="body1" color="text.secondary">
+                Happened: {moment(meeting.start).format('DD/MM HH:mm')}
+                {meeting.end && (
+                  ` - ${moment(meeting.end).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {/* <Typography variant="body1" color="text.secondary">
+              Status: Can join now
+            </Typography> */}
+            <Typography variant="body1" color="text.secondary">
+              {meeting.countMember} people
+            </Typography>
+            <JoinMeetingButton />
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
+  }
+  const ScheduleMeetingCard = (meeting) => {
+    // alert(meeting.canStart);
+    // const borderStyle = "3px solid orange" ;
+    const borderStyle = "3px solid " +
+      (meeting.canStart ? "orange" : "red")
+    return (
+      <Card
+        key="1"
+        sx={{ maxWidth: 345, minWidth: 200, border: borderStyle }}
+      >
+        <CardActionArea>
+          <CardContent sx={{ textAlign: "left" }}>
+            <Typography gutterBottom variant="h6">
+              {meeting.name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Content: {meeting.content}
+            </Typography>
+            {meeting.scheduleStart && (
+              <Typography variant="body1" color="text.secondary">
+                Expected: {moment(meeting.scheduleStart).format('DD/MM HH:mm')}
+                {meeting.scheduleEnd && (
+                  ` - ${moment(meeting.scheduleEnd).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {meeting.start && (
+              <Typography variant="body1" color="text.secondary">
+                Happened: {moment(meeting.start).format('DD/MM HH:mm')}
+                {meeting.end && (
+                  ` - ${moment(meeting.end).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            <Typography variant="body1" color="text.secondary">
+              Status: {meeting.canStart ? "Can start now" : "Cannot start"}
+            </Typography>
+            <Grid
+              container
+              justifyContent="center"
+              sx={{ paddingTop: "1rem" }}
+            >
+              {meeting.canStart && (<StartMeetingButton />)}
+              <UpdateMeetingButton />
+            </Grid>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
+  }
   return (
     <Grid>
       {/* Live Meeting */}
       <Grid>
+        {/* Header */}
         <Grid container paddingTop={2}>
           <Grid xs={6} item justifyContent={"flex-start"}>
             <Typography variant="h4" sx={{ fontWeight: "bold" }}>
@@ -70,12 +166,11 @@ function Schedule() {
           </Grid>
           <Grid xs={6} item>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
-
               <MeetingNowButton />
             </Stack>
           </Grid>
         </Grid>
-
+        {/* List */}
         <Grid
           xs={12}
           container
@@ -84,7 +179,8 @@ function Schedule() {
         >
           <Grid xs={12}>
             <Stack direction="row" spacing={1}>
-              <Card
+              {liveMeetings.map((meeting => (LiveMeetingCard(meeting))))}
+              {/* <Card
                 key="1"
                 sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
               >
@@ -228,18 +324,19 @@ function Schedule() {
                     </Grid>
                   </CardContent>
                 </CardActionArea>
-              </Card>
+              </Card> */}
             </Stack>
           </Grid>
         </Grid>
       </Grid>
-      
+
       {/* Schedule Meeting */}
       <Grid>
+        {/* Header */}
         <Grid container paddingTop={2}>
           <Grid xs={6} item justifyContent={"flex-start"}>
             <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-            Schedule Meetings
+              Schedule Meetings
             </Typography>
           </Grid>
           <Grid xs={6} item>
@@ -248,7 +345,7 @@ function Schedule() {
             </Stack>
           </Grid>
         </Grid>
-
+        {/* List */}
         <Grid
           xs={12}
           container
@@ -257,7 +354,9 @@ function Schedule() {
         >
           <Grid xs={12}>
             <Stack direction="row" spacing={1}>
-              <Card
+              {scheduleMeetings.map((meeting => (ScheduleMeetingCard(meeting))))}
+
+              {/* <Card
                 key="1"
                 sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
               >
@@ -401,7 +500,7 @@ function Schedule() {
                     </Grid>
                   </CardContent>
                 </CardActionArea>
-              </Card>
+              </Card> */}
             </Stack>
           </Grid>
         </Grid>
