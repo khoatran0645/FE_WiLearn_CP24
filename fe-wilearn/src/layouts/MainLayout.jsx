@@ -1,5 +1,5 @@
 import Grid from "@mui/material/Grid";
-import { Outlet } from "react-router-dom";
+import { Outlet, useNavigate } from "react-router-dom";
 import NavbarMenu from "../components/Nabar/NavbarMenu";
 import Drawer from "../components/Navbar/Drawer";
 import { useEffect } from "react";
@@ -8,6 +8,7 @@ import { getUserInfo } from "../app/reducer/userReducer";
 
 export default function MainLayout() {
   const { userInfo } = useSelector(state => state.user);
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     if (!userInfo) {

@@ -110,7 +110,7 @@ export default function Router() {
           element: <SearchPage />,
         },
         {
-          path: "groups/:id",
+          path: "groups/:groupId",
           element: <GroupLayout />,
           errorElement: <ErrorPage />,
           children: [
