@@ -41,12 +41,24 @@ export default function ClippedDrawer() {
 
         <List>
           <ListItem>
-            <Grid container alignItems="center" spacing={2} marginLeft="2px" paddingTop={5}>
+            <Grid
+              container
+              alignItems="center"
+              spacing={2}
+              marginLeft="2px"
+              paddingTop={5}
+            >
               <Grid item>
-                <Avatar style={{ width: 60, height: 60 }} alt="Group Avatar" src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg" />
+                <Avatar
+                  style={{ width: 60, height: 60 }}
+                  alt="Group Avatar"
+                  src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                />
               </Grid>
               <Grid item>
-                <Typography style={{ fontWeight: 'bold', fontSize: 20 }}>Nhóm 1</Typography>
+                <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
+                  Nhóm 1
+                </Typography>
               </Grid>
             </Grid>
           </ListItem>
@@ -138,7 +150,7 @@ export default function ClippedDrawer() {
                 <ListItemIcon>
                   <EqualizerIcon />
                 </ListItemIcon>
-                <ListItemText primary="Statistics" />
+                <ListItemText primary="Overview" />
               </ListItemButton>
             </NavLink>
           </ListItem>
