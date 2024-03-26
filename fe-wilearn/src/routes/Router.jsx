@@ -122,12 +122,12 @@ export default function Router() {
               element: <DiscussionDetail />,
             },
             {
-              path: "schedules",
+              path: "meetings",
               element: <EmptyLayout />,
               children: [
                 { path: "", index: true, element: <Schedule /> },
                 {
-                  path: "meetings/:meetingId",
+                  path: ":meetingId",
                   element: <MeetingPage />,
                 },
               ],

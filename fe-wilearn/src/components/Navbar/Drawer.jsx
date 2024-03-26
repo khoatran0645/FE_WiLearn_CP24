@@ -145,7 +145,7 @@ export default function ClippedDrawer() {
           </ListItem>
           <ListItem>
             <NavLink
-              to="schedules"
+              to="meetings"
               style={({ isActive, isPending }) => {
                 return {
                   color: isActive ? "#ff8080" : "black",
