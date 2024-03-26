@@ -5,6 +5,7 @@ import Drawer from "../components/Navbar/Drawer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../app/reducer/userReducer";
+import { toast } from "react-toastify";
 
 export default function MainLayout() {
   const { userInfo } = useSelector(state => state.user);
@@ -16,9 +17,12 @@ export default function MainLayout() {
         if (response.type === getUserInfo.rejected.type) {
           
           const token = localStorage.getItem("token");
-          alert(token);
-          alert(response.type);
-          alert("You have not login")
+          // toast.warn(token)
+          // toast.warn(response.type);
+          toast.warn("You have not login")
+          // alert(token);
+          // alert(response.type);
+          // alert("You have not login")
           navigate("signin");
         }
       });

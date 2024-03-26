@@ -15,7 +15,8 @@ import { ThemeProvider, createTheme } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import { Provider } from "react-redux";
 import store from "./app/store";
-
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme({
   palette: {
     mode: "light",
@@ -23,16 +24,18 @@ const theme = createTheme({
 });
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
-  <Provider store={store}>
-
-    <ThemeProvider theme={theme}>
-      <LocalizationProvider dateAdapter={AdapterDayjs}>
-        <BrowserRouter>
-          <CssBaseline />
-          <Router />
-        </BrowserRouter>
-      </LocalizationProvider>
-    </ThemeProvider>
-    </Provider>
+    {/* <ToastContainer > */}
+      <Provider store={store}>
+        <ThemeProvider theme={theme}>
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <BrowserRouter>
+              <CssBaseline />
+              <Router />
+              <ToastContainer/ >
+            </BrowserRouter>
+          </LocalizationProvider>
+        </ThemeProvider>
+      </Provider>
+    {/* </ToastContainer> */}
   </React.StrictMode>
 );

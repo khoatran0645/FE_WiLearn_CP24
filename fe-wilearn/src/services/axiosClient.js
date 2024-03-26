@@ -6,7 +6,7 @@ const axiosClient = axios.create({
   baseURL: BE_URL,
   // baseURL: "http://www.groupstudy.somee.com",
   // baseURL: "https://jsonplaceholder.typicode.com",
-  timeout: 1000,
+  // timeout: 1000,
 });
 
 axiosClient.interceptors.request.use(function (config) {
