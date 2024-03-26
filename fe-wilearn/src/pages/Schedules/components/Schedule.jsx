@@ -18,11 +18,14 @@ import UpdateMeetingButton from "./UpdateMeetingButton";
 import HistoryMeeting from "../../Meeting/HistoryMeeting";
 import MeetingNowButton from "./MeetingNowButton";
 import CreateSchedule from "./CreateSchedule";
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
+  dayjs.extend(advancedFormat);
   const { groupInfo } = useSelector(state => state.studyGroup);
   // let liveMeetings, scheduleMeeting;
   let { liveMeetings, scheduleMeetings } = groupInfo;
@@ -507,16 +510,15 @@ function Schedule() {
       </Grid>
 
       <Grid xs={11.5} paddingTop={3} paddingBottom={2}>
-        <HistoryMeeting />
+        {/* <HistoryMeeting /> */}
       </Grid>
-
-      <Grid container>
-        <Grid item>
+      <Grid container paddingLeft={5}>
+        <Grid item xs={6} sx={{ textAlign: "left" }}>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Calendar
           </Typography>
         </Grid>
-        <Grid sx={{ marginLeft: "800px" }}>
+        <Grid xs={6} sx={{ textAlign: "right" }} paddingRight={5}>
           <CreateSchedule />
         </Grid>
       </Grid>
@@ -535,8 +537,6 @@ function Schedule() {
           />
         </Box>
       </Grid>
-
-
     </Grid>
   );
 }

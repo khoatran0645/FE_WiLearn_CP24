@@ -13,7 +13,7 @@ import {
 import InviteUser from "../../components/InviteUser";
 // import UpdateGroup from "./UpdateGroup";
 import RequestJoin from "./RequestJoin";
-import UserMoreInfo from "../../components/UserMoreInfo";
+import UserMoreInfo from "./UserMoreInfo";
 import Paginate from "../../components/Paginate";
 
 export default function MemberList() {

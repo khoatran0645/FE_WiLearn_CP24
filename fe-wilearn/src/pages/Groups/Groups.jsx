@@ -16,8 +16,8 @@ import CreateGroup from "./CreateGroup";
 import Invitation from "../../components/Invitation";
 
 import { useState } from "react";
-import JoinNewGroup from "../../components/JoinNewGroup";
 import { useSelector } from "react-redux";
+import JoinNewGroup from "./JoinNewGroup";
 
 export default function Groups() {
   const {userInfo} = useSelector(state=>state.user);
@@ -97,7 +97,7 @@ export default function Groups() {
     <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
       <CardActionArea>
         <Link
-          to={`${group.id}`}
+          to={`${group.id}/members`}
           state={{ group: group }}
           style={{ textDecoration: "none", color: "black" }}
         >

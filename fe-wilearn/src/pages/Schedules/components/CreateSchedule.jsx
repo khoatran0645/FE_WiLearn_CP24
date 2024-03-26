@@ -1,15 +1,35 @@
-import { useState } from 'react';
-import { Button, Modal, Box, Typography, TextField, Tab, Tabs, Grid, Autocomplete, Chip } from "@mui/material";
+import { useState } from "react";
+import {
+  Button,
+  Modal,
+  Box,
+  Typography,
+  TextField,
+  Tab,
+  Tabs,
+  Grid,
+  Autocomplete,
+  Chip,
+} from "@mui/material";
+import AddIcon from "@mui/icons-material/Add";
 
-const daysOfWeek = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday'];
+const daysOfWeek = [
+  "Monday",
+  "Tuesday",
+  "Wednesday",
+  "Thursday",
+  "Friday",
+  "Saturday",
+  "Sunday",
+];
 
 export default function CreateSchedule() {
   const [open, setOpen] = useState(false);
-  const [meetingName, setMeetingName] = useState('');
-  const [meetingContent, setMeetingContent] = useState('');
+  const [meetingName, setMeetingName] = useState("");
+  const [meetingContent, setMeetingContent] = useState("");
   const [selectedDate, setSelectedDate] = useState(null);
-  const [startTime, setStartTime] = useState('');
-  const [endTime, setEndTime] = useState('');
+  const [startTime, setStartTime] = useState("");
+  const [endTime, setEndTime] = useState("");
   const [currentTab, setCurrentTab] = useState(0);
   const [repeatedDays, setRepeatedDays] = useState([]);
 
@@ -22,7 +42,7 @@ export default function CreateSchedule() {
   };
 
   const handleCreateMeeting = () => {
-    console.log('Submitted:', {
+    console.log("Submitted:", {
       meetingName,
       meetingContent,
       selectedDate,
@@ -36,51 +56,64 @@ export default function CreateSchedule() {
     setCurrentTab(newValue);
   };
 
-
   return (
     <>
       <Button
-          variant="contained"
-          sx={{
+        startIcon={<AddIcon />}
+        variant="contained"
+        sx={{
+          backgroundColor: "#4CAF50",
+          "&:hover": {
             backgroundColor: "#4CAF50",
-            '&:hover': {
-              backgroundColor: "#4CAF50"
-            },
-         }}
-         onClick={handleOpen}
-        >
-          Schedule new meeting
-        </Button>
+          },
+        }}
+        onClick={handleOpen}
+      >
+        Schedule new meeting
+      </Button>
       <Modal
         open={open}
         onClose={handleClose}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
-        <Box sx={{
-          position: 'absolute',
-          top: '50%',
-          left: '50%',
-          transform: 'translate(-50%, -50%)',
-          width: 400,
-          bgcolor: 'background.paper',
-          boxShadow: 24,
-          p: 4,
-        }}>
-          <Typography id="modal-modal-title" variant="h6" component="h2" sx={{marginBottom:'10px', textAlign:'center'}}>
+        <Box
+          sx={{
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            width: 400,
+            bgcolor: "background.paper",
+            boxShadow: 24,
+            p: 4,
+          }}
+        >
+          <Typography
+            id="modal-modal-title"
+            variant="h6"
+            component="h2"
+            sx={{ marginBottom: "10px", textAlign: "center" }}
+          >
             Create schedule
           </Typography>
           <Tabs value={currentTab} onChange={handleTabChange} centered>
             <Tab label="Do not repeat" />
             <Tab label="Repeat" />
           </Tabs>
-          <Box hidden={currentTab !== 0} sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
+          <Box
+            hidden={currentTab !== 0}
+            sx={{
+              marginTop: "1rem",
+              "& > :not(style)": { marginBottom: "1rem" },
+            }}
+          >
             <TextField
               label="Meeting name"
               fullWidth
               value={meetingName}
               onChange={(e) => setMeetingName(e.target.value)}
-            />          
+            />
             <TextField
               label="Content"
               fullWidth
@@ -124,13 +157,19 @@ export default function CreateSchedule() {
               </Grid>
             </Grid>
           </Box>
-          <Box hidden={currentTab !== 1} sx={{ marginTop: '1rem','& > :not(style)': { marginBottom: '1rem' } }}>
+          <Box
+            hidden={currentTab !== 1}
+            sx={{
+              marginTop: "1rem",
+              "& > :not(style)": { marginBottom: "1rem" },
+            }}
+          >
             <TextField
               label="Meeting name"
               fullWidth
               value={meetingName}
               onChange={(e) => setMeetingName(e.target.value)}
-            />          
+            />
             <TextField
               label="Content"
               fullWidth
@@ -173,7 +212,7 @@ export default function CreateSchedule() {
                 />
               </Grid>
             </Grid>
-            <Box sx={{ marginTop: '1rem' }}>
+            <Box sx={{ marginTop: "1rem" }}>
               <Autocomplete
                 multiple
                 id="tags-outlined"
@@ -184,7 +223,12 @@ export default function CreateSchedule() {
                 }}
                 renderTags={(value, getTagProps) =>
                   value.map((option, index) => (
-                    <Chip key={option} variant="outlined" label={option} {...getTagProps({ index })} />
+                    <Chip
+                      key={option}
+                      variant="outlined"
+                      label={option}
+                      {...getTagProps({ index })}
+                    />
                   ))
                 }
                 renderInput={(params) => (
@@ -198,8 +242,12 @@ export default function CreateSchedule() {
               />
             </Box>
           </Box>
-          <Button onClick={handleCreateMeeting} color='success'>Create</Button>
-          <Button onClick={handleClose} color='inherit'>Close</Button>
+          <Button onClick={handleCreateMeeting} color="success">
+            Create
+          </Button>
+          <Button onClick={handleClose} color="inherit">
+            Close
+          </Button>
         </Box>
       </Modal>
     </>

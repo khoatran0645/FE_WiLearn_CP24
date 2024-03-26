@@ -9,6 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import AddIcon from "@mui/icons-material/Add";
 
 const CreateEvent = ({ addNewEvent }) => {
   const [open, setOpen] = useState(false);
@@ -53,6 +54,7 @@ const CreateEvent = ({ addNewEvent }) => {
     <Grid>
       <Button
         onClick={handleOpen}
+        startIcon={<AddIcon />}
         style={{
           textAlign: "center",
           cursor: "pointer",

@@ -7,7 +7,7 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
-import DeleteMemButton from "../pages/Groups/DeleteMemButton";
+import DeleteMemButton from "./DeleteMemButton";
 
 export default function UserMoreInfo(props) {
   const [open, setOpen] = useState(false);

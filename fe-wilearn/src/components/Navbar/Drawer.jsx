@@ -81,23 +81,40 @@ export default function ClippedDrawer() {
         anchor="left"
       >
         <Toolbar />
-      
+
         <List>
           <ListItem>
-            <Grid container alignItems="center" spacing={2}>
+            <Grid
+              container
+              alignItems="center"
+              spacing={2}
+              marginLeft="2px"
+              paddingTop={5}
+            >
               <Grid item>
-                <Avatar alt="Group Avatar" src="/path/to/group-avatar.jpg" />
+                <Avatar
+                  style={{ width: 60, height: 60 }}
+                  alt="Group Avatar"
+                  src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                />
               </Grid>
               <Grid item>
-                <Typography variant="body1">{groupInfo?.name}</Typography>
+                <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
+                {groupInfo?.name}
+                </Typography>
               </Grid>
             </Grid>
           </ListItem>
 
           <ListItem>
             <NavLink
-              to=""
-              style={{ textDecoration: "none", color: "black" }}
+              to="members"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -111,7 +128,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="discussions"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -124,7 +146,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="schedules"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -137,7 +164,12 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="docs"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
@@ -150,20 +182,30 @@ export default function ClippedDrawer() {
           <ListItem>
             <NavLink
               to="statistics"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
                   <EqualizerIcon />
                 </ListItemIcon>
-                <ListItemText primary="Statistics" />
+                <ListItemText primary="Overview" />
               </ListItemButton>
             </NavLink>
           </ListItem>
           <ListItem>
             <NavLink
               to="groupsettings"
-              style={{ textDecoration: "none", color: "black" }}
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
