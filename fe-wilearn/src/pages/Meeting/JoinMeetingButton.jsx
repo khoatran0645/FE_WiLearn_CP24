@@ -3,7 +3,7 @@ import { NavLink } from "react-router-dom";
 export default function JoinMeetingButton() {
   return (
     <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
-      <NavLink to={"meetings/:meetingId"} style={{ textDecoration: "none" }}>
+      <NavLink to={":meetingId"} style={{ textDecoration: "none" }}>
         <Button
           variant="contained"
           size="small"

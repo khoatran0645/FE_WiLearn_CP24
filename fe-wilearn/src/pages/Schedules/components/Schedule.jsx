@@ -27,8 +27,13 @@ const localizer = momentLocalizer(moment);
 function Schedule() {
   dayjs.extend(advancedFormat);
   const { groupInfo } = useSelector(state => state.studyGroup);
-  // let liveMeetings, scheduleMeeting;
-  let { liveMeetings, scheduleMeetings } = groupInfo;
+  // let { liveMeetings, scheduleMeetings } = groupInfo;
+  let liveMeetings=[];
+  let scheduleMeetings=[];
+  if(groupInfo){
+    liveMeetings = groupInfo.liveMeetings;
+    scheduleMeetings = groupInfo.scheduleMeetings;
+  }
   const [schedule, setSchedule] = useState([
     {
       id: 1,

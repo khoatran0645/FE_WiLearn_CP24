@@ -4,7 +4,7 @@ import { NavLink } from "react-router-dom";
 export default function StartMeetingButton() {
   return (
     <NavLink
-      to={"meetings/:meetingId"}
+      to={":meetingId"}
       style={{ textDecoration: "none", paddingRight: "10px" }}
     >
       <Button
