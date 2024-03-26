@@ -68,7 +68,7 @@ export default function Router() {
         {
           path: "home",
           index: true,
-          element: <HomePage/>,
+          element: <HomePage />,
         },
         {
           path: "groups",

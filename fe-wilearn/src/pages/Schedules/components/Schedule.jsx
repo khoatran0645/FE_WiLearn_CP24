@@ -18,10 +18,12 @@ import UpdateMeetingButton from "./UpdateMeetingButton";
 import HistoryMeeting from "../../Meeting/HistoryMeeting";
 import MeetingNowButton from "./MeetingNowButton";
 import CreateSchedule from "./CreateSchedule";
-
+import dayjs from "dayjs";
+import advancedFormat from "dayjs/plugin/advancedFormat";
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
+  dayjs.extend(advancedFormat);
   const [schedule, setSchedule] = useState([
     {
       id: 1,
@@ -67,19 +69,26 @@ function Schedule() {
           </Typography>
         </Grid>
         <Grid xs={6} item>
-          <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
-
+          <Stack
+            direction={"row"}
+            spacing={2}
+            justifyContent={"flex-end"}
+            paddingRight={6}
+          >
             <MeetingNowButton />
           </Stack>
         </Grid>
       </Grid>
-
+      {/* ongoing meeting */}
       <Grid
         xs={12}
         container
         justifyContent={"flex-start"}
         sx={{ overflow: "auto" }}
       >
+        <Grid xs={12}>
+          <Typography variant="h6">Ongoing meeting</Typography>
+        </Grid>
         <Grid xs={12}>
           <Stack direction="row" spacing={1}>
             <Card
@@ -95,10 +104,13 @@ function Schedule() {
                     Content: Metaprogramming
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Expect: 29/02 10:34 - 11:19
+                    Expect:{" "}
+                    {dayjs(new Date())
+                      .subtract(1, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Happen: 29/02 10:49
+                    Happen: {dayjs(new Date()).format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Status: Can join now
@@ -107,6 +119,42 @@ function Schedule() {
                 </CardContent>
               </CardActionArea>
             </Card>
+            <Card
+              key="2"
+              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+            >
+              <CardActionArea>
+                <CardContent sx={{ textAlign: "left" }}>
+                  <Typography gutterBottom variant="h6">
+                    Meeting Kteam
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Content: Metaprogramming
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Expect:{" "}
+                    {dayjs(new Date())
+                      .subtract(1, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Happen: {dayjs(new Date()).format("DD-MM-YYYY HH:mm")}
+                  </Typography>
+                  <Typography variant="body1" color="text.secondary">
+                    Status: Can join now
+                  </Typography>
+                  <JoinMeetingButton />
+                </CardContent>
+              </CardActionArea>
+            </Card>
+          </Stack>
+        </Grid>
+        {/* upcoming meeting */}
+        <Grid xs={12}>
+          <Typography variant="h6">Upcoming meeting</Typography>
+        </Grid>
+        <Grid xs={12}>
+          <Stack direction="row" spacing={1}>
             <Card
               key="2"
               sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
@@ -120,10 +168,16 @@ function Schedule() {
                     Content: Java basic for you
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Expect: 29/02 10:34 - 11:19
+                    Expect:{" "}
+                    {dayjs(new Date())
+                      .add(1, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Happen: 29/02 10:49
+                    Happen:{" "}
+                    {dayjs(new Date())
+                      .add(2, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
@@ -139,62 +193,7 @@ function Schedule() {
                 </CardContent>
               </CardActionArea>
             </Card>
-            <Card
-              key="3"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid red" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Data Structures
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Deep dive using C#
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect: 29/02 10:34 - 11:19
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen: 29/02 10:49
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Cannot start
-                  </Typography>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    sx={{ paddingTop: "1rem" }}
-                  >
-                    <UpdateMeetingButton />
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            <Card
-              key="4"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Meeting Kteam
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Metaprogramming
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect: 29/02 10:34 - 11:19
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen: 29/02 10:49
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Can join now
-                  </Typography>
-                  <JoinMeetingButton />
-                </CardContent>
-              </CardActionArea>
-            </Card>
+
             <Card
               key="5"
               sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
@@ -208,10 +207,16 @@ function Schedule() {
                     Content: Java basic for you
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Expect: 29/02 10:34 - 11:19
+                    Expect:{" "}
+                    {dayjs(new Date())
+                      .add(5, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
-                    Happen: 29/02 10:49
+                    Happen:{" "}
+                    {dayjs(new Date())
+                      .add(10, "hour")
+                      .format("DD-MM-YYYY HH:mm")}
                   </Typography>
                   <Typography variant="body1" color="text.secondary">
                     Status: Can start now
@@ -230,16 +235,17 @@ function Schedule() {
           </Stack>
         </Grid>
       </Grid>
+
       <Grid xs={11.5} paddingTop={3} paddingBottom={2}>
-        <HistoryMeeting />
+        {/* <HistoryMeeting /> */}
       </Grid>
       <Grid container paddingLeft={5}>
-        <Grid item>
+        <Grid item xs={6} sx={{ textAlign: "left" }}>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
             Schedule
           </Typography>
         </Grid>
-        <Grid sx={{ marginLeft: "800px" }}>
+        <Grid xs={6} sx={{ textAlign: "right" }} paddingRight={5}>
           <CreateSchedule />
         </Grid>
       </Grid>
@@ -258,8 +264,6 @@ function Schedule() {
           />
         </Box>
       </Grid>
-
-
     </Grid>
   );
 }

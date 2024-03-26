@@ -9,6 +9,7 @@ import {
   Grid,
 } from "@mui/material";
 import { DatePicker, TimePicker } from "@mui/x-date-pickers";
+import AddIcon from "@mui/icons-material/Add";
 
 const CreateEvent = ({ addNewEvent }) => {
   const [open, setOpen] = useState(false);
@@ -53,6 +54,7 @@ const CreateEvent = ({ addNewEvent }) => {
     <Grid>
       <Button
         onClick={handleOpen}
+        startIcon={<AddIcon />}
         style={{
           textAlign: "center",
           cursor: "pointer",
@@ -65,7 +67,7 @@ const CreateEvent = ({ addNewEvent }) => {
           boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
         }}
       >
-        + Schedule meeting
+        Schedule meeting
       </Button>
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle>Create Schedule meeting</DialogTitle>
