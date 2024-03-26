@@ -10,7 +10,7 @@ import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
 
-import { NavLink } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -19,9 +19,52 @@ import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar, Grid, Typography } from "@mui/material";
+import { getGroupInfo, getSubjectLists } from "../../app/reducer/studyGroupReducer";
+import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupReducerActions";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
+  const { groupId } = useParams();
+  const {groupInfo} = useSelector(state=>state.studyGroup)
+  console.log("useParams groupId ", groupId)
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  useEffect(() => {
+    // dispatch(getRoomsByGroupId(groupId));
+    dispatch(getSubjectLists());
+    const response = dispatch(getGroupInfo(groupId));
+    const response2 = dispatch(getGroupInfoAsMember(groupId));
+    dispatch(getGroupLists());
+    dispatch(getGroupMemberLists());
+    dispatch(getRequestFormList(groupId));
+
+    // response.then((r) => {
+    //   console.log("response", r);
+    //   console.log("response", r.type);
+    //   if (r.type == getGroupInfo.rejected.type) {
+    //     navigate("/groups");
+    //   }
+    // });
+    // //new group hub
+    // const accessTokenFactory = localStorage.getItem("token");
+    // const groupHub = new HubConnectionBuilder()
+    //   .withUrl(BE_URL + "/hubs/grouphub?groupId=" + groupId, {
+    //     accessTokenFactory: () => accessTokenFactory,
+    //   })
+    //   .build();
+    // groupHub.start().catch((err) => console.log(err));
+
+    // groupHub.on("OnReloadMeeting", (message) => {
+    //   // dispatch(getRoomsByGroupId(groupId));
+    //   onRefreshGroup();
+    //   message && toast.info(message);
+    // });
+    // return () => {
+    //   groupHub.stop().catch((error) => {});
+    // };
+  }, [groupId]);
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
@@ -57,7 +100,7 @@ export default function ClippedDrawer() {
               </Grid>
               <Grid item>
                 <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
-                  Nhóm 1
+                {groupInfo?.name}
                 </Typography>
               </Grid>
             </Grid>

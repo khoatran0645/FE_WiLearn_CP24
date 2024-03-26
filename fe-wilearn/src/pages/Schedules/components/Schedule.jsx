@@ -20,10 +20,15 @@ import MeetingNowButton from "./MeetingNowButton";
 import CreateSchedule from "./CreateSchedule";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
+import { useSelector } from "react-redux";
+
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
   dayjs.extend(advancedFormat);
+  const { groupInfo } = useSelector(state => state.studyGroup);
+  // let liveMeetings, scheduleMeeting;
+  let { liveMeetings, scheduleMeetings } = groupInfo;
   const [schedule, setSchedule] = useState([
     {
       id: 1,
@@ -59,180 +64,448 @@ function Schedule() {
   // const addNewSchedule = (newSchedule) => {
   //   setSchedule([...schedule, newSchedule]);
   // };
-
+  const LiveMeetingCard = (meeting) => {
+    return (
+      <Card
+        key="1"
+        sx={{ maxWidth: 345, minWidth: 200, border: `3px solid green` }}
+      >
+        <CardActionArea>
+          <CardContent sx={{ textAlign: "left" }}>
+            <Typography gutterBottom variant="h6">
+              {meeting.name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Content: {meeting.content}
+            </Typography>
+            {meeting.scheduleStart && (
+              <Typography variant="body1" color="text.secondary">
+                Expected: {moment(meeting.scheduleStart).format('DD/MM HH:mm')}
+                {meeting.scheduleEnd && (
+                  ` - ${moment(meeting.scheduleEnd).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {meeting.start && (
+              <Typography variant="body1" color="text.secondary">
+                Happened: {moment(meeting.start).format('DD/MM HH:mm')}
+                {meeting.end && (
+                  ` - ${moment(meeting.end).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {/* <Typography variant="body1" color="text.secondary">
+              Status: Can join now
+            </Typography> */}
+            <Typography variant="body1" color="text.secondary">
+              {meeting.countMember} people
+            </Typography>
+            <JoinMeetingButton />
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
+  }
+  const ScheduleMeetingCard = (meeting) => {
+    // alert(meeting.canStart);
+    // const borderStyle = "3px solid orange" ;
+    const borderStyle = "3px solid " +
+      (meeting.canStart ? "orange" : "red")
+    return (
+      <Card
+        key="1"
+        sx={{ maxWidth: 345, minWidth: 200, border: borderStyle }}
+      >
+        <CardActionArea>
+          <CardContent sx={{ textAlign: "left" }}>
+            <Typography gutterBottom variant="h6">
+              {meeting.name}
+            </Typography>
+            <Typography variant="body1" color="text.secondary">
+              Content: {meeting.content}
+            </Typography>
+            {meeting.scheduleStart && (
+              <Typography variant="body1" color="text.secondary">
+                Expected: {moment(meeting.scheduleStart).format('DD/MM HH:mm')}
+                {meeting.scheduleEnd && (
+                  ` - ${moment(meeting.scheduleEnd).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            {meeting.start && (
+              <Typography variant="body1" color="text.secondary">
+                Happened: {moment(meeting.start).format('DD/MM HH:mm')}
+                {meeting.end && (
+                  ` - ${moment(meeting.end).format('DD/MM HH:mm')}`
+                )}
+              </Typography>
+            )}
+            <Typography variant="body1" color="text.secondary">
+              Status: {meeting.canStart ? "Can start now" : "Cannot start"}
+            </Typography>
+            <Grid
+              container
+              justifyContent="center"
+              sx={{ paddingTop: "1rem" }}
+            >
+              {meeting.canStart && (<StartMeetingButton />)}
+              <UpdateMeetingButton />
+            </Grid>
+          </CardContent>
+        </CardActionArea>
+      </Card>
+    )
+  }
   return (
     <Grid>
-      <Grid container paddingTop={2}>
-        <Grid xs={6} item justifyContent={"flex-start"}>
-          <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-            Meetings
-          </Typography>
+      {/* Live Meeting */}
+      <Grid>
+        {/* Header */}
+        <Grid container paddingTop={2}>
+          <Grid xs={6} item justifyContent={"flex-start"}>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+              Live Meetings
+            </Typography>
+          </Grid>
+          <Grid xs={6} item>
+            <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
+              <MeetingNowButton />
+            </Stack>
+          </Grid>
         </Grid>
-        <Grid xs={6} item>
-          <Stack
-            direction={"row"}
-            spacing={2}
-            justifyContent={"flex-end"}
-            paddingRight={6}
-          >
-            <MeetingNowButton />
-          </Stack>
+        {/* List */}
+        <Grid
+          xs={12}
+          container
+          justifyContent={"flex-start"}
+          sx={{ overflow: "auto" }}
+        >
+          <Grid xs={12}>
+            <Stack direction="row" spacing={1}>
+              {liveMeetings.map((meeting => (LiveMeetingCard(meeting))))}
+              {/* <Card
+                key="1"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Meeting Kteam
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Metaprogramming
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can join now
+                    </Typography>
+                    <JoinMeetingButton />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="2"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Java basic
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Java basic for you
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can start now
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <StartMeetingButton />
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="3"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid red" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Data Structures
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Deep dive using C#
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Cannot start
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="4"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Meeting Kteam
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Metaprogramming
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can join now
+                    </Typography>
+                    <JoinMeetingButton />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="5"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Java basic
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Java basic for you
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can start now
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <StartMeetingButton />
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card> */}
+            </Stack>
+          </Grid>
         </Grid>
       </Grid>
-      {/* ongoing meeting */}
-      <Grid
-        xs={12}
-        container
-        justifyContent={"flex-start"}
-        sx={{ overflow: "auto" }}
-      >
-        <Grid xs={12}>
-          <Typography variant="h6">Ongoing meeting</Typography>
-        </Grid>
-        <Grid xs={12}>
-          <Stack direction="row" spacing={1}>
-            <Card
-              key="1"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Meeting Kteam
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Metaprogramming
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect:{" "}
-                    {dayjs(new Date())
-                      .subtract(1, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen: {dayjs(new Date()).format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Can join now
-                  </Typography>
-                  <JoinMeetingButton />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-            <Card
-              key="2"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Meeting Kteam
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Metaprogramming
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect:{" "}
-                    {dayjs(new Date())
-                      .subtract(1, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen: {dayjs(new Date()).format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Can join now
-                  </Typography>
-                  <JoinMeetingButton />
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Stack>
-        </Grid>
-        {/* upcoming meeting */}
-        <Grid xs={12}>
-          <Typography variant="h6">Upcoming meeting</Typography>
-        </Grid>
-        <Grid xs={12}>
-          <Stack direction="row" spacing={1}>
-            <Card
-              key="2"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Java basic
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Java basic for you
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect:{" "}
-                    {dayjs(new Date())
-                      .add(1, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen:{" "}
-                    {dayjs(new Date())
-                      .add(2, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Can start now
-                  </Typography>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    sx={{ paddingTop: "1rem" }}
-                  >
-                    <StartMeetingButton />
-                    <UpdateMeetingButton />
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-            </Card>
 
-            <Card
-              key="5"
-              sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
-            >
-              <CardActionArea>
-                <CardContent sx={{ textAlign: "left" }}>
-                  <Typography gutterBottom variant="h6">
-                    Java basic
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Content: Java basic for you
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Expect:{" "}
-                    {dayjs(new Date())
-                      .add(5, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Happen:{" "}
-                    {dayjs(new Date())
-                      .add(10, "hour")
-                      .format("DD-MM-YYYY HH:mm")}
-                  </Typography>
-                  <Typography variant="body1" color="text.secondary">
-                    Status: Can start now
-                  </Typography>
-                  <Grid
-                    container
-                    justifyContent="center"
-                    sx={{ paddingTop: "1rem" }}
-                  >
-                    <StartMeetingButton />
-                    <UpdateMeetingButton />
-                  </Grid>
-                </CardContent>
-              </CardActionArea>
-            </Card>
-          </Stack>
+      {/* Schedule Meeting */}
+      <Grid>
+        {/* Header */}
+        <Grid container paddingTop={2}>
+          <Grid xs={6} item justifyContent={"flex-start"}>
+            <Typography variant="h4" sx={{ fontWeight: "bold" }}>
+              Schedule Meetings
+            </Typography>
+          </Grid>
+          <Grid xs={6} item>
+            <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
+              <CreateSchedule />
+            </Stack>
+          </Grid>
+        </Grid>
+        {/* List */}
+        <Grid
+          xs={12}
+          container
+          justifyContent={"flex-start"}
+          sx={{ overflow: "auto" }}
+        >
+          <Grid xs={12}>
+            <Stack direction="row" spacing={1}>
+              {scheduleMeetings.map((meeting => (ScheduleMeetingCard(meeting))))}
+
+              {/* <Card
+                key="1"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Meeting Kteam
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Metaprogramming
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can join now
+                    </Typography>
+                    <JoinMeetingButton />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="2"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Java basic
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Java basic for you
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can start now
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <StartMeetingButton />
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="3"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid red" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Data Structures
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Deep dive using C#
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Cannot start
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="4"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid green" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Meeting Kteam
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Metaprogramming
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can join now
+                    </Typography>
+                    <JoinMeetingButton />
+                  </CardContent>
+                </CardActionArea>
+              </Card>
+              <Card
+                key="5"
+                sx={{ maxWidth: 345, minWidth: 200, border: "3px solid orange" }}
+              >
+                <CardActionArea>
+                  <CardContent sx={{ textAlign: "left" }}>
+                    <Typography gutterBottom variant="h6">
+                      Java basic
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Content: Java basic for you
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Expect: 29/02 10:34 - 11:19
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Happen: 29/02 10:49
+                    </Typography>
+                    <Typography variant="body1" color="text.secondary">
+                      Status: Can start now
+                    </Typography>
+                    <Grid
+                      container
+                      justifyContent="center"
+                      sx={{ paddingTop: "1rem" }}
+                    >
+                      <StartMeetingButton />
+                      <UpdateMeetingButton />
+                    </Grid>
+                  </CardContent>
+                </CardActionArea>
+              </Card> */}
+            </Stack>
+          </Grid>
         </Grid>
       </Grid>
 
@@ -242,7 +515,7 @@ function Schedule() {
       <Grid container paddingLeft={5}>
         <Grid item xs={6} sx={{ textAlign: "left" }}>
           <Typography variant="h4" sx={{ fontWeight: "bold" }}>
-            Schedule
+            Calendar
           </Typography>
         </Grid>
         <Grid xs={6} sx={{ textAlign: "right" }} paddingRight={5}>
@@ -257,7 +530,7 @@ function Schedule() {
             events={schedule}
             startAccessor="start"
             endAccessor="end"
-            style={{ margin: "50px" }}
+            // style={{ margin: "50px" }}
             components={{
               event: EventComponent,
             }}

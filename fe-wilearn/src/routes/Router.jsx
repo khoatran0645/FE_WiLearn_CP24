@@ -98,7 +98,11 @@ export default function Router() {
           element: <UserProfile />,
         },
         {
-          path: "groups/:id",
+          path: "searchgroup",
+          element: <SearchPage />,
+        },
+        {
+          path: "groups/:groupId",
           element: <GroupLayout />,
           children: [
             {

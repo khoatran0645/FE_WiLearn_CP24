@@ -11,13 +11,24 @@ import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
+import * as Yup from "yup";
 
 import { useNavigate } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
+import { CircularProgress } from "@mui/material";
+import { useFormik } from "formik";
+import { checkLogin } from "../../app/reducer/userReducer";
 
 const defaultTheme = createTheme();
+const validationSchema = Yup.object({
+  usernameOrEmail: Yup.string().required("Xin hãy điền tên đăng nhập"),
+  password: Yup.string().required("Xin hãy nhập mật khẩu."),
+});
 
 export default function SignIn() {
+  const { userInfo, loading, error } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const navigate = useNavigate();
@@ -39,6 +50,25 @@ export default function SignIn() {
       password: data.get("password"),
     });
   };
+
+  const formik = useFormik({
+    initialValues: {
+      usernameOrEmail: "",
+      password: "",
+      rememberMe: false,
+    },
+    validationSchema,
+    onSubmit: async (values) => {
+      dispatch(checkLogin(values));
+    },
+  });
+
+  useEffect(() => {
+    console.log("userInfo", userInfo);
+    if (userInfo?.token) {
+      navigate("/groups");
+    }
+  }, [userInfo]);
 
   return (
     <Grid
@@ -68,7 +98,8 @@ export default function SignIn() {
             </Typography>
             <Box
               component="form"
-              onSubmit={handleSubmit}
+              // onSubmit={handleSubmit}
+              onSubmit={formik.handleSubmit}
               noValidate
               sx={{ mt: 1 }}
             >
@@ -78,10 +109,20 @@ export default function SignIn() {
                 fullWidth
                 id="email"
                 label="Email Address"
-                name="email"
+                // name="email"
                 autoComplete="email"
                 autoFocus
-                onChange={(e) => setUsername(e.target.value)}
+                // onChange={(e) => setUsername(e.target.value)}
+                name="usernameOrEmail"
+                value={formik.values.usernameOrEmail}
+                onChange={formik.handleChange}
+                error={
+                  formik.touched.usernameOrEmail &&
+                  Boolean(formik.errors.usernameOrEmail)
+                }
+                helperText={
+                  formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+                }
               />
               <TextField
                 margin="normal"
@@ -92,20 +133,27 @@ export default function SignIn() {
                 type="password"
                 id="password"
                 autoComplete="current-password"
-                onChange={(e) => setPassword(e.target.value)}
+                // onChange={(e) => setPassword(e.target.value)}
+                value={formik.values.password}
+                onChange={formik.handleChange}
+                error={formik.touched.password && Boolean(formik.errors.password)}
+                helperText={formik.touched.password && formik.errors.password}
               />
               <FormControlLabel
                 control={<Checkbox value="remember" color="primary" />}
                 label="Remember me"
+                name="rememberMe"
+                value={formik.values.rememberMe}
+                onChange={formik.handleChange}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
                 sx={{ mt: 3, mb: 2, backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)" }}
-                onClick={handleLogin}
+                // onClick={handleLogin}
               >
-                Sign In
+                {!loading ? "Sign In" : <CircularProgress />}
               </Button>
               <Grid container>
                 <Grid item xs>

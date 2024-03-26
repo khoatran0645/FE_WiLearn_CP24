@@ -1,4 +1,6 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import { useSelector } from 'react-redux';
 import {
   Box,
   Button,
@@ -10,7 +12,6 @@ import {
 } from "@mui/material";
 import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
-import { Link } from "react-router-dom";
 
 const MultiLevelDropdown = () => {
   const [anchorEl, setAnchorEl] = useState(null);
@@ -44,14 +45,20 @@ const MultiLevelDropdown = () => {
     // handleClose();
   };
 
-  const ownGroups = [
+  const { userInfo } = useSelector(state => state.user);
+
+  let leadGroups = [
     { id: 1, name: "Nhóm 1" },
     { id: 2, name: "Nhóm 2" },
-  ];
-  const joinGroups = [
+  ]
+  let joinGroups = [
     { id: 3, name: "Nhóm 3" },
     { id: 4, name: "Nhóm 4" },
-  ];
+  ]
+  if (userInfo) {
+    leadGroups = userInfo.leadGroups;
+    joinGroups = userInfo.joinGroups;
+  }
 
   return (
     <Box sx={{ display: "flex", alignItems: "center" }}>
@@ -80,7 +87,10 @@ const MultiLevelDropdown = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem component={Link} to={`groups`}>
+          <MenuItem
+            component={Link}
+            to={`groups`}
+          >
             All
           </MenuItem>
           <MenuItem onClick={handleSubMenu1Click}>
@@ -111,7 +121,7 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
-            {ownGroups.map((group) => (
+            {leadGroups.map((group) => (
               <MenuItem
                 component={Link}
                 to={`groups/${group.id}`}

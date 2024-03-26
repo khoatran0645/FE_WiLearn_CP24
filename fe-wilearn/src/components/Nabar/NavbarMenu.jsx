@@ -8,6 +8,8 @@ import Button from '@mui/material/Button';
 import AvatarUser from "../AvatarUser";
 import SearchBar from './SearchBar';
 import MultiLevelDropdown from '../Navbar/GroupsNavbarBtn/MultiLevelDropdown';
+import { useDispatch, useSelector } from 'react-redux';
+import { useEffect } from 'react';
 
 const pageRoutes = [
   { label: 'Home', path: '/home' },
@@ -18,6 +20,8 @@ const pageRoutes = [
 ];
 
 export default function NavbarMenu() {
+  const {userInfo} = useSelector(state=>state.user);
+  
   return (
     <AppBar sx={{ background: '#ccc', borderBottom: '1px solid #ccc', color: 'black', zIndex: (theme) => theme.zIndex.drawer + 24 }}>
       <Container maxWidth="xl">
@@ -61,7 +65,7 @@ export default function NavbarMenu() {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AvatarUser />
             <Typography variant="body1" sx={{ ml: 1 }}>
-              Thuy Linh
+              {userInfo?.username} - {userInfo?.fullName}
             </Typography>
           </Box>
         </Toolbar>
