@@ -23,6 +23,9 @@ import { getGroupInfo, getSubjectLists } from "../../app/reducer/studyGroupReduc
 import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { BE_URL } from "../../constants";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { toast } from "react-toastify";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
@@ -31,6 +34,14 @@ export default function ClippedDrawer() {
   console.log("useParams groupId ", groupId)
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const onRefreshGroup = () => {
+    dispatch(getSubjectLists());
+    dispatch(getGroupInfo(groupId));
+    dispatch(getGroupInfoAsMember(groupId));
+    dispatch(getGroupLists());
+    dispatch(getGroupMemberLists());
+    dispatch(getRequestFormList(groupId));
+  };
   useEffect(() => {
     // dispatch(getRoomsByGroupId(groupId));
     dispatch(getSubjectLists());
@@ -40,30 +51,31 @@ export default function ClippedDrawer() {
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
 
-    // response.then((r) => {
-    //   console.log("response", r);
-    //   console.log("response", r.type);
-    //   if (r.type == getGroupInfo.rejected.type) {
-    //     navigate("/groups");
-    //   }
-    // });
-    // //new group hub
-    // const accessTokenFactory = localStorage.getItem("token");
-    // const groupHub = new HubConnectionBuilder()
-    //   .withUrl(BE_URL + "/hubs/grouphub?groupId=" + groupId, {
-    //     accessTokenFactory: () => accessTokenFactory,
-    //   })
-    //   .build();
-    // groupHub.start().catch((err) => console.log(err));
+    response.then((r) => {
+      console.log("response", r);
+      console.log("response", r.type);
+      if (r.type == getGroupInfo.rejected.type) {
+        navigate("/groups");
+      }
+    });
+    //new group hub
+    const accessTokenFactory = localStorage.getItem("token");
+    const groupHub = new HubConnectionBuilder()
+      .withUrl(BE_URL + "/hubs/grouphub?groupId=" + groupId, {
+        accessTokenFactory: () => accessTokenFactory,
+      })
+      .build();
+    groupHub.start().catch((err) => console.log(err));
 
-    // groupHub.on("OnReloadMeeting", (message) => {
-    //   // dispatch(getRoomsByGroupId(groupId));
-    //   onRefreshGroup();
-    //   message && toast.info(message);
-    // });
-    // return () => {
-    //   groupHub.stop().catch((error) => {});
-    // };
+    groupHub.on("OnReloadMeeting", (message) => {
+      // dispatch(getRoomsByGroupId(groupId));
+      onRefreshGroup();
+      message && toast.info(message);
+    });
+    console.log("groupHub", groupHub);
+    return () => {
+      groupHub.stop().catch((error) => {});
+    };
   }, [groupId]);
   return (
     <Box sx={{ display: "flex" }}>
