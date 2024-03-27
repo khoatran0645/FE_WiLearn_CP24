@@ -95,16 +95,16 @@ export const publicRoutes = {
 };
 
 export const privateRoutes = {
-  studyGroup: "/study-group",
-  studyGroupDetail: "/study-group/:groupId",
+  studyGroup: "/groups",
+  studyGroupDetail: "/groups/:groupId",
   schedule: "/schedule",
   settings: "/settings",
   app: "/app",
   room: "/room/:id",
-  meeting: "/study-group/:groupId/meeting/:meetingId",
+  meeting: "/groups/:groupId/meeting/:meetingId",
   studentStats: "/student/stats",
   studentDocuments: "/student/documents",
-  whiteboard: "/study-group/:groupId/meeting/:meetingId/whiteboard",
+  whiteboard: "/groups/:groupId/meeting/:meetingId/whiteboard",
   study: "/study",
 };
 

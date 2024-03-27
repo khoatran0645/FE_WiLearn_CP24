@@ -1,10 +1,10 @@
 import { Button } from "@mui/material";
 import { NavLink } from "react-router-dom";
 
-export default function StartMeetingButton() {
+export default function StartMeetingButton({meetingId}) {
   return (
     <NavLink
-      to={":meetingId"}
+      to={`./${meetingId}`}
       style={{ textDecoration: "none", paddingRight: "10px" }}
     >
       <Button

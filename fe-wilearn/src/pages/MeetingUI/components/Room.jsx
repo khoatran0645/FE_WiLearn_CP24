@@ -90,34 +90,6 @@ export const Room = () => {
       connection.on("get-users", (participants) => {
         handleUserList(participants);
       });
-
-      // connection.on('LeaderEndMeeting', (msg) => {
-      //   toast.info(msg);
-      //   handleLeaveRoom();
-      //   connection.invoke('LeaveRoom', {
-      //     roomId: meetingId,
-      //     peerId: meId
-      //   });
-      //   toast.info('Đang rời cuộc họp');
-      //   setTimeout(() => {
-      //     connection.stop().catch((error) => {
-      //       console.log('\n\ndisconect meet hub error');
-      //       console.log(error);
-      //     });
-      //     dispatch(clearVoteData());
-      //     navigate(`/study-group/${groupId}`);
-      //   }, 2000);
-      // });
-      // connection.on("OnVoteChange", () => handleVoteChange(meetingId));
-      // connection.on("OnEndVote", (review) => {
-      //   toast.info(
-      //     review.revieweeUsername + " đã trả bài xong. Xin hãy chấm điểm."
-      //   );
-      //   handleVoteChange(meetingId);
-      // });
-      // connection.on("OnStartVote", (reviewee) =>
-      //   toast.info(reviewee + " bắt đầu trả bài")
-      // );
       setContextConnection(connection);
     }
   }, [connection]);

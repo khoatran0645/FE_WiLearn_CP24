@@ -1,6 +1,7 @@
 import { Button, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
- const JoinMeetingButton = ({meetingId}) => {
+ const JoinMeetingButton = (props) => {
+  const {meetingId}=props
   console.log("JoinMeetingButton meetingId", meetingId)
   return (
     <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>

@@ -169,7 +169,7 @@ export const RoomProvider = ({ children }) => {
   };
 
   const enterRoom = ({ roomId }) => {
-    navigate(`/study-group/${groupId}/meeting/${roomId}`);
+    navigate(`/groups/${groupId}/meeting/${roomId}`);
   };
 
   const handleUserList = ({ participants }) => {

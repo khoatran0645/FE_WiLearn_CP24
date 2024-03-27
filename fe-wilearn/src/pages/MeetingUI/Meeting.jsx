@@ -60,7 +60,7 @@ const Meeting = () => {
   const containerRef = useRef(null);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
   const [hasMore, setHasmore] = useState(false);
-  const { userInfo } = useSelector((state) => state.auth);
+  const { userInfo } = useSelector((state) => state.user);
 
   // const userVideo = useRef();
   const {
@@ -123,7 +123,7 @@ const Meeting = () => {
       if (userInfo?.roleName === "Parent") {
         navigate(`/study`);
       } else {
-        navigate(`/study-group/${groupId}`);
+        navigate(`/groups/${groupId}`);
       }
     // }
   };
@@ -135,6 +135,10 @@ const Meeting = () => {
     //   handleLeaveRoom();
     // });
   };
+  const leadGroups = userInfo?.leadGroups;
+  const isLead = leadGroups.some((gr) => {
+    return gr.id === parseInt(groupId);
+  });
 
   const location = useLocation();
   const redirectToWhiteBoard = () => {
@@ -216,7 +220,7 @@ const Meeting = () => {
           activeIcon={<ExitToAppIcon />}
           offIcon={<ExitToAppIcon />}
         />
-        {location.state.isLead && (
+        {isLead && (
           <CustomIcon
             title="Kết thúc buổi học"
             // title={location.state.isLead}

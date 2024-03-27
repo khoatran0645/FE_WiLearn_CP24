@@ -194,8 +194,6 @@ export const getGroupInfo = createAsyncThunk(
       .then((response) => response)
       .catch((error) => {
         toast.error("Bạn không phải thành viên nhóm mã số " + groupId);
-        // const navigate = useNavigate();
-        // navigate('/study-group');
         return rejectWithValue(error.response.data);
       });
   }
@@ -268,8 +266,6 @@ export const requestJoinGroup = createAsyncThunk(
       })
       .catch((error) => {
         toast.error("Bạn đã xin vào nhóm này rồi");
-        // const navigate = useNavigate();
-        // navigate('/study-group');
         rejectWithValue(error.response.data);
       });
   }
