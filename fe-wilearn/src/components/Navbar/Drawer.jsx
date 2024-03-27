@@ -20,7 +20,7 @@ import SettingsIcon from "@mui/icons-material/Settings";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar, Grid, Typography } from "@mui/material";
 import { getGroupInfo, getSubjectLists } from "../../app/reducer/studyGroupReducer";
-import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupReducerActions";
+import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 const drawerWidth = 220;

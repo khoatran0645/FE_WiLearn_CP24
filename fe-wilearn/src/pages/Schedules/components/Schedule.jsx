@@ -72,7 +72,7 @@ function Schedule() {
   const LiveMeetingCard = (meeting) => {
     return (
       <Card
-        key="1"
+        key={meeting.id}
         sx={{ maxWidth: 345, minWidth: 200, border: `3px solid green` }}
       >
         <CardActionArea>
@@ -105,7 +105,7 @@ function Schedule() {
             <Typography variant="body1" color="text.secondary">
               {meeting.countMember} people
             </Typography>
-            <JoinMeetingButton />
+            <JoinMeetingButton meetingId={meeting.id} />
           </CardContent>
         </CardActionArea>
       </Card>
@@ -118,7 +118,7 @@ function Schedule() {
       (meeting.canStart ? "orange" : "red")
     return (
       <Card
-        key="1"
+        key={meeting.id }
         sx={{ maxWidth: 345, minWidth: 200, border: borderStyle }}
       >
         <CardActionArea>
@@ -153,7 +153,7 @@ function Schedule() {
               justifyContent="center"
               sx={{ paddingTop: "1rem" }}
             >
-              {meeting.canStart && (<StartMeetingButton />)}
+              {meeting.canStart && (<StartMeetingButton meetingId={meeting.id} />)}
               <UpdateMeetingButton />
             </Grid>
           </CardContent>
