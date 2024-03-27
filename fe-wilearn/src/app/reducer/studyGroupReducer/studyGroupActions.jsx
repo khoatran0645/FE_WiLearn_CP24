@@ -228,6 +228,28 @@ export const scheduleMeeting = createAsyncThunk(
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
+export const meetingNow = createAsyncThunk(
+  "studyGroup/meetingNow",
+  async (data, { rejectWithValue }) => {
+    return await axiosClient
+      .post(API_MEETING_NOW, data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+// export const meetingNow = createAsyncThunk(
+//   "studyGroup/meetingNow",
+//   async (groupId, { rejectWithValue }) => {
+//     const data = {
+//       name: "Họp ngay",
+//       groupId: parseInt(groupId),
+//     };
+//     return await axiosClient
+//       .post(API_MEETING_NOW, data)
+//       .then((response) => response)
+//       .catch((error) => rejectWithValue(error.response.data));
+//   }
+// );
 
 export const searchGroups = createAsyncThunk(
   "studyGroup/searchGroups",
@@ -239,19 +261,6 @@ export const searchGroups = createAsyncThunk(
   }
 );
 
-export const meetingNow = createAsyncThunk(
-  "studyGroup/meetingNow",
-  async (groupId, { rejectWithValue }) => {
-    const data = {
-      name: "Họp ngay",
-      groupId: parseInt(groupId),
-    };
-    return await axiosClient
-      .post(API_MEETING_NOW, data)
-      .then((response) => response)
-      .catch((error) => rejectWithValue(error.response.data));
-  }
-);
 
 export const requestJoinGroup = createAsyncThunk(
   "studyGroup/requestJoinGroup",

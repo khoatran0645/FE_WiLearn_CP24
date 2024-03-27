@@ -192,19 +192,6 @@ const Meeting = () => {
           activeIcon={<MessageIcon />}
           offIcon={<MessageIcon />}
         />
-        {/* <NavLink
-          key={4}
-          to={{ pathname: './whiteboard', state: { meetHub: connection } }}
-          target="_blank"
-          state={{ meetHub: connection, abc: 'abc' }}
-          abc={{ meetHub: connection }}
-        >
-          <CustomIcon
-            title="Bảng trắng"
-            activeIcon={<VideocamIcon />}
-            offIcon={<VideocamOffIcon />}
-          />
-        </NavLink> */}
         <CustomIcon
           title="Bảng vẽ"
           key={4}
