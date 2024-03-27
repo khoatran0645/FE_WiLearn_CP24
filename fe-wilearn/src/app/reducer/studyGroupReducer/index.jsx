@@ -416,6 +416,30 @@ const studyGroupSlice = createSlice({
       state.error = payload;
     })
 
+     // Reducers for instantMeeting action
+    // [meetingNow.pending]: (state) => {
+    //   state.loading = true;
+    //   state.error = null;
+    // },
+    builder.addCase(meetingNow.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    })
+    // [meetingNow.fulfilled]: (state) => {
+    //   state.loading = false;
+    // },
+    builder.addCase(meetingNow.fulfilled, (state) => {
+      state.loading = false;
+    })
+    // [meetingNow.rejected]: (state, { payload }) => {
+    //   state.loading = false;
+    //   state.error = payload;
+    // },
+    builder.addCase(meetingNow.rejected,(state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    })
+
     // // Reducers for addNewGroup action
     // // [addNewGroup.pending]: (state) => {
     // //   state.loading = true;
