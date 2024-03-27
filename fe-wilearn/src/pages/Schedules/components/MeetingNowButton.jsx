@@ -9,13 +9,18 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Form, useFormik } from "formik";
-import { meetingNow } from "../../../app/reducer/studyGroupReducer";
+import { getGroupInfo, meetingNow } from "../../../app/reducer/studyGroupReducer";
 import * as Yup from "yup";
+import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function MeetingNowButton({ groupId }) {
   const [openDialog, setOpenDialog] = useState(false);
   const [nameRoom, setNameRoom] = useState("");
   const [contentRoom, setContentRoom] = useState("");
+  const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   const validationSchema = Yup.object({
     groupId: Yup.number().required('Require group id').positive().integer(),
@@ -29,16 +34,21 @@ export default function MeetingNowButton({ groupId }) {
       name: "",
       content: "",
     },
-    validationSchema,
+    validationSchema: validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
       const response = await dispatch(
         meetingNow(values)
       );
-      if (response.type === scheduleMeeting.fulfilled.type) {
+      if (response.type === meetingNow.fulfilled.type) {
         formik.resetForm();
         dispatch(getGroupInfo(groupId));
         setOpenDialog(false);
+        toast.success('Create meeting successfully');
+        console.log("onSubmit res", response)
+        navigate(`./${response.payload.id}`)
+      } else if(response.type === meetingNow.fulfilled.type){
+        toast.error('Fail to create meeting');
       }
     },
   });
@@ -62,18 +72,19 @@ export default function MeetingNowButton({ groupId }) {
       >
         Meeting now
       </Button>
-      <Form
-
-        handleSubmit={formik.submit}>
-        <Dialog
-          open={openDialog}
-          onClose={handleCloseDialog}
-          maxWidth="xs"
-          fullWidth
-          onSubmit={formik.handleSubmit}
-        >
+      <Dialog
+        open={openDialog}
+        onClose={handleCloseDialog}
+        maxWidth="xs"
+        fullWidth
+      >
+        {/* <Form
+          handleSubmit={formik.submit}
+        > */}
+        <form onSubmit={formik.handleSubmit}>
           <DialogTitle>Create meeting now</DialogTitle>
           <DialogContent>
+            {/* Group Id: {groupId} */}
             {formik.errors.groupId}
             <FormControl fullWidth>
 
@@ -98,7 +109,7 @@ export default function MeetingNowButton({ groupId }) {
                 sx={{ marginTop: "10px" }}
                 // value={contentRoom}
                 // onChange={(e) => setContentRoom(e.target.value)}
-                name="name"
+                name="content"
                 value={formik.values.content}
                 onChange={formik.handleChange}
                 error={formik.touched.content && Boolean(formik.errors.content)}
@@ -111,8 +122,10 @@ export default function MeetingNowButton({ groupId }) {
             {/* <Button type="submit" onClick={handleCreateRoom}>Create</Button> */}
             <Button type="submit">Create</Button>
           </DialogActions>
-        </Dialog>
-      </Form>
+        </form>
+
+        {/* </Form> */}
+      </Dialog>
     </>
   );
 }

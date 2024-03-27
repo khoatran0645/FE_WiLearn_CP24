@@ -174,7 +174,7 @@ function Schedule() {
           </Grid>
           <Grid xs={6} item>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={6}>
-              <MeetingNowButton />
+              <MeetingNowButton groupId={groupInfo?.id}/>
             </Stack>
           </Grid>
         </Grid>
