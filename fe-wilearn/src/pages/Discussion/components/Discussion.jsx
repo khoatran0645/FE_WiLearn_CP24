@@ -62,7 +62,7 @@ export default function DiscussionList() {
                   <Typography variant="body1" component="p">
                     {discussion.content}
                   </Typography>
-                  <SeeMore/>
+                  <SeeMore discussionId={discussion.id}/>
                 </CardContent>
               </Card>
             </ListItem>

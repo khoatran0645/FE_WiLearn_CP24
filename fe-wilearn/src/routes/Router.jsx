@@ -120,7 +120,7 @@ export default function Router() {
               element: <Discussion />,
             },
             {
-              path: "discussionDetail",
+              path: "discussions/:discussionId",
               element: <DiscussionDetail />,
             },
             {

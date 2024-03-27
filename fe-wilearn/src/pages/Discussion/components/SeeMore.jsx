@@ -1,11 +1,12 @@
 import { Button, Grid } from '@mui/material';
 import { useNavigate } from 'react-router-dom';
 
-export default function SeeMore() {
+export default function SeeMore({discussionId}) {
   const navigate = useNavigate();
 
   const handleSeeMoreClick = () => {
-    navigate("/home/groups/:id/discussionDetail");
+    // navigate(`/home/groups/:id/discussionDetail`);
+    navigate(`./${discussionId}`);
   };
   return (
     <Grid>
