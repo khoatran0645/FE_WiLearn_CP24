@@ -53,6 +53,7 @@ const userSlice = createSlice({
     builder.addCase(checkLogin.fulfilled,(state, { payload }) => {
       state.loading = false;
       state.userInfo = payload;
+      localStorage.setItem('userName', payload.username);
       localStorage.setItem('token', payload.token);
       localStorage.setItem('role', payload.role);
     })
@@ -99,6 +100,7 @@ const userSlice = createSlice({
       state.loading = false;
       const token = localStorage.getItem("token");
       state.userInfo ={ ...payload, token};
+      localStorage.setItem('userName', payload.username);
     });
     // [getUserInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;
