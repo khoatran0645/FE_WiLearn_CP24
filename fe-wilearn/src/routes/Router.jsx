@@ -19,6 +19,8 @@ import GroupSettings from "../components/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
 import UserProfile from "./../components/UserProfile";
 import SearchPage from "./../pages/SearchGr/components/SearchPage";
+import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
+import Meeting from "../pages/MeetingUI/Meeting";
 
 export default function Router() {
   const routes = useRoutes([
@@ -128,7 +130,12 @@ export default function Router() {
                 { path: "", index: true, element: <Schedule /> },
                 {
                   path: ":meetingId",
-                  element: <MeetingPage />,
+                  element: (
+                    <RoomProvider>
+                      {/* <MeetingPage /> */}
+                      <Meeting />
+                    </RoomProvider>
+                  ),
                 },
               ],
             },

@@ -1,9 +1,10 @@
 import { Button, Grid } from "@mui/material";
 import { NavLink } from "react-router-dom";
-export default function JoinMeetingButton() {
+ const JoinMeetingButton = ({meetingId}) => {
+  console.log("JoinMeetingButton meetingId", meetingId)
   return (
     <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
-      <NavLink to={":meetingId"} style={{ textDecoration: "none" }}>
+      <NavLink to={`./${meetingId}`} style={{ textDecoration: "none" }}>
         <Button
           variant="contained"
           size="small"
@@ -20,3 +21,4 @@ export default function JoinMeetingButton() {
     </Grid>
   );
 }
+export default JoinMeetingButton;

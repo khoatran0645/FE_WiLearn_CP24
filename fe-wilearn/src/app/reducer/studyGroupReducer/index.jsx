@@ -22,7 +22,7 @@ import {
   meetingNow,
   getMeetingList,
   getClassLists,
-} from "./studyGroupReducerActions";
+} from "./studyGroupActions";
 
 const initialState = {
   loading: false,
