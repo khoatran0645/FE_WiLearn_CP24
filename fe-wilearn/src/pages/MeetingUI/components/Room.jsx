@@ -7,10 +7,7 @@ import VideoPlayer from "./VideoPlayer";
 import { RoomContext } from "../context/roomContext";
 import peersReducer from "../../../app/reducer/peersReducer/peersReducer";
 import { getReviewInfos } from "../../../app/reducer/voteReducer/votesActions";
-// import UserPaper from "src/components/UserPaper";
 import { useDispatch } from "react-redux";
-// import { toast } from "react-toastify";
-// import { BE_URL } from "src/common/constants";
 
 export const Room = () => {
   const { meetingId } = useParams();
@@ -28,13 +25,10 @@ export const Room = () => {
     handleVoteChange,
     setConnection: setContextConnection,
   } = useContext(RoomContext);
-  // const peersRC = useContext(RoomContext).peers;
   const [peers, dispatch] = useReducer(peersReducer, {});
   const [connection, setConnection] = useState();
   const [connectionState, setConnectionState] = useState();
   const [voting, setVoting] = useState();
-  // const { addMessage, userJoin, removePeer, addHistory } =
-  //   useContext(RoomContext);
   const dispatcher = useDispatch();
 
   const handleGetListVoting = async () => {
@@ -43,46 +37,6 @@ export const Room = () => {
       setVoting(votingResponse);
     }
   };
-
-  // useEffect(() => {
-  //   // const accessTokenFactory = localStorage.getItem("token");
-  //   // if (meetingId) {
-  //   //   const newConnect = new HubConnectionBuilder()
-  //   //     // .withUrl('http://localhost:8000/hubs/meetinghub?meetingId=' + meetingId, {
-  //   //     .withUrl(BE_URL + "/hubs/meetinghub?meetingId=" + meetingId, {
-  //   //       accessTokenFactory: () => accessTokenFactory,
-  //   //     })
-  //   //     .build();
-
-  //   //   newConnect.on("add-message", (message) => {
-  //   //     toast.info("Có tin nhắn mới");
-  //   //     addMessage(message);
-  //   //   });
-
-  //   //   // newConnect.on('user-joined', userJoin);
-  //   //   newConnect.on("user-joined", (newUser) => {
-  //   //     toast.info(newUser.userName + " vào phòng học");
-  //   //     userJoin(newUser);
-  //   //   });
-  //   //   newConnect.on("user-disconnected", (peerId, userName) => {
-  //   //     toast.info(userName + " rời phòng học");
-  //   //     removePeer(peerId);
-  //   //   });
-  //   //   newConnect.on("get-messages", addHistory);
-
-  //   //   if (meId) {
-  //   //     newConnect.start().then(() =>
-  //   //       newConnect.invoke("JoinRoom", {
-  //   //         roomId: meetingId,
-  //   //         peerId: meId,
-  //   //         username: userName,
-  //   //       })
-  //   //     );
-  //   //     setConnection(newConnect);
-  //   //     setConnectionState(newConnect.state);
-  //   //   }
-  //   // }
-  // }, [meetingId, meId]);
 
   useEffect(() => {
     if (connection && connection !== undefined) {
@@ -116,23 +70,9 @@ export const Room = () => {
   // eslint-disable-next-line no-unused-vars
   const { [screenSharingId]: sharing, ...peersToShow } = peers;
   const { [screenSharingId]: sharingRC, ...peersToShowRC } = peersRC;
-  // const loadOtherVids = () => {
-  //   return Object.values(peersToShow)
-  //     .filter((otherPeers) => !!otherPeers.stream)
-  //     .map((otherPeer) => (
-  //       // <UserPaper key={peer.id} stream={peer.stream} name={peer.userName} />
-  //       // <Box key={otherPeer.id}>
-  //       //   <VideoPlayer stream={otherPeer.stream} />
-  //       //   <Box>{otherPeer.userName}</Box>
-  //       // </Box>
-  //       Ok
-  //     ));
-  // };
   const vidGrid = (stream, streamUsername, key) => {
-    console.log("Other ppl", peersToShowRC);
     const count =
-      Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream)
-        .length + 1;
+      Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
     //4x4: 10-16
     let width = 1;
     //1-1: 1x1
@@ -175,34 +115,12 @@ export const Room = () => {
     <Grid container spacing={1}>
       {
         screenSharingVideo && vidGrid(screenSharingVideo, userName)
-        // <Grid item xs={() => vidFrameSize()}>
-        // <Grid item xs={9}>
-        //   <Box>
-        //     <Box>
-        //       <MeetingAvatar>
-        //         <VideoPlayer stream={screenSharingVideo} />
-        //       </MeetingAvatar>
-        //       <Box>{userName}</Box>
-        //     </Box>
-        //   </Box>
-        // </Grid>
       }
       {
         screenSharingId !== me?.id && vidGrid(stream, userName)
-        // (
-        //   <Grid item xs={3}>
-        //     <Box>
-        //       <MeetingAvatar>
-        //         <VideoPlayer stream={stream} />
-        //       </MeetingAvatar>
-        //       <Box>{userName}</Box>
-        //     </Box>
-        //   </Grid>
-        // )
       }
-      {/* {loadOtherVids()} */}
       {Object.values(peersToShowRC)
-        .filter((otherPeers) => !!otherPeers.stream)
+        .filter((otherPeers) => !! otherPeers.stream)
         .map((otherPeer) => (
           <>
             {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)}
@@ -210,26 +128,7 @@ export const Room = () => {
             {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
             {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
           </>
-          // (
-          //   <Grid item xs={() => vidFrameSize()} key={otherPeer.id}>
-          //     <Box>
-          //       <MeetingAvatar>
-          //         <VideoPlayer stream={otherPeer.stream} />
-          //       </MeetingAvatar>
-          //       <Box>{otherPeer.userName}</Box>
-          //     </Box>
-          //   </Grid>
-          // )
         ))}
-      {/* {Object.values(peersToShowRC)
-        .filter((peer) => !!peer.stream)
-        .map((peer) => (
-          <>
-            {peersToShow.length}
-            {peer.userName}
-            <UserPaper key={peer.id} stream={peer.stream} name={peer.userName} />
-          </>
-        ))} */}
     </Grid>
   );
 };
