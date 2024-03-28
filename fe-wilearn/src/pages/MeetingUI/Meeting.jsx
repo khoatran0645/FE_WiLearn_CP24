@@ -28,6 +28,7 @@ import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CancelIcon from "@mui/icons-material/Cancel";
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 // import { removeAllPeerAction } from "src/reducers/peersActions";
 // import peersReducer from "src/reducers/peersReducer";
 
@@ -136,7 +137,7 @@ const Meeting = () => {
     // });
   };
   const leadGroups = userInfo?.leadGroups;
-  const isLead = leadGroups.some((gr) => {
+  const isLead = leadGroups && leadGroups.some((gr) => {
     return gr.id === parseInt(groupId);
   });
 
@@ -180,18 +181,18 @@ const Meeting = () => {
             titleOff="Bắt đầu trả bài"
             key={2}
             onClick={handleClickVoteButton}
-            activeIcon={<ThumbsUpDownRoundedIcon />}
-            offIcon={<ThumbsUpDownRoundedIcon />}
+            activeIcon={<LocalLibraryOutlinedIcon />}
+            offIcon={<LocalLibraryOutlinedIcon />}
           />
         )}
-        <CustomIcon
+        {/* <CustomIcon
           title="Tin nhắn"
           onClick={onClickChat}
           key={3}
           isChangeColor={false}
           activeIcon={<MessageIcon />}
           offIcon={<MessageIcon />}
-        />
+        /> */}
         <CustomIcon
           title="Bảng vẽ"
           key={4}

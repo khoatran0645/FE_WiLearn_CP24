@@ -113,10 +113,10 @@ export const Room = () => {
   return (
     <Grid container spacing={1}>
       {
-        othersCount===0 && screenSharingVideo && vidGrid(screenSharingVideo, userName)
+        othersCount===0 && screenSharingVideo && vidGrid(screenSharingVideo, "You")
       }
       {
-        othersCount===0 && screenSharingId !== me?.id && vidGrid(stream, userName)
+        othersCount===0 && screenSharingId !== me?.id && vidGrid(stream, "You")
       }
       {Object.values(peersToShowRC)
         .filter((otherPeers) => !! otherPeers.stream)
