@@ -61,11 +61,7 @@ export default function Router() {
     {
       // use Main Layout, protected route
       path: "",
-      element: (
-        <MainLayout>
-          <HomePage />
-        </MainLayout>
-      ),
+      element: <MainLayout />,
       children: [
         {
           path: "home",
@@ -96,7 +92,7 @@ export default function Router() {
           element: <Schedule />,
         },
         {
-          path: "usersettings",
+          path: "profile",
           element: <UserProfile />,
         },
         {

@@ -17,14 +17,14 @@ import { Link, useNavigate } from "react-router-dom";
 const settings = [
   {
     name: "Profile",
-    link: "usersettings",
+    link: "/profile",
     icon: <AccountBoxIcon />,
   },
-  {
-    name: "Dashboard",
-    link: "/dashboard",
-    icon: <DashboardIcon />,
-  },
+  // {
+  //   name: "Dashboard",
+  //   link: "/dashboard",
+  //   icon: <DashboardIcon />,
+  // },
   {
     name: "Logout",
     link: "/",
@@ -50,8 +50,10 @@ export default function AvatarUser() {
     console.log("logout complete");
   };
 
-  const navigateToProfile = () => {
-    navigate("/usersettings");
+  const navigateToProfile = (e) => {
+    e.preventDefault();
+    console.log("profile loaded");
+    navigate("profile");
   };
   return (
     <>
@@ -85,11 +87,7 @@ export default function AvatarUser() {
             <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
               <Link
                 onClick={
-                  setting.name === "Logout"
-                    ? handleLogout
-                    : setting.name === "Profile"
-                    ? navigateToProfile
-                    : null
+                  setting.name === "Logout" ? handleLogout : navigateToProfile
                 }
                 style={{
                   textDecoration: "none",

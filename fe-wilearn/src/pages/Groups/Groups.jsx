@@ -8,6 +8,7 @@ import {
   CardActionArea,
   Backdrop,
   CircularProgress,
+  CardActions,
   Button,
 } from "@mui/material";
 
@@ -20,8 +21,9 @@ import { useSelector } from "react-redux";
 import JoinNewGroup from "./JoinNewGroup";
 
 export default function Groups() {
-  const {userInfo} = useSelector(state=>state.user);
-  // const {leadGroups, joinGroups} = userInfo; 
+  const { userInfo } = useSelector((state) => state.user);
+  // const {leadGroups, joinGroups} = userInfo;
+  const navigate = useNavigate();
   const groupcreatedList = [
     {
       id: 1,
@@ -93,29 +95,45 @@ export default function Groups() {
   //   setOpen(true);
   // };
 
-  const showCreatedList = (groupcreatedList) => groupcreatedList.map((group) => (
-    <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
-      <CardActionArea>
-        <Link
-          to={`${group.id}/members`}
-          state={{ group: group }}
-          style={{ textDecoration: "none", color: "black" }}
-        >
-          <CardMedia
-            component="img"
-            height="140"
-            image={"https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"}
-            alt="scene"
-          />
-          <CardContent>
-            <Typography gutterBottom variant="h5" align="center">
-              {group.name}
-            </Typography>
-          </CardContent>
-        </Link>
-      </CardActionArea>
-    </Card>
-  ));
+  const showCreatedList = (groupcreatedList) =>
+    groupcreatedList.map((group) => (
+      <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
+        <CardMedia
+          component="img"
+          height="140"
+          image={
+            "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+          }
+          alt="scene"
+        />
+        <CardContent>
+          <Typography gutterBottom variant="h5" align="center">
+            {group.name}
+          </Typography>
+        </CardContent>
+
+        <CardActions sx={{ justifyContent: "center" }}>
+          <Button
+            variant="contained"
+            color="info"
+            onClick={() => {
+              navigate(`${group.id}/members`);
+            }}
+          >
+            {/* <Link
+              to={`${group.id}/members`}
+              state={{ group: group }}
+              style={{ textDecoration: "none"}}
+            >
+            </Link> */}
+            View
+          </Button>
+          <Stack >
+
+          </Stack>
+        </CardActions>
+      </Card>
+    ));
 
   return (
     <Grid container>
