@@ -66,7 +66,7 @@ export default function SignIn() {
   useEffect(() => {
     console.log("userInfo", userInfo);
     if (userInfo?.token) {
-      navigate("/groups");
+      navigate("/home");
     }
   }, [userInfo]);
 

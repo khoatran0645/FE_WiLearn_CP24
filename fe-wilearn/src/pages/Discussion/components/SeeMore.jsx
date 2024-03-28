@@ -5,7 +5,7 @@ export default function SeeMore() {
   const navigate = useNavigate();
 
   const handleSeeMoreClick = () => {
-    navigate("/home/groups/:id/discussionDetail");
+    navigate("/groups/:id/discussionDetail");
   };
   return (
     <Grid>
