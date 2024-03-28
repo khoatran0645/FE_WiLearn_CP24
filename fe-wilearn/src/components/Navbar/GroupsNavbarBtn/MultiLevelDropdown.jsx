@@ -33,7 +33,7 @@ const MultiLevelDropdown = () => {
 
   const handleSubMenu1Close = () => {
     setSubMenu1AnchorEl(null);
-    // handleClose();
+    handleClose();
   };
 
   const handleSubMenu2Click = (event) => {
@@ -42,7 +42,7 @@ const MultiLevelDropdown = () => {
 
   const handleSubMenu2Close = () => {
     setSubMenu2AnchorEl(null);
-    // handleClose();
+    handleClose();
   };
 
   const { userInfo } = useSelector(state => state.user);
@@ -64,8 +64,8 @@ const MultiLevelDropdown = () => {
     <Box sx={{ display: "flex", alignItems: "center" }}>
       <div>
         <Button
-          // onClick={handleClick}
-          onMouseOver={handleClick}
+          onClick={handleClick}
+          // onMouseOver={handleClick}
           color="inherit"
           aria-controls="menu-groups"
           aria-haspopup="true"

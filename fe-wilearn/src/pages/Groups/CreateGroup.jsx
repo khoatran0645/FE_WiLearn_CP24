@@ -37,6 +37,8 @@ export default function CreateGroup() {
     setSelectedFile(file);
   };
 
+  const subjects = ["React", "Python", "Java"];
+
   return (
     <>
       <Button
@@ -86,7 +88,7 @@ export default function CreateGroup() {
           <Box sx={{ marginTop: "1rem" }}>
             <Autocomplete
               id="tags-outlined"
-              options={["React", "Python", "Java"]}
+              options={subjects}
               value={subject}
               onChange={(event, newValue) => {
                 setSubject(newValue);
