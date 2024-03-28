@@ -70,25 +70,24 @@ export const Room = () => {
   // eslint-disable-next-line no-unused-vars
   const { [screenSharingId]: sharing, ...peersToShow } = peers;
   const { [screenSharingId]: sharingRC, ...peersToShowRC } = peersRC;
+  const othersCount = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
   const vidGrid = (stream, streamUsername, key) => {
-    const count =
-      Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
     //4x4: 10-16
     let width = 1;
     //1-1: 1x1
-    if (count == 1) {
-      width = 9;
+    if (othersCount == 1|| othersCount == 0) {
+      width = 12;
     }
     //2-2: 2x1
-    else if (count == 2) {
+    else if (othersCount == 2) {
       width = 6;
     }
     //3-4: 2x2
-    else if (count == 3) {
+    else if (othersCount == 3) {
       width = 4;
     }
     //5-6: 3x2
-    else if (count < 9) {
+    else if (othersCount < 9) {
       width = 3;
     }
     //7-8: 4x2
@@ -114,10 +113,10 @@ export const Room = () => {
   return (
     <Grid container spacing={1}>
       {
-        screenSharingVideo && vidGrid(screenSharingVideo, userName)
+        othersCount===0 && screenSharingVideo && vidGrid(screenSharingVideo, userName)
       }
       {
-        screenSharingId !== me?.id && vidGrid(stream, userName)
+        othersCount===0 && screenSharingId !== me?.id && vidGrid(stream, userName)
       }
       {Object.values(peersToShowRC)
         .filter((otherPeers) => !! otherPeers.stream)

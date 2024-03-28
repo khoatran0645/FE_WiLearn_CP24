@@ -57,9 +57,9 @@ const Meeting = () => {
   const [isFirstClick, setIsFirstClick] = useState(true);
   const [direction, setDirection] = useState("row");
   const [totalItems, setTotalItems] = useState(itemProps);
-  const containerRef = useRef(null);
+  // const containerRef = useRef(null);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
-  const [hasMore, setHasmore] = useState(false);
+  // const [hasMore, setHasmore] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
 
   // const userVideo = useRef();
@@ -120,11 +120,11 @@ const Meeting = () => {
   const handleLeaveRoom = () => {
     setUpLeave();
     // if(setUpLeave()){
-      if (userInfo?.roleName === "Parent") {
-        navigate(`/study`);
-      } else {
-        navigate(`/groups/${groupId}`);
-      }
+    if (userInfo?.roleName === "Parent") {
+      navigate(`/study`);
+    } else {
+      navigate(`/groups/${groupId}`);
+    }
     // }
   };
 
@@ -156,7 +156,7 @@ const Meeting = () => {
           onClick={shareScreen}
           activeIcon={<PresentToAllIcon />}
           offIcon={<PresentToAllIcon />}
-          isOn = {isSharing}
+          isOn={isSharing}
         />
         <CustomIcon
           title="Bật cam"
@@ -250,14 +250,14 @@ const Meeting = () => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  useEffect(() => {
-    const clientHeight = containerRef.current.clientHeight;
-    if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
-      setHasmore(true);
-    } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
-      setHasmore(false);
-    }
-  });
+  // useEffect(() => {
+  //   const clientHeight = containerRef.current.clientHeight;
+  //   if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
+  //     setHasmore(true);
+  //   } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
+  //     setHasmore(false);
+  //   }
+  // });
 
   useEffect(() => {
     if (votesData && votesData.length > 0) {
@@ -268,49 +268,44 @@ const Meeting = () => {
       });
     }
   }, [votesData]);
-  useEffect(()=>{
-    return (()=>{
+  useEffect(() => {
+    return (() => {
       setUpLeave();
     })
-  },connection, me, shareScreenTrack, stream)
-
+  }, connection, me, shareScreenTrack, stream)
   return (
     <Box sx={{ height: "100%" }}>
-      <Wrapper direction={direction}>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ display: "flex", gap: "8px", height: "100%" }}>
-            <Box flex={1}>
-              <Room />
+      <Wrapper direction={"collum"}>
+        <Wrapper direction={direction}>
+          <Box sx={{ flex: 1 }}>
+            <Box 
+              sx={{ 
+                display: "flex", 
+                // gap: "8px", 
+                height: "100%" 
+              }}
+            >
+              <Box flex={1}>
+                <Room />
+              </Box>
+              {/* <MemberWrapper ref={containerRef}>
+              </MemberWrapper> */}
             </Box>
-            <MemberWrapper ref={containerRef}>
-              {/* <Box
-                sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
-                }}
-              >
-                {Object.values(peersToShow)
-                  .filter((peer) => !!peer.stream)
-                  .map((peer) => (
-                    <UserPaper key={peer.id} stream={peer.stream} name={peer.userName} />
-                  ))}
-              </Box> */}
-            </MemberWrapper>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "center",
+                alignItems: "center",
+                gap: "32px",
+              }}
+            >
+              {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
+              {renderActions(openDrawer, shareScreen, handleCreateVote)}
+            </Box>
           </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "32px",
-            }}
-          >
-            {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
-            {renderActions(openDrawer, shareScreen, handleCreateVote)}
-          </Box>
-        </Box>
+        </Wrapper>
+        <TabComponent />
       </Wrapper>
       <Drawer anchor={"right"} open={chat.isChatOpen} onClose={closeDrawer}>
         <TabComponent />
