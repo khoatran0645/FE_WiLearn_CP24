@@ -42,7 +42,7 @@ export default function HomePage() {
   return (
     <Container maxWidth="lg">
       <Typography variant="h5" align="center" gutterBottom>
-        Group Recruitment Notifications
+        Group Recruitment
       </Typography>
       <Grid container spacing={2}>
         {groupNotifications.map((group, index) => (
