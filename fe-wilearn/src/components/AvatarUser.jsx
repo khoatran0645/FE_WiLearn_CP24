@@ -13,7 +13,7 @@ import {
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { NavLink } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 const settings = [
   {
     name: "Profile",
@@ -33,6 +33,7 @@ const settings = [
 ];
 export default function AvatarUser() {
   const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
     setAnchorElUser(event.currentTarget);
@@ -40,6 +41,17 @@ export default function AvatarUser() {
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+    window.location.reload();
+    console.log("logout complete");
+  };
+
+  const navigateToProfile = () => {
+    navigate("/usersettings");
   };
   return (
     <>
@@ -71,8 +83,14 @@ export default function AvatarUser() {
         <Paper elevation={0} sx={{ width: "100%", maxWidth: "100%" }}>
           {settings.map((setting) => (
             <MenuItem key={setting.name} onClick={handleCloseUserMenu}>
-              <NavLink
-                to={setting.link}
+              <Link
+                onClick={
+                  setting.name === "Logout"
+                    ? handleLogout
+                    : setting.name === "Profile"
+                    ? navigateToProfile
+                    : null
+                }
                 style={{
                   textDecoration: "none",
                   color: "black",
@@ -85,7 +103,7 @@ export default function AvatarUser() {
                     {setting.name}
                   </Typography>
                 </ListItemIcon>
-              </NavLink>
+              </Link>
             </MenuItem>
           ))}
         </Paper>
