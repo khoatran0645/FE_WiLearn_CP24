@@ -3,33 +3,35 @@ import { Grid, List, ListItem, Typography, Card, CardContent } from '@mui/materi
 import AddDiscussion from './AddDiscussion';
 import SeeMore from './SeeMore';
 import Paginate from './../../../components/Paginate';
+import { useSelector } from 'react-redux';
 
-const discussionsData = [
-  {
-    id: 1,
-    topic: "Tại sao chọn .NET?",
-    creator: "Minia Doe",
-    dateTime: "March 17, 2024 10:00 AM",
-    content: ".NET là một nền tảng nguồn mở để xây dựng các ứng dụng trên máy tính để bàn, web và thiết bị di động có thể chạy nguyên bản trên bất kỳ hệ điều hành nào. Hệ thống .NET bao gồm các công cụ, thư viện và ngôn ngữ hỗ trợ phát triển phần mềm hiện đại, có quy mô linh hoạt và..."
-  },
-  {
-    id: 2,
-    topic: "ViteJS - Người chơi hệ Hackspeed trong làng Frontend build tools",
-    creator: "Jane Smith",
-    dateTime: "March 17, 2024 11:30 AM",
-    content: "Trước kia khi làm việc với Laravel, Laravel support Vue khá tốt và thứ để giúp mình build phần Vue là webpack built-in Laravel. Việc đó khiến cho khi chúng ta không làm việc với Laravel, thì việc xây dựng 1 cấu trúc dự án Vue nói riêng và Frontend nói chung sẽ mất thời gian vì..."
-  },
-  {
-    id: 3,
-    topic: "IT Là Ngành Gì? Công Việc IT Là Làm Gì?",
-    creator: "Alice Johnson",
-    dateTime: "March 17, 2024 2:45 PM",
-    content: "IT có tên đầy đủ của cụm từ Information Technology, trong tiếng Việt thường được gọi là Công nghệ thông tin. Hiểu đơn giản, đây là ngành sử dụng máy tính và các phần mềm để tạo ra, truyền dẫn, lưu trữ và bảo mật thông tin..."
-  }
-];
 
 export default function DiscussionList() {
-  const [discussions] = useState(discussionsData);
+  const {groupInfo} = useSelector(state=>state.studyGroup)
+
+  const discussions = groupInfo ? groupInfo.discussions : [
+    {
+      id: 1,
+      question: "Tại sao chọn .NET?",
+      accountUsername: "Minia Doe",
+      dateTime: "March 17, 2024 10:00 AM",
+      content: ".NET là một nền tảng nguồn mở để xây dựng các ứng dụng trên máy tính để bàn, web và thiết bị di động có thể chạy nguyên bản trên bất kỳ hệ điều hành nào. Hệ thống .NET bao gồm các công cụ, thư viện và ngôn ngữ hỗ trợ phát triển phần mềm hiện đại, có quy mô linh hoạt và..."
+    },
+    {
+      id: 2,
+      question: "ViteJS - Người chơi hệ Hackspeed trong làng Frontend build tools",
+      accountUsername: "Jane Smith",
+      dateTime: "March 17, 2024 11:30 AM",
+      content: "Trước kia khi làm việc với Laravel, Laravel support Vue khá tốt và thứ để giúp mình build phần Vue là webpack built-in Laravel. Việc đó khiến cho khi chúng ta không làm việc với Laravel, thì việc xây dựng 1 cấu trúc dự án Vue nói riêng và Frontend nói chung sẽ mất thời gian vì..."
+    },
+    {
+      id: 3,
+      question: "IT Là Ngành Gì? Công Việc IT Là Làm Gì?",
+      accountUsername: "Alice Johnson",
+      dateTime: "March 17, 2024 2:45 PM",
+      content: "IT có tên đầy đủ của cụm từ Information Technology, trong tiếng Việt thường được gọi là Công nghệ thông tin. Hiểu đơn giản, đây là ngành sử dụng máy tính và các phần mềm để tạo ra, truyền dẫn, lưu trữ và bảo mật thông tin..."
+    }
+  ];
 
   return (
     <Grid container justifyContent="center" spacing={2}>
@@ -54,10 +56,10 @@ export default function DiscussionList() {
               }}>
                 <CardContent>
                   <Typography variant="h6" gutterBottom>
-                    {discussion.topic}
+                    {discussion.question}
                   </Typography>
                   <Typography variant="body2" color="textSecondary" component="p">
-                    {discussion.creator} - {discussion.dateTime}
+                    {discussion.accountUsername} - {discussion.dateTime}
                   </Typography>
                   <Typography variant="body1" component="p">
                     {discussion.content}
