@@ -11,4 +11,3 @@ How to run:
     4. Run `npm install` and wait
     
     5. Run `npm run dev` then open `http://localhost:5173` in your browser
-    
