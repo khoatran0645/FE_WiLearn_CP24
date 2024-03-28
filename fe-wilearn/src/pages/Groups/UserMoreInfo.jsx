@@ -37,7 +37,7 @@ export default function UserMoreInfo(props) {
           />
           <TextField
             label="Email"
-            defaultValue={props.fullname+ "@gmail.com"}
+            defaultValue={props.email}
             fullWidth
             InputProps={{
               readOnly: true,

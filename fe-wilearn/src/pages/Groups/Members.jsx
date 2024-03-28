@@ -15,110 +15,112 @@ import InviteUser from "../../components/InviteUser";
 import RequestJoin from "./RequestJoin";
 import UserMoreInfo from "./UserMoreInfo";
 import Paginate from "../../components/Paginate";
+import { useSelector } from "react-redux";
 
 export default function MemberList() {
-  const userList = [
+  const {groupInfo} = useSelector(state=>state.studyGroup)
+  const userList = groupInfo ? groupInfo.members : [
     {
       id: 1,
-      name: "Linh",
+      fullName: "Linh",
       avatar: "https://livewiredemos.com/images/avatar.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 2,
-      name: "Khoi",
+      fullName: "Khoi",
       avatar: "https://e7.pngegg.com/pngimages/799/987/png-clipart-computer-icons-avatar-icon-design-avatar-heroes-computer-wallpaper-thumbnail.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 3,
-      name: "Duy",
+      fullName: "Duy",
       avatar: "https://i.pinimg.com/474x/4b/71/f8/4b71f8137985eaa992d17a315997791e.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 4,
-      name: "Minh",
+      fullName: "Minh",
       avatar: "https://cdn1.iconfinder.com/data/icons/user-pictures/100/female1-512.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 5,
-      name: "Minh",
+      fullName: "Minh",
       avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqGQ8dQ-LMiMmTEyBijR0FzpQHC7tH6qTE2g&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 6,
-      name: "Đức",
+      fullName: "Đức",
       avatar: "https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 7,
-      name: "Phượng",
+      fullName: "Phượng",
       avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDZQHtkC_0XJu5cyn28YqkueoSBnqH4hgx7Q&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 8,
-      name: "Tâm",
+      fullName: "Tâm",
       avatar: "https://i.pinimg.com/736x/89/90/48/899048ab0cc455154006fdb9676964b3.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 9,
-      name: "Trung",
+      fullName: "Trung",
       avatar: "https://png.pngtree.com/png-clipart/20190921/original/pngtree-user-avatar-boy-png-image_4693645.jpg",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 10,
-      name: "Hậu",
+      fullName: "Hậu",
       avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTMx1itTXTXLB8p4ALTTL8mUPa9TFN_m9h5VQ&usqp=CAU",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 11,
-      name: "Nga",
+      fullName: "Nga",
       avatar: "https://storage.needpix.com/rsynced_images/user-307993_1280.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     {
       id: 12,
-      name: "Tiên",
+      fullName: "Tiên",
       avatar: "https://toppng.com/uploads/preview/user-pro-avatar-scalable-vector-graphics-icon-woman-icon-11553526869tcdfa31pvo.png",
       email: "XXXXXXXXXXXXXX",
       phone: "0987654321",
     },
     // {
     //   id: 13,
-    //   name: "Mai",
+    //   fullName: "Mai",
     //   avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4oz0KdCvHj_hvY5exy-qFr06SPFjyA4ZoPg&usqp=CAU",
     //   email: "XXXXXXXXXXXXXX",
     //   phone: "0987654321",
     // },
     // {
     //   id: 14,
-    //   name: "Đào",
+    //   fullName: "Đào",
     //   avatar: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRLSDBGl63KMyzp0oqzKaQDgLn6PHLmQ6EejQ&usqp=CAU",
     //   email: "XXXXXXXXXXXXXX",
     //   phone: "0987654321",
     // },
     // {
     //   id: 15,
-    //   name: "Piano",
+    //   fullName: "Piano",
     //   avatar: "https://static.vecteezy.com/system/resources/thumbnails/009/749/751/small/avatar-man-icon-cartoon-male-profile-mascot-illustration-head-face-business-user-logo-free-vector.jpg",
     //   email: "XXXXXXXXXXXXXX",
     //   phone: "0987654321",
@@ -137,20 +139,20 @@ export default function MemberList() {
             }}
           >
             <Avatar
-              alt={user.name}
+              alt={user.fullName}
               src={user.avatar}
               sx={{ width: 100, height: 100, marginTop: 2 }}
             />
             <Typography gutterBottom variant="h6">
-              {user.name}
+              {user.fullName}
             </Typography>
           </Container>
         </CardContent>
         <CardActions>
           <Box sx={{ width: '100%', display: 'flex', justifyContent: 'center', paddingBottom: '10px' }}>
             <UserMoreInfo
-              fullname={user.name}
-              email={user.name}
+              fullname={user.fullName}
+              email={user.email}
               phone={user.phone}
             />
           </Box>
