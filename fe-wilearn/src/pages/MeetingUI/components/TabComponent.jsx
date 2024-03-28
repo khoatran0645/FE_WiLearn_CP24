@@ -38,13 +38,15 @@ const TabComponent = () => {
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-  const { peers, screenSharingId } = useContext(RoomContext);
+  const { peers, screenSharingId, stream, userName, me, meId } = useContext(RoomContext);
   const { [screenSharingId]: sharing, ...peersToShow } = peers;
 
+  const screenSharingVideo =
+  screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
   return (
     <Box
-      width={'350px'}
-      height="calc(100vh - 49px)"
+      // width={'350px'}
+      // height="calc(100vh - 49px)"
       sx={{
         backgroundColor: 'background.main'
       }}
@@ -65,6 +67,17 @@ const TabComponent = () => {
               gap: '8px'
             }}
           >
+            {/* {
+              screenSharingVideo && 
+              // vidGrid(screenSharingVideo, userName)
+              (<UserPaper key={meId} stream={screenSharingVideo} name={userName} />)
+            }
+            {
+              screenSharingId !== me?.id && 
+              // vidGrid(stream, userName)
+              (<UserPaper key={meId} stream={stream} name={userName} />)
+            } */}
+            <UserPaper key={meId} stream={stream} name={"You"} />
             {Object.values(peersToShow)
               .filter((peer) => !!peer.stream)
               .map((peer) => (

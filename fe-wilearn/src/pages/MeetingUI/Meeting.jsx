@@ -1,4 +1,4 @@
-import { Box, Drawer, styled } from "@mui/material";
+import { Box, Drawer, Grid, styled } from "@mui/material";
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 // import { privateRoutes } from "src/common/constants.js";
 import CustomIcon from "./components/CustomIcon";
@@ -55,7 +55,7 @@ const itemProps = ["Webcam 1", "Webcam 2", "Webcam 3", "Webcam 4"];
 
 const Meeting = () => {
   const [isFirstClick, setIsFirstClick] = useState(true);
-  const [direction, setDirection] = useState("row");
+  const [direction, setDirection] = useState("collumn");
   const [totalItems, setTotalItems] = useState(itemProps);
   // const containerRef = useRef(null);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
@@ -275,41 +275,45 @@ const Meeting = () => {
   }, connection, me, shareScreenTrack, stream)
   return (
     <Box sx={{ height: "100%" }}>
-      <Wrapper direction={"collum"}>
-        <Wrapper direction={direction}>
-          <Box sx={{ flex: 1 }}>
-            <Box 
-              sx={{ 
-                display: "flex", 
-                // gap: "8px", 
-                height: "100%" 
-              }}
-            >
-              <Box flex={1}>
-                <Room />
-              </Box>
-              {/* <MemberWrapper ref={containerRef}>
+      <Grid container sx={{ flexGrow: 1 }}>
+        <Grid item xs={9}>
+          <Wrapper direction={direction}>
+            <Box sx={{ flex: 1 }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  // gap: "8px", 
+                  height: "100%"
+                }}
+              >
+                <Box flex={1}>
+                  <Room />
+                </Box>
+                {/* <MemberWrapper ref={containerRef}>
               </MemberWrapper> */}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "32px",
+                }}
+              >
+                {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
+                {renderActions(openDrawer, shareScreen, handleCreateVote)}
+              </Box>
             </Box>
-            <Box
-              sx={{
-                display: "flex",
-                flexDirection: "row",
-                justifyContent: "center",
-                alignItems: "center",
-                gap: "32px",
-              }}
-            >
-              {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
-              {renderActions(openDrawer, shareScreen, handleCreateVote)}
-            </Box>
-          </Box>
-        </Wrapper>
+          </Wrapper>
+        </Grid>
+        <Grid item xs={3}>
+          <TabComponent />
+        </Grid>
+      </Grid>
+      {/* <Drawer anchor={"right"} open={chat.isChatOpen} onClose={closeDrawer}>
         <TabComponent />
-      </Wrapper>
-      <Drawer anchor={"right"} open={chat.isChatOpen} onClose={closeDrawer}>
-        <TabComponent />
-      </Drawer>
+      </Drawer> */}
     </Box>
   );
 };
