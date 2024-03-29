@@ -5,7 +5,9 @@ import Vote from './Vote';
 import Chat from './chat/Chat';
 import UserPaper from './UserPaper';
 import { RoomContext } from '../context/roomContext';
-
+import MessageIcon from "@mui/icons-material/Message";
+import PeopleAltOutlinedIcon from '@mui/icons-material/PeopleAltOutlined';
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 const TabPanel = (props) => {
   const { children, value, index, ...other } = props;
   // eslint-disable-next-line no-unused-vars
@@ -38,22 +40,27 @@ const TabComponent = () => {
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-  const { peers, screenSharingId } = useContext(RoomContext);
+  const { peers, screenSharingId, stream, userName, me, meId } = useContext(RoomContext);
   const { [screenSharingId]: sharing, ...peersToShow } = peers;
 
+  const screenSharingVideo =
+    screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
   return (
     <Box
-      width={'350px'}
-      height="calc(100vh - 49px)"
+      width="100%"
+      // height="calc(100vh - 49px)"
+      height= "80vh"
       sx={{
         backgroundColor: 'background.main'
       }}
     >
-      <Box sx={{ borderBottom: 1, borderColor: 'divider' }}>
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="Người tham gia" />
-          <Tab label="Chat" />
-          <Tab label="Trả bài" />
+      <Box width="100%" sx={{ borderBottom: 1, borderColor: 'divider' }}>
+        <Tabs variant="fullWidth" value={value} onChange={handleChange} >
+          {/* <Box sx={{ width:"100%",  }}> */}
+            <Tab icon={<PeopleAltOutlinedIcon/>} label="Participants" />
+            <Tab icon={<MessageIcon />} label="Chats" />
+            <Tab icon={<LocalLibraryOutlinedIcon/>} label="Reviews" />
+          {/* </Box> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0}>
@@ -65,6 +72,17 @@ const TabComponent = () => {
               gap: '8px'
             }}
           >
+            {/* {
+              screenSharingVideo && 
+              // vidGrid(screenSharingVideo, userName)
+              (<UserPaper key={meId} stream={screenSharingVideo} name={userName} />)
+            }
+            {
+              screenSharingId !== me?.id && 
+              // vidGrid(stream, userName)
+              (<UserPaper key={meId} stream={stream} name={userName} />)
+            } */}
+            <UserPaper key={meId} stream={stream} name={"You"} />
             {Object.values(peersToShow)
               .filter((peer) => !!peer.stream)
               .map((peer) => (

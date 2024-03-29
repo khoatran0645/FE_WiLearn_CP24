@@ -100,6 +100,15 @@ export default function Router() {
           element: <SearchPage />,
         },
         {
+          path: "groups/:groupId/meetings/:meetingId",
+          element: (
+            <RoomProvider>
+              {/* <MeetingPage /> */}
+              <Meeting />
+            </RoomProvider>
+          ),
+        },
+        {
           path: "groups/:groupId",
           element: <GroupLayout />,
           children: [
@@ -124,17 +133,10 @@ export default function Router() {
               element: <EmptyLayout />,
               children: [
                 { path: "", index: true, element: <Schedule /> },
-                {
-                  path: ":meetingId",
-                  element: (
-                    <RoomProvider>
-                      {/* <MeetingPage /> */}
-                      <Meeting />
-                    </RoomProvider>
-                  ),
-                },
+                
               ],
             },
+            
             {
               path: "docs",
               element: <StudyDocs />,
@@ -147,10 +149,10 @@ export default function Router() {
               path: "groupsettings",
               element: <GroupSettings />,
             },
-            {
-              path: "meetings/:meetingId",
-              element: <MeetingPage />,
-            },
+            // {
+            //   path: "meetings/:meetingId",
+            //   element: <MeetingPage />,
+            // },
           ],
         },
       ],

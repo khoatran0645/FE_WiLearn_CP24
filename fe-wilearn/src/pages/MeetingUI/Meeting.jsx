@@ -1,4 +1,4 @@
-import { Box, Drawer, styled } from "@mui/material";
+import { Box, Drawer, Grid, styled } from "@mui/material";
 import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
 // import { privateRoutes } from "src/common/constants.js";
 import CustomIcon from "./components/CustomIcon";
@@ -28,6 +28,7 @@ import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CancelIcon from "@mui/icons-material/Cancel";
+import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
 // import { removeAllPeerAction } from "src/reducers/peersActions";
 // import peersReducer from "src/reducers/peersReducer";
 
@@ -55,11 +56,11 @@ const itemProps = ["Webcam 1", "Webcam 2", "Webcam 3", "Webcam 4"];
 
 const Meeting = () => {
   const [isFirstClick, setIsFirstClick] = useState(true);
-  const [direction, setDirection] = useState("row");
+  const [direction, setDirection] = useState("collumn");
   const [totalItems, setTotalItems] = useState(itemProps);
-  const containerRef = useRef(null);
+  // const containerRef = useRef(null);
   const [viewHeight, setViewHeight] = useState(window.innerHeight);
-  const [hasMore, setHasmore] = useState(false);
+  // const [hasMore, setHasmore] = useState(false);
   const { userInfo } = useSelector((state) => state.user);
 
   // const userVideo = useRef();
@@ -120,11 +121,11 @@ const Meeting = () => {
   const handleLeaveRoom = () => {
     setUpLeave();
     // if(setUpLeave()){
-      if (userInfo?.roleName === "Parent") {
-        navigate(`/study`);
-      } else {
-        navigate(`/groups/${groupId}`);
-      }
+    if (userInfo?.roleName === "Parent") {
+      navigate(`/study`);
+    } else {
+      navigate(`/groups/${groupId}`);
+    }
     // }
   };
 
@@ -136,7 +137,7 @@ const Meeting = () => {
     // });
   };
   const leadGroups = userInfo?.leadGroups;
-  const isLead = leadGroups.some((gr) => {
+  const isLead = leadGroups && leadGroups.some((gr) => {
     return gr.id === parseInt(groupId);
   });
 
@@ -156,7 +157,7 @@ const Meeting = () => {
           onClick={shareScreen}
           activeIcon={<PresentToAllIcon />}
           offIcon={<PresentToAllIcon />}
-          isOn = {isSharing}
+          isOn={isSharing}
         />
         <CustomIcon
           title="Bật cam"
@@ -180,18 +181,18 @@ const Meeting = () => {
             titleOff="Bắt đầu trả bài"
             key={2}
             onClick={handleClickVoteButton}
-            activeIcon={<ThumbsUpDownRoundedIcon />}
-            offIcon={<ThumbsUpDownRoundedIcon />}
+            activeIcon={<LocalLibraryOutlinedIcon />}
+            offIcon={<LocalLibraryOutlinedIcon />}
           />
         )}
-        <CustomIcon
+        {/* <CustomIcon
           title="Tin nhắn"
           onClick={onClickChat}
           key={3}
           isChangeColor={false}
           activeIcon={<MessageIcon />}
           offIcon={<MessageIcon />}
-        />
+        /> */}
         <CustomIcon
           title="Bảng vẽ"
           key={4}
@@ -250,14 +251,14 @@ const Meeting = () => {
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
 
-  useEffect(() => {
-    const clientHeight = containerRef.current.clientHeight;
-    if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
-      setHasmore(true);
-    } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
-      setHasmore(false);
-    }
-  });
+  // useEffect(() => {
+  //   const clientHeight = containerRef.current.clientHeight;
+  //   if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
+  //     setHasmore(true);
+  //   } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
+  //     setHasmore(false);
+  //   }
+  // });
 
   useEffect(() => {
     if (votesData && votesData.length > 0) {
@@ -268,53 +269,52 @@ const Meeting = () => {
       });
     }
   }, [votesData]);
-  useEffect(()=>{
-    return (()=>{
+  useEffect(() => {
+    return (() => {
       setUpLeave();
     })
-  },connection, me, shareScreenTrack, stream)
-
+  }, connection, me, shareScreenTrack, stream)
   return (
     <Box sx={{ height: "100%" }}>
-      <Wrapper direction={direction}>
-        <Box sx={{ flex: 1 }}>
-          <Box sx={{ display: "flex", gap: "8px", height: "100%" }}>
-            <Box flex={1}>
-              <Room />
-            </Box>
-            <MemberWrapper ref={containerRef}>
-              {/* <Box
+      <Grid container sx={{ flexGrow: 1 }}>
+        <Grid item xs={9}>
+          <Wrapper direction={direction}>
+            <Box sx={{ flex: 1 }}>
+              <Box
                 sx={{
-                  display: 'flex',
-                  flexDirection: 'column',
-                  gap: '8px'
+                  display: "flex",
+                  // gap: "8px", 
+                  height: "100%"
                 }}
               >
-                {Object.values(peersToShow)
-                  .filter((peer) => !!peer.stream)
-                  .map((peer) => (
-                    <UserPaper key={peer.id} stream={peer.stream} name={peer.userName} />
-                  ))}
-              </Box> */}
-            </MemberWrapper>
-          </Box>
-          <Box
-            sx={{
-              display: "flex",
-              flexDirection: "row",
-              justifyContent: "center",
-              alignItems: "center",
-              gap: "32px",
-            }}
-          >
-            {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
-            {renderActions(openDrawer, shareScreen, handleCreateVote)}
-          </Box>
-        </Box>
-      </Wrapper>
-      <Drawer anchor={"right"} open={chat.isChatOpen} onClose={closeDrawer}>
+                <Box flex={1}>
+                  <Room />
+                </Box>
+                {/* <MemberWrapper ref={containerRef}>
+              </MemberWrapper> */}
+              </Box>
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: "32px",
+                }}
+              >
+                {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
+                {renderActions(openDrawer, shareScreen, handleCreateVote)}
+              </Box>
+            </Box>
+          </Wrapper>
+        </Grid>
+        <Grid item xs={3}>
+          <TabComponent />
+        </Grid>
+      </Grid>
+      {/* <Drawer anchor={"right"} open={chat.isChatOpen} onClose={closeDrawer}>
         <TabComponent />
-      </Drawer>
+      </Drawer> */}
     </Box>
   );
 };
