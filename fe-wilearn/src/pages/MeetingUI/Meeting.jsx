@@ -277,7 +277,7 @@ const Meeting = () => {
   return (
     <Box sx={{ height: "100%" }}>
       <Grid container sx={{ flexGrow: 1 }}>
-        <Grid item xs={9}>
+        <Grid item xs={9.5}>
           <Wrapper direction={direction}>
             <Box sx={{ flex: 1 }}>
               <Box
@@ -308,7 +308,7 @@ const Meeting = () => {
             </Box>
           </Wrapper>
         </Grid>
-        <Grid item xs={3}>
+        <Grid item xs={2.5}>
           <TabComponent />
         </Grid>
       </Grid>
