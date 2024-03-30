@@ -19,10 +19,10 @@ const TabPanel = (props) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ height: '100%' }}
+      style={{ height: '100%', width:'100%' }}
     >
       {value === index && (
-        <Box sx={{ p: 3, height: '100%', backgroundColor: 'background.main' }}>{children}</Box>
+        <Box sx={{  height: '100%', backgroundColor: 'background.main' }}>{children}</Box>
       )}
     </Box>
   );
@@ -47,6 +47,8 @@ const TabComponent = () => {
     screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
   return (
     <Box
+      display="flex"
+      flexDirection="column"
       width="100%"
       // height="calc(100vh - 49px)"
       // height= "80vh"
@@ -64,10 +66,11 @@ const TabComponent = () => {
           {/* </Box> */}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <MemberWrapperTab>
+      <TabPanel value={value} index={0} id="TabPanel">
+        <MemberWrapperTab id="MemberWrapperTab">
           <Box
             sx={{
+              width: "100%",
               display: 'flex',
               flexDirection: 'column',
               gap: '8px'
@@ -84,7 +87,13 @@ const TabComponent = () => {
               (<UserPaper key={meId} stream={stream} name={userName} />)
             } */}
             <UserPaper key={meId} stream={stream} name={"You"} />
-            {Object.values(peersToShow).length == 0 ? ("You are the only one here"):<Divider/>}
+            {Object.values(peersToShow).length == 0 
+              ? ("You are the only one here")
+              :<>
+                Other people
+                <Divider/>
+              </>
+            }
             {Object.values(peersToShow)
               .filter((peer) => !!peer.stream)
               .map((peer) => (
@@ -108,6 +117,7 @@ const MemberWrapperTab = styled(Box)(() => {
     width: '100%',
     maxHeight: '80vh',
     maxWidth: '200px',
+    display:"flex",
     flexWrap: 'wrap',
     justifyContent: 'center'
   };

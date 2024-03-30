@@ -77,24 +77,24 @@ export const Room = () => {
   const vidGrid = (stream, streamName, key, transitionState = (othersCount == 0)) => {
     //4x4: 10-16
     let width = 1;
-    //1-1: 1x1
     if (othersCount == 1 || othersCount == 0) {
+      //1-1: 1x1
       width = 12;
     }
-    //2-2: 2x1
     else if (othersCount == 2) {
+      //2-2: 2x1
       width = 6;
     }
-    //3-4: 2x2
     else if (othersCount == 3) {
+      //3-4: 2x2
       width = 4;
     }
-    //5-6: 3x2
     else if (othersCount < 9) {
+      //5-6: 3x2
       width = 3;
     }
-    //7-8: 4x2
     else {
+      //7-8: 4x2
       width = 2;
     }
     return (
@@ -109,23 +109,15 @@ export const Room = () => {
       }}>
         <Box>
           <Box>
-            {/* <MeetingAvatar
-              id={`MeetingAvatar`}
-              sx={{
-                transition: 'all 2s ease',
-                opacity: (state === 'exited' || state === 'exiting')?0:1
-              }}
-            >
-            </MeetingAvatar> */}
+            <MeetingAvatar>
               <VideoPlayer
                 stream={stream}
                 muted={streamName === userName || streamName === "You"}
-                // height= {(state === 'exited' || state === 'exiting')?"0px":"100%"}
                 sx={{
-                  transition: 'all 2s ease',
-                  // opacity: (state === 'exited' || state === 'exiting')?0:1
+                  transition: 'all 1s ease-in-and-out',
                 }}
-              />
+                />
+                </MeetingAvatar>
             <Box>{streamName}</Box>
           </Box>
         </Box>
@@ -137,18 +129,18 @@ export const Room = () => {
   };
   return (
     <>
-      {/* <Transition
+      <Transition
         in={othersCount == 0}
         timeout={2000}
       >
         {state => (
-        )}
-      </Transition> */}
           <Grid container spacing={1}
             sx={{
               transition: 'all 2s ease',
               // display: (state === 'exited' || state === 'exiting')?"none":"",
-              // opacity: (state === 'exited' || state === 'exiting')?0:1
+              opacity: (state === 'exited' || state === 'exiting')?0:1,
+              height: (state === 'exited' || state === 'exiting')?"0px":"100%",
+              overflow: 'hidden'
             }}
           >
             {
@@ -168,6 +160,35 @@ export const Room = () => {
                 </>
               ))}
           </Grid>
+        )}
+      </Transition>
+      <Transition
+        in={othersCount != 0}
+        timeout={2000}
+      >
+        {state => (
+          <Grid container spacing={1}
+            sx={{
+              transition: 'all 2s ease',
+              // display: (state === 'exited' || state === 'exiting')?"none":"",
+              opacity: (state === 'exited' || state === 'exiting')?0:1,
+              height: (state === 'exited' || state === 'exiting')?"0px":"100%",
+              overflow: 'hidden'
+            }}
+          >
+            {Object.values(peersToShowRC)
+              .filter((otherPeers) => !!otherPeers.stream)
+              .map((otherPeer) => (
+                <>
+                  {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, (othersCount != 0))}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                </>
+              ))}
+          </Grid>
+        )}
+      </Transition>
     </>
   );
 };
