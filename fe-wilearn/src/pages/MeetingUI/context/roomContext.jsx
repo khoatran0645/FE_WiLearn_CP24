@@ -30,6 +30,7 @@ export const RoomProvider = ({ children }) => {
   const navigate = useNavigate();
   const { groupId } = useParams();
 
+  const [isReviewing, setIsReviewing] = useState(false);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -302,10 +303,6 @@ export const RoomProvider = ({ children }) => {
 
   const addHistory = (messages) => {
     chatDispatch(addHistoryAction(messages));
-  };
-
-  const toggleChat = () => {
-    chatDispatch(toggleChatAction(!chat?.isChatOpen));
   };
 
   useEffect(() => {
@@ -646,6 +643,8 @@ export const RoomProvider = ({ children }) => {
         toogleVid,
         removeAllPeers,
         setUpLeave,
+        isReviewing,
+        setIsReviewing,
       }}
     >
       {children}

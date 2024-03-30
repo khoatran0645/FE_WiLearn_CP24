@@ -55,7 +55,6 @@ const MemberWrapper = styled(Box)(() => {
 const itemProps = ["Webcam 1", "Webcam 2", "Webcam 3", "Webcam 4"];
 
 const Meeting = () => {
-  const [isFirstClick, setIsFirstClick] = useState(true);
   const [direction, setDirection] = useState("collumn");
   const [totalItems, setTotalItems] = useState(itemProps);
   // const containerRef = useRef(null);
@@ -65,31 +64,23 @@ const Meeting = () => {
 
   // const userVideo = useRef();
   const {
-    chat,
-    toggleChat,
     shareScreen,
-    peers,
-    screenSharingId,
     handleCreateVote,
     handleEndVote,
     userName,
     isSharing,
-    removeAllPeers,
-    setRoomId,
     setUpLeave,
+    isReviewing,
+    setIsReviewing,
   } = useContext(RoomContext);
   const dispatch = useDispatch();
   const { meetingId, groupId } = useParams();
   const [isDisableVoteButton, setIsDisableVoteButton] = useState(false);
   const { votesData } = useSelector((state) => state.votes);
-  const { connection, meId, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
+  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
-  const { [screenSharingId]: sharing, ...peersToShow } = peers;
-
-  const openDrawer = toggleChat;
-  const closeDrawer = toggleChat;
 
   setDirection;
 
@@ -103,7 +94,7 @@ const Meeting = () => {
   };
 
   const handleClickVoteButton = async () => {
-    if (isFirstClick) {
+    if (!isReviewing) {
       handleCreateVote();
       dispatch(startReview(meetingId));
     } else {
@@ -113,7 +104,7 @@ const Meeting = () => {
         dispatch(getReviewInfos(meetingId));
       }
     }
-    setIsFirstClick(!isFirstClick);
+    setIsReviewing(!isReviewing);
   };
   // const [mypeers] = useReducer(peersReducer, {});
   // const [mypeers, mydispatch] = useReducer(peersReducer, {});
@@ -147,7 +138,7 @@ const Meeting = () => {
     // window.open('./whiteboard', '_blank');
     window.open(path + "/whiteboard", "_blank");
   };
-  const renderActions = (onClickChat, shareScreen) => {
+  const renderActions = (shareScreen) => {
     return (
       <>
         <CustomIcon
@@ -185,14 +176,6 @@ const Meeting = () => {
             offIcon={<LocalLibraryOutlinedIcon />}
           />
         )}
-        {/* <CustomIcon
-          title="Tin nhắn"
-          onClick={onClickChat}
-          key={3}
-          isChangeColor={false}
-          activeIcon={<MessageIcon />}
-          offIcon={<MessageIcon />}
-        /> */}
         <CustomIcon
           title="Bảng vẽ"
           key={4}
@@ -230,35 +213,13 @@ const Meeting = () => {
     }
   }, [connection]);
   useEffect(() => {
-    //unused
-    // navigator.mediaDevices
-    //   .getUserMedia({ video: true, audio: true })
-    //   .then((stream) => {
-    //     if (userVideo.current) {
-    //       userVideo.current.srcObject = stream;
-    //     }
-    //   });
     dispatch(getReviewInfos(meetingId));
-    //
-    // connection.on('LeaderEndMeeting', (msg) => {
-    //   toast.info(msg);
-    //   handleLeaveRoom();
-    // });
   }, []);
 
   useEffect(() => {
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
-
-  // useEffect(() => {
-  //   const clientHeight = containerRef.current.clientHeight;
-  //   if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
-  //     setHasmore(true);
-  //   } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
-  //     setHasmore(false);
-  //   }
-  // });
 
   useEffect(() => {
     if (votesData && votesData.length > 0) {
@@ -303,7 +264,7 @@ const Meeting = () => {
                 }}
               >
                 {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
-                {renderActions(openDrawer, shareScreen, handleCreateVote)}
+                {renderActions(shareScreen)}
               </Box>
             </Box>
           </Wrapper>
