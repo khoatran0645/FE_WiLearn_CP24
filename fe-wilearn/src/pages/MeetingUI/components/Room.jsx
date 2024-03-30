@@ -7,14 +7,15 @@ import VideoPlayer from "./VideoPlayer";
 import { RoomContext } from "../context/roomContext";
 import peersReducer from "../../../app/reducer/peersReducer/peersReducer";
 import { getReviewInfos } from "../../../app/reducer/voteReducer/votesActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Transition from "react-transition-group/Transition";
 
 export const Room = () => {
   const { meetingId } = useParams();
   const {
-    
+
     ws,
-    peers: peersRC, 
+    // peers: peersRC, 
     me,
     stream,
     screenSharingId,
@@ -25,7 +26,8 @@ export const Room = () => {
     handleVoteChange,
     setConnection: setContextConnection,
   } = useContext(RoomContext);
-  const [peers, dispatch] = useReducer(peersReducer, {});
+  // const [peers, dispatch] = useReducer(peersReducer, {});
+  const peers = useSelector(state => state.peers)
   const [connection, setConnection] = useState();
   const [connectionState, setConnectionState] = useState();
   const [voting, setVoting] = useState();
@@ -68,14 +70,15 @@ export const Room = () => {
     screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
 
   // eslint-disable-next-line no-unused-vars
-  const { [screenSharingId]: sharing, ...peersToShow } = peers;
-  const { [screenSharingId]: sharingRC, ...peersToShowRC } = peersRC;
+  const { [screenSharingId]: sharingRC, ...peersToShowRC } = peers;
+  // const { [screenSharingId]: sharing, ...peersToShow } = peersRC;
   const othersCount = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
-  const vidGrid = (stream, streamUsername, key) => {
+
+  const vidGrid = (stream, streamName, key, transitionState = (othersCount == 0)) => {
     //4x4: 10-16
     let width = 1;
     //1-1: 1x1
-    if (othersCount == 1|| othersCount == 0) {
+    if (othersCount == 1 || othersCount == 0) {
       width = 12;
     }
     //2-2: 2x1
@@ -95,39 +98,76 @@ export const Room = () => {
       width = 2;
     }
     return (
-      <Grid item xs={width} key={key}>
+    //   <Transition
+    //     in={transitionState}
+    //     timeout={2000}
+    //   >
+    //     {state => (
+      <Grid item xs={width} key={key} sx={{
+        transition: 'all 2s ease',
+        // opacity: (state === 'exited' || state === 'exiting')?0:1
+      }}>
         <Box>
           <Box>
-            <MeetingAvatar>
+            {/* <MeetingAvatar
+              id={`MeetingAvatar`}
+              sx={{
+                transition: 'all 2s ease',
+                opacity: (state === 'exited' || state === 'exiting')?0:1
+              }}
+            >
+            </MeetingAvatar> */}
               <VideoPlayer
                 stream={stream}
-                muted={streamUsername === userName}
+                muted={streamName === userName || streamName === "You"}
+                // height= {(state === 'exited' || state === 'exiting')?"0px":"100%"}
+                sx={{
+                  transition: 'all 2s ease',
+                  // opacity: (state === 'exited' || state === 'exiting')?0:1
+                }}
               />
-            </MeetingAvatar>
-            <Box>{streamUsername}</Box>
+            <Box>{streamName}</Box>
           </Box>
         </Box>
       </Grid>
+
+      //   )}
+      // </Transition> 
     );
   };
   return (
-    <Grid container spacing={1}>
-      {
-        othersCount===0 && screenSharingVideo && vidGrid(screenSharingVideo, "You")
-      }
-      {
-        othersCount===0 && screenSharingId !== me?.id && vidGrid(stream, "You")
-      }
-      {Object.values(peersToShowRC)
-        .filter((otherPeers) => !! otherPeers.stream)
-        .map((otherPeer) => (
-          <>
-            {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-          </>
-        ))}
-    </Grid>
+    <>
+      {/* <Transition
+        in={othersCount == 0}
+        timeout={2000}
+      >
+        {state => (
+        )}
+      </Transition> */}
+          <Grid container spacing={1}
+            sx={{
+              transition: 'all 2s ease',
+              // display: (state === 'exited' || state === 'exiting')?"none":"",
+              // opacity: (state === 'exited' || state === 'exiting')?0:1
+            }}
+          >
+            {
+              screenSharingVideo && vidGrid(screenSharingVideo, "You", (othersCount == 0))
+            }
+            {
+              screenSharingId !== me?.id && vidGrid(stream, "You", (othersCount == 0))
+            }
+            {Object.values(peersToShowRC)
+              .filter((otherPeers) => !!otherPeers.stream)
+              .map((otherPeer) => (
+                <>
+                  {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, (othersCount != 0))}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                </>
+              ))}
+          </Grid>
+    </>
   );
 };
