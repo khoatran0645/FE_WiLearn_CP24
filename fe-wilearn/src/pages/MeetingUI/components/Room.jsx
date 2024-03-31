@@ -25,6 +25,8 @@ export const Room = () => {
     handleUserList,
     handleVoteChange,
     setConnection: setContextConnection,
+    focusList,
+
   } = useContext(RoomContext);
   // const [peers, dispatch] = useReducer(peersReducer, {});
   const peers = useSelector(state => state.peers)
@@ -40,15 +42,15 @@ export const Room = () => {
     }
   };
 
-  useEffect(() => {
-    if (connection && connection !== undefined) {
-      // get list users in room
-      connection.on("get-users", (participants) => {
-        handleUserList(participants);
-      });
-      setContextConnection(connection);
-    }
-  }, [connection]);
+  // useEffect(() => {
+  //   if (connection && connection !== undefined) {
+  //     // get list users in room
+  //     connection.on("get-users", (participants) => {
+  //       handleUserList(participants);
+  //     });
+  //     setContextConnection(connection);
+  //   }
+  // }, [connection]);
 
   useEffect(() => {
     setRoomId(meetingId);
@@ -70,26 +72,30 @@ export const Room = () => {
     screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
 
   // eslint-disable-next-line no-unused-vars
-  const { [screenSharingId]: sharingRC, ...peersToShowRC } = peers;
+  // const { [screenSharingId]: sharingRC, ...peersToShowRC } = peers;
+  const { [meId]: sharingRC, ...peersToShowRC } = peers;
+  const peersToShowRcObj = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream);
   // const { [screenSharingId]: sharing, ...peersToShow } = peersRC;
-  const othersCount = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
+  const othersCount = peersToShowRcObj.length;
 
-  const vidGrid = (stream, streamName, key, transitionState = (othersCount == 0)) => {
+  // const focusPeer = peersToShowRcObj.filter((peer)=>)
+
+  const vidGrid = (stream, streamName, key, count = othersCount) => {
     //4x4: 10-16
     let width = 1;
-    if (othersCount == 1 || othersCount == 0) {
+    if (count == 1 || count == 0) {
       //1-1: 1x1
       width = 12;
     }
-    else if (othersCount == 2) {
+    else if (count == 2) {
       //2-2: 2x1
       width = 6;
     }
-    else if (othersCount == 3) {
+    else if (count == 3) {
       //3-4: 2x2
       width = 4;
     }
-    else if (othersCount < 9) {
+    else if (count < 9) {
       //5-6: 3x2
       width = 3;
     }
@@ -144,21 +150,11 @@ export const Room = () => {
             }}
           >
             {
-              screenSharingVideo && vidGrid(screenSharingVideo, "You", (othersCount == 0))
+              screenSharingVideo && vidGrid(screenSharingVideo, "You", meId, 1)
             }
             {
-              screenSharingId !== me?.id && vidGrid(stream, "You", (othersCount == 0))
+              screenSharingId !== me?.id && vidGrid(stream, "You", meId, 1)
             }
-            {Object.values(peersToShowRC)
-              .filter((otherPeers) => !!otherPeers.stream)
-              .map((otherPeer) => (
-                <>
-                  {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, (othersCount != 0))}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-                </>
-              ))}
           </Grid>
         )}
       </Transition>
@@ -176,14 +172,9 @@ export const Room = () => {
               overflow: 'hidden'
             }}
           >
-            {Object.values(peersToShowRC)
-              .filter((otherPeers) => !!otherPeers.stream)
-              .map((otherPeer) => (
+            {peersToShowRcObj.map((otherPeer) => (
                 <>
-                  {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, (othersCount != 0))}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-                  {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
+                  {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, othersCount)}
                 </>
               ))}
           </Grid>

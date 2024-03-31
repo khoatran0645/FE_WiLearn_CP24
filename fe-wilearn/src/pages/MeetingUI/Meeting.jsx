@@ -187,8 +187,8 @@ const Meeting = () => {
           />
         )}
         <CustomIcon
-            title="Raise hand"
-            titleOff="Lower hand"
+            title="Lower hand"
+            titleOff="Raise hand"
             key={2}
             onClick={toogleRaiseHand}
             activeIcon={<BackHandOutlinedIcon  />}

@@ -3,7 +3,7 @@ import React, { useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
 
 const UserPaper = (props) => {
-  const { stream, name } = props;
+  const { stream, name, isFocus=false } = props;
   const videoRef = useRef();
 
   useEffect(() => {
@@ -12,51 +12,14 @@ const UserPaper = (props) => {
     }
   }, [stream]);
 
-  // const renderActions = () => {
-  //   return [
-  //     <CustomIcon
-  //       sx={{
-  //         padding: '4px',
-  //         '& svg': {
-  //           width: '1.5rem',
-  //           height: '1.5rem'
-  //         }
-  //       }}
-  //       key={0}
-  //       activeIcon={<MicIcon />}
-  //       offIcon={<MicOffIcon />}
-  //     />,
-  //     <CustomIcon
-  //       sx={{
-  //         padding: '4px',
-  //         '& svg': {
-  //           width: '1.5rem',
-  //           height: '1.5rem'
-  //         }
-  //       }}
-  //       key={3}
-  //       activeIcon={<PresentToAllIcon />}
-  //       offIcon={<PresentToAllIcon />}
-  //     />,
-  //     <CustomIcon
-  //       sx={{
-  //         padding: '4px',
-  //         '& svg': {
-  //           width: '1.5rem',
-  //           height: '1.5rem'
-  //         }
-  //       }}
-  //       key={2}
-  //       activeIcon={<MessageIcon />}
-  //       offIcon={<MessageIcon />}
-  //     />
-  //   ];
-  // };
-
   return (
     <Paper
       sx={{
-        p: '4px'
+        p: '4px',
+        // borderColor: { isFocus ? "blue" :"red"}
+        border: isFocus ? 2 : 0,
+        // border: 0,
+        borderColor: 'border.red'
       }}
     >
       <Box
@@ -70,16 +33,7 @@ const UserPaper = (props) => {
         <video ref={videoRef} autoPlay controls muted></video>
       </Box>
       <Typography sx={{ textAlign: 'center' }}>{name}</Typography>
-      <Box
-        sx={{
-          display: 'flex',
-          justifyContent: 'center',
-          gap: '8px',
-          mt: '12px'
-        }}
-      >
-        {/* {renderActions()} */}
-      </Box>
+
     </Paper>
   );
 };

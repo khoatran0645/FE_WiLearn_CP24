@@ -481,7 +481,11 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
-        newConnect.on("get-focusList", (list)=>setFocusList(list));
+        newConnect.on("get-focusList", (list)=>{
+          toast.info("get-focusList");
+          console.log("get-focusList", list);
+          setFocusList(list);
+        });
 
         // setConnectionState(newConnect.state);
       }
@@ -491,13 +495,20 @@ export const RoomProvider = ({ children }) => {
     return null
   }
 
-  const toogleRaiseHand = () =>{
-    if(!isRaiseHand && !isSharing && !isReviewing){
-      connection.invoke("StopSharing",{roomId: roomId, peerId: meId})
+  const toogleRaiseHand = (newIsRaiseHand) =>{
+    // toast.info(`isRaiseHand ${isRaiseHand}`)
+    // toast.info(`isSharing ${isSharing}`)
+    // toast.info(`isReviewing ${isReviewing}`)
+    // toast.info(`!newIsRaiseHand && !isSharing && !isReviewing ${!newIsRaiseHand && !isSharing && !isReviewing}`)
+    // toast.info(`roomId ${roomId}`)
+    if(newIsRaiseHand && !isSharing && !isReviewing){
+      // toast.info('StopFocus')
+      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"hand"})
     }else{
-      connection.invoke("StartSharing",{roomId: roomId, peerId: meId})
+      // toast.info('StartFocus')
+      connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"hand"})
     }
-    setIsRaiseHand(!isRaiseHand);
+    setIsRaiseHand(newIsRaiseHand);
   }
   const toogleSound = (isActive) => {
     if (stream.getAudioTracks()[0]) {
@@ -657,6 +668,7 @@ export const RoomProvider = ({ children }) => {
         setUpLeave,
         isReviewing,
         setIsReviewing,
+        focusList,
       }}
     >
       {children}
