@@ -623,7 +623,7 @@ export const RoomProvider = ({ children }) => {
         setRoomId,
         sendMessage,
         chat,
-        toggleChat,
+        // toggleChat,
         userName,
         setUserName,
         handleCreateVote,

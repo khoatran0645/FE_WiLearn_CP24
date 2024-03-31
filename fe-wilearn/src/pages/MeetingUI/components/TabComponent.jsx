@@ -53,8 +53,11 @@ const TabComponent = () => {
       // height="calc(100vh - 49px)"
       // height= "80vh"
       height="100%"
+      maxHeight= "80vh"
+      // maxHeight={"calc(100vh - 49px)"}
       sx={{
-        backgroundColor: 'background.main'
+        backgroundColor: 'background.main',
+        paddingLeft: 1
       }}
     >
       <Box width="100%" sx={{ borderBottom: 1, borderColor: 'divider' }}>
