@@ -73,6 +73,7 @@ const Meeting = () => {
     setUpLeave,
     isReviewing,
     setIsReviewing,
+    toogleRaiseHand,
   } = useContext(RoomContext);
   const dispatch = useDispatch();
   const { meetingId, groupId } = useParams();
@@ -189,7 +190,7 @@ const Meeting = () => {
             title="Raise hand"
             titleOff="Lower hand"
             key={2}
-            onClick={handleClickVoteButton}
+            onClick={toogleRaiseHand}
             activeIcon={<BackHandOutlinedIcon  />}
             offIcon={<BackHandOutlinedIcon  />}
           />

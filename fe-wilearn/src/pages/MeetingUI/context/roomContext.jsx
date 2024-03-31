@@ -31,6 +31,7 @@ export const RoomProvider = ({ children }) => {
   const { groupId } = useParams();
 
   const [isReviewing, setIsReviewing] = useState(false);
+  const [focusList, setFocusList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -115,6 +116,7 @@ export const RoomProvider = ({ children }) => {
   const [isSharing, setIsSharing] = useState(false);
   const [onVoteChange, setOnVoteChange] = useState(false);
   const [connection, setConnection] = useState();
+  const [isRaiseHand, setIsRaiseHand] = useState(false);
   const dispatcher = useDispatch();
 
   // const [connection, setConnection] = useState();
@@ -479,6 +481,7 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
+        newConnect.on("get-focusList", (list)=>setFocusList(list));
 
         // setConnectionState(newConnect.state);
       }
@@ -488,6 +491,14 @@ export const RoomProvider = ({ children }) => {
     return null
   }
 
+  const toogleRaiseHand = () =>{
+    if(!isRaiseHand && !isSharing && !isReviewing){
+      connection.invoke("StopSharing",{roomId: roomId, peerId: meId})
+    }else{
+      connection.invoke("StartSharing",{roomId: roomId, peerId: meId})
+    }
+    setIsRaiseHand(!isRaiseHand);
+  }
   const toogleSound = (isActive) => {
     if (stream.getAudioTracks()[0]) {
       stream.getAudioTracks()[0].enabled = isActive;
@@ -639,6 +650,7 @@ export const RoomProvider = ({ children }) => {
         userJoin,
         removePeer,
         addHistory,
+        toogleRaiseHand,
         toogleSound,
         toogleVid,
         removeAllPeers,
