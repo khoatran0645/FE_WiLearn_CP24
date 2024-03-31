@@ -29,6 +29,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CancelIcon from "@mui/icons-material/Cancel";
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
 // import { removeAllPeerAction } from "src/reducers/peersActions";
 // import peersReducer from "src/reducers/peersReducer";
 
@@ -142,8 +143,10 @@ const Meeting = () => {
     return (
       <>
         <CustomIcon
-          title="Dừng chia sẻ"
-          titleOff="Chia sẻ màn hình"
+          // title="Dừng chia sẻ"
+          title="Stop sharing"
+          // titleOff="Chia sẻ màn hình"
+          titleOff="Share screen"
           key={1}
           onClick={shareScreen}
           activeIcon={<PresentToAllIcon />}
@@ -151,16 +154,20 @@ const Meeting = () => {
           isOn={isSharing}
         />
         <CustomIcon
-          title="Bật cam"
-          titleOff="Tắt cam"
+          // title="Bật cam"
+          title="Turn on cam"
+          // titleOff="Tắt cam"
+          titleOff="Turn off cam"
           key={5}
           onClick={toogleVid}
           activeIcon={<VideocamOffIcon />}
           offIcon={<VideocamIcon />}
         />
         <CustomIcon
-          title="Bật mic"
-          titleOff="Tắt mic"
+          // title="Bật mic"
+          title="Turn on mic"
+          // titleOff="Tắt mic"
+          titleOff="Turn off mic"
           key={6}
           onClick={toogleSound}
           activeIcon={<MicOffIcon />}
@@ -168,8 +175,10 @@ const Meeting = () => {
         />
         {userInfo?.roleName !== "Parent" && (
           <CustomIcon
-            title="Dừng trả bài"
-            titleOff="Bắt đầu trả bài"
+            // title="Dừng trả bài"
+            title="Stop reviewing"
+            // titleOff="Bắt đầu trả bài"
+            titleOff="Start reviewing"
             key={2}
             onClick={handleClickVoteButton}
             activeIcon={<LocalLibraryOutlinedIcon />}
@@ -177,7 +186,15 @@ const Meeting = () => {
           />
         )}
         <CustomIcon
-          title="Bảng vẽ"
+            title="Raise hand"
+            titleOff="Lower hand"
+            key={2}
+            onClick={handleClickVoteButton}
+            activeIcon={<BackHandOutlinedIcon  />}
+            offIcon={<BackHandOutlinedIcon  />}
+          />
+        <CustomIcon
+          title="Whiteboard"
           key={4}
           activeIcon={<DrawIcon />}
           offIcon={<DrawIcon />}
@@ -185,7 +202,7 @@ const Meeting = () => {
           isChangeColor={false}
         />
         <CustomIcon
-          title="Rời phòng"
+          title="Leave meeting"
           onClick={handleLeaveRoom}
           key={7}
           activeIcon={<ExitToAppIcon />}
@@ -193,7 +210,7 @@ const Meeting = () => {
         />
         {isLead && (
           <CustomIcon
-            title="Kết thúc buổi học"
+            title="End meeting"
             // title={location.state.isLead}
             onClick={handleEndRoom}
             key={8}
