@@ -85,16 +85,6 @@ const TabComponent = () => {
               gap: '8px'
             }}
           >
-            {/* {
-              screenSharingVideo && 
-              // vidGrid(screenSharingVideo, userName)
-              (<UserPaper key={meId} stream={screenSharingVideo} name={userName} />)
-            }
-            {
-              screenSharingId !== me?.id && 
-              // vidGrid(stream, userName)
-              (<UserPaper key={meId} stream={stream} name={userName} />)
-            } */}
             <UserPaper
               key={meId}
               stream={stream}
