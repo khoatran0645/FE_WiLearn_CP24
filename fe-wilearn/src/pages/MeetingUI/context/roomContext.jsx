@@ -219,7 +219,7 @@ export const RoomProvider = ({ children }) => {
 
 
   const shareScreen = async() => {
-    alert(`screenSharingId: ${screenSharingId}`)
+    console.log(`screenSharingId:`, screenSharingId)
     if (screenSharingId) {
       shareScreenTrack.stop();
       setShareScreenTrack(null);
@@ -227,6 +227,8 @@ export const RoomProvider = ({ children }) => {
       setScreenSharingId("");
       // setScreenSharingId(null);
       // window.location.reload(false);
+
+      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then(switchStream)
@@ -250,7 +252,8 @@ export const RoomProvider = ({ children }) => {
           const lastScreenTrack = screenTracks[screenTracks.length - 1];
           lastScreenTrack.addEventListener("ended", () => {
             // alert("end share screen")
-            setScreenSharingId("");
+          connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
+          setScreenSharingId("");
             setIsSharing(false);
             // setScreenSharingId(null);
             // window.location.reload(false);
@@ -264,7 +267,7 @@ export const RoomProvider = ({ children }) => {
               });
           });
           setShareScreenTrack(lastScreenTrack);
-
+          connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
         }
         switchStream(newStream);
       });
@@ -278,12 +281,14 @@ export const RoomProvider = ({ children }) => {
     // setIsSharing(true);
     // console.log('handleCreateVote', isSharing);
     // shareScreen();
+    connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
   };
 
   const handleEndVote = async () => {
     // call api api/review/end
     // setIsSharing(false);
     // shareScreen();
+    connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
   };
 
   const handleIsSharingChange = (value) => {
@@ -402,7 +407,7 @@ export const RoomProvider = ({ children }) => {
                     });
                 });
                 setShareScreenTrack(lastScreenTrack);
-
+                connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
               }
 
               return newStream;
@@ -482,7 +487,7 @@ export const RoomProvider = ({ children }) => {
           toast.info(reviewee + " bắt đầu trả bài")
         );
         newConnect.on("get-focusList", (list)=>{
-          toast.info("get-focusList");
+          // toast.info("get-focusList");
           console.log("get-focusList", list);
           setFocusList(list);
         });
@@ -501,12 +506,10 @@ export const RoomProvider = ({ children }) => {
     // toast.info(`isReviewing ${isReviewing}`)
     // toast.info(`!newIsRaiseHand && !isSharing && !isReviewing ${!newIsRaiseHand && !isSharing && !isReviewing}`)
     // toast.info(`roomId ${roomId}`)
-    if(newIsRaiseHand && !isSharing && !isReviewing){
-      // toast.info('StopFocus')
-      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"hand"})
+    if(newIsRaiseHand ){
+      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
     }else{
-      // toast.info('StartFocus')
-      connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"hand"})
+      connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
     }
     setIsRaiseHand(newIsRaiseHand);
   }
@@ -543,13 +546,6 @@ export const RoomProvider = ({ children }) => {
       //userVideoStream: MediaStream
       console.log('userJoin call on stream', userVideoStream);
       dispatch(addPeerStreamAction(peerId, userVideoStream));
-      //new
-      // const audio = document.createElement('audio');
-      // audio.style.display = 'none';
-      // document.body.appendChild(audio);
-
-      // audio.srcObject = userVideoStream;
-      // audio.play();
     });
     console.log('userJoin call', call);
     console.log('peers reducer addPeerStreamAction', peers);
@@ -557,9 +553,6 @@ export const RoomProvider = ({ children }) => {
 
   useEffect(() => {
     if (!stream) return;
-    // if (!stream && roomId) {
-    //   initStream();
-    // }
     if (!me) return;
 
     me.on("call", (call) => {
