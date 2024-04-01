@@ -4,7 +4,7 @@ import Footer from "./Footer";
 
 export default function LandingPage() {
   return (
-    <Grid container sx={{ flexGrow: 1 }}>
+    <Grid container>
       <Grid item xs={12}>
         <Content />
       </Grid>
