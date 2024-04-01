@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Tab, Tabs, styled } from '@mui/material';
+import { Box, Divider, Tab, Tabs, styled } from '@mui/material';
 import Vote from './Vote';
 import Chat from './chat/Chat';
 import UserPaper from './UserPaper';
@@ -49,7 +49,8 @@ const TabComponent = () => {
     <Box
       width="100%"
       // height="calc(100vh - 49px)"
-      height= "80vh"
+      // height= "80vh"
+      height="100%"
       sx={{
         backgroundColor: 'background.main'
       }}
@@ -57,7 +58,7 @@ const TabComponent = () => {
       <Box width="100%" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange} >
           {/* <Box sx={{ width:"100%",  }}> */}
-            <Tab icon={<PeopleAltOutlinedIcon/>} label="Participants" />
+            <Tab icon={<PeopleAltOutlinedIcon/>} label="Members" />
             <Tab icon={<MessageIcon />} label="Chats" />
             <Tab icon={<LocalLibraryOutlinedIcon/>} label="Reviews" />
           {/* </Box> */}
@@ -83,6 +84,7 @@ const TabComponent = () => {
               (<UserPaper key={meId} stream={stream} name={userName} />)
             } */}
             <UserPaper key={meId} stream={stream} name={"You"} />
+            {Object.values(peersToShow).length == 0 ? ("You are the only one here"):<Divider/>}
             {Object.values(peersToShow)
               .filter((peer) => !!peer.stream)
               .map((peer) => (

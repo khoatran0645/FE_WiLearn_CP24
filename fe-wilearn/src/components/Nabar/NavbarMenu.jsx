@@ -65,7 +65,7 @@ export default function NavbarMenu() {
           <Box sx={{ display: 'flex', alignItems: 'center' }}>
             <AvatarUser />
             <Typography variant="body1" sx={{ ml: 1 }}>
-              {userInfo?.username} - {userInfo?.fullName}
+              {userInfo?.fullName}
             </Typography>
           </Box>
         </Toolbar>
