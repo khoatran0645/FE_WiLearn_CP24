@@ -73,7 +73,7 @@ export default function MemberList() {
     <Grid container direction="column" paddingBottom={2}>
       <Grid item container xs={6} justifyContent="flex-start">
         <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
-          Thành viên
+          Members
         </Typography>
       </Grid>
       <Grid item container justifyContent="flex-end" paddingLeft={35}>
