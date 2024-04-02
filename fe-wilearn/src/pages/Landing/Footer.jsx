@@ -13,7 +13,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 export default function Footer() {
   return (
-    <Box
+    <Grid
       component="footer"
       sx={{ backgroundColor: "#fff", color: "#000", padding: "2rem" }}
     >
@@ -140,6 +140,6 @@ export default function Footer() {
           </Grid>
         </Grid>
       </Container>
-    </Box>
+    </Grid>
   );
 }

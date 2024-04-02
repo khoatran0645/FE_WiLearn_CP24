@@ -1,10 +1,7 @@
-import { Grid, Card, Typography, Divider, Box } from "@mui/material";
-import { AccountBalance, MenuBook, HowToReg, Home } from "@mui/icons-material";
-import bgImage from "../../assets/study.jpg";
-import ButtonGetStarted from "./ButtonGetStarted";
+import { Box, Button, Card, Divider, Grid, Stack, Typography } from "@mui/material";
 import { useNavigate } from "react-router-dom";
-import ButtonRegister from "../../components/ButtonRegister";
-import ButtonSignin from "../../components/ButtonSignin";
+import ButtonGetStarted from "./ButtonGetStarted";
+import { AccountBalance, Home, HowToReg, MenuBook } from "@mui/icons-material";
 
 export default function Content() {
   const navigate = useNavigate();
@@ -25,57 +22,49 @@ export default function Content() {
     },
     {
       title: "Find a study programme",
-      description:
-        "Search through our database of English-taught study programmes.",
+      description: "Search through our database of English-taught study programmes.",
       icon: <MenuBook />,
     },
     {
       title: "How to apply",
-      description:
-        "Find out about admission requirements and how to apply for a study programme.",
+      description: "Find out about admission requirements and how to apply for a study programme.",
       icon: <HowToReg />,
     },
     {
       title: "Finding a place to live",
-      description:
-        "Finding a room is a challenge, so start looking as soon as possible.",
+      description: "Finding a room is a challenge, so start looking as soon as possible.",
       icon: <Home />,
     },
   ];
 
   return (
-    <Grid container spacing={2} justifyContent="center" alignItems="center">
+    <Grid container direction="column">
       <Grid item xs={12}>
-        <Box
-          style={{
-            position: "relative",
+        <Grid
+          container
+          sx={{
+            backgroundImage: 'url("/src/assets/study.jpg")',
             height: "600px",
-            display: "flex",
-            flexDirection: "column",
-            justifyContent: "center",
+            backgroundSize: "cover",
+            position: "relative",
           }}
         >
-          <img
-            src={bgImage}
-            alt="Background"
-            style={{ width: "100%", height: "100%", objectFit: "cover" }}
-          />
-          <Box
-            style={{
-              position: "absolute",
-              top: "20px",
-              left: "20px",
-              display: "flex",
-            }}
-          >
+          <Grid item xs={6} display="flex">
             <img
               src="/src/assets/11276378.png"
               alt="Logo"
-              style={{ width: "50px", height: "50px" }}
+              style={{
+                width: "50px",
+                height: "50px",
+                marginLeft: "50px",
+                marginTop: "20px",
+              }}
             />
             <Typography
               sx={{
+                variant: "h6",
                 marginLeft: "5px",
+                marginTop: "25px",
                 fontSize: "25px",
                 fontFamily: "monospace",
                 fontWeight: 700,
@@ -87,31 +76,54 @@ export default function Content() {
             >
               WiLearn
             </Typography>
-            <Box
-              sx={{
-                display: "flex",
-                alignItems: "center",
-                paddingLeft: "1000px",
-              }}
+          </Grid>
+          <Grid item xs={6}>
+            <Stack
+              direction="row"
+              spacing={1}
+              justifyContent={"flex-end"}
+              paddingTop={3}
+              paddingRight={2}
             >
-              <Box
+              <Button
+                onClick={handleRegister}
+                color="inherit"
                 sx={{
-                  marginRight: "1rem",
+                  backgroundImage:
+                    "linear-gradient(to right, #EB3349 0%, #F45C43  51%, #EB3349  100%)",
+                  color: "#fff",
+                  borderRadius: "5px",
+                  padding: "8px 10px",
+                  "&:hover": {
+                    backgroundImage:
+                      "linear-gradient(to left, #EB3349 50%, #F45C43  100%, #EB3349  50%)",
+                  },
                 }}
-                justifyContent={"flex-end"}
               >
-                <ButtonRegister onClick={handleRegister} />
-              </Box>
-              <Box sx={{ display: "flex", alignItems: "center" }}>
-                <ButtonSignin onClick={handleSignIn} />
-              </Box>
-            </Box>
-          </Box>
-          <Box
+                Register
+              </Button>
+              <Button
+                onClick={handleSignIn}
+                color="inherit"
+                sx={{
+                  backgroundImage: "linear-gradient(to right, #00b4db, #0083b0)",
+                  color: "#fff",
+                  borderRadius: "5px",
+                  padding: "8px 10px",
+                  "&:hover": {
+                    backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
+                  },
+                }}
+              >
+                Sign In
+              </Button>
+            </Stack>
+          </Grid>
+          <Grid
             style={{
               position: "absolute",
-              bottom: "0",
               left: "0",
+              bottom: "0px",
               width: "100%",
               background:
                 "linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.8) 100%)",
@@ -131,11 +143,9 @@ export default function Content() {
                   textAlign: "center",
                 }}
               >
-                A system for online meetings designed to facilitate effective
-                group learning,
+                A system for online meetings designed to facilitate effective group learning,
                 <br />
-                supporting individuals studying collaboratively over the
-                internet.
+                supporting individuals studying collaboratively over the internet.
               </Typography>
               <Box
                 style={{
@@ -147,10 +157,10 @@ export default function Content() {
                 <ButtonGetStarted onClick={handleSignIn} />
               </Box>
             </Box>
-          </Box>
-        </Box>
+          </Grid>
+        </Grid>
       </Grid>
-      <Grid item container spacing={3} justifyContent="center">
+      <Grid item container spacing={3} justifyContent="center" paddingTop={2}>
         {cardsData.map((card, index) => (
           <Grid item key={index}>
             <Card

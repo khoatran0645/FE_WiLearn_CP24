@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useRef, useState } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import {
   Box,
@@ -14,12 +14,15 @@ import KeyboardArrowDownIcon from "@mui/icons-material/KeyboardArrowDown";
 import KeyboardArrowRightIcon from "@mui/icons-material/KeyboardArrowRight";
 
 const MultiLevelDropdown = () => {
+  const navigate = useNavigate();
+  const rootRef=useRef();
   const [anchorEl, setAnchorEl] = useState(null);
   const [subMenu1AnchorEl, setSubMenu1AnchorEl] = useState(null);
   const [subMenu2AnchorEl, setSubMenu2AnchorEl] = useState(null);
 
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
+    console.log("handleClick event.currentTarget", event.currentTarget)
   };
 
   const handleClose = () => {
@@ -61,16 +64,28 @@ const MultiLevelDropdown = () => {
   }
 
   return (
-    <Box sx={{ display: "flex", alignItems: "center" }}>
-      <div>
+    <>
+     {/* <Box sx={{ display: "flex", alignItems: "center" }}> */}
+       {/* <div> */}
         <Button
-          onClick={handleClick}
+          ref={rootRef}
+          onClick={()=>navigate('/groups')}
+          // onClick={(e)=>{
+          //   console.log("Button e", e)
+          //   handleClick(e)
+          // }}
           // onMouseOver={handleClick}
           color="inherit"
           aria-controls="menu-groups"
           aria-haspopup="true"
           sx={{ fontSize: "inherit" }}
-          endIcon={<KeyboardArrowDownIcon />}
+          endIcon={
+            <KeyboardArrowDownIcon 
+              onClick={(e)=>{
+                setAnchorEl(rootRef.current);
+              }} 
+            />
+          }
         >
           Groups
         </Button>
@@ -87,12 +102,12 @@ const MultiLevelDropdown = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem
+          {/* <MenuItem
             component={Link}
             to={`groups`}
           >
             All
-          </MenuItem>
+          </MenuItem> */}
           <MenuItem onClick={handleSubMenu1Click}>
             Manage
             <ListItemIcon>
@@ -121,6 +136,15 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
+            {(!leadGroups||leadGroups.length == 0) &&(
+              <MenuItem
+                component={Link}
+                to={`/groups/search`}
+                onClick={handleSubMenu1Close}
+              >
+                <p>No groups found.<br/>Find new groups.</p>
+              </MenuItem>
+            )}
             {leadGroups.map((group) => (
               <MenuItem
                 component={Link}
@@ -148,6 +172,15 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
+          {(!joinGroups||joinGroups.length == 0) &&(
+              <MenuItem
+                component={Link}
+                to={`/groups/search`}
+                onClick={handleSubMenu2Close}
+              >
+                <p>No groups found.<br/>Find new groups.</p>
+              </MenuItem>
+            )}
             {joinGroups.map((group) => (
               <MenuItem
                 component={Link}
@@ -160,8 +193,9 @@ const MultiLevelDropdown = () => {
             ))}
           </div>
         </Popover>
-      </div>
-    </Box>
+      {/* </div> */}
+    {/* </Box> */}
+    </>
   );
 };
 
