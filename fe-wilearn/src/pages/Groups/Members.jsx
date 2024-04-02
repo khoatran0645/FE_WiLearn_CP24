@@ -21,6 +21,7 @@ import { useSelector } from "react-redux";
 export default function MemberList() {
   const { groupInfo, loading } = useSelector((state) => state.studyGroup);
   const [userList, setUserList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (groupInfo && groupInfo.members) {
@@ -60,6 +61,14 @@ export default function MemberList() {
     </Grid>
   );
 
+  const totalPages = Math.ceil(userList.length / 12);
+  const startIndex = (currentPage - 1) * 12;
+  const endIndex = Math.min(startIndex + 12, userList.length);
+  const currentMembers = userList.slice(startIndex, endIndex);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
     <Grid container direction="column" paddingBottom={2}>
       <Grid item container xs={6} justifyContent="flex-start">
@@ -79,12 +88,12 @@ export default function MemberList() {
             <CircularProgress />
           </Grid>
         ) : (
-          userList.length > 0 && userList.map((user) => renderMemberCard(user))
+          currentMembers.map((user) => renderMemberCard(user))
         )}
       </Grid>
-      {userList.length > 0 && (
+      {totalPages > 1 && (
         <Grid item container justifyContent="center" alignItems="center" paddingTop={5}>
-          <Paginate count={10} />
+          <Paginate count={totalPages} onPageChange={handlePageChange} />
         </Grid>
       )}
     </Grid>
