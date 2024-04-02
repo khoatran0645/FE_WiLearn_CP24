@@ -43,6 +43,7 @@ const ChatInput = () => {
       component={"form"}
       onSubmit={formik.handleSubmit}
       sx={{ display: "flex", gap: "8px" }}
+      // sx={{ display: "flex" }}
     >
       <TextField
         sx={{
@@ -50,8 +51,10 @@ const ChatInput = () => {
             padding: "8px 12px",
           },
         }}
-        multiline
-        rows={1}
+        // multiline
+        // rows={1}
+        fullWidth={true}
+        size="small"
         name="txt"
         value={formik.values.txt}
         onChange={formik.handleChange}

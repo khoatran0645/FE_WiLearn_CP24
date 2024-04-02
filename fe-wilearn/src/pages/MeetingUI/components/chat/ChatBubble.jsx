@@ -13,7 +13,7 @@ const ChatBubble = ({ message }) => {
   return (
     <Box
       sx={{
-        color: "white",
+        // color: "white",
         p: "8px",
         borderRadius: "10px",
         display: "flex",

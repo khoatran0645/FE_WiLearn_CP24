@@ -7,14 +7,15 @@ import VideoPlayer from "./VideoPlayer";
 import { RoomContext } from "../context/roomContext";
 import peersReducer from "../../../app/reducer/peersReducer/peersReducer";
 import { getReviewInfos } from "../../../app/reducer/voteReducer/votesActions";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
+import Transition from "react-transition-group/Transition";
 
 export const Room = () => {
   const { meetingId } = useParams();
   const {
-    
+
     ws,
-    peers: peersRC, 
+    // peers: peersRC, 
     me,
     stream,
     screenSharingId,
@@ -24,10 +25,12 @@ export const Room = () => {
     handleUserList,
     handleVoteChange,
     setConnection: setContextConnection,
+    focusList,
+
   } = useContext(RoomContext);
-  const [peers, dispatch] = useReducer(peersReducer, {});
+  // const [peers, dispatch] = useReducer(peersReducer, {});
+  const peers = useSelector(state => state.peers)
   const [connection, setConnection] = useState();
-  const [connectionState, setConnectionState] = useState();
   const [voting, setVoting] = useState();
   const dispatcher = useDispatch();
 
@@ -37,16 +40,6 @@ export const Room = () => {
       setVoting(votingResponse);
     }
   };
-
-  useEffect(() => {
-    if (connection && connection !== undefined) {
-      // get list users in room
-      connection.on("get-users", (participants) => {
-        handleUserList(participants);
-      });
-      setContextConnection(connection);
-    }
-  }, [connection]);
 
   useEffect(() => {
     setRoomId(meetingId);
@@ -68,66 +61,134 @@ export const Room = () => {
     screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
 
   // eslint-disable-next-line no-unused-vars
-  const { [screenSharingId]: sharing, ...peersToShow } = peers;
-  const { [screenSharingId]: sharingRC, ...peersToShowRC } = peersRC;
-  const othersCount = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream).length;
-  const vidGrid = (stream, streamUsername, key) => {
+  // const { [screenSharingId]: sharingRC, ...peersToShowRC } = peers;
+  const { [meId]: sharingRC, ...peersToShowRC } = peers;
+  const peersToShowRcObj = Object.values(peersToShowRC).filter((otherPeers) => !!otherPeers.stream);
+  // const { [screenSharingId]: sharing, ...peersToShow } = peersRC;
+  const othersCount = peersToShowRcObj.length;
+  const isPeerIdFocus = (peerId) => {
+    console.log("isPeerIdFocus focusList", focusList)
+    console.log("isPeerIdFocus peerId", peerId)
+    return focusList.some(focus => focus.peerId == peerId)
+  }
+  const addFocusActionsToUsername = (peerId, uname) => {
+    let actionsString = null;
+    focusList.forEach(focus => {
+      if (focus.peerId == peerId) {
+        actionsString = focus.actions.join(", ")
+      }
+    });
+    if (actionsString) {
+      if (uname == userName || uname == "You") {
+        return `You are ${actionsString}`
+      }
+      return `${uname} is ${actionsString}`
+    }
+    return uname == userName?"You":uname
+  }
+
+  // const focusPeer = peersToShowRcObj.filter((peer)=>)
+
+  const vidGrid = (stream, streamName, peerId, count = othersCount) => {
     //4x4: 10-16
     let width = 1;
-    //1-1: 1x1
-    if (othersCount == 1|| othersCount == 0) {
+    if (count == 1 || count == 0) {
+      //1-1: 1x1
       width = 12;
     }
-    //2-2: 2x1
-    else if (othersCount == 2) {
+    else if (count == 2) {
+      //2-2: 2x1
       width = 6;
     }
-    //3-4: 2x2
-    else if (othersCount == 3) {
+    else if (count == 3) {
+      //3-4: 2x2
       width = 4;
     }
-    //5-6: 3x2
-    else if (othersCount < 9) {
+    else if (count < 9) {
+      //5-6: 3x2
       width = 3;
     }
-    //7-8: 4x2
     else {
+      //7-8: 4x2
       width = 2;
     }
     return (
-      <Grid item xs={width} key={key}>
+      //   <Transition
+      //     in={transitionState}
+      //     timeout={2000}
+      //   >
+      //     {state => (
+      <Grid item xs={width} key={peerId} sx={{
+        transition: 'all 2s ease',
+        // opacity: (state === 'exited' || state === 'exiting')?0:1
+      }}>
         <Box>
           <Box>
             <MeetingAvatar>
               <VideoPlayer
                 stream={stream}
-                muted={streamUsername === userName}
+                muted={streamName === userName || streamName === "You"}
+                sx={{
+                  transition: 'all 1s ease-in-and-out',
+                }}
               />
+            <Box>{addFocusActionsToUsername(peerId ,streamName)}</Box>
             </MeetingAvatar>
-            <Box>{streamUsername}</Box>
           </Box>
         </Box>
       </Grid>
+
+      //   )}
+      // </Transition> 
     );
   };
   return (
-    <Grid container spacing={1}>
-      {
-        othersCount===0 && screenSharingVideo && vidGrid(screenSharingVideo, "You")
-      }
-      {
-        othersCount===0 && screenSharingId !== me?.id && vidGrid(stream, "You")
-      }
-      {Object.values(peersToShowRC)
-        .filter((otherPeers) => !! otherPeers.stream)
-        .map((otherPeer) => (
-          <>
-            {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-            {/* {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id)} */}
-          </>
-        ))}
-    </Grid>
+    <>
+      <Transition
+        in={othersCount == 0}
+        timeout={2000}
+      >
+        {state => (
+          <Grid container spacing={1}
+            sx={{
+              transition: 'all 2s ease',
+              // display: (state === 'exited' || state === 'exiting')?"none":"",
+              opacity: (state === 'exited' || state === 'exiting') ? 0 : 1,
+              height: (state === 'exited' || state === 'exiting') ? "0px" : "100%",
+              overflow: 'hidden'
+            }}
+          >
+            {
+              screenSharingVideo && vidGrid(screenSharingVideo, "You", meId, 1)
+            }
+            {
+              screenSharingId !== me?.id && vidGrid(stream, "You", meId, 1)
+            }
+          </Grid>
+        )}
+      </Transition>
+      <Transition
+        in={othersCount != 0}
+        timeout={2000}
+      >
+        {state => (
+          <Grid container spacing={1}
+            sx={{
+              transition: 'all 2s ease',
+              // display: (state === 'exited' || state === 'exiting')?"none":"",
+              opacity: (state === 'exited' || state === 'exiting') ? 0 : 1,
+              height: (state === 'exited' || state === 'exiting') ? "0px" : "100%",
+              overflow: 'hidden'
+            }}
+          >
+            {peersToShowRcObj.map((otherPeer) => (
+              <>
+                {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, othersCount)}
+              </>
+            ))}
+          </Grid>
+        )}
+      </Transition>
+    </>
   );
 };

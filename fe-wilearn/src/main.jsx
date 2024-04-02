@@ -20,6 +20,10 @@ import 'react-toastify/dist/ReactToastify.css';
 const theme = createTheme({
   palette: {
     mode: "light",
+    border:{
+      red: "red",
+      blue: "blue"
+    }
   },
 });
 ReactDOM.createRoot(document.getElementById("root")).render(

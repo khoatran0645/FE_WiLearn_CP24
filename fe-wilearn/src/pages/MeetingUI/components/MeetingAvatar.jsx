@@ -9,12 +9,13 @@ const MeetingAvatar = (props) => {
       sx={{
         minWidth: '150px',
         borderRadius: '10px',
-        backgroundColor: '#cccccc',
-        color: '#ffffff',
+        // backgroundColor: '#cccccc',
+        // color: '#ffffff',
         padding: '8px',
         display: 'flex',
         justifyContent: 'center',
-        alignItems: 'center'
+        alignItems: 'center',
+        flexDirection: 'column'
       }}
     >
       {props.children}
