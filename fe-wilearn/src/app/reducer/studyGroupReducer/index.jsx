@@ -39,7 +39,6 @@ const initialState = {
   groupsAsMember: [],
   searchGroupss: [],
   requestFormList: [],
-  listClass: [],
 };
 
 const studyGroupSlice = createSlice({
@@ -56,7 +55,7 @@ const studyGroupSlice = createSlice({
       state.searchGroupss = [];
     },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     // Define reducers for asynchronous actions
 
     // Reducers for createGroup action
@@ -125,7 +124,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(searchGroups.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.searchGroupss = payload;
-    })
+    });
     // [searchGroups.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -133,7 +132,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(searchGroups.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // Reducers for getGroupLists action
     // [getGroupLists.pending]: (state) => {
@@ -143,7 +142,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupLists.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getGroupLists.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.leadGroups = payload;
@@ -151,7 +150,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupLists.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.leadGroups = payload;
-    })
+    });
     // [getGroupLists.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -159,7 +158,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupLists.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // Reducers for getGroupMemberLists action
     // [getGroupMemberLists.pending]: (state) => {
@@ -169,7 +168,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupMemberLists.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getGroupMemberLists.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.memberGroups = payload;
@@ -177,7 +176,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupMemberLists.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.memberGroups = payload;
-    })
+    });
     // [getGroupMemberLists.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -185,7 +184,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupMemberLists.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
     //Classlist
     // [getClassLists.pending]: (state) => {
     //   state.loading = true;
@@ -194,7 +193,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getClassLists.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getClassLists.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.listClass = payload;
@@ -202,7 +201,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getClassLists.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.listClass = payload;
-    })
+    });
     // [getClassLists.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -210,7 +209,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getClassLists.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // Reducers for updateGroupInfo action
     // [updateGroupInfo.pending]: (state) => {
@@ -220,13 +219,13 @@ const studyGroupSlice = createSlice({
     builder.addCase(updateGroupInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [updateGroupInfo.fulfilled]: (state) => {
     //   state.loading = false;
     // },
     builder.addCase(updateGroupInfo.fulfilled, (state) => {
       state.loading = false;
-    })
+    });
     // [updateGroupInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -234,7 +233,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(updateGroupInfo.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // Reducers for searchStudent action
     // [searchStudent.pending]: (state) => {
@@ -244,7 +243,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(searchStudent.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [searchStudent.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.searchStudentList = payload;
@@ -252,7 +251,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(searchStudent.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.searchStudentList = payload;
-    })
+    });
     // [searchStudent.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -260,7 +259,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(searchStudent.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
     // Reducers for getStudentInvites action
     // [getStudentInvites.pending]: (state) => {
     //   state.loading = true;
@@ -269,7 +268,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getStudentInvites.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getStudentInvites.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.invitations = payload;
@@ -277,7 +276,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getStudentInvites.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.invitations = payload;
-    })
+    });
     // [getStudentInvites.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.invitations = [];
@@ -287,7 +286,7 @@ const studyGroupSlice = createSlice({
       state.loading = false;
       state.invitations = [];
       state.error = payload;
-    })
+    });
 
     // Reducers for getSubjectLists action
     // [getSubjectLists.pending]: (state) => {
@@ -297,7 +296,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getSubjectLists.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getSubjectLists.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.subjectLists = payload;
@@ -305,7 +304,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getSubjectLists.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.subjectLists = payload;
-    })
+    });
     // [getSubjectLists.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -313,7 +312,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getSubjectLists.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // Reducers for getGroupInfo action
     // [getGroupInfo.pending]: (state) => {
@@ -323,7 +322,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getGroupInfo.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.groupInfo = payload;
@@ -331,7 +330,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupInfo.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.groupInfo = payload;
-    })
+    });
     // [getGroupInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -339,7 +338,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGroupInfo.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // [getMeetingList.pending]: (state) => {
     //   state.loading = true;
@@ -348,15 +347,15 @@ const studyGroupSlice = createSlice({
     builder.addCase(getMeetingList.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [getMeetingList.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.meetingList = payload;
     // },
     builder.addCase(getMeetingList.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.meetingList = payload
-    })
+      state.meetingList = payload;
+    });
     // [getMeetingList.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
@@ -364,7 +363,7 @@ const studyGroupSlice = createSlice({
     builder.addCase(getMeetingList.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // // Reducers for getRoomsByGroupId action
     // // [getRoomsByGroupId.pending]: (state) => {
@@ -400,23 +399,23 @@ const studyGroupSlice = createSlice({
     builder.addCase(scheduleMeeting.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [scheduleMeeting.fulfilled]: (state) => {
     //   state.loading = false;
     // },
     builder.addCase(scheduleMeeting.fulfilled, (state) => {
       state.loading = false;
-    })
+    });
     // [scheduleMeeting.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
-    builder.addCase(scheduleMeeting.rejected,(state, { payload }) => {
+    builder.addCase(scheduleMeeting.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
-     // Reducers for instantMeeting action
+    // Reducers for instantMeeting action
     // [meetingNow.pending]: (state) => {
     //   state.loading = true;
     //   state.error = null;
@@ -424,21 +423,21 @@ const studyGroupSlice = createSlice({
     builder.addCase(meetingNow.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [meetingNow.fulfilled]: (state) => {
     //   state.loading = false;
     // },
     builder.addCase(meetingNow.fulfilled, (state) => {
       state.loading = false;
-    })
+    });
     // [meetingNow.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
-    builder.addCase(meetingNow.rejected,(state, { payload }) => {
+    builder.addCase(meetingNow.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
-    })
+    });
 
     // // Reducers for addNewGroup action
     // // [addNewGroup.pending]: (state) => {

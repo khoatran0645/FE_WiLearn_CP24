@@ -1,13 +1,15 @@
+import EmptyLayout from "../layouts/EmptyLayout";
+import MainLayout from "../layouts/MainLayout";
+// import MeetingPage from "../pages/Meeting/MeetingPage";
+// import GuestLayout from "../layouts/GuestLayout";
+
+import LandingPage from "../pages/Landing/LandingPage";
 import HomePage from "../pages/Home/HomePage";
 import SignIn from "../pages/Signin/SigninPage";
 import { Navigate, useRoutes } from "react-router-dom";
 import Register from "../pages/Register/Register";
 import ErrorPage from "../pages/ErrorPage";
-import EmptyLayout from "../layouts/EmptyLayout";
-import MainLayout from "../layouts/MainLayout";
-import MeetingPage from "../pages/Meeting/MeetingPage";
-import GuestLayout from "../layouts/GuestLayout";
-import LandingPage from "../pages/Landing/LandingPage";
+
 import Groups from "../pages/Groups/Groups";
 import Members from "../pages/Groups/Members";
 import Discussion from "../pages/Discussion/components/Discussion";
@@ -21,6 +23,24 @@ import UserProfile from "./../components/UserProfile";
 import SearchPage from "./../pages/SearchGr/components/SearchPage";
 import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
+
+// import { lazy } from "react";
+
+// const HomePage = lazy(() => import("../pages/Home/HomePage"));
+// const Groups = lazy(() => import("../pages/Groups/Groups"));
+// const SignIn = lazy(() => import("../pages/Signin/SigninPage"));
+// const Register = lazy(() => import("../pages/Register/Register"));
+// const Members = lazy(() => import("../pages/Groups/Members"));
+// const Discussion = lazy(() => import("../pages/Discussion/components/Discussion"));
+// const LandingPage = lazy(() => import("../pages/Landing/LandingPage"));
+// const Schedule = lazy(() => import("../pages/Schedules/components/Schedule"));
+// const Statistics = lazy(() => import("../pages/Statistic/components/Statistics"));
+// const StudyDocs = lazy(() => import("../components/StudyDocs"));
+// const GroupSettings = lazy(() => import("../components/GroupSettings"));
+// const DiscussionDetail = lazy(() => import("../pages/Discussion/components/DiscussionDetail"));
+// const UserProfile = lazy(() => import("../components/UserProfile"));
+// const SearchPage = lazy(() => import("../pages/SearchGr/components/SearchPage"));
+// const Meeting = lazy(() => import("../pages/MeetingUI/Meeting"));
 
 export default function Router() {
   const routes = useRoutes([
@@ -131,12 +151,9 @@ export default function Router() {
             {
               path: "meetings",
               element: <EmptyLayout />,
-              children: [
-                { path: "", index: true, element: <Schedule /> },
-                
-              ],
+              children: [{ path: "", index: true, element: <Schedule /> }],
             },
-            
+
             {
               path: "docs",
               element: <StudyDocs />,
