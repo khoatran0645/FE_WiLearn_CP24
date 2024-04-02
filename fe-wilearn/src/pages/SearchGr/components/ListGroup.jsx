@@ -1,3 +1,4 @@
+import React, { useState } from "react";
 import {
   Button,
   Card,
@@ -7,6 +8,7 @@ import {
   Grid,
   Typography,
 } from "@mui/material";
+import Paginate from "../../../components/Paginate";
 
 const groups = [
   {
@@ -63,12 +65,6 @@ const groups = [
     img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
   },
   {
-    name: "KTeam",
-    introduction: "Join and start studying right away with the community!",
-    subject: "Java",
-    img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBxXC93bA22ghW67CX040WwL8PzLC0DcNOcvtXUL0LhrfywjCoRFsTdQqWRatvKwuzqZl63K-ax8LMP7nX0_S5ko9v-9_cu9OfaWciDWIQGN1fUa8iIEwXfPy9mNGrplOGdQjKb3NdYq9quxO6Rm1JRAf2bbZ4Il3BhvwZJf2MgMapZ5rl2mEq5FuluA/s1600/hinh%20nen%2012%20con%20giap%20phong%20cach%20it%20tuoi%20ti.jpg",
-  },
-  {
     name: "JsLand",
     introduction:
       "Discover new frontiers in web development with our JavaScript coding community",
@@ -115,13 +111,51 @@ const groups = [
     subject: "Flutter, React",
     img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
   },
+  {
+    name: "BitMinds",
+    introduction:
+      "Join our ReactJS community for cutting-edge web development discussions and projects!",
+    subject: "Reactjs",
+    img: "https://cdn.mienphitemplate.com/powerpoint_images/images/simple-blackboard-infographics/simple-blackboard-infographics/slide-21-extra.jpg",
+  },
+  {
+    name: "ScriptSavants",
+    introduction: "Join our Python coding group for fun and learning!",
+    subject: "Python, Kotlin",
+    img: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
+  },
+  {
+    name: "TechWizards",
+    introduction:
+      "Connect with fellow C++ and C enthusiasts in our dedicated coding community",
+    subject: "C++, C#",
+    img: "https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
+  },
+  {
+    name: "CodeNinjas",
+    introduction:
+      "Embrace the future of mobile and web development with our Flutter and React community",
+    subject: "Flutter, React",
+    img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
+  },
 ];
+
 export default function ListGroup() {
+  const [page, setPage] = useState(1);
+  const totalPages = Math.ceil(groups.length / 8);
+  const startIndex = (page - 1) * 8;
+  const endIndex = Math.min(startIndex + 8, groups.length);
+  const currentGroups = groups.slice(startIndex, endIndex);
+
+  const handlePageChange = (pageNumber) => {
+    setPage(pageNumber);
+  };
+
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} style={{ margin: "0 auto" }}>
         <Grid container justifyContent="center" paddingTop={2}>
-          {groups.map((group, index) => (
+          {currentGroups.map((group, index) => (
             <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
               <Card
                 style={{
@@ -188,6 +222,13 @@ export default function ListGroup() {
           ))}
         </Grid>
       </Grid>
+      <div style={{ position: "fixed", bottom: "0", width: "100%", backgroundColor: "#fff", padding: "10px 0" }}>
+        <Grid container justifyContent="center">
+          {totalPages > 1 && (
+            <Paginate count={totalPages} page={page} onPageChange={handlePageChange} />
+          )}
+        </Grid>
+      </div>
     </Grid>
   );
 }

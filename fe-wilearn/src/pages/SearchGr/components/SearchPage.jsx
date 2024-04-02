@@ -12,7 +12,6 @@ import {
   TextField,
 } from "@mui/material";
 import ListGroup from "./ListGroup";
-import Paginate from "./../../../components/Paginate";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -42,12 +41,6 @@ export default function SearchPage() {
   const [subject, setSubject] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
   const [showListGroup, setShowListGroup] = useState(false);
-  const [page, setPage] = useState(1);
-
-  const handlePageChange = (pageNumber) => {
-    setPage(pageNumber);
-    // Tải dữ liệu mới từ API hoặc thực hiện các thao tác khác tùy thuộc vào trang hiện tại.
-  };
 
   const handleChange = (event) => {
     const { value } = event.target;
@@ -130,11 +123,7 @@ export default function SearchPage() {
           </Grid>
         </Grid>
       )}
-      {showListGroup && (
-        <Grid container justifyContent="center" alignItems="center">
-          <Paginate count={10} page={page} onPageChange={handlePageChange} />
-        </Grid>
-      )}
+      
     </Grid>
   );
 }
