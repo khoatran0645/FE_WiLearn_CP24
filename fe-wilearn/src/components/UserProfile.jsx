@@ -7,7 +7,6 @@ import {
   Avatar,
   Box,
   Input,
-  TextField,
 } from "@mui/material";
 import {
   FormContainer,
@@ -26,7 +25,8 @@ export default function UserProfile() {
   dayjs.extend(customParseFormat);
   const [selectedFile, setSelectedFile] = useState(null);
 
-  const {userInfo} = useSelector((state) => state.user);
+  const { userInfo } = useSelector((state) => state.user);
+  console.log(userInfo);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -35,7 +35,6 @@ export default function UserProfile() {
 
   return (
     <>
-
       {userInfo === null ? (
         <Loading />
       ) : (
@@ -109,28 +108,26 @@ export default function UserProfile() {
           <Grid item xs={3}>
             <Typography variant="h5" textAlign={"left"}>
               Update information
-              {/* {console.log(userInfo.dateOfBirth)} */}
-              {/* {console.log(dayjs(userInfo.dateOfBirth).format("MM/DD/YYYY").toString())} */}
             </Typography>
             <FormContainer
               defaultValues={{
-                full_name: userInfo.fullName,
-                phone_number: userInfo.phone,
+                fullName: userInfo.fullName,
                 email: userInfo.email,
-                birth_date: "",
+                phone: userInfo.phone,
+                dateOfBirth: dayjs(userInfo.dateOfBirth),
               }}
-              // onSuccess={(data) => console.log(data)}
+              onSuccess={(data) => console.log(data)}
             >
               <Stack spacing={2} maxWidth={500} paddingTop={2}>
                 <TextFieldElement
-                  name="full_name"
+                  name="fullName"
                   label="Full name"
                   required
                   margin="dense"
                 />
                 {/* {console.log(userInfo)} */}
                 <TextFieldElement
-                  name="phone_number"
+                  name="phone"
                   label="Phone number"
                   required
                   margin="dense"
@@ -143,7 +140,7 @@ export default function UserProfile() {
                 />
                 <DatePickerElement
                   label="Birth date"
-                  name="birth_date"
+                  name="dateOfBirth"
                   required
                 />
                 <Button type="submit">Submit</Button>
@@ -184,7 +181,9 @@ export default function UserProfile() {
                   label={"Repeat Password"}
                   required
                 />
-                <Button type="submit">Submit</Button>
+                <Button type="submit" onSubmit={(data) => console.log(data)}>
+                  Submit
+                </Button>
               </Stack>
             </FormContainer>
           </Grid>
