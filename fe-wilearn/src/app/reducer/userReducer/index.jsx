@@ -1,14 +1,19 @@
-import { createSlice } from '@reduxjs/toolkit';
-import { checkLogin, checkLoginGoogle, getUserInfo, register } from './userActions'; 
+import { createSlice } from "@reduxjs/toolkit";
+import {
+  checkLogin,
+  checkLoginGoogle,
+  getUserInfo,
+  register,
+} from "./userActions";
 
 const initialState = {
   loading: false,
   userInfo: null,
-  error: null
+  error: null,
 };
 
 const userSlice = createSlice({
-  name: 'user',
+  name: "user",
   initialState,
   reducers: {
     // Define reducers for synchronous actions
@@ -17,9 +22,9 @@ const userSlice = createSlice({
       state.loading = false;
       state.userInfo = null;
       state.error = null;
-    }
+    },
   },
-  extraReducers: builder => {
+  extraReducers: (builder) => {
     // Define reducers for asynchronous actions
 
     // // Reducers for register action
@@ -43,25 +48,25 @@ const userSlice = createSlice({
     builder.addCase(checkLogin.pending, (state) => {
       state.loading = true;
       state.error = null;
-    })
+    });
     // [checkLogin.fulfilled]: (state, { payload }) => {
     //   state.loading = false;
     //   state.userInfo = payload;
     //   localStorage.setItem('token', payload.token);
     //   localStorage.setItem('role', payload.role);
     // },
-    builder.addCase(checkLogin.fulfilled,(state, { payload }) => {
+    builder.addCase(checkLogin.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.userInfo = payload;
-      localStorage.setItem('userName', payload.username);
-      localStorage.setItem('token', payload.token);
-      localStorage.setItem('role', payload.role);
-    })
+      localStorage.setItem("userName", payload.username);
+      localStorage.setItem("token", payload.token);
+      localStorage.setItem("role", payload.role);
+    });
     // [checkLogin.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
-    builder.addCase(checkLogin.rejected,(state, { payload }) => {
+    builder.addCase(checkLogin.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -88,7 +93,7 @@ const userSlice = createSlice({
     //   state.loading = true;
     //   state.error = null;
     // },
-    builder.addCase(getUserInfo.pending,(state) => {
+    builder.addCase(getUserInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
@@ -96,21 +101,36 @@ const userSlice = createSlice({
     //   state.loading = false;
     //   state.userInfo = payload;
     // },
-    builder.addCase(getUserInfo.fulfilled,(state, { payload }) => {
+    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
       state.loading = false;
       const token = localStorage.getItem("token");
-      state.userInfo ={ ...payload, token};
-      localStorage.setItem('userName', payload.username);
+      state.userInfo = { ...payload, token };
+      localStorage.setItem("userName", payload.username);
     });
     // [getUserInfo.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // }
-    builder.addCase(getUserInfo.rejected,(state, { payload }) => {
+    builder.addCase(getUserInfo.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
-  }
+
+    builder.addCase(getUserInfo.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      const token = localStorage.getItem("token");
+      state.userInfo = { ...payload, token };
+      localStorage.setItem("userName", payload.username);
+    });
+    builder.addCase(getUserInfo.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+  },
 });
 
 export { checkLogin, register, getUserInfo }; // export asynchronous actions
