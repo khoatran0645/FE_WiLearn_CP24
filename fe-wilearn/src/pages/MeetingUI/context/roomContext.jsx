@@ -526,7 +526,11 @@ export const RoomProvider = ({ children }) => {
   };
 
   const userJoin = ({ peerId, userName: name }) => {
+    console.log("userJoin { peerId, userName: name }", { peerId, userName: name })
     dispatch(addPeerNameAction(peerId, name));
+    if(peerId == meId){
+      dispatch(addPeerStreamAction(peerId, stream));
+    }
     console.log('peers reducer addPeerNameAction', peers);
     // if (!stream && roomId) {
     //   initStream();
