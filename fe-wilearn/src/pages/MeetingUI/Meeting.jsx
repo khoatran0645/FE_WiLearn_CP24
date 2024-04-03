@@ -29,6 +29,7 @@ import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CancelIcon from "@mui/icons-material/Cancel";
 import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
+import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
 // import { removeAllPeerAction } from "src/reducers/peersActions";
 // import peersReducer from "src/reducers/peersReducer";
 
@@ -55,7 +56,6 @@ const MemberWrapper = styled(Box)(() => {
 const itemProps = ["Webcam 1", "Webcam 2", "Webcam 3", "Webcam 4"];
 
 const Meeting = () => {
-  const [isFirstClick, setIsFirstClick] = useState(true);
   const [direction, setDirection] = useState("collumn");
   const [totalItems, setTotalItems] = useState(itemProps);
   // const containerRef = useRef(null);
@@ -65,31 +65,24 @@ const Meeting = () => {
 
   // const userVideo = useRef();
   const {
-    chat,
-    toggleChat,
     shareScreen,
-    peers,
-    screenSharingId,
     handleCreateVote,
     handleEndVote,
     userName,
     isSharing,
-    removeAllPeers,
-    setRoomId,
     setUpLeave,
+    isReviewing,
+    setIsReviewing,
+    toogleRaiseHand,
   } = useContext(RoomContext);
   const dispatch = useDispatch();
   const { meetingId, groupId } = useParams();
   const [isDisableVoteButton, setIsDisableVoteButton] = useState(false);
   const { votesData } = useSelector((state) => state.votes);
-  const { connection, meId, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
+  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
-  const { [screenSharingId]: sharing, ...peersToShow } = peers;
-
-  const openDrawer = toggleChat;
-  const closeDrawer = toggleChat;
 
   setDirection;
 
@@ -103,7 +96,7 @@ const Meeting = () => {
   };
 
   const handleClickVoteButton = async () => {
-    if (isFirstClick) {
+    if (!isReviewing) {
       handleCreateVote();
       dispatch(startReview(meetingId));
     } else {
@@ -113,7 +106,7 @@ const Meeting = () => {
         dispatch(getReviewInfos(meetingId));
       }
     }
-    setIsFirstClick(!isFirstClick);
+    setIsReviewing(!isReviewing);
   };
   // const [mypeers] = useReducer(peersReducer, {});
   // const [mypeers, mydispatch] = useReducer(peersReducer, {});
@@ -147,12 +140,14 @@ const Meeting = () => {
     // window.open('./whiteboard', '_blank');
     window.open(path + "/whiteboard", "_blank");
   };
-  const renderActions = (onClickChat, shareScreen) => {
+  const renderActions = (shareScreen) => {
     return (
       <>
         <CustomIcon
-          title="Dừng chia sẻ"
-          titleOff="Chia sẻ màn hình"
+          // title="Dừng chia sẻ"
+          title="Stop sharing"
+          // titleOff="Chia sẻ màn hình"
+          titleOff="Share screen"
           key={1}
           onClick={shareScreen}
           activeIcon={<PresentToAllIcon />}
@@ -160,16 +155,20 @@ const Meeting = () => {
           isOn={isSharing}
         />
         <CustomIcon
-          title="Bật cam"
-          titleOff="Tắt cam"
+          // title="Bật cam"
+          title="Turn on cam"
+          // titleOff="Tắt cam"
+          titleOff="Turn off cam"
           key={5}
           onClick={toogleVid}
           activeIcon={<VideocamOffIcon />}
           offIcon={<VideocamIcon />}
         />
         <CustomIcon
-          title="Bật mic"
-          titleOff="Tắt mic"
+          // title="Bật mic"
+          title="Turn on mic"
+          // titleOff="Tắt mic"
+          titleOff="Turn off mic"
           key={6}
           onClick={toogleSound}
           activeIcon={<MicOffIcon />}
@@ -177,24 +176,26 @@ const Meeting = () => {
         />
         {userInfo?.roleName !== "Parent" && (
           <CustomIcon
-            title="Dừng trả bài"
-            titleOff="Bắt đầu trả bài"
+            // title="Dừng trả bài"
+            title="Stop reviewing"
+            // titleOff="Bắt đầu trả bài"
+            titleOff="Start reviewing"
             key={2}
             onClick={handleClickVoteButton}
             activeIcon={<LocalLibraryOutlinedIcon />}
             offIcon={<LocalLibraryOutlinedIcon />}
           />
         )}
-        {/* <CustomIcon
-          title="Tin nhắn"
-          onClick={onClickChat}
-          key={3}
-          isChangeColor={false}
-          activeIcon={<MessageIcon />}
-          offIcon={<MessageIcon />}
-        /> */}
         <CustomIcon
-          title="Bảng vẽ"
+            title="Lower hand"
+            titleOff="Raise hand"
+            key={2}
+            onClick={toogleRaiseHand}
+            activeIcon={<BackHandOutlinedIcon  />}
+            offIcon={<BackHandOutlinedIcon  />}
+          />
+        <CustomIcon
+          title="Whiteboard"
           key={4}
           activeIcon={<DrawIcon />}
           offIcon={<DrawIcon />}
@@ -202,7 +203,7 @@ const Meeting = () => {
           isChangeColor={false}
         />
         <CustomIcon
-          title="Rời phòng"
+          title="Leave meeting"
           onClick={handleLeaveRoom}
           key={7}
           activeIcon={<ExitToAppIcon />}
@@ -210,7 +211,7 @@ const Meeting = () => {
         />
         {isLead && (
           <CustomIcon
-            title="Kết thúc buổi học"
+            title="End meeting"
             // title={location.state.isLead}
             onClick={handleEndRoom}
             key={8}
@@ -230,35 +231,13 @@ const Meeting = () => {
     }
   }, [connection]);
   useEffect(() => {
-    //unused
-    // navigator.mediaDevices
-    //   .getUserMedia({ video: true, audio: true })
-    //   .then((stream) => {
-    //     if (userVideo.current) {
-    //       userVideo.current.srcObject = stream;
-    //     }
-    //   });
     dispatch(getReviewInfos(meetingId));
-    //
-    // connection.on('LeaderEndMeeting', (msg) => {
-    //   toast.info(msg);
-    //   handleLeaveRoom();
-    // });
   }, []);
 
   useEffect(() => {
     window.addEventListener("resize", updateDimensions);
     return () => window.removeEventListener("resize", updateDimensions);
   }, []);
-
-  // useEffect(() => {
-  //   const clientHeight = containerRef.current.clientHeight;
-  //   if (!hasMore && clientHeight > (viewHeight * 60) / 100) {
-  //     setHasmore(true);
-  //   } else if (hasMore && clientHeight <= (viewHeight * 60) / 100) {
-  //     setHasmore(false);
-  //   }
-  // });
 
   useEffect(() => {
     if (votesData && votesData.length > 0) {
@@ -303,7 +282,7 @@ const Meeting = () => {
                 }}
               >
                 {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
-                {renderActions(openDrawer, shareScreen, handleCreateVote)}
+                {renderActions(shareScreen)}
               </Box>
             </Box>
           </Wrapper>

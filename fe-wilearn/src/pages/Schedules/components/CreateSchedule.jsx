@@ -9,9 +9,10 @@ import {
   Tabs,
   Grid,
   Autocomplete,
-  Chip,
+  MenuItem,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import CheckIcon from "@mui/icons-material/Check";
 
 const daysOfWeek = [
   "Monday",
@@ -214,30 +215,33 @@ export default function CreateSchedule() {
             </Grid>
             <Box sx={{ marginTop: "1rem" }}>
               <Autocomplete
+                sx={{ width: "100%" }}
                 multiple
-                id="tags-outlined"
                 options={daysOfWeek}
                 value={repeatedDays}
                 onChange={(event, newValue) => {
                   setRepeatedDays(newValue);
                 }}
-                renderTags={(value, getTagProps) =>
-                  value.map((option, index) => (
-                    <Chip
-                      key={option}
-                      variant="outlined"
-                      label={option}
-                      {...getTagProps({ index })}
-                    />
-                  ))
-                }
+                disableCloseOnSelect
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     variant="outlined"
                     label="Select days to repeat"
                     placeholder="Days"
+                    fullWidth
                   />
+                )}
+                renderOption={(props, option, { selected }) => (
+                  <MenuItem
+                    {...props}
+                    key={option}
+                    value={option}
+                    sx={{ justifyContent: "space-between" }}
+                  >
+                    {option}
+                    {selected ? <CheckIcon color="info" /> : null}
+                  </MenuItem>
                 )}
               />
             </Box>

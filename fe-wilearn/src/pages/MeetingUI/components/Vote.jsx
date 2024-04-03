@@ -35,19 +35,6 @@ const Vote = () => {
   };
 
   const renderButton = (voteData) => {
-    // return voteData.revieweeUsername === userName ? (
-    //   <Button variant="contained" onClick={() => onOpenVoteResultDetail(voteData?.details)}>
-    //     Kết quả đánh giá
-    //   </Button>
-    // ) : (
-    //   <Button
-    //     disabled={voteData.reviewerUsernames.includes(userName)}
-    //     variant="contained"
-    //     onClick={() => onOpenVoteForm(voteData.id)}
-    //   >
-    //     Vote
-    //   </Button>
-    // );
     return (
       <>
         <Button
@@ -87,22 +74,40 @@ const Vote = () => {
 
   return (
     <Box
+      // sx={{
+      //   backgroundColor: "background.main",
+      //   height: '100%',
+      //   display: 'flex',
+      //   flexDirection: 'column',
+      //   gap: '12px',
+      // }}
       sx={{
-        backgroundColor: "background.main",
+        height: '100%',
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '12px',
+        // backgroundColor: 'background.main'
       }}
     >
-      <Paper
+      {/* <Paper
         sx={{
           display: "flex",
           flexDirection: "column",
           gap: "12px",
         }}
-      >
+      > */}
         <Box
+          // sx={{
+          //   display: "flex",
+          //   flexDirection: "column",
+          //   gap: "12px",
+          // }}
           sx={{
-            display: "flex",
-            flexDirection: "column",
-            gap: "12px",
+            flex: 1,
+            overflow: 'auto',
+            display: 'flex',
+            flexDirection: 'column',
+            gap: '12px'
           }}
         >
           {/* {voting[0]?.username && voting[0]?.username} */}
@@ -160,7 +165,7 @@ const Vote = () => {
             );
           })}
         </Box>
-      </Paper>
+      {/* </Paper> */}
       <VoteFormDialog
         open={voteForm}
         onClose={onCloseVoteForm}

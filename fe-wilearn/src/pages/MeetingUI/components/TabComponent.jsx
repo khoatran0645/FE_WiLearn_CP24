@@ -19,10 +19,10 @@ const TabPanel = (props) => {
       id={`simple-tabpanel-${index}`}
       aria-labelledby={`simple-tab-${index}`}
       {...other}
-      style={{ height: '100%' }}
+      style={{ height: '100%', width: '100%' }}
     >
       {value === index && (
-        <Box sx={{ p: 3, height: '100%', backgroundColor: 'background.main' }}>{children}</Box>
+        <Box sx={{ height: '100%', backgroundColor: 'background.main' }}>{children}</Box>
       )}
     </Box>
   );
@@ -40,34 +40,46 @@ const TabComponent = () => {
   const handleChange = (_, newValue) => {
     setValue(newValue);
   };
-  const { peers, screenSharingId, stream, userName, me, meId } = useContext(RoomContext);
-  const { [screenSharingId]: sharing, ...peersToShow } = peers;
+  const { peers, screenSharingId, stream, userName, me, meId, focusList } = useContext(RoomContext);
+  const { [meId]: sharing, ...peersToShow } = peers;
+  console.log("peersToShow", peersToShow)
 
   const screenSharingVideo =
     screenSharingId === me?.id ? stream : peers[screenSharingId]?.stream;
+  const isPeerIdFocus = (peerId)=>{
+    console.log("isPeerIdFocus focusList", focusList)
+    console.log("isPeerIdFocus peerId", peerId)
+    return focusList.some(item=>item.peerId==peerId)
+  }
   return (
     <Box
+      display="flex"
+      flexDirection="column"
       width="100%"
       // height="calc(100vh - 49px)"
       // height= "80vh"
       height="100%"
+      maxHeight="80vh"
+      // maxHeight={"calc(100vh - 49px)"}
       sx={{
-        backgroundColor: 'background.main'
+        backgroundColor: 'background.main',
+        paddingLeft: 1
       }}
     >
       <Box width="100%" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange} >
           {/* <Box sx={{ width:"100%",  }}> */}
-            <Tab icon={<PeopleAltOutlinedIcon/>} label="Members" />
-            <Tab icon={<MessageIcon />} label="Chats" />
-            <Tab icon={<LocalLibraryOutlinedIcon/>} label="Reviews" />
+          <Tab icon={<PeopleAltOutlinedIcon />} label="Members" />
+          <Tab icon={<MessageIcon />} label="Chats" />
+          <Tab icon={<LocalLibraryOutlinedIcon />} label="Reviews" />
           {/* </Box> */}
         </Tabs>
       </Box>
-      <TabPanel value={value} index={0}>
-        <MemberWrapperTab>
+      <TabPanel value={value} index={0} id="TabPanel">
+        <MemberWrapperTab id="MemberWrapperTab">
           <Box
             sx={{
+              width: "100%",
               display: 'flex',
               flexDirection: 'column',
               gap: '8px'
@@ -83,12 +95,28 @@ const TabComponent = () => {
               // vidGrid(stream, userName)
               (<UserPaper key={meId} stream={stream} name={userName} />)
             } */}
-            <UserPaper key={meId} stream={stream} name={"You"} />
-            {Object.values(peersToShow).length == 0 ? ("You are the only one here"):<Divider/>}
+            <UserPaper
+              key={meId}
+              stream={stream}
+              name={"You"}
+              isFocus={isPeerIdFocus(meId)}
+            />
+            {Object.values(peersToShow).length == 0
+              ? ("No one else is here")
+              : <>
+                Other people
+                <Divider />
+              </>
+            }
             {Object.values(peersToShow)
               .filter((peer) => !!peer.stream)
               .map((peer) => (
-                <UserPaper key={peer.id} stream={peer.stream} name={peer.userName} />
+                <UserPaper 
+                  key={peer.id} 
+                  stream={peer.stream} 
+                  name={peer.userName} 
+                  isFocus={isPeerIdFocus(peer.id)}
+              />
               ))}
           </Box>
         </MemberWrapperTab>
@@ -108,6 +136,7 @@ const MemberWrapperTab = styled(Box)(() => {
     width: '100%',
     maxHeight: '80vh',
     maxWidth: '200px',
+    display: "flex",
     flexWrap: 'wrap',
     justifyContent: 'center'
   };

@@ -15,6 +15,7 @@ export const peersReducer = (state = initialState, action) => {
         [action.payload.peerId]: {
           ...state[action.payload.peerId],
           stream: action.payload.stream,
+          id: action.payload.peerId
         },
       };
     case ADD_PEER_NAME:
@@ -23,6 +24,7 @@ export const peersReducer = (state = initialState, action) => {
         [action.payload.peerId]: {
           ...state[action.payload.peerId],
           userName: action.payload.userName,
+          id: action.payload.peerId,
         },
       };
     // case REMOVE_PEER_STREAM:

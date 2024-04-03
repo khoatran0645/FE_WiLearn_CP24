@@ -30,6 +30,8 @@ export const RoomProvider = ({ children }) => {
   const navigate = useNavigate();
   const { groupId } = useParams();
 
+  const [isReviewing, setIsReviewing] = useState(false);
+  const [focusList, setFocusList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -114,6 +116,7 @@ export const RoomProvider = ({ children }) => {
   const [isSharing, setIsSharing] = useState(false);
   const [onVoteChange, setOnVoteChange] = useState(false);
   const [connection, setConnection] = useState();
+  const [isRaiseHand, setIsRaiseHand] = useState(false);
   const dispatcher = useDispatch();
 
   // const [connection, setConnection] = useState();
@@ -216,7 +219,7 @@ export const RoomProvider = ({ children }) => {
 
 
   const shareScreen = async() => {
-    alert(`screenSharingId: ${screenSharingId}`)
+    console.log(`screenSharingId:`, screenSharingId)
     if (screenSharingId) {
       shareScreenTrack.stop();
       setShareScreenTrack(null);
@@ -224,6 +227,8 @@ export const RoomProvider = ({ children }) => {
       setScreenSharingId("");
       // setScreenSharingId(null);
       // window.location.reload(false);
+
+      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
       navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then(switchStream)
@@ -247,7 +252,8 @@ export const RoomProvider = ({ children }) => {
           const lastScreenTrack = screenTracks[screenTracks.length - 1];
           lastScreenTrack.addEventListener("ended", () => {
             // alert("end share screen")
-            setScreenSharingId("");
+          connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
+          setScreenSharingId("");
             setIsSharing(false);
             // setScreenSharingId(null);
             // window.location.reload(false);
@@ -261,7 +267,7 @@ export const RoomProvider = ({ children }) => {
               });
           });
           setShareScreenTrack(lastScreenTrack);
-
+          connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
         }
         switchStream(newStream);
       });
@@ -275,12 +281,14 @@ export const RoomProvider = ({ children }) => {
     // setIsSharing(true);
     // console.log('handleCreateVote', isSharing);
     // shareScreen();
+    connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
   };
 
   const handleEndVote = async () => {
     // call api api/review/end
     // setIsSharing(false);
     // shareScreen();
+    connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
   };
 
   const handleIsSharingChange = (value) => {
@@ -302,10 +310,6 @@ export const RoomProvider = ({ children }) => {
 
   const addHistory = (messages) => {
     chatDispatch(addHistoryAction(messages));
-  };
-
-  const toggleChat = () => {
-    chatDispatch(toggleChatAction(!chat?.isChatOpen));
   };
 
   useEffect(() => {
@@ -403,7 +407,7 @@ export const RoomProvider = ({ children }) => {
                     });
                 });
                 setShareScreenTrack(lastScreenTrack);
-
+                connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
               }
 
               return newStream;
@@ -482,6 +486,11 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
+        newConnect.on("get-focusList", (list)=>{
+          // toast.info("get-focusList");
+          console.log("get-focusList", list);
+          setFocusList(list);
+        });
 
         // setConnectionState(newConnect.state);
       }
@@ -491,6 +500,19 @@ export const RoomProvider = ({ children }) => {
     return null
   }
 
+  const toogleRaiseHand = (newIsRaiseHand) =>{
+    // toast.info(`isRaiseHand ${isRaiseHand}`)
+    // toast.info(`isSharing ${isSharing}`)
+    // toast.info(`isReviewing ${isReviewing}`)
+    // toast.info(`!newIsRaiseHand && !isSharing && !isReviewing ${!newIsRaiseHand && !isSharing && !isReviewing}`)
+    // toast.info(`roomId ${roomId}`)
+    if(newIsRaiseHand ){
+      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
+    }else{
+      connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
+    }
+    setIsRaiseHand(newIsRaiseHand);
+  }
   const toogleSound = (isActive) => {
     if (stream.getAudioTracks()[0]) {
       stream.getAudioTracks()[0].enabled = isActive;
@@ -524,13 +546,6 @@ export const RoomProvider = ({ children }) => {
       //userVideoStream: MediaStream
       console.log('userJoin call on stream', userVideoStream);
       dispatch(addPeerStreamAction(peerId, userVideoStream));
-      //new
-      // const audio = document.createElement('audio');
-      // audio.style.display = 'none';
-      // document.body.appendChild(audio);
-
-      // audio.srcObject = userVideoStream;
-      // audio.play();
     });
     console.log('userJoin call', call);
     console.log('peers reducer addPeerStreamAction', peers);
@@ -538,9 +553,6 @@ export const RoomProvider = ({ children }) => {
 
   useEffect(() => {
     if (!stream) return;
-    // if (!stream && roomId) {
-    //   initStream();
-    // }
     if (!me) return;
 
     me.on("call", (call) => {
@@ -626,7 +638,7 @@ export const RoomProvider = ({ children }) => {
         setRoomId,
         sendMessage,
         chat,
-        toggleChat,
+        // toggleChat,
         userName,
         setUserName,
         handleCreateVote,
@@ -642,10 +654,14 @@ export const RoomProvider = ({ children }) => {
         userJoin,
         removePeer,
         addHistory,
+        toogleRaiseHand,
         toogleSound,
         toogleVid,
         removeAllPeers,
         setUpLeave,
+        isReviewing,
+        setIsReviewing,
+        focusList,
       }}
     >
       {children}

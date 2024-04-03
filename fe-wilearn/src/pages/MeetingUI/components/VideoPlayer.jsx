@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { Box } from '@mui/material';
 
 const VideoPlayer = (props) => {
-  const { stream, muted } = props;
+  const { stream, muted, height="100%" } = props;
   const videoRef = useRef();
 
   useEffect(() => {
@@ -15,10 +15,15 @@ const VideoPlayer = (props) => {
 
   return (
     <Box
-      sx={{
+    id={`Box`}
+    // height= {height}
+    transition= 'all 2s ease'
+    sx={{
         '& video': {
           width: '100%',
-          height: '100%'
+          height: '100%',
+          // height: {height},
+          transition: 'all 2s ease',
         }
       }}
     >

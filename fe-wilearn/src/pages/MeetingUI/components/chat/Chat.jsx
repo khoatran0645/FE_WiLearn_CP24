@@ -14,7 +14,7 @@ const Chat = () => {
         display: 'flex',
         flexDirection: 'column',
         gap: '12px',
-        backgroundColor: 'background.main'
+        // backgroundColor: 'background.main'
       }}
     >
       <Box

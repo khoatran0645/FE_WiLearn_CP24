@@ -98,7 +98,7 @@ export default function Router() {
               element: <Groups />,
             },
             {
-              path: "searchgroup",
+              path: "search",
               element: <SearchPage />,
             },
           ],
@@ -116,7 +116,7 @@ export default function Router() {
           element: <UserProfile />,
         },
         {
-          path: "searchgroup",
+          path: "search",
           element: <SearchPage />,
         },
         {
