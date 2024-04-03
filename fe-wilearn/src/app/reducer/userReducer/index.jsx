@@ -4,6 +4,7 @@ import {
   checkLoginGoogle,
   getUserInfo,
   register,
+  updateUserInfo,
 } from "./userActions";
 
 const initialState = {
@@ -116,17 +117,17 @@ const userSlice = createSlice({
       state.error = payload;
     });
 
-    builder.addCase(getUserInfo.pending, (state) => {
+    builder.addCase(updateUserInfo.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(getUserInfo.fulfilled, (state, { payload }) => {
+    builder.addCase(updateUserInfo.fulfilled, (state, { payload }) => {
       state.loading = false;
       const token = localStorage.getItem("token");
       state.userInfo = { ...payload, token };
       localStorage.setItem("userName", payload.username);
     });
-    builder.addCase(getUserInfo.rejected, (state, { payload }) => {
+    builder.addCase(updateUserInfo.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
