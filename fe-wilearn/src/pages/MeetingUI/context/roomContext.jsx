@@ -326,8 +326,7 @@ export const RoomProvider = ({ children }) => {
         //Init stream
         const meId = `${userName}-${uuidV4()}`;
         // const meId = uuidV4();
-        const newSignalR = await initSignalR(meId)
-        const stream = await initStream(meId, newSignalR);
+        const stream = await initStream(meId);
         // await initStream(meId);
         console.log("initStream", stream)
         // toast.info("meId kind" + typeof( meId));
@@ -365,7 +364,7 @@ export const RoomProvider = ({ children }) => {
         });
         console.log("setup peer", peer)
         setMe(peer);
-        // initSignalR(meId)
+        initSignalR(meId)
 
 
       }
@@ -374,7 +373,7 @@ export const RoomProvider = ({ children }) => {
   }
     , [roomId]);
   // }, []);
-  const initStream = async (meId, connection) => {
+  const initStream = async (meId) => {
     try {
       await navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -411,7 +410,6 @@ export const RoomProvider = ({ children }) => {
                     });
                 });
                 setShareScreenTrack(lastScreenTrack);
-                connection?.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
               }
 
               return newStream;
@@ -490,11 +488,7 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
-        newConnect.on("get-focusList", (list)=>{
-          // toast.info("get-focusList");
-          console.log("get-focusList", list);
-          setFocusList(list);
-        });
+        
 
         // setConnectionState(newConnect.state);
       }
@@ -624,6 +618,11 @@ export const RoomProvider = ({ children }) => {
       call.answer(stream);
     });
     console.log("useEffect[me, connection] connection", connection)
+    connection.on("get-focusList", (list)=>{
+      // toast.info("get-focusList");
+      console.log("get-focusList", list);
+      setFocusList(list);
+    });
     connection.on("user-joined", (newUser) => {
       toast.info(newUser.userName + " vào phòng học");
       userJoin(newUser);
