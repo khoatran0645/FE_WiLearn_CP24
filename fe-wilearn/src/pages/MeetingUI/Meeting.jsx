@@ -189,7 +189,7 @@ const Meeting = () => {
         <CustomIcon
             title="Lower hand"
             titleOff="Raise hand"
-            key={2}
+            key={3}
             onClick={toogleRaiseHand}
             activeIcon={<BackHandOutlinedIcon  />}
             offIcon={<BackHandOutlinedIcon  />}
