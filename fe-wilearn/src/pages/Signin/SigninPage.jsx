@@ -19,6 +19,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { CircularProgress } from "@mui/material";
 import { useFormik } from "formik";
 import { checkLogin } from "../../app/reducer/userReducer";
+import Loading from "../../components/Loading";
 
 const defaultTheme = createTheme();
 const validationSchema = Yup.object({
@@ -153,7 +154,7 @@ export default function SignIn() {
                 sx={{ mt: 3, mb: 2, backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)" }}
                 // onClick={handleLogin}
               >
-                {!loading ? "Sign In" : <CircularProgress />}
+                {!loading ? "Sign In" : <Loading />}
               </Button>
               <Grid container>
                 <Grid item xs>

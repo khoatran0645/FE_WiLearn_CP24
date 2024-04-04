@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import {
   Avatar,
   Typography,
@@ -7,8 +7,9 @@ import {
   CardActions,
   Grid,
   Container,
-  Stack,
   Box,
+  Stack,
+  CircularProgress
 } from "@mui/material";
 
 import InviteUser from "../../components/InviteUser";
@@ -18,8 +19,17 @@ import Paginate from "../../components/Paginate";
 import { useSelector } from "react-redux";
 
 export default function MemberList() {
-  const { groupInfo } = useSelector((state) => state.studyGroup);
-  const userList = groupInfo ? groupInfo.members : [];
+  const { groupInfo, loading } = useSelector((state) => state.studyGroup);
+  const [userList, setUserList] = useState([]);
+  const [currentPage, setCurrentPage] = useState(1);
+
+  useEffect(() => {
+    if (groupInfo && groupInfo.members) {
+      setUserList(groupInfo.members);
+    } else {
+      setUserList([]);
+    }
+  }, [groupInfo]);
 
   const renderMemberCard = (user) => (
     <Grid key={user.id} item xs={12} sm={6} md={4} lg={2}>
@@ -43,7 +53,7 @@ export default function MemberList() {
           </Container>
         </CardContent>
         <CardActions>
-          <Box sx={{ width: "100%", display: "flex", justifyContent: "center", paddingBottom: "10px" }}>
+          <Box sx={{ width: "100%", display: "flex", justifyContent: "center", paddingBottom: 2 }}>
             <UserMoreInfo fullname={user.fullName} email={user.email} phone={user.phone} />
           </Box>
         </CardActions>
@@ -51,25 +61,41 @@ export default function MemberList() {
     </Grid>
   );
 
+  const totalPages = Math.ceil(userList.length / 12);
+  const startIndex = (currentPage - 1) * 12;
+  const endIndex = Math.min(startIndex + 12, userList.length);
+  const currentMembers = userList.slice(startIndex, endIndex);
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
+
   return (
-    <Grid container direction="column">
-      <Grid container paddingBottom={2}>
-        <Grid item xs={6} justifyContent="flex-start">
-          <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
-            Members
-          </Typography>
-        </Grid>
-        <Stack spacing={1} direction="row" justifyContent="flex-end" paddingLeft={35}>
+    <Grid container direction="column" paddingBottom={2}>
+      <Grid item container xs={6} justifyContent="flex-start">
+        <Typography variant="h4" sx={{ fontWeight: "bold", textAlign: "left" }}>
+          Members
+        </Typography>
+      </Grid>
+      <Grid item container justifyContent="flex-end" paddingLeft={35}>
+        <Stack spacing={1} direction="row">
           <RequestJoin />
           <InviteUser />
         </Stack>
       </Grid>
-      <Grid container spacing={2}>
-        {userList.map((user) => renderMemberCard(user))}
+      <Grid item container spacing={2}>
+        {loading ? (
+          <Grid item xs={12} sx={{ textAlign: "center" }}>
+            <CircularProgress />
+          </Grid>
+        ) : (
+          currentMembers.map((user) => renderMemberCard(user))
+        )}
       </Grid>
-      <Grid container justifyContent="center" alignItems="center" paddingTop={5}>
-        <Paginate count={10} />
-      </Grid>
+      {totalPages > 1 && (
+        <Grid item container justifyContent="center" alignItems="center" paddingTop={5}>
+          <Paginate count={totalPages} onPageChange={handlePageChange} />
+        </Grid>
+      )}
     </Grid>
   );
 }
