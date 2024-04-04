@@ -323,7 +323,8 @@ export const RoomProvider = ({ children }) => {
         //Init stream
         const meId = `${userName}-${uuidV4()}`;
         // const meId = uuidV4();
-        const stream = await initStream(meId);
+        const newSignalR = await initSignalR(meId)
+        const stream = await initStream(meId, newSignalR);
         // await initStream(meId);
         console.log("initStream", stream)
         // toast.info("meId kind" + typeof( meId));
@@ -361,7 +362,7 @@ export const RoomProvider = ({ children }) => {
         });
         console.log("setup peer", peer)
         setMe(peer);
-        initSignalR(meId)
+        // initSignalR(meId)
 
 
       }
@@ -370,7 +371,7 @@ export const RoomProvider = ({ children }) => {
   }
     , [roomId]);
   // }, []);
-  const initStream = async (meId) => {
+  const initStream = async (meId, connection) => {
     try {
       await navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
@@ -407,7 +408,7 @@ export const RoomProvider = ({ children }) => {
                     });
                 });
                 setShareScreenTrack(lastScreenTrack);
-                connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
+                connection?.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
               }
 
               return newStream;
