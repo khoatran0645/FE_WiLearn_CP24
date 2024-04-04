@@ -2,12 +2,15 @@ import { useState } from "react";
 import {
   Grid,
   Typography,
-  Stack,
   Button,
   Avatar,
+  Stack,
   Box,
   Input,
+  Snackbar,
 } from "@mui/material";
+
+
 import {
   FormContainer,
   TextFieldElement,
@@ -19,20 +22,28 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import Loading from "./Loading";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { updateUserInfo } from "../app/reducer/userReducer/userActions";
 
 export default function UserProfile() {
   dayjs.extend(customParseFormat);
-  const [selectedFile, setSelectedFile] = useState(null);
-
+  const [selectedFile, setSelectedFile] = useState("");
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
-  console.log(userInfo);
 
+  // console.log(userInfo);
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
+  const updateUser = async (data) => {
+    console.log("data in profile", data);
+    dispatch(updateUserInfo(data));
+    // window.location.reload();
+    useSelector((state) => state.user);
+
+  };
   return (
     <>
       {userInfo === null ? (
@@ -103,44 +114,46 @@ export default function UserProfile() {
               )}
             </Box>
           </Grid>
-          {/* {console.log(loading, userInfo)} */}
 
           <Grid item xs={3}>
             <Typography variant="h5" textAlign={"left"}>
               Update information
             </Typography>
+
             <FormContainer
               defaultValues={{
-                fullName: userInfo.fullName,
-                email: userInfo.email,
-                phone: userInfo.phone,
-                dateOfBirth: dayjs(userInfo.dateOfBirth),
+                Id: userInfo.id,
+                FullName: userInfo.fullName,
+                Career: "Student",
+                // email: userInfo.email,
+                Phone: userInfo.phone,
+                DateOfBirth: dayjs(userInfo.dateOfBirth),
+                Image: "",
               }}
-              onSuccess={(data) => console.log(data)}
+              onSuccess={updateUser}
             >
               <Stack spacing={2} maxWidth={500} paddingTop={2}>
                 <TextFieldElement
-                  name="fullName"
+                  name="FullName"
                   label="Full name"
                   required
                   margin="dense"
                 />
-                {/* {console.log(userInfo)} */}
                 <TextFieldElement
-                  name="phone"
+                  name="Phone"
                   label="Phone number"
                   required
                   margin="dense"
                 />
-                <TextFieldElement
+                {/* <TextFieldElement
                   name="email"
                   label="Email"
                   required
                   margin="dense"
-                />
+                /> */}
                 <DatePickerElement
                   label="Birth date"
-                  name="dateOfBirth"
+                  name="DateOfBirth"
                   required
                 />
                 <Button type="submit">Submit</Button>
@@ -181,7 +194,10 @@ export default function UserProfile() {
                   label={"Repeat Password"}
                   required
                 />
-                <Button type="submit" onSubmit={(data) => console.log(data)}>
+                <Button
+                  type="submit"
+                  onSubmit={(data) => console.log(JSON.stringify(data))}
+                >
                   Submit
                 </Button>
               </Stack>
