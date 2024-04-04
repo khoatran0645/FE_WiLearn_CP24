@@ -220,13 +220,12 @@ export const RoomProvider = ({ children }) => {
 
   const shareScreen = async() => {
     console.log(`screenSharingId:`, screenSharingId)
+    //Nếu srceenSharing => hiện tại đang sharescreen => Tắt share screen
     if (screenSharingId) {
       shareScreenTrack.stop();
       setShareScreenTrack(null);
       setIsSharing(false);
       setScreenSharingId("");
-      // setScreenSharingId(null);
-      // window.location.reload(false);
 
       connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
       navigator.mediaDevices
@@ -239,9 +238,11 @@ export const RoomProvider = ({ children }) => {
         });
     } else {
       // navigator.mediaDevices.getDisplayMedia({}).then(switchStream);
-      navigator.mediaDevices.getDisplayMedia({}).then((newStream) => {
+      navigator.mediaDevices.getDisplayMedia({})
+      .then((newStream) => {
         // const audio = stream.getAudioTracks()[0];
         // newStream.addTrack(audio);
+        //Lấy audio cũ gắn vô stream screen
         if (stream && stream.getAudioTracks()) {
           stream.getAudioTracks().forEach(audioTrack => {
             newStream.addTrack(audioTrack);
@@ -250,10 +251,12 @@ export const RoomProvider = ({ children }) => {
         if (newStream && newStream.getTracks()) {
           const screenTracks = newStream.getTracks();
           const lastScreenTrack = screenTracks[screenTracks.length - 1];
+
+          //Xử lí khi tắt sharescreen bằng nút ngoài app
           lastScreenTrack.addEventListener("ended", () => {
             // alert("end share screen")
-          connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
-          setScreenSharingId("");
+            connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
+            setScreenSharingId("");
             setIsSharing(false);
             // setScreenSharingId(null);
             // window.location.reload(false);
