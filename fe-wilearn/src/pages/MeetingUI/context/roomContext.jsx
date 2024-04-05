@@ -41,6 +41,7 @@ export const RoomProvider = ({ children }) => {
     messages: [],
     isChatOpen: false,
   });
+  const {userInfo} = useSelector(state=>state.user)
   const createEmptyAudioTrack = () => {
     const ctx = new AudioContext();
     const oscillator = ctx.createOscillator();
@@ -102,6 +103,25 @@ export const RoomProvider = ({ children }) => {
     const mediaStream = new MediaStream([...videoTrack, audioTrack]);
     return mediaStream;
   }
+  const createEmptyVideoStreamNew = async () => {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous'; // Allow accessing images from other origins
+      img.src = url;
+      await img.decode(); // Wait for the image to load completely
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const stream = canvas.captureStream(1);
+      const track = stream.getVideoTracks()[0];
+      const mediaStream = new MediaStream([track]);
+      return mediaStream
+  } catch (error) {
+    console.error('Error fetching avatar:', error);
+  }
+}
   const [defaultStream, setDefaultStream] = useState(null);
   const [camStream, setCamStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
@@ -468,14 +488,15 @@ export const RoomProvider = ({ children }) => {
     } catch (err) {
       console.log("initStream error", err)
       console.error({ err });
+      const newDefaultStream = await createEmptyVideoStream();
+      setDefaultStream(newDefaultStream)
+      setStream(defaultStream);
+      return newDefaultStream;
       if (!defaultStream) {
-        const newDefaultStream = await createEmptyVideoStream();
-        setDefaultStream(newDefaultStream)
-        setStream(defaultStream);
+        alert("reach heeerre initstream try catch")
       } else {
         setStream(defaultStream);
       }
-      alert("reach heeerre initstream try catch")
       return defaultStream;
       // alert("Bạn phải đồng ý chia sẻ camera hoặc màn hình");
       // return await initStream(meId);
