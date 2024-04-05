@@ -79,7 +79,7 @@ const Meeting = () => {
   const { meetingId, groupId } = useParams();
   const [isDisableVoteButton, setIsDisableVoteButton] = useState(false);
   const { votesData } = useSelector((state) => state.votes);
-  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
+  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream, isCamOn } = useContext(RoomContext);
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
@@ -163,6 +163,7 @@ const Meeting = () => {
           onClick={toogleVid}
           activeIcon={<VideocamOffIcon />}
           offIcon={<VideocamIcon />}
+          isOn={!isCamOn}
         />
         <CustomIcon
           // title="Bật mic"
