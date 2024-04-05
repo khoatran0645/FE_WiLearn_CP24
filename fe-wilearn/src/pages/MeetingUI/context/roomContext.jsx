@@ -31,6 +31,7 @@ export const RoomProvider = ({ children }) => {
 
   const [isReviewing, setIsReviewing] = useState(false);
   const [focusList, setFocusList] = useState([]);
+  const [showCamList, setShowCamList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -599,8 +600,35 @@ export const RoomProvider = ({ children }) => {
   };
 
   const toogleVid = (isActive) => {
-    if (stream.getVideoTracks()[0]) {
-      stream.getVideoTracks()[0].enabled = isActive;
+    // console.log()
+    // if (stream.getVideoTracks()[0]) {
+    //   stream.getVideoTracks()[0].enabled = isActive;
+    // }
+    if(isActive){ 
+
+      connection.invoke("StartCam", {roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath})
+      if (camStream) {
+        switchStream(camStream);
+      } else {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((newCamStream) => {
+            setCamStream(newCamStream)
+            switchStream(newCamStream);
+          })
+          .catch(async (error) => {
+            console.log("Get cam error", error)
+            // if(!defaultStream){
+            const newDefaultStream = await createEmptyVideoStream();
+            setDefaultStream(newDefaultStream)
+            switchStream(newDefaultStream);
+            // }else{
+            //   switchStream(defaultStream);
+            // }
+          });
+      }
+    }else{
+      connection.invoke("EndCam", {roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath})
     }
     setIsCamOn(isActive);
   };
@@ -633,16 +661,16 @@ export const RoomProvider = ({ children }) => {
     });
     console.log('userJoin call', call);
     console.log('peers reducer addPeerStreamAction', peers);
-    if(stream == defaultStream){
-      // toast("Using default stream")
-      // switchStream(defaultStream);
-      setTimeout(async()=>{
-      toast("Using default stream")
-      const defaultStream = await createEmptyVideoStream();
-      setDefaultStream(defaultStream);
-      switchStream(defaultStream);
-      }, 5000);
-    }
+    // if(stream == defaultStream){
+    //   // toast("Using default stream")
+    //   // switchStream(defaultStream);
+    //   setTimeout(async()=>{
+    //   toast("Using default stream")
+    //   const defaultStream = await createEmptyVideoStream();
+    //   setDefaultStream(defaultStream);
+    //   switchStream(defaultStream);
+    //   }, 5000);
+    // }
   };
 
   useEffect(() => {
@@ -718,6 +746,12 @@ export const RoomProvider = ({ children }) => {
       console.log("get-focusList", list);
       setFocusList(list);
     });
+    connection.on("get-showcamList", (list)=>{
+      console.log("get-showcamList", list);
+      toast.info("get-showcamList");
+      setShowCamList(list);
+    });
+
     connection.on("user-joined", (newUser) => {
       toast.info(newUser.userName + " vào phòng học");
       userJoin(newUser);
@@ -769,6 +803,7 @@ export const RoomProvider = ({ children }) => {
         focusList,
         //new show avatar
         isCamOn,
+        showCamList,
       }}
     >
       {children}

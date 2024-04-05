@@ -9,6 +9,9 @@ import peersReducer from "../../../app/reducer/peersReducer/peersReducer";
 import { getReviewInfos } from "../../../app/reducer/voteReducer/votesActions";
 import { useDispatch, useSelector } from "react-redux";
 import Transition from "react-transition-group/Transition";
+import {
+  Avatar,
+} from "@mui/material";
 
 export const Room = () => {
   const { meetingId } = useParams();
@@ -26,6 +29,7 @@ export const Room = () => {
     handleVoteChange,
     setConnection: setContextConnection,
     focusList,
+    showCamList,
 
   } = useContext(RoomContext);
   // const [peers, dispatch] = useReducer(peersReducer, {});
@@ -74,6 +78,7 @@ export const Room = () => {
   const addFocusActionsToUsername = (peerId, uname) => {
     let actionsString = null;
     focusList.forEach(focus => {
+      console.log("addFocusActionsToUsername focusList.forEach focus", focus)
       if (focus.peerId == peerId) {
         actionsString = focus.actions.join(", ")
       }
@@ -112,6 +117,7 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
+    const cam = showCamList.find(focus => focus.peerId == peerId);
     return (
       <Grid item xs={width} key={peerId} sx={{
         transition: 'all 2s ease',
@@ -119,13 +125,23 @@ export const Room = () => {
         <Box>
           <Box>
             <MeetingAvatar>
-              <VideoPlayer
-                stream={stream}
-                muted={streamName === userName || streamName === "You"}
-                sx={{
-                  transition: 'all 1s ease-in-and-out',
-                }}
-              />
+              {
+                cam ?(
+                  <VideoPlayer
+                    stream={stream}
+                    muted={streamName === userName || streamName === "You"}
+                    sx={{
+                      transition: 'all 1s ease-in-and-out',
+                    }}
+                  />
+                )
+                :(
+                  <Avatar
+                    alt="User Avatar"
+                    src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+                  />
+                )
+              }
             <Box>{addFocusActionsToUsername(peerId ,streamName)}</Box>
             </MeetingAvatar>
           </Box>
@@ -156,6 +172,7 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
+    const cam = showCamList.find(focus => focus.peerId == peerId);
     return (
       <Grid item xs={width} key={peerId} sx={{
         transition: 'all 2s ease',
@@ -163,13 +180,23 @@ export const Room = () => {
         <Box>
           <Box>
             <MeetingAvatar>
-              <VideoPlayer
-                stream={stream}
-                muted={streamName === userName || streamName === "You"}
-                sx={{
-                  transition: 'all 1s ease-in-and-out',
-                }}
-              />
+              {
+                cam ?(
+                  <VideoPlayer
+                    stream={stream}
+                    muted={streamName === userName || streamName === "You"}
+                    sx={{
+                      transition: 'all 1s ease-in-and-out',
+                    }}
+                  />
+                )
+                :(
+                  <Avatar
+                    alt="User Avatar"
+                    src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
+                  />
+                )
+              }
             <Box>{streamName==="You"? "You are ": `${streamName} is `}{actions}</Box>
             </MeetingAvatar>
           </Box>
