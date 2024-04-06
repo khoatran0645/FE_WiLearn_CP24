@@ -29,7 +29,7 @@ export const Room = () => {
     handleVoteChange,
     setConnection: setContextConnection,
     focusList,
-    showCamList,
+    showAvaList,
 
   } = useContext(RoomContext);
   // const [peers, dispatch] = useReducer(peersReducer, {});
@@ -117,7 +117,7 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
-    const cam = showCamList.find(focus => focus.peerId == peerId);
+    const ava = showAvaList.find(focus => focus.peerId == peerId);
     return (
       <Grid item xs={width} key={peerId} sx={{
         transition: 'all 2s ease',
@@ -126,19 +126,20 @@ export const Room = () => {
           <Box>
             <MeetingAvatar>
               {
-                cam ?(
+                ava ?(
+                  <Avatar
+                  alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
+                  src={ava?.imagePath}
+                  sx={{ width: '100%', height:'100%' }}
+                  />
+                )
+                :(
                   <VideoPlayer
                     stream={stream}
                     muted={streamName === userName || streamName === "You"}
                     sx={{
                       transition: 'all 1s ease-in-and-out',
                     }}
-                  />
-                )
-                :(
-                  <Avatar
-                    alt="User Avatar"
-                    src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
                   />
                 )
               }
@@ -172,7 +173,8 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
-    const cam = showCamList.find(focus => focus.peerId == peerId);
+    const ava = showAvaList.find(focus => focus.peerId == peerId);
+    console.log("vidGridWithAction cam", ava)
     return (
       <Grid item xs={width} key={peerId} sx={{
         transition: 'all 2s ease',
@@ -181,19 +183,19 @@ export const Room = () => {
           <Box>
             <MeetingAvatar>
               {
-                cam ?(
+                ava ?(
+                  <Avatar
+                  alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
+                  src={ava?.imagePath}
+                  />
+                )
+                :(
                   <VideoPlayer
                     stream={stream}
                     muted={streamName === userName || streamName === "You"}
                     sx={{
                       transition: 'all 1s ease-in-and-out',
                     }}
-                  />
-                )
-                :(
-                  <Avatar
-                    alt="User Avatar"
-                    src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
                   />
                 )
               }

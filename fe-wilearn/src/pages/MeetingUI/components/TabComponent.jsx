@@ -90,7 +90,8 @@ const TabComponent = () => {
               stream={stream}
               name={"You"}
               isFocus={isPeerIdFocus(meId)}
-            />
+              peerId={meId}
+              />
             {Object.values(peersToShow).length == 0
               ? ("No one else is here")
               : <>
@@ -106,6 +107,7 @@ const TabComponent = () => {
                   stream={peer.stream} 
                   name={peer.userName} 
                   isFocus={isPeerIdFocus(peer.id)}
+                  peerId={peer.id}
               />
               ))}
           </Box>

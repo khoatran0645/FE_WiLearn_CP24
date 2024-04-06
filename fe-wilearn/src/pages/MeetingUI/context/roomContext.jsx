@@ -31,7 +31,7 @@ export const RoomProvider = ({ children }) => {
 
   const [isReviewing, setIsReviewing] = useState(false);
   const [focusList, setFocusList] = useState([]);
-  const [showCamList, setShowCamList] = useState([]);
+  const [showAvaList, setShowAvaList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -42,7 +42,7 @@ export const RoomProvider = ({ children }) => {
     messages: [],
     isChatOpen: false,
   });
-  const {userInfo} = useSelector(state=>state.user)
+  const { userInfo } = useSelector(state => state.user)
   const createEmptyAudioTrack = () => {
     const ctx = new AudioContext();
     const oscillator = ctx.createOscillator();
@@ -119,10 +119,10 @@ export const RoomProvider = ({ children }) => {
       const track = stream.getVideoTracks()[0];
       const mediaStream = new MediaStream([track]);
       return mediaStream
-  } catch (error) {
-    console.error('Error fetching avatar:', error);
+    } catch (error) {
+      console.error('Error fetching avatar:', error);
+    }
   }
-}
   const [defaultStream, setDefaultStream] = useState(null);
   const [camStream, setCamStream] = useState(null);
   const [screenStream, setScreenStream] = useState(null);
@@ -504,10 +504,10 @@ export const RoomProvider = ({ children }) => {
     //   // alert("Bạn phải đồng ý chia sẻ camera hoặc màn hình");
     //   // return await initStream(meId);
     // }
-    if(defaultStream){
+    if (defaultStream) {
       setStream(defaultStream);
       return defaultStream;
-    }else{
+    } else {
       const newDefaultStream = await createEmptyVideoStream();
       setDefaultStream(newDefaultStream)
       setStream(newDefaultStream);
@@ -566,7 +566,7 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
-        newConnect.on("get-focusList", (list)=>{
+        newConnect.on("get-focusList", (list) => {
           // toast.info("get-focusList");
           console.log("get-focusList", list);
           setFocusList(list);
@@ -604,15 +604,16 @@ export const RoomProvider = ({ children }) => {
     // if (stream.getVideoTracks()[0]) {
     //   stream.getVideoTracks()[0].enabled = isActive;
     // }
-    if(isActive){ 
-
-      connection.invoke("StartCam", {roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath})
+    if (isActive) {
+      
       if (camStream) {
+        connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
         switchStream(camStream);
       } else {
         navigator.mediaDevices
           .getUserMedia({ video: true, audio: true })
           .then((newCamStream) => {
+            connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
             setCamStream(newCamStream)
             switchStream(newCamStream);
           })
@@ -627,8 +628,8 @@ export const RoomProvider = ({ children }) => {
             // }
           });
       }
-    }else{
-      connection.invoke("EndCam", {roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath})
+    } else {
+      connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
     }
     setIsCamOn(isActive);
   };
@@ -699,7 +700,7 @@ export const RoomProvider = ({ children }) => {
       });
     }
 
-    
+
     // connection.invoke("JoinRoom", {
     //   roomId: roomId,
     //   peerId: meId,
@@ -741,15 +742,15 @@ export const RoomProvider = ({ children }) => {
       call.answer(stream);
     });
     console.log("useEffect[me, connection] connection", connection)
-    connection.on("get-focusList", (list)=>{
+    connection.on("get-focusList", (list) => {
       // toast.info("get-focusList");
       console.log("get-focusList", list);
       setFocusList(list);
     });
-    connection.on("get-showcamList", (list)=>{
-      console.log("get-showcamList", list);
+    connection.on("get-showAvaList", (list) => {
+      console.log("get-showAvaList", list);
       toast.info("get-showcamList");
-      setShowCamList(list);
+      setShowAvaList(list);
     });
 
     connection.on("user-joined", (newUser) => {
@@ -761,7 +762,9 @@ export const RoomProvider = ({ children }) => {
       peerId: meId,
       username: userName,
     })
-    if(isSharing){
+    connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+
+    if (isSharing) {
       connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "raising hand" })
     }
   }, [me, connection])
@@ -803,7 +806,7 @@ export const RoomProvider = ({ children }) => {
         focusList,
         //new show avatar
         isCamOn,
-        showCamList,
+        showAvaList,
       }}
     >
       {children}
