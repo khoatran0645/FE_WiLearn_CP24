@@ -16,9 +16,8 @@ import {
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as Yup from "yup";
-
 import { useNavigate } from "react-router-dom";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { checkLogin } from "../../app/reducer/userReducer";
@@ -30,29 +29,9 @@ const validationSchema = Yup.object({
 });
 
 export default function SignIn() {
-  const { userInfo, loading, error } = useSelector((state) => state.user);
+  const { userInfo, loading } = useSelector((state) => state.user);
   const dispatch = useDispatch();
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
   const navigate = useNavigate();
-  const handleLogin = () => {
-    // Kiểm tra thông tin đăng nhập, ví dụ: nếu username và password là 'admin'
-    if (username === "user@gmail.com" && password === "123456") {
-      // Đăng nhập thành công, chuyển hướng đến trang Home
-      navigate("/home");
-    } else {
-      alert("Đăng nhập không thành công. Thử lại.");
-    }
-  };
-
-  const handleSubmit = (event) => {
-    event.preventDefault();
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-  };
 
   const formik = useFormik({
     initialValues: {
