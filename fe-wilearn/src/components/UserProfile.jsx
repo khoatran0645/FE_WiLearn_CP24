@@ -10,7 +10,6 @@ import {
   Snackbar,
 } from "@mui/material";
 
-
 import {
   FormContainer,
   TextFieldElement,
@@ -39,10 +38,10 @@ export default function UserProfile() {
 
   const updateUser = async (data) => {
     console.log("data in profile", data);
-    dispatch(updateUserInfo(data));
-    // window.location.reload();
-    useSelector((state) => state.user);
+    const response = dispatch(updateUserInfo(data));
+    console.log("response", response.arg);
 
+    response.arg.Id === data.Id ? window.location.reload() : "";
   };
   return (
     <>
