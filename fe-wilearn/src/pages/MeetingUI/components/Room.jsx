@@ -126,23 +126,22 @@ export const Room = () => {
           <Box>
             <MeetingAvatar>
               {
-                ava ?(
+                ava &&(
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
                   sx={{ width: '100%', height:'100%' }}
                   />
                 )
-                :(
-                  <VideoPlayer
-                    stream={stream}
-                    muted={streamName === userName || streamName === "You"}
-                    sx={{
-                      transition: 'all 1s ease-in-and-out',
-                    }}
-                  />
-                )
               }
+              <VideoPlayer
+                stream={stream}
+                muted={streamName === userName || streamName === "You"}
+                sx={{
+                  height: "",
+                  transition: 'all 1s ease-in-and-out',
+                }}
+              />
             <Box>{addFocusActionsToUsername(peerId ,streamName)}</Box>
             </MeetingAvatar>
           </Box>
@@ -183,22 +182,21 @@ export const Room = () => {
           <Box>
             <MeetingAvatar>
               {
-                ava ?(
+                ava &&(
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
                   />
                 )
-                :(
-                  <VideoPlayer
-                    stream={stream}
-                    muted={streamName === userName || streamName === "You"}
-                    sx={{
-                      transition: 'all 1s ease-in-and-out',
-                    }}
-                  />
-                )
               }
+              <VideoPlayer
+                stream={stream}
+                muted={streamName === userName || streamName === "You"}
+                sx={{
+                  height:"",
+                  transition: 'all 1s ease-in-and-out',
+                }}
+              />
             <Box>{streamName==="You"? "You are ": `${streamName} is `}{actions}</Box>
             </MeetingAvatar>
           </Box>

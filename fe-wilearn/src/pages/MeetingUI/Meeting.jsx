@@ -174,6 +174,7 @@ const Meeting = () => {
           onClick={toogleSound}
           activeIcon={<MicOffIcon />}
           offIcon={<MicIcon />}
+          isOn={true}
         />
         {userInfo?.roleName !== "Parent" && (
           <CustomIcon
