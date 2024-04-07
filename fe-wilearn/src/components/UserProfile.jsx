@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Grid,
   Typography,
@@ -7,7 +7,6 @@ import {
   Stack,
   Box,
   Input,
-  Snackbar,
 } from "@mui/material";
 
 import {
@@ -22,46 +21,43 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import Loading from "./Loading";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserInfo, updateUserPassword } from "../app/reducer/userReducer/userActions";
+import {
+  updateUserInfo,
+  updateUserPassword,
+} from "../app/reducer/userReducer/userActions";
+import { toast } from "react-toastify";
 
 export default function UserProfile() {
-  // const [infoData, setInfoData] = useState({
-  //   id: "",
-  //   fullname: "",
-  //   email: "",
-  //   Career: "",
-  //   phone: "",
-  //   birthday: "",
-  // });
-  // const [passwordData, setPasswordData] = useState({
-  //   oldPassword: "",
-  //   newPassword: "",
-  //   passwordRepeat: "",
-  // });
-
   dayjs.extend(customParseFormat);
   const [selectedFile, setSelectedFile] = useState("");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
 
-  
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
   const updateUser = async (data) => {
-    const response = dispatch(updateUserInfo(data));
-    console.log("response", response);
-    
+    try {
+      const response = await dispatch(updateUserInfo(data));
+      toast.success("User information updated successfully.");
+      console.log("response", response);
+    } catch (error) {
+      toast.error("Failed to update user information.");
+    }
   };
 
   const updatePassword = async (data) => {
-    console.log("password data", data);
-    const response = dispatch(updateUserPassword(data));
-    console.log("response", response);
-    
-  }
+    try {
+      const response = await dispatch(updateUserPassword(data));
+      toast.success("Password updated successfully.");
+      console.log("password data", data);
+      console.log("response", response);
+    } catch (error) {
+      toast.error("Failed to update password.");
+    }
+  };
   return (
     <>
       {userInfo === null ? (
