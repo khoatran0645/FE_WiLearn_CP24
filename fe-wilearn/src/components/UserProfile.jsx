@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Grid,
   Typography,
@@ -22,27 +22,46 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import Loading from "./Loading";
 import { useSelector, useDispatch } from "react-redux";
-import { updateUserInfo } from "../app/reducer/userReducer/userActions";
+import { updateUserInfo, updateUserPassword } from "../app/reducer/userReducer/userActions";
 
 export default function UserProfile() {
+  // const [infoData, setInfoData] = useState({
+  //   id: "",
+  //   fullname: "",
+  //   email: "",
+  //   Career: "",
+  //   phone: "",
+  //   birthday: "",
+  // });
+  // const [passwordData, setPasswordData] = useState({
+  //   oldPassword: "",
+  //   newPassword: "",
+  //   passwordRepeat: "",
+  // });
+
   dayjs.extend(customParseFormat);
   const [selectedFile, setSelectedFile] = useState("");
   const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
 
-  // console.log(userInfo);
+  
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
   const updateUser = async (data) => {
-    console.log("data in profile", data);
     const response = dispatch(updateUserInfo(data));
-    console.log("response", response.arg);
-
-    response.arg.Id === data.Id ? window.location.reload() : "";
+    console.log("response", response);
+    
   };
+
+  const updatePassword = async (data) => {
+    console.log("password data", data);
+    const response = dispatch(updateUserPassword(data));
+    console.log("response", response);
+    
+  }
   return (
     <>
       {userInfo === null ? (
@@ -166,39 +185,34 @@ export default function UserProfile() {
             </Typography>
             <FormContainer
               defaultValues={{
-                old_password: "",
-                new_password: "",
-                confirm_password: "",
+                id: userInfo.id,
+                oldPassword: "",
+                password: "",
+                confirmPassword: "",
               }}
-              onSuccess={(data) => console.log(data)}
+              onSuccess={updatePassword}
             >
               <Stack spacing={2} maxWidth={500} paddingTop={2}>
                 <PasswordElement
                   margin={"dense"}
                   label={"Current password"}
                   required
-                  name={"old_password"}
+                  name={"oldPassword"}
                 />
                 <PasswordElement
                   margin={"dense"}
                   label={"New password"}
                   required
-                  type="password"
-                  name={"new_password"}
+                  name={"password"}
                 />
                 <PasswordRepeatElement
-                  passwordFieldName={"new-password"}
-                  name={"password_repeat"}
+                  passwordFieldName={"password"}
+                  name={"confirmPassword"}
                   margin={"dense"}
                   label={"Repeat Password"}
                   required
                 />
-                <Button
-                  type="submit"
-                  onSubmit={(data) => console.log(JSON.stringify(data))}
-                >
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </Stack>
             </FormContainer>
           </Grid>
