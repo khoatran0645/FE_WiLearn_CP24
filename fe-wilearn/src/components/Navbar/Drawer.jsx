@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import Box from "@mui/material/Box";
 import Drawer from "@mui/material/Drawer";
 import CssBaseline from "@mui/material/CssBaseline";
@@ -17,21 +17,30 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
-import LogoutIcon from "@mui/icons-material/Logout";
 import { Avatar, Grid, Typography } from "@mui/material";
-import { getGroupInfo, getSubjectLists } from "../../app/reducer/studyGroupReducer";
-import { getGroupInfoAsMember, getGroupLists, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupActions";
-import { useEffect } from "react";
+import {
+  getGroupInfo,
+  getSubjectLists,
+} from "../../app/reducer/studyGroupReducer";
+import {
+  getGroupInfoAsMember,
+  getGroupLists,
+  getGroupMemberLists,
+  getRequestFormList,
+} from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { toast } from "react-toastify";
+import Hidden from "@mui/material/Hidden";
+import IconButton from "@mui/material/IconButton";
+import MenuIcon from "@mui/icons-material/Menu";
+
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
   const { groupId } = useParams();
-  const {groupInfo} = useSelector(state=>state.studyGroup)
-  console.log("useParams groupId ", groupId)
+  const { groupInfo } = useSelector((state) => state.studyGroup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const onRefreshGroup = () => {
@@ -42,8 +51,8 @@ export default function ClippedDrawer() {
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
   };
+
   useEffect(() => {
-    // dispatch(getRoomsByGroupId(groupId));
     dispatch(getSubjectLists());
     const response = dispatch(getGroupInfo(groupId));
     const response2 = dispatch(getGroupInfoAsMember(groupId));
@@ -52,13 +61,11 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
 
     response.then((r) => {
-      console.log("response", r);
-      console.log("response", r.type);
-      if (r.type == getGroupInfo.rejected.type) {
+      if (r.type === getGroupInfo.rejected.type) {
         navigate("/groups");
       }
     });
-    //new group hub
+
     const accessTokenFactory = localStorage.getItem("token");
     const groupHub = new HubConnectionBuilder()
       .withUrl(BE_URL + "/hubs/grouphub?groupId=" + groupId, {
@@ -68,33 +75,35 @@ export default function ClippedDrawer() {
     groupHub.start().catch((err) => console.log(err));
 
     groupHub.on("OnReloadMeeting", (message) => {
-      // dispatch(getRoomsByGroupId(groupId));
       onRefreshGroup();
       message && toast.info(message);
     });
-    console.log("groupHub", groupHub);
+
     return () => {
       groupHub.stop().catch((error) => {});
     };
   }, [groupId]);
+
+  const [miniVariant, setMiniVariant] = useState(false);
+
   return (
     <Box sx={{ display: "flex" }}>
       <CssBaseline />
-      <Drawer
-        sx={{
-          width: drawerWidth,
-          flexShrink: 100,
-          "& .MuiDrawer-paper": {
+      <Hidden mdDown>
+        <Drawer
+          sx={{
             width: drawerWidth,
-            boxSizing: "content-box",
-          },
-        }}
-        variant="permanent"
-        anchor="left"
-      >
-        <Toolbar />
-
-        <List>
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="permanent"
+          anchor="left"
+        >
+          <Toolbar />
+          <List>
           <ListItem>
             <Grid
               container
@@ -228,23 +237,169 @@ export default function ClippedDrawer() {
             </NavLink>
           </ListItem>
         </List>
+        </Drawer>
+      </Hidden>
+      <Hidden lgUp>
+        <IconButton
+          color="inherit"
+          aria-label="open drawer"
+          edge="start"
+          onClick={() => setMiniVariant(!miniVariant)}
+          sx={{ ml: 2, display: { md: "none" } }}
+        >
+          <MenuIcon />
+        </IconButton>
+        <Drawer
+          sx={{
+            width: miniVariant ? 220 : drawerWidth,
+            flexShrink: 0,
+            "& .MuiDrawer-paper": {
+              width: miniVariant ? 220 : drawerWidth,
+              boxSizing: "border-box",
+            },
+          }}
+          variant="temporary"
+          anchor="left"
+          open={miniVariant}
+          onClose={() => setMiniVariant(false)}
+        >
+          <Toolbar />
+          <List>
+          <ListItem>
+            <Grid
+              container
+              alignItems="center"
+              spacing={2}
+              marginLeft="2px"
+              paddingTop={5}
+            >
+              <Grid item>
+                <Avatar
+                  style={{ width: 60, height: 60 }}
+                  alt="Group Avatar"
+                  src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                />
+              </Grid>
+              <Grid item>
+                <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
+                {groupInfo?.name}
+                </Typography>
+              </Grid>
+            </Grid>
+          </ListItem>
 
-        {/* <List style={{ position: "absolute", bottom: "0" }}>
           <ListItem>
             <NavLink
-              to="/home"
-              style={{ textDecoration: "none", color: "black" }}
+              to="members"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
             >
               <ListItemButton>
                 <ListItemIcon>
-                  <LogoutIcon />
+                  <GroupsIcon />
                 </ListItemIcon>
-                <ListItemText primary="Out group" />
+                <ListItemText primary="Members" />
               </ListItemButton>
             </NavLink>
           </ListItem>
-        </List> */}
-      </Drawer>
+
+          <ListItem>
+            <NavLink
+              to="discussions"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <LocalLibraryIcon />
+                </ListItemIcon>
+                <ListItemText primary="Discussion" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+          <ListItem>
+            <NavLink
+              to="meetings"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <CalendarMonthIcon />
+                </ListItemIcon>
+                <ListItemText primary="Schedule" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+          <ListItem>
+            <NavLink
+              to="docs"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <UploadFileIcon />
+                </ListItemIcon>
+                <ListItemText primary="Documents" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+          <ListItem>
+            <NavLink
+              to="statistics"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <EqualizerIcon />
+                </ListItemIcon>
+                <ListItemText primary="Overview" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+          <ListItem>
+            <NavLink
+              to="groupsettings"
+              style={({ isActive, isPending }) => {
+                return {
+                  color: isActive ? "#ff8080" : "black",
+                  textDecoration: "none",
+                };
+              }}
+            >
+              <ListItemButton>
+                <ListItemIcon>
+                  <SettingsIcon />
+                </ListItemIcon>
+                <ListItemText primary="Settings" />
+              </ListItemButton>
+            </NavLink>
+          </ListItem>
+        </List>
+        </Drawer>
+      </Hidden>
     </Box>
   );
 }

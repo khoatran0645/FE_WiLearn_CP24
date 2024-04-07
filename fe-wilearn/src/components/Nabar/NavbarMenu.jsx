@@ -6,15 +6,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import AvatarUser from "../AvatarUser";
-import SearchBar from "./SearchBar";
 import MultiLevelDropdown from "../Navbar/GroupsNavbarBtn/MultiLevelDropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const pageRoutes = [
   { label: "Home", path: "/home" },
-  // { label: 'Contact', path: '/contact' },
-  // { label: 'About', path: '/about' },
   { label: "Schedule", path: "schedules" },
   { label: "Stat", path: "statistics" },
 ];
@@ -71,13 +67,8 @@ export default function NavbarMenu() {
                 {page.label}
               </Button>
             ))}
-            {/* <ABC/> */}
             <MultiLevelDropdown />
-            {/* <GroupsNavbarBtn/> */}
           </Box>
-          {/* <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
-            <SearchBar/>
-          </Box> */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarUser />
             <Typography variant="body1" sx={{ ml: 1 }}>
