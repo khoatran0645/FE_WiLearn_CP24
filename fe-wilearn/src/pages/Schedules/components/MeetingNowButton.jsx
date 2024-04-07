@@ -9,7 +9,10 @@ import {
 } from "@mui/material";
 import { useState } from "react";
 import { Form, useFormik } from "formik";
-import { getGroupInfo, meetingNow } from "../../../app/reducer/studyGroupReducer";
+import {
+  getGroupInfo,
+  meetingNow,
+} from "../../../app/reducer/studyGroupReducer";
 import * as Yup from "yup";
 import { useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -23,10 +26,10 @@ export default function MeetingNowButton({ groupId }) {
   const navigate = useNavigate();
 
   const validationSchema = Yup.object({
-    groupId: Yup.number().required('Require group id').positive().integer(),
+    groupId: Yup.number().required("Require group id").positive().integer(),
     // ().required('Require information.'),
-    name: Yup.string().required('Require meeting name.'),
-    content: Yup.string().required('Require meeting content.'),
+    name: Yup.string().required("Require meeting name."),
+    content: Yup.string().required("Require meeting content."),
   });
   const formik = useFormik({
     initialValues: {
@@ -37,18 +40,16 @@ export default function MeetingNowButton({ groupId }) {
     validationSchema: validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      const response = await dispatch(
-        meetingNow(values)
-      );
+      const response = await dispatch(meetingNow(values));
       if (response.type === meetingNow.fulfilled.type) {
         formik.resetForm();
         dispatch(getGroupInfo(groupId));
         setOpenDialog(false);
-        toast.success('Create meeting successfully');
-        console.log("onSubmit res", response)
-        navigate(`./${response.payload.id}`)
-      } else if(response.type === meetingNow.fulfilled.type){
-        toast.error('Fail to create meeting');
+        toast.success("Create meeting successfully");
+        console.log("onSubmit res", response);
+        navigate(`./${response.payload.id}`);
+      } else if (response.type === meetingNow.rejected.type) {
+        toast.error("Fail to create meeting");
       }
     },
   });
@@ -87,7 +88,6 @@ export default function MeetingNowButton({ groupId }) {
             {/* Group Id: {groupId} */}
             {formik.errors.groupId}
             <FormControl fullWidth>
-
               <TextField
                 label="Meeting Name"
                 fullWidth
@@ -99,7 +99,6 @@ export default function MeetingNowButton({ groupId }) {
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
-
               />
             </FormControl>
             <FormControl fullWidth>
