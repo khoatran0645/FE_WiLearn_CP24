@@ -128,7 +128,7 @@ export const RoomProvider = ({ children }) => {
         roomId: roomId,
         peerId: meId,
       }).then(()=>{
-        toast.info("Đang rời cuộc họp");
+        toast.success("Đã rời phòng thành công");
         //reset roomId
         setRoomId("");
         //reset peers state
@@ -155,13 +155,14 @@ export const RoomProvider = ({ children }) => {
         setStream(null);
         return true;
       })
-      .catch((error)=>{
-        toast.error("Lỗi khi rời phòng")
+      .catch((error)=>{      
         console.log("connection.stop error", error);
+        //toast.error("Lỗi khi rời phòng");
         return false
       });
     } catch(error){
       console.log("setUpLeave error", error);
+      toast.error("Đã xảy ra lỗi khi rời phòng");
       return false
     }
   }
