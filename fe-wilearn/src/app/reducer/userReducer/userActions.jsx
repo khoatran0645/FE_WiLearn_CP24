@@ -69,9 +69,21 @@ export const updateUserInfo = createAsyncThunk(
   "auth/updateUserInfo",
   async (data, { rejectWithValue }) => {
     const submitData = data;
+    console.log("Data", data);
+    console.log("submitData", submitData);
+    console.log("API_UPDATE_PROFILE", API_UPDATE_PROFILE.replace("{id}", submitData.Id));
+    const form = new FormData();
+    // form.append("Id", data.Id);
+    form.append("FullName", data.FullName);
+    form.append("Phone", data.Phone);
+    form.append("DateOfBirth", data.DateOfBirth);
+    form.append("Career", data.Career);
+    form.append("Image", "");
+    
     return await axiosClient
-      .put(API_UPDATE_PROFILE, submitData)
+      .put(API_UPDATE_PROFILE.replace("{id}", submitData.Id), form)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
+      
   }
 );

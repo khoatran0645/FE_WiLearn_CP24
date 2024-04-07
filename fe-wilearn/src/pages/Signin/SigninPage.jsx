@@ -1,15 +1,19 @@
-import Avatar from "@mui/material/Avatar";
-import Button from "@mui/material/Button";
-import CssBaseline from "@mui/material/CssBaseline";
-import TextField from "@mui/material/TextField";
-import FormControlLabel from "@mui/material/FormControlLabel";
-import Checkbox from "@mui/material/Checkbox";
-import Link from "@mui/material/Link";
-import Grid from "@mui/material/Grid";
-import Box from "@mui/material/Box";
+import {
+  Avatar,
+  Button,
+  CssBaseline,
+  TextField,
+  FormControlLabel,
+  Checkbox,
+  Link,
+  Grid,
+  Box,
+  Typography,
+  Container,
+  CircularProgress,
+} from "@mui/material";
+
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
-import Typography from "@mui/material/Typography";
-import Container from "@mui/material/Container";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
@@ -17,7 +21,6 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
 import { checkLogin } from "../../app/reducer/userReducer";
-import Loading from "../../components/Loading";
 
 const defaultTheme = createTheme();
 const validationSchema = Yup.object({
@@ -100,7 +103,8 @@ export default function SignIn() {
                   Boolean(formik.errors.usernameOrEmail)
                 }
                 helperText={
-                  formik.touched.usernameOrEmail && formik.errors.usernameOrEmail
+                  formik.touched.usernameOrEmail &&
+                  formik.errors.usernameOrEmail
                 }
               />
               <TextField
@@ -115,7 +119,9 @@ export default function SignIn() {
                 // onChange={(e) => setPassword(e.target.value)}
                 value={formik.values.password}
                 onChange={formik.handleChange}
-                error={formik.touched.password && Boolean(formik.errors.password)}
+                error={
+                  formik.touched.password && Boolean(formik.errors.password)
+                }
                 helperText={formik.touched.password && formik.errors.password}
               />
               <FormControlLabel
@@ -129,10 +135,14 @@ export default function SignIn() {
                 type="submit"
                 fullWidth
                 variant="contained"
-                sx={{ mt: 3, mb: 2, backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)" }}
+                sx={{
+                  mt: 3,
+                  mb: 2,
+                  backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
+                }}
                 // onClick={handleLogin}
               >
-                {!loading ? "Sign In" : <Loading />}
+                {!loading ? "Sign In" : <CircularProgress />}
               </Button>
               <Grid container>
                 <Grid item xs>
