@@ -6,6 +6,7 @@ import {
   API_SIGNIN_URL,
   API_SIGNUP_URL,
   API_UPDATE_PROFILE,
+  API_UPDATE_PASSWORD,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
@@ -69,9 +70,6 @@ export const updateUserInfo = createAsyncThunk(
   "auth/updateUserInfo",
   async (data, { rejectWithValue }) => {
     const submitData = data;
-    console.log("Data", data);
-    console.log("submitData", submitData);
-    console.log("API_UPDATE_PROFILE", API_UPDATE_PROFILE.replace("{id}", submitData.Id));
     const form = new FormData();
     // form.append("Id", data.Id);
     form.append("FullName", data.FullName);
@@ -79,11 +77,21 @@ export const updateUserInfo = createAsyncThunk(
     form.append("DateOfBirth", data.DateOfBirth);
     form.append("Career", data.Career);
     form.append("Image", "");
-    
     return await axiosClient
       .put(API_UPDATE_PROFILE.replace("{id}", submitData.Id), form)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
-      
+  }
+);
+
+export const updateUserPassword = createAsyncThunk(
+  "auth/updatePassword",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    console.log("submited", submitData);
+    return await axiosClient
+      .put(API_UPDATE_PASSWORD.replace("{id}", submitData.id), data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
   }
 );
