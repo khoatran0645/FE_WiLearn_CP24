@@ -52,8 +52,10 @@ export default function NavbarMenu() {
           </Typography>
           <Box
             sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               flexGrow: 1,
-              display: { xs: "none", md: "flex", marginLeft: "400px" },
             }}
           >
             {pageRoutes.map((page) => (
@@ -62,7 +64,7 @@ export default function NavbarMenu() {
                 component={Link}
                 to={page.path}
                 color="inherit"
-                sx={{ fontSize: "inherit", mr: 2, my: 2, display: "block" }}
+                sx={{ fontSize: "inherit", mx: 2 }}
               >
                 {page.label}
               </Button>
