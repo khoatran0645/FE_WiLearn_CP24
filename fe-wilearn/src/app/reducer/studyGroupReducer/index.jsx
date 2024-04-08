@@ -22,6 +22,7 @@ import {
   meetingNow,
   getMeetingList,
   getClassLists,
+  addDiscussion,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -39,6 +40,7 @@ const initialState = {
   groupsAsMember: [],
   searchGroupss: [],
   requestFormList: [],
+  discussionForm : null,
 };
 
 const studyGroupSlice = createSlice({
@@ -462,6 +464,20 @@ const studyGroupSlice = createSlice({
     //   state.loading = false;
     //   state.error = payload;
     // })
+
+    builder.addCase(addDiscussion.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+
+    builder.addCase(addDiscussion.fulfilled, (state) => {
+      state.loading = false;
+    });
+
+    builder.addCase(addDiscussion.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   },
 });
 

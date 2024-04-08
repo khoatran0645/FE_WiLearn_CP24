@@ -1,6 +1,6 @@
 
- export const BE_URL = "http://www.groupstudy.somee.com";
-//export const BE_URL = 'http://localhost:8000';
+//  export const BE_URL = "http://www.groupstudy.somee.com";
+export const BE_URL = 'http://localhost:8000';
 // export const BE_URL = 'http://localhost:5000';
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
@@ -87,6 +87,9 @@ export const NEW_STAT_API = "/api/Stats";
 //DELETE MEETING
 
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
+
+// disscussion
+export const API_UPLOAD_DISCUSSION = "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
 
 export const publicRoutes = {
   root: "/",
