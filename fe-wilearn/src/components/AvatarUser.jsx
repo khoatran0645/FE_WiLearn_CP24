@@ -78,9 +78,8 @@ export default function AvatarUser() {
           ) : (
             <Avatar alt="User Avatar">
               <img
-                src={userInfo?.avatarUrl || "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"}
+                src={userInfo?.imagePath || "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"}
                 alt="User Avatar"
-                onLoad={() => setLoadingAvatar(false)}
                 style={{ width: "100%", height: "auto" }}
               />
             </Avatar>
