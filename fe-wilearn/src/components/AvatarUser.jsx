@@ -1,4 +1,4 @@
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 import {
   Menu,
   MenuItem,
@@ -11,28 +11,30 @@ import {
 } from "@mui/material";
 
 import AccountBoxIcon from "@mui/icons-material/AccountBox";
-import DashboardIcon from "@mui/icons-material/Dashboard";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { getUserInfo } from "../app/reducer/userReducer";
+
 const settings = [
   {
     name: "Profile",
     link: "/profile",
     icon: <AccountBoxIcon />,
   },
-  // {
-  //   name: "Dashboard",
-  //   link: "/dashboard",
-  //   icon: <DashboardIcon />,
-  // },
   {
     name: "Logout",
     link: "/",
     icon: <LogoutIcon />,
   },
 ];
+
 export default function AvatarUser() {
-  const [anchorElUser, setAnchorElUser] = React.useState(null);
+  const dispatch = useDispatch();
+  const userInfo = useSelector((state) => state.user.userInfo);
+
+  const [loadingAvatar, setLoadingAvatar] = useState(true);
+  const [anchorElUser, setAnchorElUser] = useState(null);
   const navigate = useNavigate();
 
   const handleOpenUserMenu = (event) => {
@@ -55,17 +57,36 @@ export default function AvatarUser() {
     console.log("profile loaded");
     navigate("profile");
   };
+
+  useEffect(() => {
+    dispatch(getUserInfo())
+      .then(() => {
+        setLoadingAvatar(false);
+      })
+      .catch((error) => {
+        setLoadingAvatar(false);
+        console.error("Error fetching user info:", error);
+      });
+  }, [dispatch]);
+
   return (
     <>
       <Tooltip title="Open settings">
         <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-          <Avatar
-            alt="User Avatar"
-            src="https://cdn.iconscout.com/icon/free/png-256/free-avatar-370-456322.png?f=webp"
-          />
+          {loadingAvatar ? (
+            <Avatar alt="User Avatar" />
+          ) : (
+            <Avatar alt="User Avatar">
+              <img
+                src={userInfo?.avatarUrl || "https://static.vecteezy.com/system/resources/previews/009/292/244/original/default-avatar-icon-of-social-media-user-vector.jpg"}
+                alt="User Avatar"
+                onLoad={() => setLoadingAvatar(false)}
+                style={{ width: "100%", height: "auto" }}
+              />
+            </Avatar>
+          )}
         </IconButton>
       </Tooltip>
-
       <Menu
         sx={{ mt: "45px" }}
         id="menu-appbar"
