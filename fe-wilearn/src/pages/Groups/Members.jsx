@@ -33,7 +33,7 @@ export default function MemberList() {
 
   const renderMemberCard = (user) => (
     <Grid key={user.id} item xs={12} sm={6} md={4} lg={2}>
-      <Card sx={{ maxWidth: 180 }} elevation={5}>
+      <Card sx={{ maxWidth: 180, marginTop: "15px" }} elevation={5}>
         <CardContent>
           <Container
             sx={{
@@ -44,7 +44,7 @@ export default function MemberList() {
           >
             <Avatar
               alt={user.fullName}
-              src={user.avatar}
+              src={user.imagePath}
               sx={{ width: 100, height: 100, marginTop: 2 }}
             />
             <Typography gutterBottom variant="h6">

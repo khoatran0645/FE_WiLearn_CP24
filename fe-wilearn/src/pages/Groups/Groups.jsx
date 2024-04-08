@@ -35,13 +35,11 @@ export default function Groups() {
 
   const showCreatedList = (groupcreatedList) =>
     groupcreatedList.map((group) => (
-      <Card key={group.id} sx={{ maxWidth: 345, minWidth: 200 }}>
+      <Card key={group.id} sx={{ maxWidth: 200, minWidth: 200 }}>
         <CardMedia
           component="img"
           height="140"
-          image={
-            "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
-          }
+          image={group.imagePath}
           alt="scene"
         />
         <CardContent>
@@ -66,9 +64,7 @@ export default function Groups() {
             </Link> */}
             View
           </Button>
-          <Stack >
-
-          </Stack>
+          <Stack></Stack>
         </CardActions>
       </Card>
     ));
@@ -106,7 +102,6 @@ export default function Groups() {
           </Stack>
         </Grid>
       </Grid>
-
       <Grid container paddingLeft={5} paddingTop={5}>
         <Grid
           xs={6}
