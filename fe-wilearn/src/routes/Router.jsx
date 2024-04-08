@@ -23,6 +23,7 @@ import UserProfile from "./../components/UserProfile";
 import SearchPage from "./../pages/SearchGr/components/SearchPage";
 import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
+import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 
 // import { lazy } from "react";
 
@@ -127,6 +128,10 @@ export default function Router() {
               <Meeting />
             </RoomProvider>
           ),
+        },
+        {
+          path: "groups/:groupId/meetings/:meetingId/whiteboard",
+          element: <WhiteBoard/>,
         },
         {
           path: "groups/:groupId",
