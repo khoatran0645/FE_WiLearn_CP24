@@ -6,15 +6,11 @@ import Typography from "@mui/material/Typography";
 import Container from "@mui/material/Container";
 import Button from "@mui/material/Button";
 import AvatarUser from "../AvatarUser";
-import SearchBar from "./SearchBar";
 import MultiLevelDropdown from "../Navbar/GroupsNavbarBtn/MultiLevelDropdown";
-import { useDispatch, useSelector } from "react-redux";
-import { useEffect } from "react";
+import { useSelector } from "react-redux";
 
 const pageRoutes = [
   { label: "Home", path: "/home" },
-  // { label: 'Contact', path: '/contact' },
-  // { label: 'About', path: '/about' },
   { label: "Schedule", path: "schedules" },
   { label: "Stat", path: "statistics" },
 ];
@@ -56,8 +52,10 @@ export default function NavbarMenu() {
           </Typography>
           <Box
             sx={{
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
               flexGrow: 1,
-              display: { xs: "none", md: "flex", marginLeft: "400px" },
             }}
           >
             {pageRoutes.map((page) => (
@@ -66,18 +64,13 @@ export default function NavbarMenu() {
                 component={Link}
                 to={page.path}
                 color="inherit"
-                sx={{ fontSize: "inherit", mr: 2, my: 2, display: "block" }}
+                sx={{ fontSize: "inherit", mx: 2 }}
               >
                 {page.label}
               </Button>
             ))}
-            {/* <ABC/> */}
             <MultiLevelDropdown />
-            {/* <GroupsNavbarBtn/> */}
           </Box>
-          {/* <Box sx={{ display: 'flex', alignItems: 'center', marginRight: '1rem'}}>
-            <SearchBar/>
-          </Box> */}
           <Box sx={{ display: "flex", alignItems: "center" }}>
             <AvatarUser />
             <Typography variant="body1" sx={{ ml: 1 }}>

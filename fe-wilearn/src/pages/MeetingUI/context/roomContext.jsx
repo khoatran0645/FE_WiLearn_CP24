@@ -151,8 +151,8 @@ export const RoomProvider = ({ children }) => {
       connection && connection.invoke("LeaveRoom", {
         roomId: roomId,
         peerId: meId,
-      }).then(() => {
-        toast.info("Đang rời cuộc họp");
+      }).then(()=>{
+        toast.success("Đã rời phòng thành công");
         //reset roomId
         setRoomId("");
         //reset peers state
@@ -186,6 +186,7 @@ export const RoomProvider = ({ children }) => {
         });
     } catch (error) {
       console.log("setUpLeave error", error);
+      toast.error("Đã xảy ra lỗi khi rời phòng");
       return false
     }
   }

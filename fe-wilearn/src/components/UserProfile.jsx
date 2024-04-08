@@ -2,12 +2,13 @@ import { useState } from "react";
 import {
   Grid,
   Typography,
-  Stack,
   Button,
   Avatar,
+  Stack,
   Box,
   Input,
 } from "@mui/material";
+
 import {
   FormContainer,
   TextFieldElement,
@@ -19,20 +20,44 @@ import {
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import Loading from "./Loading";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  updateUserInfo,
+  updateUserPassword,
+} from "../app/reducer/userReducer/userActions";
+import { toast } from "react-toastify";
 
 export default function UserProfile() {
   dayjs.extend(customParseFormat);
-  const [selectedFile, setSelectedFile] = useState(null);
-
+  const [selectedFile, setSelectedFile] = useState("");
+  const dispatch = useDispatch();
   const { userInfo } = useSelector((state) => state.user);
-  console.log(userInfo);
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
   };
 
+  const updateUser = async (data) => {
+    try {
+      const response = await dispatch(updateUserInfo(data));
+      toast.success("User information updated successfully.");
+      console.log("response", response);
+    } catch (error) {
+      toast.error("Failed to update user information.");
+    }
+  };
+
+  const updatePassword = async (data) => {
+    try {
+      const response = await dispatch(updateUserPassword(data));
+      toast.success("Password updated successfully.");
+      console.log("password data", data);
+      console.log("response", response);
+    } catch (error) {
+      toast.error("Failed to update password.");
+    }
+  };
   return (
     <>
       {userInfo === null ? (
@@ -103,44 +128,46 @@ export default function UserProfile() {
               )}
             </Box>
           </Grid>
-          {/* {console.log(loading, userInfo)} */}
 
           <Grid item xs={3}>
             <Typography variant="h5" textAlign={"left"}>
               Update information
             </Typography>
+
             <FormContainer
               defaultValues={{
-                fullName: userInfo.fullName,
-                email: userInfo.email,
-                phone: userInfo.phone,
-                dateOfBirth: dayjs(userInfo.dateOfBirth),
+                Id: userInfo.id,
+                FullName: userInfo.fullName,
+                Career: "Student",
+                // email: userInfo.email,
+                Phone: userInfo.phone,
+                DateOfBirth: dayjs(userInfo.dateOfBirth),
+                Image: "",
               }}
-              onSuccess={(data) => console.log(data)}
+              onSuccess={updateUser}
             >
               <Stack spacing={2} maxWidth={500} paddingTop={2}>
                 <TextFieldElement
-                  name="fullName"
+                  name="FullName"
                   label="Full name"
                   required
                   margin="dense"
                 />
-                {/* {console.log(userInfo)} */}
                 <TextFieldElement
-                  name="phone"
+                  name="Phone"
                   label="Phone number"
                   required
                   margin="dense"
                 />
-                <TextFieldElement
+                {/* <TextFieldElement
                   name="email"
                   label="Email"
                   required
                   margin="dense"
-                />
+                /> */}
                 <DatePickerElement
                   label="Birth date"
-                  name="dateOfBirth"
+                  name="DateOfBirth"
                   required
                 />
                 <Button type="submit">Submit</Button>
@@ -154,36 +181,34 @@ export default function UserProfile() {
             </Typography>
             <FormContainer
               defaultValues={{
-                old_password: "",
-                new_password: "",
-                confirm_password: "",
+                id: userInfo.id,
+                oldPassword: "",
+                password: "",
+                confirmPassword: "",
               }}
-              onSuccess={(data) => console.log(data)}
+              onSuccess={updatePassword}
             >
               <Stack spacing={2} maxWidth={500} paddingTop={2}>
                 <PasswordElement
                   margin={"dense"}
                   label={"Current password"}
                   required
-                  name={"old_password"}
+                  name={"oldPassword"}
                 />
                 <PasswordElement
                   margin={"dense"}
                   label={"New password"}
                   required
-                  type="password"
-                  name={"new_password"}
+                  name={"password"}
                 />
                 <PasswordRepeatElement
-                  passwordFieldName={"new-password"}
-                  name={"password_repeat"}
+                  passwordFieldName={"password"}
+                  name={"confirmPassword"}
                   margin={"dense"}
                   label={"Repeat Password"}
                   required
                 />
-                <Button type="submit" onSubmit={(data) => console.log(data)}>
-                  Submit
-                </Button>
+                <Button type="submit">Submit</Button>
               </Stack>
             </FormContainer>
           </Grid>
