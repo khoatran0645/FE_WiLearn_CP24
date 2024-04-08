@@ -1,4 +1,4 @@
-import { useState } from "react";
+import React, { useState } from "react";
 import {
   Button,
   Dialog,
@@ -8,12 +8,14 @@ import {
   DialogActions,
   Box,
   Autocomplete,
-  Chip,
+  MenuItem,
   Typography,
   Avatar,
   Input,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
+import { Check as CheckIcon } from "@mui/icons-material";
+
 const defaultAvatar = "/src/assets/default.jpg";
 
 export default function CreateGroup() {
@@ -61,12 +63,7 @@ export default function CreateGroup() {
         Create group
       </Button>
 
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        maxWidth="xs"
-        fullWidth
-      >
+      <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
         <DialogTitle>Create New Group</DialogTitle>
         <DialogContent>
           <TextField
@@ -87,30 +84,33 @@ export default function CreateGroup() {
           />
           <Box sx={{ marginTop: "1rem" }}>
             <Autocomplete
-              id="tags-outlined"
+              sx={{ width: "100%" }}
+              multiple
               options={subjects}
               value={subject}
               onChange={(event, newValue) => {
                 setSubject(newValue);
               }}
-              multiple
-              renderTags={(value, getTagProps) =>
-                value.map((option, index) => (
-                  <Chip
-                    key={option}
-                    variant="outlined"
-                    label={option}
-                    {...getTagProps({ index })}
-                  />
-                ))
-              }
+              disableCloseOnSelect
               renderInput={(params) => (
                 <TextField
                   {...params}
                   variant="outlined"
-                  label="Subject"
-                  placeholder="Select subject"
+                  label="Select subject"
+                  placeholder="Subjects"
+                  fullWidth
                 />
+              )}
+              renderOption={(props, option, { selected }) => (
+                <MenuItem
+                  {...props}
+                  key={option}
+                  value={option}
+                  sx={{ justifyContent: "space-between" }}
+                >
+                  {option}
+                  {selected && <CheckIcon color="info" />}
+                </MenuItem>
               )}
             />
           </Box>
@@ -127,9 +127,7 @@ export default function CreateGroup() {
             </Typography>
             <Avatar
               style={{ width: "150px", height: "150px", borderRadius: 0 }}
-              src={
-                selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar
-              }
+              src={selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar}
             />
             <Input
               accept="image/*"
@@ -160,8 +158,7 @@ export default function CreateGroup() {
               </Typography>
             ) : (
               <Typography variant="body2" marginTop="10px">
-                No local avatar is set. Use the upload field to add a local
-                image.
+                No local avatar is set. Use the upload field to add a local image.
               </Typography>
             )}
           </Box>
