@@ -24,6 +24,7 @@ import {
   API_SEARCH_STUDENT,
   API_UPDATE_GROUP_INFO,
   API_UPLOAD_DISCUSSION,
+  API_GET_DISCUSSION_BY_ID,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -313,9 +314,7 @@ export const declineJoinGroup = createAsyncThunk(
 export const addDiscussion = createAsyncThunk(
   "studyGroup/AddDiscussion",
   async (data, { rejectWithValue }) => {
-    console.log("discussion data", data);
-
-
+    // console.log("discussion data", data);
     const form = new FormData();
     form.append("Question", data.Question);
     form.append("Content", data.Content);
@@ -329,6 +328,19 @@ export const addDiscussion = createAsyncThunk(
         form
       )
       .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getDiscussionById = createAsyncThunk(
+  "studyGroup/getDiscussionById",
+  async (id, { rejectWithValue }) => {
+    console.log("id", id);
+    return await axiosClient
+      .get(API_GET_DISCUSSION_BY_ID.replace("{discussionId}", id))
+      .then((response) => {
+        console.log("axios", response);
+      })
       .catch((error) => rejectWithValue(error.response.data));
   }
 );

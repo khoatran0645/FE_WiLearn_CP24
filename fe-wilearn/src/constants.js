@@ -90,6 +90,7 @@ export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 
 // disscussion
 export const API_UPLOAD_DISCUSSION = "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
+export const API_GET_DISCUSSION_BY_ID = "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
 
 export const publicRoutes = {
   root: "/",

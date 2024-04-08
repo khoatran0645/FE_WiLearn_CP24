@@ -23,6 +23,7 @@ import {
   getMeetingList,
   getClassLists,
   addDiscussion,
+  getDiscussionById,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -40,7 +41,8 @@ const initialState = {
   groupsAsMember: [],
   searchGroupss: [],
   requestFormList: [],
-  discussionForm : null,
+  discussionForm: null,
+  discussionDetailInfo: null,
 };
 
 const studyGroupSlice = createSlice({
@@ -465,16 +467,29 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // })
 
+    //ADD DISCUSSION
     builder.addCase(addDiscussion.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
-
     builder.addCase(addDiscussion.fulfilled, (state) => {
       state.loading = false;
     });
-
     builder.addCase(addDiscussion.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    //GET DISCUSSION BY ID
+    builder.addCase(getDiscussionById.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getDiscussionById.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.discussionDetailInfo = payload;
+    });
+    builder.addCase(getDiscussionById.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -504,6 +519,8 @@ export {
   meetingNow,
   getMeetingList,
   getClassLists,
+  addDiscussion,
+  getDiscussionById,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions
