@@ -104,139 +104,137 @@ export default function ClippedDrawer() {
         >
           <Toolbar />
           <List>
-          <ListItem>
-            <Grid
-              container
-              alignItems="center"
-              spacing={2}
-              marginLeft="2px"
-              paddingTop={5}
+            <ListItem
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
             >
-              <Grid item>
-                <Avatar
-                  style={{ width: 60, height: 60 }}
-                  alt="Group Avatar"
-                  src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
-                />
-              </Grid>
-              <Grid item>
-                <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
+              <Avatar
+                style={{ width: 80, height: 80 }}
+                alt="Group Avatar"
+                src={
+                  groupInfo?.imagePath ||
+                  "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                }
+              />
+              <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
                 {groupInfo?.name}
-                </Typography>
-              </Grid>
-            </Grid>
-          </ListItem>
+              </Typography>
+            </ListItem>
 
-          <ListItem>
-            <NavLink
-              to="members"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <GroupsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Members" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
+            <ListItem>
+              <NavLink
+                to="members"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <GroupsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Members" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
 
-          <ListItem>
-            <NavLink
-              to="discussions"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <LocalLibraryIcon />
-                </ListItemIcon>
-                <ListItemText primary="Discussion" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="meetings"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <CalendarMonthIcon />
-                </ListItemIcon>
-                <ListItemText primary="Schedule" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="docs"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <UploadFileIcon />
-                </ListItemIcon>
-                <ListItemText primary="Documents" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="statistics"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <EqualizerIcon />
-                </ListItemIcon>
-                <ListItemText primary="Overview" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="groupsettings"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-        </List>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="meetings"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <CalendarMonthIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Schedule" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="docs"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <UploadFileIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Documents" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="statistics"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <EqualizerIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Overview" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="groupsettings"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Settings" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+          </List>
         </Drawer>
       </Hidden>
       <Hidden lgUp>
@@ -265,139 +263,137 @@ export default function ClippedDrawer() {
         >
           <Toolbar />
           <List>
-          <ListItem>
-            <Grid
-              container
-              alignItems="center"
-              spacing={2}
-              marginLeft="2px"
-              paddingTop={5}
+            <ListItem
+              style={{
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                marginTop: "30px",
+              }}
             >
-              <Grid item>
-                <Avatar
-                  style={{ width: 60, height: 60 }}
-                  alt="Group Avatar"
-                  src="https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
-                />
-              </Grid>
-              <Grid item>
-                <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
+              <Avatar
+                style={{ width: 80, height: 80 }}
+                alt="Group Avatar"
+                src={
+                  groupInfo?.imagePath ||
+                  "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                }
+              />
+              <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
                 {groupInfo?.name}
-                </Typography>
-              </Grid>
-            </Grid>
-          </ListItem>
+              </Typography>
+            </ListItem>
 
-          <ListItem>
-            <NavLink
-              to="members"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <GroupsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Members" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
+            <ListItem>
+              <NavLink
+                to="members"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <GroupsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Members" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
 
-          <ListItem>
-            <NavLink
-              to="discussions"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <LocalLibraryIcon />
-                </ListItemIcon>
-                <ListItemText primary="Discussion" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="meetings"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <CalendarMonthIcon />
-                </ListItemIcon>
-                <ListItemText primary="Schedule" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="docs"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <UploadFileIcon />
-                </ListItemIcon>
-                <ListItemText primary="Documents" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="statistics"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <EqualizerIcon />
-                </ListItemIcon>
-                <ListItemText primary="Overview" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-          <ListItem>
-            <NavLink
-              to="groupsettings"
-              style={({ isActive, isPending }) => {
-                return {
-                  color: isActive ? "#ff8080" : "black",
-                  textDecoration: "none",
-                };
-              }}
-            >
-              <ListItemButton>
-                <ListItemIcon>
-                  <SettingsIcon />
-                </ListItemIcon>
-                <ListItemText primary="Settings" />
-              </ListItemButton>
-            </NavLink>
-          </ListItem>
-        </List>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="meetings"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <CalendarMonthIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Schedule" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="docs"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <UploadFileIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Documents" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="statistics"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <EqualizerIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Overview" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="groupsettings"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <SettingsIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Settings" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+          </List>
         </Drawer>
       </Hidden>
     </Box>
