@@ -112,7 +112,7 @@ const Meeting = () => {
   // const [mypeers, mydispatch] = useReducer(peersReducer, {});
 
   const handleLeaveRoom = () => {
-    setUpLeave();
+    // setUpLeave();
     // if(setUpLeave()){
     if (userInfo?.roleName === "Parent") {
       navigate(`/study`);

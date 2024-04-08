@@ -228,18 +228,26 @@ export const RoomProvider = ({ children }) => {
     setStream(newStream);
     try {
       Object.values(me?.connections).forEach((connection) => {
-        const videoTrack = newStream
-          ?.getTracks()
-          .find((track) => track.kind === "video");
-        connection[0].peerConnection
-          .getSenders()[1]
-          .replaceTrack(videoTrack)
-          .catch((err) => {
-            console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
-          })
-        console.log("switchStream connection", connection)
-        console.log("switchStream connection[0].peerConnection", connection[0].peerConnection)
-        console.log("switchStream connection[0].peerConnection.getSenders()", connection[0].peerConnection.getSenders())
+        // const videoTrack = newStream
+        //   ?.getTracks()
+        //   .find((track) => track.kind === "video");
+        // connection[0].peerConnection
+        //   .getSenders()[1]
+        //   .replaceTrack(videoTrack)
+        //   .catch((err) => {
+        //     console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+        //   })
+        // console.log("switchStream connection", connection)
+        // console.log("switchStream connection[0].peerConnection", connection[0].peerConnection)
+        // console.log("switchStream connection[0].peerConnection.getSenders()", connection[0].peerConnection.getSenders())
+        newStream?.getTracks().forEach(videoTrack=>{
+          connection[0].peerConnection
+            .getSenders()[1]
+            .replaceTrack(videoTrack)
+            .catch((err) => {
+              console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+            })
+        })
       });
     } catch (error) {
       console.log("switchStream error", error)
@@ -247,7 +255,6 @@ export const RoomProvider = ({ children }) => {
     }
 
   };
-
 
   const shareScreen = async () => {
     console.log(`befor screenSharingId:`, screenSharingId)
@@ -381,6 +388,7 @@ export const RoomProvider = ({ children }) => {
       if (roomId) {
         //Init stream
         const meId = `${userName}-${uuidV4()}`;
+        await setShowAvaList([{ roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath }]);
         dispatch(addPeerNameAction(meId, userName));
         // const meId = uuidV4();
         const stream = await initStream(meId);
@@ -431,88 +439,94 @@ export const RoomProvider = ({ children }) => {
     , [roomId]);
   // }, []);
   const initStream = async (meId) => {
-    // try {
-    //   await navigator.mediaDevices
-    //     .getUserMedia({ video: true, audio: true })
-    //     .then((stream) => {
-    //       setCamStream(stream)
-    //       setStream(stream);
-    //       return stream;
-    //       // initSignalR(meId)
-    //     })
-    //     .catch(async () => {
-    //       await navigator.mediaDevices
-    //         .getDisplayMedia({})
-    //         .then((newStream) => {
+    try {
+      await navigator.mediaDevices
+        .getUserMedia({ video: true, audio: true })
+        .then((stream) => {
+          if (stream.getAudioTracks()[0]) {
+            stream.getAudioTracks()[0].enabled = false;
+          }
+          setCamStream(stream)
+          setStream(stream);
+          return stream;
+          // initSignalR(meId)
+        })
+        .catch(async () => {
+          await navigator.mediaDevices
+            .getDisplayMedia({})
+            .then((newStream) => {
 
-    //           // switchStream(newStream);
-    //           setStream(newStream);
-    //           setIsSharing(true);
-    //           // setScreenSharingId(me?.id || "");
-    //           setScreenSharingId(meId);
-    //           if (newStream && newStream.getTracks()) {
-    //             const screenTracks = newStream.getTracks();
-    //             const lastScreenTrack = screenTracks[screenTracks.length - 1];
-    //             lastScreenTrack.addEventListener("ended", () => {
-    //               // alert("end share screen")
-    //               setScreenSharingId("");
-    //               setIsSharing(false);
-    //               // setScreenSharingId(null);
-    //               if (camStream) {
-    //                 switchStream(camStream)
-    //               }
-    //               else {
-    //                 navigator.mediaDevices
-    //                   .getUserMedia({ video: true, audio: true })
-    //                   .then(stream => {
-    //                     switchStream(stream)
-    //                     setCamStream(stream)
-    //                   })
-    //                   .catch(async (error) => {
-    //                     console.log("Get cam error", error)
-    //                     if (!defaultStream) {
-    //                       const newDefaultStream = await createEmptyVideoStream();
-    //                       setDefaultStream(newDefaultStream)
-    //                       switchStream(newDefaultStream);
-    //                     } else {
-    //                       switchStream(defaultStream);
-    //                     }
-    //                   });
-    //               }
-    //             });
-    //             setShareScreenTrack(lastScreenTrack);
-    //           }
+              // switchStream(newStream);
+              setStream(newStream);
+              setIsSharing(true);
+              // setScreenSharingId(me?.id || "");
+              setScreenSharingId(meId);
+              if (newStream && newStream.getTracks()) {
+                const screenTracks = newStream.getTracks();
+                const lastScreenTrack = screenTracks[screenTracks.length - 1];
+                lastScreenTrack.addEventListener("ended", () => {
+                  // alert("end share screen")
+                  setScreenSharingId("");
+                  setIsSharing(false);
+                  // setScreenSharingId(null);
+                  if (camStream) {
+                    switchStream(camStream)
+                  }
+                  else {
+                    navigator.mediaDevices
+                      .getUserMedia({ video: true, audio: true })
+                      .then(stream => {
+                        switchStream(stream)
+                        setCamStream(stream)
+                      })
+                      .catch(async (error) => {
+                        console.log("Get cam error", error)
+                        if (!defaultStream) {
+                          const newDefaultStream = await createEmptyVideoStream();
+                          setDefaultStream(newDefaultStream)
+                          switchStream(newDefaultStream);
+                        } else {
+                          switchStream(defaultStream);
+                        }
+                      });
+                  }
+                });
+                setShareScreenTrack(lastScreenTrack);
+              }
 
-    //           return newStream;
-    //           // initSignalR(meId)
-    //         });
-    //     })
-    // } catch (err) {
-    //   console.log("initStream error", err)
-    //   console.error({ err });
-    //   const newDefaultStream = await createEmptyVideoStream();
-    //   setDefaultStream(newDefaultStream)
-    //   setStream(defaultStream);
-    //   return newDefaultStream;
-    //   if (!defaultStream) {
-    //     alert("reach heeerre initstream try catch")
-    //   } else {
-    //     setStream(defaultStream);
-    //   }
-    //   return defaultStream;
-    //   // alert("Bạn phải đồng ý chia sẻ camera hoặc màn hình");
-    //   // return await initStream(meId);
-    // }
-    if (defaultStream) {
-      setStream(defaultStream);
-      return defaultStream;
-    } else {
+              return newStream;
+              // initSignalR(meId)
+            });
+        })
+    } catch (err) {
+      console.log("initStream error", err)
+      console.error({ err });
       const newDefaultStream = await createEmptyVideoStream();
       setDefaultStream(newDefaultStream)
-      setStream(newDefaultStream);
+      setStream(defaultStream);
       return newDefaultStream;
+      if (!defaultStream) {
+        alert("reach heeerre initstream try catch")
+      } else {
+        setStream(defaultStream);
+      }
+      return defaultStream;
+      // alert("Bạn phải đồng ý chia sẻ camera hoặc màn hình");
+      // return await initStream(meId);
     }
+
+
+    // if (defaultStream) {
+    //   setStream(defaultStream);
+    //   return defaultStream;
+    // } else {
+    //   const newDefaultStream = await createEmptyVideoStream();
+    //   setDefaultStream(newDefaultStream)
+    //   setStream(newDefaultStream);
+    //   return newDefaultStream;
+    // }
   }
+
   const initSignalR = async (meId) => {
     // toast.info('initSignalR')
     const accessTokenFactory = localStorage.getItem("token");
