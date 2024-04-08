@@ -1,14 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useLocation } from "react-router-dom";
-import { toast } from "react-toastify";
 import { HubConnectionBuilder } from "@microsoft/signalr";
-import { BE_URL } from "src/common/constants";
+import { BE_URL } from "../../../constants";
+import { useParams } from "react-router-dom";
 // import { RoomContext } from 'src/context/roomContext';
 
 const WhiteBoard = (props) => {
   const canvasRef = useRef(null);
   const colorRef = useRef(null);
 
+  const { meetingId } = useParams();
+  
   const clearMousePositions = () => {
     last_mousex = 0;
     last_mousey = 0;
@@ -19,6 +20,8 @@ const WhiteBoard = (props) => {
   const [canvasContext, setCanvasContext] = useState();
   const [canvasX, setCanvasX] = useState();
   const [canvasY, setCanvasY] = useState();
+  // const [meetHub, setMeetHub] = useState();
+  let meetHub;
   var last_mousex = 0;
   var last_mousey = 0;
   var mousex = 0;
@@ -38,7 +41,7 @@ const WhiteBoard = (props) => {
         last_mousex,
         last_mousey,
         mousex,
-        mousey,
+        mousey, 
         clr,
         parseInt(brushSize)
       );
@@ -48,7 +51,7 @@ const WhiteBoard = (props) => {
   };
 
   const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize) => {
-    console.log('draw')
+    // console.log('draw')
     canvasContext.beginPath();
     // console.log(`PREV X: ${prev_x}, PREV Y: ${prev_y}`);
     // console.log(`X: ${x}, Y: ${y}`);
@@ -84,13 +87,13 @@ const WhiteBoard = (props) => {
 
   const newConnection = () => {
     const accessTokenFactory = localStorage.getItem("token");
-    const urlParts = window.location.href.split("/");
-    const roomId = urlParts[urlParts.length - 2];
+    // const urlParts = window.location.href.split("/");
+    // const meetingId = urlParts[urlParts.length - 2];
     const hubConnection = new HubConnectionBuilder()
       // .withUrl('http://localhost:8000/hubs/meetinghub?tempConnection=ok&meetingId=' + roomId, {
       .withUrl(
         // BE_URL + "/hubs/meetinghub?tempConnection=ok&meetingId=" + roomId,
-        BE_URL + "/hubs/drawhub?meetingId=" + roomId,
+        BE_URL + "/hubs/drawhub?meetingId=" + meetingId,
         {
           accessTokenFactory: () => accessTokenFactory,
         }
@@ -103,6 +106,8 @@ const WhiteBoard = (props) => {
     });
 
     hubConnection.on("get-drawings", (drawings) => {
+      // alert("get-drawings")
+      console.log("get-drawings", drawings)
       drawings.forEach((d) => {
         drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size);
       });
@@ -110,8 +115,8 @@ const WhiteBoard = (props) => {
     console.log('hubConnection', hubConnection);
     return hubConnection;
   };
+  meetHub = newConnection();
 
-  const meetHub = newConnection();
   useEffect(() => {
     // toast.success('Đã vào bảng trắng');
     clearMousePositions();
@@ -120,7 +125,12 @@ const WhiteBoard = (props) => {
     setCanvasY(canvas.offsetTop);
 
     setCanvasContext(canvas.getContext("2d"));
-  });
+    // if(!meetHub){
+
+    //   const meetHub = newConnection();
+    //   setMeetHub(meetHub);
+    // }
+  }, [meetingId]);
   const moveCircle = (e) => {
     circle.style.left = `${e.clientX + window.scrollX - size.value/2}px`;
     circle.style.top = `${e.clientY + window.scrollY - size.value/2}px`;
@@ -140,7 +150,7 @@ const WhiteBoard = (props) => {
     // const mult = color?.value==='white'? 10 : 1;
     return Array.from({length: 100}, (_, i) => i + 1).map(i => (
       // <option value={mult*i}>{mult*i}px</option>
-      <option value={i}>{i}px</option>
+      <option key={i} value={i}>{i}px</option>
     ))
   };
   return (

@@ -11,7 +11,7 @@ import Register from "../pages/Register/Register";
 import ErrorPage from "../pages/ErrorPage";
 
 import Groups from "../pages/Groups/Groups";
-import Members from "../pages/Groups/Members";
+import Members from "../pages/Groups/Members"; 
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
