@@ -51,14 +51,6 @@ export default function HomePage() {
               <Card variant="outlined" style={{ width: '100%', height: '240px' }}>
                 <Grid container direction="row" alignItems="center">
                   <Grid item xs={4}>
-                    <Grid paddingLeft={3}  paddingTop={2} sx={{opacity: 0.7}}>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        {group.time}
-                      </Typography>
-                      <Typography variant="subtitle2" color="textSecondary">
-                        Actor: {group.author}
-                      </Typography>
-                    </Grid>
                     <CardMedia
                       component="img"
                       height="120"
