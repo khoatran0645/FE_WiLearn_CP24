@@ -130,15 +130,17 @@ export const Room = () => {
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
-                  sx={{ width: '100%', height:'100%' }}
+                  sx={{ width: '80%', height:'80%' }}
                   />
                 )
               }
               <VideoPlayer
                 stream={stream}
                 muted={streamName === userName || streamName === "You"}
+                height={ava?"0px":"100%"}
                 sx={{
-                  height: "",
+                  // height: "",
+                  // height: (ava?"0px":"0px"),
                   transition: 'all 1s ease-in-and-out',
                 }}
               />
@@ -186,14 +188,17 @@ export const Room = () => {
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
+                  sx={{ width: '80%', height:'80%' }}
                   />
                 )
               }
               <VideoPlayer
                 stream={stream}
                 muted={streamName === userName || streamName === "You"}
+                height={ava?"0px":"100%"}
                 sx={{
-                  height:"",
+                  // height: "0px",
+                  // height:(ava?"0px":"0px"),
                   transition: 'all 1s ease-in-and-out',
                 }}
               />
