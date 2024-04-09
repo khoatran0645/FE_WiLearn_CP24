@@ -6,7 +6,7 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../app/reducer/userReducer";
 import { toast } from "react-toastify";
-import { getSubjectLists } from "../app/reducer/studyGroupReducer";
+import { getGroupNotJoin, getSubjectLists } from "../app/reducer/studyGroupReducer";
 
 export default function MainLayout() {
   const { userInfo } = useSelector(state => state.user);
@@ -14,7 +14,8 @@ export default function MainLayout() {
   const dispatch = useDispatch();
   useEffect(() => {
     if (!userInfo) {
-      dispatch(getSubjectLists());
+    dispatch(getGroupNotJoin());
+    dispatch(getSubjectLists());
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
           

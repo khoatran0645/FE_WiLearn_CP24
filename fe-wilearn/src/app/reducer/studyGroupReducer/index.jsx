@@ -473,8 +473,9 @@ const studyGroupSlice = createSlice({
       state.error = null;
     });
 
-    builder.addCase(getGroupNotJoin.fulfilled, (state) => {
+    builder.addCase(getGroupNotJoin.fulfilled, (state, {payload}) => {
       state.loading = false;
+      state.groupNotJoin = payload;
     });
 
     builder.addCase(getGroupNotJoin.rejected, (state, { payload }) => {
