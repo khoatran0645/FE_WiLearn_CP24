@@ -9,6 +9,9 @@ import peersReducer from "../../../app/reducer/peersReducer/peersReducer";
 import { getReviewInfos } from "../../../app/reducer/voteReducer/votesActions";
 import { useDispatch, useSelector } from "react-redux";
 import Transition from "react-transition-group/Transition";
+import {
+  Avatar,
+} from "@mui/material";
 
 export const Room = () => {
   const { meetingId } = useParams();
@@ -26,6 +29,7 @@ export const Room = () => {
     handleVoteChange,
     setConnection: setContextConnection,
     focusList,
+    showAvaList,
 
   } = useContext(RoomContext);
   // const [peers, dispatch] = useReducer(peersReducer, {});
@@ -74,6 +78,7 @@ export const Room = () => {
   const addFocusActionsToUsername = (peerId, uname) => {
     let actionsString = null;
     focusList.forEach(focus => {
+      console.log("addFocusActionsToUsername focusList.forEach focus", focus)
       if (focus.peerId == peerId) {
         actionsString = focus.actions.join(", ")
       }
@@ -112,23 +117,28 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
+    const ava = showAvaList.find(focus => focus.peerId == peerId);
     return (
-      //   <Transition
-      //     in={transitionState}
-      //     timeout={2000}
-      //   >
-      //     {state => (
       <Grid item xs={width} key={peerId} sx={{
         transition: 'all 2s ease',
-        // opacity: (state === 'exited' || state === 'exiting')?0:1
       }}>
         <Box>
           <Box>
             <MeetingAvatar>
+              {
+                ava &&(
+                  <Avatar
+                  alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
+                  src={ava?.imagePath}
+                  sx={{ width: '100%', height:'100%' }}
+                  />
+                )
+              }
               <VideoPlayer
                 stream={stream}
                 muted={streamName === userName || streamName === "You"}
                 sx={{
+                  height: "",
                   transition: 'all 1s ease-in-and-out',
                 }}
               />
@@ -137,9 +147,61 @@ export const Room = () => {
           </Box>
         </Box>
       </Grid>
-
-      //   )}
-      // </Transition> 
+    );
+  };
+  const vidGridWithAction = (stream, streamName, peerId, actions, count = othersCount) => {
+    //4x4: 10-16
+    let width = 1;
+    if (count == 1 || count == 0) {
+      //1-1: 1x1
+      width = 12;
+    }
+    else if (count == 2) {
+      //2-2: 2x1
+      width = 6;
+    }
+    else if (count == 3) {
+      //3-4: 2x2
+      width = 4;
+    }
+    else if (count < 9) {
+      //5-6: 3x2
+      width = 3;
+    }
+    else {
+      //7-8: 4x2
+      width = 2;
+    }
+    const ava = showAvaList.find(focus => focus.peerId == peerId);
+    console.log("vidGridWithAction cam", ava)
+    return (
+      <Grid item xs={width} key={peerId} sx={{
+        transition: 'all 2s ease',
+      }}>
+        <Box>
+          <Box>
+            <MeetingAvatar>
+              {
+                ava &&(
+                  <Avatar
+                  alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
+                  src={ava?.imagePath}
+                  />
+                )
+              }
+              <VideoPlayer
+                stream={stream}
+                muted={streamName === userName || streamName === "You"}
+                sx={{
+                  height:"",
+                  transition: 'all 1s ease-in-and-out',
+                }}
+              />
+            <Box>{streamName==="You"? "You are ": `${streamName} is `}{actions}</Box>
+            </MeetingAvatar>
+          </Box>
+        </Box>
+      </Grid>
     );
   };
   return (
@@ -168,7 +230,7 @@ export const Room = () => {
         )}
       </Transition>
       <Transition
-        in={othersCount != 0}
+        in={othersCount != 0 && focusList.length==0}
         timeout={2000}
       >
         {state => (
@@ -188,6 +250,44 @@ export const Room = () => {
             ))}
           </Grid>
         )}
+      </Transition>
+      <Transition
+        in={othersCount != 0 && focusList.length!=0}
+        timeout={2000}
+      >
+        {state => {
+          const peersObj = Object.values(peers).filter((peer) =>!!peer.stream);
+          const peersObjMapped = Object.values(peers)
+          .map(peer=>{
+            console.log("focusList", focusList)
+            console.log("peer", peer)
+            const focus = focusList.find(f=>f.peerId == peer.id)
+            if(focus){
+              const uname = peer.userName== userName? "You": peer.userName;
+              const mappedPeer ={stream: peer.stream, id: peer.id, userName: uname, actions: focus.actions.join(", ")}
+              return mappedPeer
+            }
+            return null;
+          })
+          .filter((peer) =>peer!=null && !!peer.stream);
+          console.log("peersObjMapped", peersObjMapped)
+          return(
+            <Grid container spacing={1}
+              sx={{
+                transition: 'all 2s ease',
+                // display: (state === 'exited' || state === 'exiting')?"none":"",
+                opacity: (state === 'exited' || state === 'exiting') ? 0 : 1,
+                height: (state === 'exited' || state === 'exiting') ? "0px" : "100%",
+                overflow: 'hidden'
+              }}
+            >
+              {peersObjMapped.map((peer) => (
+                <>
+                  {vidGridWithAction(peer.userName=="You"?stream: peer.stream, peer.userName, peer.id, peer.actions,peersObjMapped.length)}
+                </>
+              ))}
+            </Grid>
+        )}}
       </Transition>
     </>
   );

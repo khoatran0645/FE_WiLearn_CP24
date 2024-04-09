@@ -15,7 +15,6 @@ import { chatReducer } from "../../../app/reducer/chatReducer/chatReducer";
 import {
   addMessageAction,
   addHistoryAction,
-  toggleChatAction,
 } from "../../../app/reducer/chatReducer/chatActions";
 import { clearVoteData, getReviewInfos } from "../../../app/reducer/voteReducer/votesReducer";
 import { useDispatch, useSelector } from "react-redux";
@@ -32,6 +31,7 @@ export const RoomProvider = ({ children }) => {
 
   const [isReviewing, setIsReviewing] = useState(false);
   const [focusList, setFocusList] = useState([]);
+  const [showAvaList, setShowAvaList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
   const [meId, setMeId] = useState();
@@ -42,6 +42,7 @@ export const RoomProvider = ({ children }) => {
     messages: [],
     isChatOpen: false,
   });
+  const { userInfo } = useSelector(state => state.user)
   const createEmptyAudioTrack = () => {
     const ctx = new AudioContext();
     const oscillator = ctx.createOscillator();
@@ -51,7 +52,7 @@ export const RoomProvider = ({ children }) => {
     return Object.assign(track, { enabled: false });
   };
 
-  const createEmptyVideoTrack = async({ width, height }) => {
+  const createEmptyVideoTrack = async ({ width, height }) => {
     const canvas = Object.assign(document.createElement('canvas'), { width, height });
     // canvas.getContext('2d').fillRect(0, 0, width, height);
     var ctx = canvas.getContext("2d");
@@ -70,7 +71,7 @@ export const RoomProvider = ({ children }) => {
     const video = document.createElement("video");
     video.muted = true;
     video.srcObject = canvasStream;
-    var video_tracks=[];
+    var video_tracks = [];
     // video.play().then(() => {
     //   // alert("video.play")
     //   const video_stream = video.captureStream ? video.captureStream(25) : video.mozCaptureStream();
@@ -84,18 +85,18 @@ export const RoomProvider = ({ children }) => {
     //   console.log("convert error", err)
     // });
     await video.play();
-      // alert("video.play")
-      const video_stream = video.captureStream ? video.captureStream(25) : video.mozCaptureStream();
-      console.log("video_stream", video_stream)
-      console.log("video_stream", video_stream.getVideoTracks());
-      video_tracks = video_stream.getVideoTracks();
-      console.log("video_tracks", video_tracks); // [object MediaStreamTrack], {...}
-      // alert("Finnish convert");
-      console.log("video_tracks 2", video_tracks); 
-      return video_tracks;
+    // alert("video.play")
+    const video_stream = video.captureStream ? video.captureStream(25) : video.mozCaptureStream();
+    console.log("video_stream", video_stream)
+    console.log("video_stream", video_stream.getVideoTracks());
+    video_tracks = video_stream.getVideoTracks();
+    console.log("video_tracks", video_tracks); // [object MediaStreamTrack], {...}
+    // alert("Finnish convert");
+    console.log("video_tracks 2", video_tracks);
+    return video_tracks;
     // return canvasStream.getVideoTracks();
   };
-  const createEmptyVideoStream = async() => {
+  const createEmptyVideoStream = async () => {
     const audioTrack = createEmptyAudioTrack();
     const videoTrack = await createEmptyVideoTrack({ width: 640, height: 480 });
     console.log("videoTrack", videoTrack);
@@ -103,9 +104,31 @@ export const RoomProvider = ({ children }) => {
     const mediaStream = new MediaStream([...videoTrack, audioTrack]);
     return mediaStream;
   }
+  const createEmptyVideoStreamNew = async () => {
+    try {
+      const img = new Image();
+      img.crossOrigin = 'anonymous'; // Allow accessing images from other origins
+      img.src = url;
+      await img.decode(); // Wait for the image to load completely
+      const canvas = document.createElement('canvas');
+      canvas.width = img.width;
+      canvas.height = img.height;
+      const ctx = canvas.getContext('2d');
+      ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+      const stream = canvas.captureStream(1);
+      const track = stream.getVideoTracks()[0];
+      const mediaStream = new MediaStream([track]);
+      return mediaStream
+    } catch (error) {
+      console.error('Error fetching avatar:', error);
+    }
+  }
+  const [defaultStream, setDefaultStream] = useState(null);
+  const [camStream, setCamStream] = useState(null);
+  const [screenStream, setScreenStream] = useState(null);
   const [stream, setStream] = useState();
   // const [stream, setStream] = useState();
-  // const [stream, setStream] = useState(async()=>{ 
+  // const [stream, setStream] = useState(async()=>{
   //   await createEmptyVideoStream()});
   const [screenSharingId, setScreenSharingId] = useState("");
   const [roomId, setRoomId] = useState("");
@@ -114,6 +137,7 @@ export const RoomProvider = ({ children }) => {
     ""
   );
   const [isSharing, setIsSharing] = useState(false);
+  const [isCamOn, setIsCamOn] = useState(false);
   const [onVoteChange, setOnVoteChange] = useState(false);
   const [connection, setConnection] = useState();
   const [isRaiseHand, setIsRaiseHand] = useState(false);
@@ -122,8 +146,8 @@ export const RoomProvider = ({ children }) => {
   // const [connection, setConnection] = useState();
 
 
-  const setUpLeave = ()=>{
-    try{
+  const setUpLeave = () => {
+    try {
       connection && connection.invoke("LeaveRoom", {
         roomId: roomId,
         peerId: meId,
@@ -135,32 +159,32 @@ export const RoomProvider = ({ children }) => {
         removeAllPeers();
         //reset chat state
         dispatch(clearVoteData());
-        //if sharing screen, stop sharing 
-        if(shareScreenTrack){
+        //if sharing screen, stop sharing
+        if (shareScreenTrack) {
           shareScreenTrack.stop()
           setShareScreenTrack(null)
           setIsSharing(false);
           setScreenSharingId("")
         }
         //reset signalRHub
-        connection.stop()
-          .then(()=>setConnection(null))
+        connection && connection.stop()
+          .then(() => setConnection(null))
           .catch((error) => {
             console.log("connection.stop error", error)
           });
         //reset peers
         me && me.destroy();
         setMe(null);
-        //reset stream 
+        //reset stream
         setStream(null);
         return true;
       })
-      .catch((error)=>{      
-        console.log("connection.stop error", error);
-        //toast.error("Lỗi khi rời phòng");
-        return false
-      });
-    } catch(error){
+        .catch((error) => {
+          toast.error("Lỗi khi rời phòng")
+          console.log("connection.stop error", error);
+          return false
+        });
+    } catch (error) {
       console.log("setUpLeave error", error);
       toast.error("Đã xảy ra lỗi khi rời phòng");
       return false
@@ -195,86 +219,128 @@ export const RoomProvider = ({ children }) => {
 
   };
 
-  const switchStream = (stream) => {
-    setStream(stream);
-    try{
-      Object.values(me?.connections).forEach((connection) => {
-        const videoTrack = stream
-          ?.getTracks()
-          .find((track) => track.kind === "video");
-        console.log("switchStream connection",connection)
-        console.log("switchStream connection[0].peerConnection",
-          connection[0].peerConnection)
-        console.log("switchStream connection[0].peerConnection.getSenders()",connection[0].peerConnection.getSenders())
-        connection[0].peerConnection
-          .getSenders()[1]
-          .replaceTrack(videoTrack)
-          .catch((err) => console.log(err));
+  const switchStream = (newStream) => {
+    //Lấy audio cũ gắn vô stream screen
+    if (stream && stream.getAudioTracks()) {
+      stream.getAudioTracks().forEach(audioTrack => {
+        newStream.addTrack(audioTrack);
       });
-    }catch(error){
+    }
+    setStream(newStream);
+    try {
+      Object.values(me?.connections).forEach((connection) => {
+        // const videoTrack = newStream
+        //   ?.getTracks()
+        //   .find((track) => track.kind === "video");
+        // connection[0].peerConnection
+        //   .getSenders()[1]
+        //   .replaceTrack(videoTrack)
+        //   .catch((err) => {
+        //     console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+        //   })
+        // console.log("switchStream connection", connection)
+        // console.log("switchStream connection[0].peerConnection", connection[0].peerConnection)
+        // console.log("switchStream connection[0].peerConnection.getSenders()", connection[0].peerConnection.getSenders())
+        newStream?.getTracks().forEach(videoTrack=>{
+          connection[0].peerConnection
+            .getSenders()[1]
+            .replaceTrack(videoTrack)
+            .catch((err) => {
+              console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+            })
+        })
+      });
+    } catch (error) {
       console.log("switchStream error", error)
       toast.error("switchStream error");
     }
-    
+
   };
 
-
-  const shareScreen = async() => {
-    console.log(`screenSharingId:`, screenSharingId)
+  const shareScreen = async () => {
+    console.log(`befor screenSharingId:`, screenSharingId)
+    // toast.info(`befor screenSharingId:`, screenSharingId)
+    //Nếu srceenSharing => hiện tại đang sharescreen => Tắt share screen
     if (screenSharingId) {
       shareScreenTrack.stop();
       setShareScreenTrack(null);
       setIsSharing(false);
       setScreenSharingId("");
-      // setScreenSharingId(null);
-      // window.location.reload(false);
 
-      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
-      navigator.mediaDevices
-        .getUserMedia({ video: true, audio: true })
-        .then(switchStream)
-        .catch(async(error) => { 
-          console.log("Get cam error", error)
-          const defaultStream = await createEmptyVideoStream();
-          switchStream(defaultStream); 
-        });
+      connection.invoke("EndFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
+      if (camStream) {
+        switchStream(camStream);
+      } else {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((newCamStream) => {
+            setCamStream(newCamStream)
+            switchStream(newCamStream);
+          })
+          .catch(async (error) => {
+            console.log("Get cam error", error)
+            if (!defaultStream) {
+              const newDefaultStream = await createEmptyVideoStream();
+              setDefaultStream(newDefaultStream)
+              switchStream(newDefaultStream);
+            } else {
+              switchStream(defaultStream);
+            }
+          });
+      }
+    //Nếu !srceenSharing => hiện tại đang ko sharescreen => Bật share screen
     } else {
       // navigator.mediaDevices.getDisplayMedia({}).then(switchStream);
-      navigator.mediaDevices.getDisplayMedia({}).then((newStream) => {
-        // const audio = stream.getAudioTracks()[0];
-        // newStream.addTrack(audio);
-        if (stream && stream.getAudioTracks()) {
-          stream.getAudioTracks().forEach(audioTrack => {
-            newStream.addTrack(audioTrack);
-          });
-        }
-        if (newStream && newStream.getTracks()) {
-          const screenTracks = newStream.getTracks();
-          const lastScreenTrack = screenTracks[screenTracks.length - 1];
-          lastScreenTrack.addEventListener("ended", () => {
-            // alert("end share screen")
-          connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
-          setScreenSharingId("");
-            setIsSharing(false);
-            // setScreenSharingId(null);
-            // window.location.reload(false);
-            navigator.mediaDevices
-              .getUserMedia({ video: true, audio: true })
-              .then(switchStream)
-              .catch(async(error) => { 
-                console.log("Get cam error", error)
-                const defaultStream = await createEmptyVideoStream();
-                switchStream(defaultStream); 
-              });
-          });
-          setShareScreenTrack(lastScreenTrack);
-          connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
-        }
-        switchStream(newStream);
-      });
-      setIsSharing(true);
-      setScreenSharingId(me?.id || "abc");
+      navigator.mediaDevices.getDisplayMedia({})
+        .then((newStream) => {
+          if (newStream && newStream.getTracks()) {
+            const screenTracks = newStream.getTracks();
+            const lastScreenTrack = screenTracks[screenTracks.length - 1];
+
+            //Xử lí khi tắt sharescreen bằng nút ngoài app
+            lastScreenTrack.addEventListener("ended", () => {
+              // alert("end share screen")
+              connection.invoke("EndFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
+              setScreenSharingId("");
+              setIsSharing(false);
+              // setScreenSharingId(null);
+              // window.location.reload(false);
+              if (camStream) {
+                switchStream(camStream);
+              }
+              else {
+                navigator.mediaDevices
+                  .getUserMedia({ video: true, audio: true })
+                  .then(newCamStream => {
+                    setCamStream(newCamStream);
+                    switchStream(newCamStream);
+                  })
+                  .catch(async (error) => {
+                    console.log("Get cam error", error)
+                    if (!defaultStream) {
+                      const newDefaultStream = await createEmptyVideoStream();
+                      setDefaultStream(newDefaultStream)
+                      switchStream(newDefaultStream);
+                    } else {
+                      switchStream(defaultStream);
+                    }
+                  });
+              }
+            });
+            setShareScreenTrack(lastScreenTrack);
+            connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
+          }
+          alert('reach here switchStream')
+          switchStream(newStream);
+          alert('reach here')
+          setIsSharing(true);
+          console.log("me: ", me)
+          console.log("me: ", me?.id)
+          setScreenSharingId(me?.id || "abc");
+        });
+      // setScreenSharingId(meId);
     }
+
   };
 
   const handleCreateVote = async () => {
@@ -282,14 +348,14 @@ export const RoomProvider = ({ children }) => {
     // setIsSharing(true);
     // console.log('handleCreateVote', isSharing);
     // shareScreen();
-    connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
+    connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "reviewing" })
   };
 
   const handleEndVote = async () => {
     // call api api/review/end
     // setIsSharing(false);
     // shareScreen();
-    connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"reviewing"})
+    connection.invoke("EndFocus", { roomId: roomId, peerId: meId, action: "reviewing" })
   };
 
   const handleIsSharingChange = (value) => {
@@ -323,6 +389,8 @@ export const RoomProvider = ({ children }) => {
       if (roomId) {
         //Init stream
         const meId = `${userName}-${uuidV4()}`;
+        await setShowAvaList([{ roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath }]);
+        dispatch(addPeerNameAction(meId, userName));
         // const meId = uuidV4();
         const stream = await initStream(meId);
         // await initStream(meId);
@@ -376,6 +444,10 @@ export const RoomProvider = ({ children }) => {
       await navigator.mediaDevices
         .getUserMedia({ video: true, audio: true })
         .then((stream) => {
+          if (stream.getAudioTracks()[0]) {
+            stream.getAudioTracks()[0].enabled = false;
+          }
+          setCamStream(stream)
           setStream(stream);
           return stream;
           // initSignalR(meId)
@@ -384,7 +456,7 @@ export const RoomProvider = ({ children }) => {
           await navigator.mediaDevices
             .getDisplayMedia({})
             .then((newStream) => {
-              
+
               // switchStream(newStream);
               setStream(newStream);
               setIsSharing(true);
@@ -398,43 +470,64 @@ export const RoomProvider = ({ children }) => {
                   setScreenSharingId("");
                   setIsSharing(false);
                   // setScreenSharingId(null);
-                  navigator.mediaDevices
-                    .getUserMedia({ video: true, audio: true })
-                    .then(switchStream)
-                    .catch(async(error) => { 
-                      console.log("Get cam error", error)
-                      const defaultStream = await createEmptyVideoStream();
-                      switchStream(defaultStream); 
-                    });
+                  if (camStream) {
+                    switchStream(camStream)
+                  }
+                  else {
+                    navigator.mediaDevices
+                      .getUserMedia({ video: true, audio: true })
+                      .then(stream => {
+                        switchStream(stream)
+                        setCamStream(stream)
+                      })
+                      .catch(async (error) => {
+                        console.log("Get cam error", error)
+                        if (!defaultStream) {
+                          const newDefaultStream = await createEmptyVideoStream();
+                          setDefaultStream(newDefaultStream)
+                          switchStream(newDefaultStream);
+                        } else {
+                          switchStream(defaultStream);
+                        }
+                      });
+                  }
                 });
                 setShareScreenTrack(lastScreenTrack);
-                connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"sharing screen"})
               }
 
               return newStream;
               // initSignalR(meId)
             });
         })
-      // if (!stream) {
-      //   navigator.mediaDevices.getDisplayMedia({}).then((newStream) => {
-      //     // switchStream(newStream);
-      //     setStream(newStream);
-      //   });
-      //   setIsSharing(true);
-      // }
-      // alert('yo')
-      // return null;
     } catch (err) {
       console.log("initStream error", err)
       console.error({ err });
-      const defaultStream = await createEmptyVideoStream();
-      alert("reach heeerre initstream try catch")
+      const newDefaultStream = await createEmptyVideoStream();
+      setDefaultStream(newDefaultStream)
       setStream(defaultStream);
+      return newDefaultStream;
+      if (!defaultStream) {
+        alert("reach heeerre initstream try catch")
+      } else {
+        setStream(defaultStream);
+      }
       return defaultStream;
       // alert("Bạn phải đồng ý chia sẻ camera hoặc màn hình");
       // return await initStream(meId);
     }
+
+
+    // if (defaultStream) {
+    //   setStream(defaultStream);
+    //   return defaultStream;
+    // } else {
+    //   const newDefaultStream = await createEmptyVideoStream();
+    //   setDefaultStream(newDefaultStream)
+    //   setStream(newDefaultStream);
+    //   return newDefaultStream;
+    // }
   }
+
   const initSignalR = async (meId) => {
     // toast.info('initSignalR')
     const accessTokenFactory = localStorage.getItem("token");
@@ -487,7 +580,7 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnStartVote", (reviewee) =>
           toast.info(reviewee + " bắt đầu trả bài")
         );
-        newConnect.on("get-focusList", (list)=>{
+        newConnect.on("get-focusList", (list) => {
           // toast.info("get-focusList");
           console.log("get-focusList", list);
           setFocusList(list);
@@ -501,33 +594,83 @@ export const RoomProvider = ({ children }) => {
     return null
   }
 
-  const toogleRaiseHand = (newIsRaiseHand) =>{
+  const toogleRaiseHand = (newIsRaiseHand) => {
     // toast.info(`isRaiseHand ${isRaiseHand}`)
     // toast.info(`isSharing ${isSharing}`)
     // toast.info(`isReviewing ${isReviewing}`)
     // toast.info(`!newIsRaiseHand && !isSharing && !isReviewing ${!newIsRaiseHand && !isSharing && !isReviewing}`)
     // toast.info(`roomId ${roomId}`)
-    if(newIsRaiseHand ){
-      connection.invoke("EndFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
-    }else{
-      connection.invoke("StartFocus",{roomId: roomId, peerId: meId, action:"raising hand"})
+    if (newIsRaiseHand) {
+      connection.invoke("EndFocus", { roomId: roomId, peerId: meId, action: "raising hand" })
+    } else {
+      connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "raising hand" })
     }
     setIsRaiseHand(newIsRaiseHand);
   }
   const toogleSound = (isActive) => {
+    //Nếu đang bật mic mà chưa có cam stream=> chưa có mic từ cam=>lấy cam stream r lấy audiotrack add vào stream
+    if(isActive && !camStream){
+      navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((newCamStream) => {
+            setCamStream(newCamStream)
+            //Lấy audio cũ gắn vô stream screen
+            if (mediaStream && stream.getAudioTracks()) {
+              stream.getAudioTracks().forEach(audioTrack => {
+                newStream.addTrack(audioTrack);
+              });
+            }
+          })
+    }
     if (stream.getAudioTracks()[0]) {
       stream.getAudioTracks()[0].enabled = isActive;
     }
   };
 
   const toogleVid = (isActive) => {
-    if (stream.getVideoTracks()[0]) {
-      stream.getVideoTracks()[0].enabled = isActive;
+    // console.log()
+    // if (stream.getVideoTracks()[0]) {
+    //   stream.getVideoTracks()[0].enabled = isActive;
+    // }
+    if (isActive) {
+
+      if (camStream) {
+        connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+        switchStream(camStream);
+      } else {
+        navigator.mediaDevices
+          .getUserMedia({ video: true, audio: true })
+          .then((newCamStream) => {
+            connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+            if (newCamStream.getAudioTracks()[0]) {
+              newCamStream.getAudioTracks()[0].enabled = false;
+            }
+            setCamStream(newCamStream)
+            switchStream(newCamStream);
+          })
+          .catch(async (error) => {
+            console.log("Get cam error", error)
+            if (!defaultStream) {
+              const newDefaultStream = await createEmptyVideoStream();
+              setDefaultStream(newDefaultStream)
+              switchStream(newDefaultStream);
+            } else {
+              switchStream(defaultStream);
+            }
+          });
+      }
+    } else {
+      connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
     }
+    setIsCamOn(isActive);
   };
 
   const userJoin = ({ peerId, userName: name }) => {
+    console.log("userJoin { peerId, userName: name }", { peerId, userName: name })
     dispatch(addPeerNameAction(peerId, name));
+    if (peerId == meId) {
+      dispatch(addPeerStreamAction(peerId, stream));
+    }
     console.log('peers reducer addPeerNameAction', peers);
     // if (!stream && roomId) {
     //   initStream();
@@ -550,12 +693,23 @@ export const RoomProvider = ({ children }) => {
     });
     console.log('userJoin call', call);
     console.log('peers reducer addPeerStreamAction', peers);
+    // if(stream == defaultStream){
+    //   // toast("Using default stream")
+    //   // switchStream(defaultStream);
+    //   setTimeout(async()=>{
+    //   toast("Using default stream")
+    //   const defaultStream = await createEmptyVideoStream();
+    //   setDefaultStream(defaultStream);
+    //   switchStream(defaultStream);
+    //   }, 5000);
+    // }
   };
 
   useEffect(() => {
     if (!stream) return;
     if (!me) return;
 
+    dispatch(addPeerStreamAction(me.id, stream));
     me.on("call", (call) => {
       const { userName } = call.metadata;
       // toast.info("[stream, me, userName] Peer on call")
@@ -569,13 +723,15 @@ export const RoomProvider = ({ children }) => {
       call.answer(stream);
     });
     console.log("me", me)
-    if(connection){
+    if (connection) {
       connection.off("user-joined");
       connection.on("user-joined", (newUser) => {
         toast.info(newUser.userName + " vào phòng học");
         userJoin(newUser);
       });
     }
+
+
     // connection.invoke("JoinRoom", {
     //   roomId: roomId,
     //   peerId: meId,
@@ -617,6 +773,17 @@ export const RoomProvider = ({ children }) => {
       call.answer(stream);
     });
     console.log("useEffect[me, connection] connection", connection)
+    connection.on("get-focusList", (list) => {
+      // toast.info("get-focusList");
+      console.log("get-focusList", list);
+      setFocusList(list);
+    });
+    connection.on("get-showAvaList", (list) => {
+      console.log("get-showAvaList", list);
+      toast.info("get-showcamList");
+      setShowAvaList(list);
+    });
+
     connection.on("user-joined", (newUser) => {
       toast.info(newUser.userName + " vào phòng học");
       userJoin(newUser);
@@ -626,6 +793,11 @@ export const RoomProvider = ({ children }) => {
       peerId: meId,
       username: userName,
     })
+    connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+
+    if (isSharing) {
+      connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "raising hand" })
+    }
   }, [me, connection])
   // }, [me, connection, stream])
   return (
@@ -663,6 +835,9 @@ export const RoomProvider = ({ children }) => {
         isReviewing,
         setIsReviewing,
         focusList,
+        //new show avatar
+        isCamOn,
+        showAvaList,
       }}
     >
       {children}
