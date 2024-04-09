@@ -24,6 +24,7 @@ import {
   API_SEARCH_STUDENT,
   API_UPDATE_GROUP_INFO,
   API_UPLOAD_DISCUSSION,
+  API_GET_GROUP_NOT_JOIN,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -305,6 +306,16 @@ export const declineJoinGroup = createAsyncThunk(
   async (requestId, { rejectWithValue }) => {
     return await axiosClient
       .put(API_DECLINE_JOIN_REQUEST.replace("{requestId}", requestId))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getGroupNotJoin = createAsyncThunk(
+  "studyGroup/getGroupNotJoin",
+  async (_, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_GET_GROUP_NOT_JOIN)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
