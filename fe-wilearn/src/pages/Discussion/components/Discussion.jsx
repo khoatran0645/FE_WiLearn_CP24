@@ -65,7 +65,7 @@ export default function DiscussionList() {
                     {discussion.content}
                   </Typography>
                   {/* <SeeMore discussionId={discussion.id} /> */}
-                  <Link to={`./${discussion.id}`} state={{ discussionId: discussion.id }}>
+                  <Link to={`./${discussion.id}`} state={{ id: discussion.id }}>
                     <Button variant="outlined">See more</Button>
                   </Link>
                 </CardContent>

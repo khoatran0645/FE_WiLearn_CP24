@@ -8,79 +8,37 @@ import {
   Box,
 } from "@mui/material";
 import CommentList from "./CommentList";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getDiscussionById } from "../../../app/reducer/studyGroupReducer";
-import DiscussionChart from './../../Statistic/components/DiscussionChart';
+import dayjs from "dayjs";
+import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   const dispatch = useDispatch();
   const { state } = useLocation();
-  console.log("state", state.discussionId);
+  dayjs.extend(customParseFormat);
+  // console.log("state", state.discussionId);
 
   const { groupInfo } = useSelector((state) => state.studyGroup);
-  console.log("groupInfo", groupInfo);
+  // console.log("groupInfo", groupInfo);
 
   let discussions = [];
   discussions = groupInfo.discussions;
-  console.log("discussions detail", discussions);
+  // console.log("discussions detail", discussions);
 
-  const example = [
-    {
-        "id": 1,
-        "accountId": 1,
-        "accountUsername": "student1",
-        "accountFullname": "Trần Khải Minh Khôi",
-        "accountImagePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/Images%2Fava1.jpg?alt=media&token=b546a8fc-70d7-453a-b3b2-f6bb9bc24e13",
-        "groupId": 1,
-        "question": "Question 1",
-        "content": "In the heart of the forest, where ancient trees whispered secrets to the wind, there stood a forgotten shrine,",
-        "filePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/DiscussionFiles%2Fforest.jpg?alt=media&token=58859acc-bfb8-4e56-9a37-558741dd4126",
-        "createAt": "2024-04-07T12:46:45.3997785+07:00",
-        "isActive": true,
-        "answerDiscussions": [
-            {
-                "id": 1,
-                "accountId": 2,
-                "discussionId": 1,
-                "content": "Nice job",
-                "filePath": null,
-                "createAt": "2024-04-07T12:46:45.3999015+07:00",
-                "isActive": true
-            }
-        ]
-    },
-    {
-        "id": 2,
-        "accountId": 2,
-        "accountUsername": "student2",
-        "accountFullname": "Đào Thị Bưởi",
-        "accountImagePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/Images%2Fava5.jpg?alt=media&token=e3a0c21a-0a3b-4930-910f-ccd1184e82c2",
-        "groupId": 1,
-        "question": "Question 2",
-        "content": "Within the shrine's shadows, a sense of reverence lingered, as if the spirits of the land themselves sought refuge within its walls",
-        "filePath": null,
-        "createAt": "2024-04-07T12:46:45.3998212+07:00",
-        "isActive": true,
-        "answerDiscussions": [
-            {
-                "id": 2,
-                "accountId": 1,
-                "discussionId": 2,
-                "content": "Bravooo",
-                "filePath": null,
-                "createAt": "2024-04-07T12:46:45.39993+07:00",
-                "isActive": true
-            }
-        ]
-    }
-]
-
- const data = example.filter((discussion) => discussion.id === state.id);
+  const data = discussions.filter((discussion) => {
+    // console.log("discussion", discussion.id);
+    // console.log("state.id", state.id);
+    return discussion.id == state.id;
+  });
 
   // const data = discussions.filter((discussions) => discussions.id === state.id);
-  console.log("data", data);
+  console.log("data", data[0]);
+  console.log("answerDiscussions", data[0].answerDiscussions);
 
   // const data = await dispatch(getDiscussionById(1));
   // console.log("data", data);
@@ -122,36 +80,38 @@ export default function DiscussionDetail() {
                 textAlign: "center",
               }}
             >
-              Tại sao chọn .NET?
+              {data[0].question}
             </Typography>
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
-              alt="Minia Doe"
-              src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
+              alt={data[0].accountFullName}
+              // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
+              src={data[0].accountImagePath}
               sx={{ marginRight: "10px" }}
             />
             <Typography
               variant="body1"
               style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
             >
-              Minia Doe
+              {data[0].accountFullname}
             </Typography>
           </Grid>
           <Typography
             variant="body1"
             style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
           >
-            March 17, 2024 10:00 AM
+            {/* March 17, 2024 10:00 AM */}
+            {dayjs(data[0].createAt).format("MMMM DD, YYYY hh:mm a")}
           </Typography>
         </Box>
         <Box sx={{ padding: "20px" }}>
-          <img
+          {/* <img
             src="https://www.thietkewebthuonghieu.com/wp-content/uploads/2019/04/splash.png"
             alt="Discussion Image"
             style={{ maxWidth: "100%", height: "auto", marginBottom: "10px" }}
-          />
-          <Typography
+          /> */}
+          {/* <Typography
             variant="body1"
             style={{ fontSize: "16px", textAlign: "justify" }}
           >
@@ -167,7 +127,12 @@ export default function DiscussionDetail() {
             thể tìm thời gian hiện tại hoặc in văn bản trên màn hình. Xác định
             một tập gồm các loại dữ liệu để lưu trữ thông tin như văn bản, số và
             ngày tháng trên máy tính.
-          </Typography>
+          </Typography> */}
+          <ReactQuill
+            value={data[0].content}
+            readOnly={true}
+            theme={"bubble"}
+          />
         </Box>
       </Grid>
 
