@@ -42,16 +42,17 @@ export default function CreateGroup() {
   };
 
   const validationSchema = Yup.object({
-    name: Yup.string().trim().required('Require information.'),
-    description: Yup.string().trim().required('Require information.'),
+    // name: Yup.string().trim().required('Require information.'),
+    // description: Yup.string().trim().required('Require information.'),
     // subjectIds: Yup.array().min(1, 'Please select at least one subject')
   });
   const formik = useFormik({
     initialValues: {
-      name: '',
-      description: '',
-      image: null,
-      subjectIds: []
+      // name: '',
+      // description: '',
+      // image: null,
+      fruits:[],
+      // subjectIds: []
     },
     validationSchema,
     enableReinitialize: true,
@@ -75,16 +76,16 @@ export default function CreateGroup() {
       //     onClose();
       //   }
       // }
-      alert("CreateGroup submit")
-      console.log("CreateGroup submit", values)
+      alert("CreateGroup submit");
+      console.log("CreateGroup submit", values);
     }
   });
 
   const options = [
-    { value: 'apple', label: 'Apple' },
-    { value: 'orange', label: 'Orange' },
-    { value: 'banana', label: 'Banana' },
-    { value: 'grape', label: 'Grape' },
+    { value: '1', label: 'Apple' },
+    { value: '2', label: 'Orange' },
+    { value: '3', label: 'Banana' },
+    { value: '4', label: 'Grape' },
   ];
 
   const subjects = ["React", "Python", "Java"];
@@ -116,35 +117,38 @@ export default function CreateGroup() {
         <DialogContent>
           <Box
             component={'form'}
+            // onSubmit={(values)=>formik.handleSubmit(values)}
             onSubmit={formik.handleSubmit}
+            // onSubmit={()=>alert('aaaa')}
             sx={{
               display: 'flex',
               flexDirection: 'column'
             }}
             mt={'24px'}
-            rowGap={'32px'}
+          // rowGap={'32px'}
           >
-            <Button type="submit" color="success">
+            {/* <form onSubmit={formik.handleSubmit}> */}
+              <Button type="submit" color="success">
                 Create
               </Button>
-            <TextField
-              label="Group Name"
-              fullWidth
-              sx={{ marginTop: "10px" }}
-              value={groupName}
-              onChange={(e) => setGroupName(e.target.value)}
-            />
-            <TextField
-              label="Introduction"
-              fullWidth
-              multiline
-              rows={4}
-              sx={{ marginTop: "15px" }}
-              value={groupIntro}
-              onChange={(e) => setGroupIntro(e.target.value)}
-            />
-            <Box sx={{ marginTop: "1rem" }}>
-              {/* <Autocomplete
+              <TextField
+                label="Group Name"
+                fullWidth
+                sx={{ marginTop: "10px" }}
+                value={groupName}
+                onChange={(e) => setGroupName(e.target.value)}
+              />
+              <TextField
+                label="Introduction"
+                fullWidth
+                multiline
+                rows={4}
+                sx={{ marginTop: "15px" }}
+                value={groupIntro}
+                onChange={(e) => setGroupIntro(e.target.value)}
+              />
+              <Box sx={{ marginTop: "1rem" }}>
+                {/* <Autocomplete
               sx={{ width: "100%" }}
               multiple
               options={subjects}
@@ -174,93 +178,99 @@ export default function CreateGroup() {
                 </MenuItem>
               )}
             /> */}
-              {/* <Select
+                {/* <Select
               mode="multiple"
               filterSearch
               placeholder="Chọn các ngày để lặp lại trong tuần"
               options={DATES_IN_WEEK}
             /> */}
-              <Autocomplete
-                multiple
-                id="fruits"
-                options={options}
-                getOptionLabel={(option) => option.label}
-                value={formik.values.fruits}
-                onChange={(event, selectedOptions) => {
-                  formik.setFieldValue('fruits', selectedOptions);
-                }}
-                onBlur={formik.handleBlur('fruits')}
-                renderInput={(params) => (
-                  <TextField
-                    {...params}
-                    variant="outlined"
-                    label="Select Fruits"
-                    placeholder="Select Fruits"
-                    error={formik.touched.fruits && Boolean(formik.errors.fruits)}
-                    helperText={formik.touched.fruits && formik.errors.fruits}
-                  />
-                )}
-              />
-
-
-            </Box>
-            <Box
-              style={{
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                marginTop: "10px",
-              }}
-            >
-              <Typography variant="h7" marginBottom={1}>
-                Image group
-              </Typography>
-              <Avatar
-                style={{ width: "150px", height: "150px", borderRadius: 0 }}
-                src={selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar}
-              />
-              <Input
-                accept="image/*"
-                type="file"
-                id="avatar-upload"
-                style={{ display: "none" }}
-                onChange={handleFileChange}
-              />
-              <label htmlFor="avatar-upload">
-                <Button
-                  variant="contained"
-                  component="span"
-                  style={{
-                    marginTop: "16px",
-                    padding: "2px 5px",
-                    backgroundColor: "transparent",
-                    color: "#000",
-                    border: "1px solid #000",
-                    fontSize: "12px",
+                <Autocomplete
+                  multiple
+                  id="fruits"
+                  options={options}
+                  isOptionEqualToValue={(option, value)=>{
+                    // console.log("isOptionEqualToValue option", option);
+                    // console.log("isOptionEqualToValue value", value);
+                    return option.value==value.value
                   }}
-                >
-                  Choose File
+                  getOptionLabel={(option) => option.label}
+                  value={formik.values.fruits}
+                  onChange={(event, selectedOptions) => {
+                    formik.setFieldValue('fruits', selectedOptions);
+                  }}
+                  onBlur={formik.handleBlur('fruits')}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Select Fruits"
+                      placeholder="Select Fruits"
+                      error={formik.touched.fruits && Boolean(formik.errors.fruits)}
+                      helperText={formik.touched.fruits && formik.errors.fruits}
+                    />
+                  )}
+                />
+
+
+              </Box>
+              <Box
+                style={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  marginTop: "10px",
+                }}
+              >
+                <Typography variant="h7" marginBottom={1}>
+                  Image group
+                </Typography>
+                <Avatar
+                  style={{ width: "150px", height: "150px", borderRadius: 0 }}
+                  src={selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar}
+                />
+                <Input
+                  accept="image/*"
+                  type="file"
+                  id="avatar-upload"
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <label htmlFor="avatar-upload">
+                  <Button
+                    variant="contained"
+                    component="span"
+                    style={{
+                      marginTop: "16px",
+                      padding: "2px 5px",
+                      backgroundColor: "transparent",
+                      color: "#000",
+                      border: "1px solid #000",
+                      fontSize: "12px",
+                    }}
+                  >
+                    Choose File
+                  </Button>
+                </label>
+                {selectedFile ? (
+                  <Typography variant="body2" marginTop="10px">
+                    Local avatar selected: {selectedFile.name}
+                  </Typography>
+                ) : (
+                  <Typography variant="body2" marginTop="10px">
+                    No local avatar is set. Use the upload field to add a local image.
+                  </Typography>
+                )}
+              </Box>
+              <DialogActions style={{ padding: "16px" }}>
+                <Button onClick={handleCloseDialog} color="inherit">
+                  Cancel
                 </Button>
-              </label>
-              {selectedFile ? (
-                <Typography variant="body2" marginTop="10px">
-                  Local avatar selected: {selectedFile.name}
-                </Typography>
-              ) : (
-                <Typography variant="body2" marginTop="10px">
-                  No local avatar is set. Use the upload field to add a local image.
-                </Typography>
-              )}
-            </Box>
-            {/* <DialogActions style={{ padding: "16px" }}> */}
-              <Button onClick={handleCloseDialog} color="inherit">
-                Cancel
-              </Button>
-              {/* <Button onClick={handleCreateGroup} color="success"> */}
-              <Button type="submit" color="success">
-                Create
-              </Button>
-            {/* </DialogActions> */}
+                {/* <Button onClick={handleCreateGroup} color="success"> */}
+                <Button type="submit" color="success">
+                  Create
+                </Button>
+              </DialogActions>
+            {/* </form> */}
           </Box>
         </DialogContent>
       </Dialog>
