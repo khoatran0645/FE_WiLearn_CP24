@@ -88,6 +88,9 @@ export const NEW_STAT_API = "/api/Stats";
 
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 
+// disscussion
+export const API_UPLOAD_DISCUSSION = "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
+
 export const publicRoutes = {
   root: "/",
   login: "/login",

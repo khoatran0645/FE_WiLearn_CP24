@@ -23,6 +23,7 @@ import {
   API_SEARCH_GROUP,
   API_SEARCH_STUDENT,
   API_UPDATE_GROUP_INFO,
+  API_UPLOAD_DISCUSSION,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -261,7 +262,6 @@ export const searchGroups = createAsyncThunk(
   }
 );
 
-
 export const requestJoinGroup = createAsyncThunk(
   "studyGroup/requestJoinGroup",
   async ({ groupId, studentId }, { rejectWithValue }) => {
@@ -305,6 +305,29 @@ export const declineJoinGroup = createAsyncThunk(
   async (requestId, { rejectWithValue }) => {
     return await axiosClient
       .put(API_DECLINE_JOIN_REQUEST.replace("{requestId}", requestId))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const addDiscussion = createAsyncThunk(
+  "studyGroup/AddDiscussion",
+  async (data, { rejectWithValue }) => {
+    console.log("discussion data", data);
+
+
+    const form = new FormData();
+    form.append("Question", data.Question);
+    form.append("Content", data.Content);
+    form.append("File", data.File);
+    return await axiosClient
+      .post(
+        API_UPLOAD_DISCUSSION.replace("{accountId}", data.accountId).replace(
+          "{groupId}",
+          data.groupId
+        ),
+        form
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
