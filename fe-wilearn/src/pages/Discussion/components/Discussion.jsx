@@ -5,16 +5,25 @@ import {
   Typography,
   Card,
   CardContent,
+  Button,
 } from "@mui/material";
 import AddDiscussion from "./AddDiscussion";
 import SeeMore from "./SeeMore";
 import Paginate from "./../../../components/Paginate";
 import { useSelector } from "react-redux";
+import { useNavigate,Link } from "react-router-dom";
 
 export default function DiscussionList() {
+  const navigate = useNavigate();
   const { groupInfo } = useSelector((state) => state.studyGroup);
 
   const discussions = groupInfo ? groupInfo.discussions : [];
+  // console.log("discussions", discussions);
+
+  const handleSeeMoreClick = () => {
+    // navigate(`/home/groups/:id/discussionDetail`);
+    // navigate(`./${discussionId}`);
+  };
 
   return (
     <Grid container justifyContent="center" spacing={2}>
@@ -55,7 +64,10 @@ export default function DiscussionList() {
                   <Typography variant="body1" component="p">
                     {discussion.content}
                   </Typography>
-                  <SeeMore discussionId={discussion.id} />
+                  {/* <SeeMore discussionId={discussion.id} /> */}
+                  <Link to={`./${discussion.id}`} state={{ discussionId: discussion.id }}>
+                    <Button variant="outlined">See more</Button>
+                  </Link>
                 </CardContent>
               </Card>
             </ListItem>

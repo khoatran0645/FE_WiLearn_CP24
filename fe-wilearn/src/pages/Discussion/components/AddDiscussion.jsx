@@ -55,6 +55,7 @@ export default function AddDiscussion() {
         "Content": content,
         "File": "",
       }));
+      console.log("data", data);
       dispatch(addDiscussion(data));
       handleClose();
     }

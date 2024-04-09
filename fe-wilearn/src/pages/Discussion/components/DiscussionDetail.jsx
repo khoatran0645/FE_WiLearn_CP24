@@ -11,17 +11,79 @@ import CommentList from "./CommentList";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { getDiscussionById } from "../../../app/reducer/studyGroupReducer";
-
+import DiscussionChart from './../../Statistic/components/DiscussionChart';
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
-const dispatch = useDispatch();
+  const dispatch = useDispatch();
   const { state } = useLocation();
-  
-  const data = dispatch(getDiscussionById(state.id));
+  console.log("state", state.discussionId);
 
+  const { groupInfo } = useSelector((state) => state.studyGroup);
+  console.log("groupInfo", groupInfo);
 
+  let discussions = [];
+  discussions = groupInfo.discussions;
+  console.log("discussions detail", discussions);
+
+  const example = [
+    {
+        "id": 1,
+        "accountId": 1,
+        "accountUsername": "student1",
+        "accountFullname": "Trần Khải Minh Khôi",
+        "accountImagePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/Images%2Fava1.jpg?alt=media&token=b546a8fc-70d7-453a-b3b2-f6bb9bc24e13",
+        "groupId": 1,
+        "question": "Question 1",
+        "content": "In the heart of the forest, where ancient trees whispered secrets to the wind, there stood a forgotten shrine,",
+        "filePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/DiscussionFiles%2Fforest.jpg?alt=media&token=58859acc-bfb8-4e56-9a37-558741dd4126",
+        "createAt": "2024-04-07T12:46:45.3997785+07:00",
+        "isActive": true,
+        "answerDiscussions": [
+            {
+                "id": 1,
+                "accountId": 2,
+                "discussionId": 1,
+                "content": "Nice job",
+                "filePath": null,
+                "createAt": "2024-04-07T12:46:45.3999015+07:00",
+                "isActive": true
+            }
+        ]
+    },
+    {
+        "id": 2,
+        "accountId": 2,
+        "accountUsername": "student2",
+        "accountFullname": "Đào Thị Bưởi",
+        "accountImagePath": "https://firebasestorage.googleapis.com/v0/b/welearn-2024.appspot.com/o/Images%2Fava5.jpg?alt=media&token=e3a0c21a-0a3b-4930-910f-ccd1184e82c2",
+        "groupId": 1,
+        "question": "Question 2",
+        "content": "Within the shrine's shadows, a sense of reverence lingered, as if the spirits of the land themselves sought refuge within its walls",
+        "filePath": null,
+        "createAt": "2024-04-07T12:46:45.3998212+07:00",
+        "isActive": true,
+        "answerDiscussions": [
+            {
+                "id": 2,
+                "accountId": 1,
+                "discussionId": 2,
+                "content": "Bravooo",
+                "filePath": null,
+                "createAt": "2024-04-07T12:46:45.39993+07:00",
+                "isActive": true
+            }
+        ]
+    }
+]
+
+ const data = example.filter((discussion) => discussion.id === state.id);
+
+  // const data = discussions.filter((discussions) => discussions.id === state.id);
   console.log("data", data);
+
+  // const data = await dispatch(getDiscussionById(1));
+  // console.log("data", data);
 
   const handleReplyChange = (event) => {
     setReplyText(event.target.value);

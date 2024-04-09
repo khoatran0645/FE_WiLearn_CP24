@@ -314,14 +314,14 @@ export const declineJoinGroup = createAsyncThunk(
 export const addDiscussion = createAsyncThunk(
   "studyGroup/AddDiscussion",
   async (data, { rejectWithValue }) => {
-    // console.log("discussion data", data);
+    console.log("discussion data", data);
     const form = new FormData();
     form.append("Question", data.Question);
     form.append("Content", data.Content);
     form.append("File", data.File);
     return await axiosClient
       .post(
-        API_UPLOAD_DISCUSSION.replace("{accountId}", data.accountId).replace(
+        API_UPLOAD_DISCUSSION.replace("{accountId}", data.userId).replace(
           "{groupId}",
           data.groupId
         ),
@@ -338,9 +338,7 @@ export const getDiscussionById = createAsyncThunk(
     console.log("id", id);
     return await axiosClient
       .get(API_GET_DISCUSSION_BY_ID.replace("{discussionId}", id))
-      .then((response) => {
-        console.log("axios", response);
-      })
+      .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
 );

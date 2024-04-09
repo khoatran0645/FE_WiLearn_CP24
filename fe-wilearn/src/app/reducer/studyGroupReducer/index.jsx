@@ -42,7 +42,7 @@ const initialState = {
   searchGroupss: [],
   requestFormList: [],
   discussionForm: null,
-  discussionDetailInfo: null,
+  discussionDetailInfo: [],
 };
 
 const studyGroupSlice = createSlice({
