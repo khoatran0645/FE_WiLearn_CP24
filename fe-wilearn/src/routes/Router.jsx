@@ -11,7 +11,7 @@ import Register from "../pages/Register/Register";
 import ErrorPage from "../pages/ErrorPage";
 
 import Groups from "../pages/Groups/Groups";
-import Members from "../pages/Groups/Members";
+import Members from "../pages/Groups/Members"; 
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
@@ -23,6 +23,7 @@ import UserProfile from "./../components/UserProfile";
 import SearchPage from "./../pages/SearchGr/components/SearchPage";
 import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
+import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 
 // import { lazy } from "react";
 
@@ -127,6 +128,10 @@ export default function Router() {
               <Meeting />
             </RoomProvider>
           ),
+        },
+        {
+          path: "groups/:groupId/meetings/:meetingId/whiteboard",
+          element: <WhiteBoard/>,
         },
         {
           path: "groups/:groupId",
