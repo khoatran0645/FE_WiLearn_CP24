@@ -79,7 +79,7 @@ const Meeting = () => {
   const { meetingId, groupId } = useParams();
   const [isDisableVoteButton, setIsDisableVoteButton] = useState(false);
   const { votesData } = useSelector((state) => state.votes);
-  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream } = useContext(RoomContext);
+  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream, isCamOn } = useContext(RoomContext);
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
@@ -112,7 +112,7 @@ const Meeting = () => {
   // const [mypeers, mydispatch] = useReducer(peersReducer, {});
 
   const handleLeaveRoom = () => {
-    setUpLeave();
+    // setUpLeave();
     // if(setUpLeave()){
     if (userInfo?.roleName === "Parent") {
       navigate(`/study`);
@@ -163,6 +163,7 @@ const Meeting = () => {
           onClick={toogleVid}
           activeIcon={<VideocamOffIcon />}
           offIcon={<VideocamIcon />}
+          isOn={!isCamOn}
         />
         <CustomIcon
           // title="Bật mic"
@@ -173,6 +174,7 @@ const Meeting = () => {
           onClick={toogleSound}
           activeIcon={<MicOffIcon />}
           offIcon={<MicIcon />}
+          isOn={true}
         />
         {userInfo?.roleName !== "Parent" && (
           <CustomIcon
@@ -189,7 +191,7 @@ const Meeting = () => {
         <CustomIcon
             title="Lower hand"
             titleOff="Raise hand"
-            key={2}
+            key={3}
             onClick={toogleRaiseHand}
             activeIcon={<BackHandOutlinedIcon  />}
             offIcon={<BackHandOutlinedIcon  />}

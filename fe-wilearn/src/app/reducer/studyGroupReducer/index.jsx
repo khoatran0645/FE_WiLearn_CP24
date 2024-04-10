@@ -24,6 +24,7 @@ import {
   getClassLists,
   addDiscussion,
   getDiscussionById,
+  getGroupNotJoin,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -43,6 +44,7 @@ const initialState = {
   requestFormList: [],
   discussionForm: null,
   discussionDetailInfo: [],
+  groupNotJoin: [],
 };
 
 const studyGroupSlice = createSlice({
@@ -467,7 +469,22 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // })
 
-    //ADD DISCUSSION
+
+    builder.addCase(getGroupNotJoin.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+
+    builder.addCase(getGroupNotJoin.fulfilled, (state, {payload}) => {
+      state.loading = false;
+      state.groupNotJoin = payload;
+    });
+
+    builder.addCase(getGroupNotJoin.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+        //ADD DISCUSSION
     builder.addCase(addDiscussion.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -519,8 +536,10 @@ export {
   meetingNow,
   getMeetingList,
   getClassLists,
+
   addDiscussion,
   getDiscussionById,
+  getGroupNotJoin,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions

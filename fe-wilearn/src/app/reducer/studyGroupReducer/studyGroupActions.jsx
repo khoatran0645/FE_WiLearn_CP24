@@ -25,6 +25,7 @@ import {
   API_UPDATE_GROUP_INFO,
   API_UPLOAD_DISCUSSION,
   API_GET_DISCUSSION_BY_ID,
+  API_GET_GROUP_NOT_JOIN,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -81,10 +82,31 @@ export const getMeetingList = createAsyncThunk(
   }
 );
 
+export const createGroupOld = createAsyncThunk(
+  "studyGroup/createGroup",
+  async (values, { rejectWithValue }) => {
+    const submitData = values
+
+    return await axiosClient
+      .post(API_CREATE_GROUP, submitData)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
 export const createGroup = createAsyncThunk(
   "studyGroup/createGroup",
   async (values, { rejectWithValue }) => {
-    const submitData = values;
+    const submitData = new FormData();
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
+        const keyValue = values[key];
+        submitData.append(key, keyValue);
+        console.log(`studyGroup/createGroup Key: ${key}, Value: ${keyValue}`);
+      }
+    }
+    console.log(`studyGroup/createGroup submitData:`, submitData);
+
     return await axiosClient
       .post(API_CREATE_GROUP, submitData)
       .then((response) => response)
@@ -306,6 +328,16 @@ export const declineJoinGroup = createAsyncThunk(
   async (requestId, { rejectWithValue }) => {
     return await axiosClient
       .put(API_DECLINE_JOIN_REQUEST.replace("{requestId}", requestId))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getGroupNotJoin = createAsyncThunk(
+  "studyGroup/getGroupNotJoin",
+  async (_, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_GET_GROUP_NOT_JOIN)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

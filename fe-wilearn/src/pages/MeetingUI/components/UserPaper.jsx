@@ -1,9 +1,14 @@
 import { Box, Paper, Typography } from '@mui/material';
-import React, { useEffect, useRef } from 'react';
+import React, { useContext, useEffect, useRef } from 'react';
 import PropTypes from 'prop-types';
+import { RoomContext } from '../context/roomContext';
+import {
+  Avatar,
+} from "@mui/material";
 
 const UserPaper = (props) => {
-  const { stream, name, isFocus=false } = props;
+  const {showAvaList}= useContext(RoomContext)
+  const { stream, name, peerId, isFocus=false } = props;
   const videoRef = useRef();
 
   useEffect(() => {
@@ -11,6 +16,7 @@ const UserPaper = (props) => {
       videoRef.current.srcObject = stream;
     }
   }, [stream]);
+  const ava = showAvaList.find(focus => focus.peerId == peerId);
 
   return (
     <Paper
@@ -29,8 +35,17 @@ const UserPaper = (props) => {
           }
         }}
       >
+         {
+                ava &&(
+                  <Avatar
+                  src={ava?.imagePath}
+                  sx={{ width: '100%', height:'100%' }}
+                  />
+                )
+              }
+              {/* <video ref={videoRef} autoPlay controls muted display={ava?"none":""} ></video> */}
+              <video ref={videoRef} autoPlay controls muted style={{display:ava?"none":"" }}></video>
         {/* <video ref={videoRef} autoPlay muted={true}></video> */}
-        <video ref={videoRef} autoPlay controls muted></video>
       </Box>
       <Typography sx={{ textAlign: 'center' }}>{name}</Typography>
 
