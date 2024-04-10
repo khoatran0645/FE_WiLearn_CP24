@@ -18,7 +18,7 @@ import * as Yup from 'yup';
 import { Check as CheckIcon } from "@mui/icons-material";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
-import { createGroup } from "../../app/reducer/studyGroupReducer";
+import { createGroup, getGroupLists } from "../../app/reducer/studyGroupReducer";
 import { toast } from "react-toastify";
 import { API_GET_USER_INFO } from "../../constants";
 import { getUserInfo } from "../../app/reducer/userReducer";
