@@ -16,7 +16,12 @@ import {
 import AddIcon from "@mui/icons-material/Add";
 import * as Yup from 'yup';
 import { Check as CheckIcon } from "@mui/icons-material";
-import { Field, useFormik } from "formik";
+import { useFormik } from "formik";
+import { useDispatch, useSelector } from "react-redux";
+import { createGroup } from "../../app/reducer/studyGroupReducer";
+import { toast } from "react-toastify";
+import { API_GET_USER_INFO } from "../../constants";
+import { getUserInfo } from "../../app/reducer/userReducer";
 
 const defaultAvatar = "/src/assets/default.jpg";
 
@@ -26,6 +31,9 @@ export default function CreateGroup() {
   const [subject, setSubject] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
   const [groupIntro, setGroupIntro] = useState("");
+  const dispatch = useDispatch();
+
+  const {subjectLists} = useSelector(state=>state.studyGroup)
 
   const handleCloseDialog = () => {
     setOpenDialog(false);
@@ -39,20 +47,20 @@ export default function CreateGroup() {
   const handleFileChange = (event) => {
     const file = event.target.files[0];
     setSelectedFile(file);
+    formik.setFieldValue('image', file);
   };
 
   const validationSchema = Yup.object({
-    // name: Yup.string().trim().required('Require information.'),
-    // description: Yup.string().trim().required('Require information.'),
+    name: Yup.string().trim().required('Require information.'),
+    description: Yup.string().trim().required('Require information.'),
     // subjectIds: Yup.array().min(1, 'Please select at least one subject')
   });
   const formik = useFormik({
     initialValues: {
-      // name: '',
-      // description: '',
-      // image: null,
-      fruits:[],
-      // subjectIds: []
+      name: '',
+      description: '',
+      image: '',
+      subjects: [],
     },
     validationSchema,
     enableReinitialize: true,
@@ -76,19 +84,28 @@ export default function CreateGroup() {
       //     onClose();
       //   }
       // }
-      alert("CreateGroup submit");
-      console.log("CreateGroup submit", values);
+      // const data = { ...values, subjectIds: values.subjects.map(sub=> parseInt(sub.id)) }
+      const data = {
+        name: values.name,
+        description: values.description,
+        image: values.image,
+        subjectIds: values.subjects.map(sub=> parseInt(sub.id)),
+      }
+      console.log("CreateGroup submit values", values);
+      console.log("CreateGroup submit data", data);
+      const response = await dispatch(createGroup(data));
+        if (response.type === createGroup.fulfilled.type) {
+          dispatch(getGroupLists());
+          dispatch(getUserInfo())
+          formik.resetForm();
+          handleCloseDialog();
+          toast.success("Create group successfully")
+        }else{
+          toast.error("Fail to create a new group")
+          dispatch(getUserInfo())
+        }
     }
   });
-
-  const options = [
-    { value: '1', label: 'Apple' },
-    { value: '2', label: 'Orange' },
-    { value: '3', label: 'Banana' },
-    { value: '4', label: 'Grape' },
-  ];
-
-  const subjects = ["React", "Python", "Java"];
 
   return (
     <>
@@ -128,15 +145,15 @@ export default function CreateGroup() {
           // rowGap={'32px'}
           >
             {/* <form onSubmit={formik.handleSubmit}> */}
-              <Button type="submit" color="success">
-                Create
-              </Button>
               <TextField
                 label="Group Name"
                 fullWidth
                 sx={{ marginTop: "10px" }}
-                value={groupName}
-                onChange={(e) => setGroupName(e.target.value)}
+                name="name"
+                value={formik.values.name}
+                onChange={formik.handleChange}
+                error={formik.touched.name && Boolean(formik.errors.name)}
+                helperText={formik.touched.name && formik.errors.name}
               />
               <TextField
                 label="Introduction"
@@ -144,69 +161,34 @@ export default function CreateGroup() {
                 multiline
                 rows={4}
                 sx={{ marginTop: "15px" }}
-                value={groupIntro}
-                onChange={(e) => setGroupIntro(e.target.value)}
+                name="description"
+                value={formik.values.description}
+                onChange={formik.handleChange}
+                error={formik.touched.description && Boolean(formik.errors.description)}
+                helperText={formik.touched.description && formik.errors.description}
               />
               <Box sx={{ marginTop: "1rem" }}>
-                {/* <Autocomplete
-              sx={{ width: "100%" }}
-              multiple
-              options={subjects}
-              value={subject}
-              onChange={(event, newValue) => {
-                setSubject(newValue);
-              }}
-              disableCloseOnSelect
-              renderInput={(params) => (
-                <TextField
-                  {...params}
-                  variant="outlined"
-                  label="Select subject"
-                  placeholder="Subjects"
-                  fullWidth
-                />
-              )}
-              renderOption={(props, option, { selected }) => (
-                <MenuItem
-                  {...props}
-                  key={option}
-                  value={option}
-                  sx={{ justifyContent: "space-between" }}
-                >
-                  {option}
-                  {selected && <CheckIcon color="info" />}
-                </MenuItem>
-              )}
-            /> */}
-                {/* <Select
-              mode="multiple"
-              filterSearch
-              placeholder="Chọn các ngày để lặp lại trong tuần"
-              options={DATES_IN_WEEK}
-            /> */}
                 <Autocomplete
                   multiple
-                  id="fruits"
-                  options={options}
-                  isOptionEqualToValue={(option, value)=>{
-                    // console.log("isOptionEqualToValue option", option);
-                    // console.log("isOptionEqualToValue value", value);
-                    return option.value==value.value
-                  }}
-                  getOptionLabel={(option) => option.label}
-                  value={formik.values.fruits}
+                  id="subjects"
+                  options={subjectLists}
+                  isOptionEqualToValue={
+                    (option, value)=>option.id==value.id || option.name==value.name
+                  }
+                  getOptionLabel={(option) => option.name}
+                  value={formik.values.subjects}
                   onChange={(event, selectedOptions) => {
-                    formik.setFieldValue('fruits', selectedOptions);
+                    formik.setFieldValue('subjects', selectedOptions);
                   }}
-                  onBlur={formik.handleBlur('fruits')}
+                  onBlur={formik.handleBlur('subjects')}
                   renderInput={(params) => (
                     <TextField
                       {...params}
                       variant="outlined"
-                      label="Select Fruits"
-                      placeholder="Select Fruits"
-                      error={formik.touched.fruits && Boolean(formik.errors.fruits)}
-                      helperText={formik.touched.fruits && formik.errors.fruits}
+                      label="Select group subjects"
+                      placeholder="Select subjects"
+                      error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                      helperText={formik.touched.subjects && formik.errors.subjects}
                     />
                   )}
                 />
@@ -233,7 +215,15 @@ export default function CreateGroup() {
                   type="file"
                   id="avatar-upload"
                   style={{ display: "none" }}
-                  onChange={handleFileChange}
+                  // onChange={(e)=>handleFileChange(e)}
+                  name="image"
+                  // value={formik.values.image}
+                  onChange={(e)=>{
+                    // formik.handleChange(e)
+                    handleFileChange(e)
+                  }}
+                  error={formik.touched.image && Boolean(formik.errors.image)}
+                  // helperText={formik.touched.image && formik.errors.image}
                 />
                 <label htmlFor="avatar-upload">
                   <Button

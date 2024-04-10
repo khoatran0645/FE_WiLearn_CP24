@@ -20,8 +20,6 @@ export default function HomePage() {
 
   useEffect(() => {}, [dispatch]);
 
-  console.log("groupNotJoin:", groupNotJoin);
-
   return (
     <Container maxWidth="lg">
       <Grid container spacing={2}>

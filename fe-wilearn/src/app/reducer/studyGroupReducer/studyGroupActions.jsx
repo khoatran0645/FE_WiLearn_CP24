@@ -81,10 +81,31 @@ export const getMeetingList = createAsyncThunk(
   }
 );
 
+export const createGroupOld = createAsyncThunk(
+  "studyGroup/createGroup",
+  async (values, { rejectWithValue }) => {
+    const submitData = values
+
+    return await axiosClient
+      .post(API_CREATE_GROUP, submitData)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
 export const createGroup = createAsyncThunk(
   "studyGroup/createGroup",
   async (values, { rejectWithValue }) => {
-    const submitData = values;
+    const submitData = new FormData();
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
+        const keyValue = values[key];
+        submitData.append(key, keyValue);
+        console.log(`studyGroup/createGroup Key: ${key}, Value: ${keyValue}`);
+      }
+    }
+    console.log(`studyGroup/createGroup submitData:`, submitData);
+
     return await axiosClient
       .post(API_CREATE_GROUP, submitData)
       .then((response) => response)
