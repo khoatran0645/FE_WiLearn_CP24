@@ -142,6 +142,9 @@ export default function UpdateGroup({ groupId }) {
               />
             )}
           />
+          <Grid container sx={{marginTop: "20px", justifyContent: "center"}}>
+            <Button type="submit">Submit</Button>
+          </Grid>
         </Box>
       </Grid>
       <Grid item xs={6}>
@@ -198,11 +201,6 @@ export default function UpdateGroup({ groupId }) {
               No local avatar is set. Use the upload field to add a local image.
             </Typography>
           )}
-        </Box>
-        <Box style={{ display: "flex", justifyContent: "center" }}>
-          <Button type="submit" color="primary" variant="contained">
-            Update
-          </Button>
         </Box>
       </Grid>
     </Grid>
