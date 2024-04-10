@@ -7,6 +7,7 @@ import {
   Avatar,
   Input,
   Button,
+  Grid,
 } from "@mui/material";
 import * as Yup from "yup";
 import { useFormik } from "formik";
@@ -78,120 +79,132 @@ export default function UpdateGroup({ groupId }) {
   };
 
   return (
-    <Box
-      component={"form"}
-      onSubmit={formik.handleSubmit}
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-      }}
-      mt={3}
-    >
-      <TextField
-        label="Group Name"
-        fullWidth
-        sx={{ marginTop: "10px" }}
-        name="name"
-        value={formik.values.name}
-        onChange={formik.handleChange}
-        error={formik.touched.name && Boolean(formik.errors.name)}
-        helperText={formik.touched.name && formik.errors.name}
-      />
-      <TextField
-        label="Description"
-        fullWidth
-        multiline
-        rows={4}
-        sx={{ marginTop: "15px" }}
-        name="description"
-        value={formik.values.description}
-        onChange={formik.handleChange}
-        error={formik.touched.description && Boolean(formik.errors.description)}
-        helperText={formik.touched.description && formik.errors.description}
-      />
-      <Box sx={{ marginTop: "1rem" }}>
-        <Autocomplete
-          multiple
-          id="subjects"
-          options={subjectLists || []}
-          isOptionEqualToValue={(option, value) =>
-            option.id === value.id || option.name === value.name
-          }
-          getOptionLabel={(option) => option.name}
-          value={formik.values.subjects}
-          onChange={(event, selectedOptions) => {
-            formik.setFieldValue("subjects", selectedOptions);
-          }}
-          onBlur={formik.handleBlur("subjects")}
-          renderInput={(params) => (
-            <TextField
-              {...params}
-              variant="outlined"
-              label="Select group subjects"
-              placeholder="Select subjects"
-              error={formik.touched.subjects && Boolean(formik.errors.subjects)}
-              helperText={formik.touched.subjects && formik.errors.subjects}
-            />
-          )}
-        />
-      </Box>
-      <Box
-        style={{
+    <Grid container xs={12}>
+      <Grid
+        item
+        xs={6}
+        component={"form"}
+        onSubmit={formik.handleSubmit}
+        sx={{
           display: "flex",
           flexDirection: "column",
-          alignItems: "center",
-          marginTop: "10px",
         }}
+        mt={3}
       >
-        <Typography variant="h6" marginBottom={1}>
-          Group Image
-        </Typography>
-        <Avatar
-          style={{ width: "150px", height: "150px", borderRadius: 0 }}
-          src={selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar}
+        <TextField
+          label="Group Name"
+          fullWidth
+          sx={{ marginTop: "10px" }}
+          name="name"
+          value={formik.values.name}
+          onChange={formik.handleChange}
+          error={formik.touched.name && Boolean(formik.errors.name)}
+          helperText={formik.touched.name && formik.errors.name}
         />
-        <Input
-          accept="image/*"
-          type="file"
-          id="avatar-upload"
-          style={{ display: "none" }}
-          name="image"
-          onChange={(e) => {
-            handleFileChange(e);
-          }}
-          error={formik.touched.image && Boolean(formik.errors.image)}
+        <TextField
+          label="Description"
+          fullWidth
+          multiline
+          rows={4}
+          sx={{ marginTop: "15px" }}
+          name="description"
+          value={formik.values.description}
+          onChange={formik.handleChange}
+          error={
+            formik.touched.description && Boolean(formik.errors.description)
+          }
+          helperText={formik.touched.description && formik.errors.description}
         />
-        <label htmlFor="avatar-upload">
-          <Button
-            variant="contained"
-            component="span"
-            style={{
-              marginTop: "16px",
-              padding: "2px 5px",
-              backgroundColor: "transparent",
-              color: "#000",
-              border: "1px solid #000",
-              fontSize: "12px",
+        <Box sx={{ marginTop: "1rem" }}>
+          <Autocomplete
+            multiple
+            id="subjects"
+            options={subjectLists || []}
+            isOptionEqualToValue={(option, value) =>
+              option.id === value.id || option.name === value.name
+            }
+            getOptionLabel={(option) => option.name}
+            value={formik.values.subjects}
+            onChange={(event, selectedOptions) => {
+              formik.setFieldValue("subjects", selectedOptions);
             }}
-          >
-            Choose File
+            onBlur={formik.handleBlur("subjects")}
+            renderInput={(params) => (
+              <TextField
+                {...params}
+                variant="outlined"
+                label="Select group subjects"
+                placeholder="Select subjects"
+                error={
+                  formik.touched.subjects && Boolean(formik.errors.subjects)
+                }
+                helperText={formik.touched.subjects && formik.errors.subjects}
+              />
+            )}
+          />
+        </Box>
+      </Grid>
+      <Grid item xs={6}>
+        <Box
+          style={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            marginTop: "10px",
+          }}
+        >
+          <Typography variant="h6" marginBottom={1}>
+            Group Image
+          </Typography>
+          <Avatar
+            style={{ width: "150px", height: "150px", borderRadius: 0 }}
+            src={
+              selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar
+            }
+          />
+          <Input
+            accept="image/*"
+            type="file"
+            id="avatar-upload"
+            style={{ display: "none" }}
+            name="image"
+            onChange={(e) => {
+              handleFileChange(e);
+            }}
+            error={formik.touched.image && Boolean(formik.errors.image)}
+          />
+          <label htmlFor="avatar-upload">
+            <Button
+              variant="contained"
+              component="span"
+              style={{
+                marginTop: "16px",
+                padding: "2px 5px",
+                backgroundColor: "transparent",
+                color: "#000",
+                border: "1px solid #000",
+                fontSize: "12px",
+              }}
+            >
+              Choose File
+            </Button>
+          </label>
+          {selectedFile ? (
+            <Typography variant="body2" marginTop="10px">
+              Local avatar selected: {selectedFile.name}
+            </Typography>
+          ) : (
+            <Typography variant="body2" marginTop="10px">
+              No local avatar is set. Use the upload field to add a local image.
+            </Typography>
+          )}
+        </Box>
+        <Box style={{ display: "flex", justifyContent: "center" }}>
+          <Button type="submit" color="primary" variant="contained">
+            Update
           </Button>
-        </label>
-        {selectedFile ? (
-          <Typography variant="body2" marginTop="10px">
-            Local avatar selected: {selectedFile.name}
-          </Typography>
-        ) : (
-          <Typography variant="body2" marginTop="10px">
-            No local avatar is set. Use the upload field to add a local image.
-          </Typography>
-        )}
-      </Box>
-      <Box style={{ display: "flex", justifyContent: "center" }}>
-        <Button type="submit" color="primary" variant="contained">
-          Update
-        </Button>
-      </Box>
-    </Box>
+        </Box>
+      </Grid>
+    </Grid>
   );
 }
