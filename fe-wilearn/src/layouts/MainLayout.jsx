@@ -13,9 +13,9 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
-    if (!userInfo) {
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
+    if (!userInfo) {
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
           
