@@ -11,19 +11,44 @@ import AddDiscussion from "./AddDiscussion";
 import SeeMore from "./SeeMore";
 import Paginate from "./../../../components/Paginate";
 import { useSelector } from "react-redux";
-import { useNavigate,Link } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
+import ReactQuill from "react-quill";
+import "react-quill/dist/quill.bubble.css";
 
 export default function DiscussionList() {
   const navigate = useNavigate();
   const { groupInfo } = useSelector((state) => state.studyGroup);
 
   const discussions = groupInfo ? groupInfo.discussions : [];
-  // console.log("discussions", discussions);
+  console.log("discussions", discussions);
 
   const handleSeeMoreClick = () => {
     // navigate(`/home/groups/:id/discussionDetail`);
     // navigate(`./${discussionId}`);
   };
+  var formats = [
+    "background",
+    "bold",
+    "color",
+    "font",
+    "code",
+    "italic",
+    "link",
+    "size",
+    "strike",
+    "script",
+    "underline",
+    "blockquote",
+    "header",
+    "indent",
+    "list",
+    "align",
+    "direction",
+    "code-block",
+    "formula",
+    // 'image'
+    // 'video'
+  ];
 
   return (
     <Grid container justifyContent="center" spacing={2}>
@@ -59,13 +84,19 @@ export default function DiscussionList() {
                     color="textSecondary"
                     component="p"
                   >
-                    {discussion.accountUsername} - {discussion.dateTime}
+                    {discussion.accountFullname} - {discussion.dateTime}
                   </Typography>
-                  <Typography variant="body1" component="p">
-                    {discussion.content}
-                  </Typography>
+                  {/* <Typography variant="body1">{discussion.content}</Typography> */}
+
+                  <ReactQuill
+                    value={discussion.content}
+                    readOnly
+                    theme={"bubble"}
+                    formats={formats}
+                  />
+
                   {/* <SeeMore discussionId={discussion.id} /> */}
-                  <Link to={`./${discussion.id}`} state={{ id: discussion.id }}>
+                  <Link to={`./${discussion.id}`}>
                     <Button variant="outlined">See more</Button>
                   </Link>
                 </CardContent>

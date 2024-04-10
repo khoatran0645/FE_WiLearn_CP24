@@ -18,22 +18,24 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
-  const dispatch = useDispatch();
-  const { state } = useLocation();
   dayjs.extend(customParseFormat);
-  // console.log("state", state.discussionId);
-
   const { groupInfo } = useSelector((state) => state.studyGroup);
+
   // console.log("groupInfo", groupInfo);
 
-  let discussions = [];
-  discussions = groupInfo.discussions;
+  const location = useLocation();
+  const { pathname } = location;
+  const parts = pathname.split("/");
+  const discussId = parts[parts.length - 1];
+  // console.log("discussId", discussId);
+
+  let discussions = groupInfo.discussions;
   // console.log("discussions detail", discussions);
 
   const data = discussions.filter((discussion) => {
     // console.log("discussion", discussion.id);
     // console.log("state.id", state.id);
-    return discussion.id == state.id;
+    return discussion.id == discussId;
   });
 
   // const data = discussions.filter((discussions) => discussions.id === state.id);
@@ -170,7 +172,7 @@ export default function DiscussionDetail() {
           Submit
         </Button>
       </Grid>
-      <CommentList />
+      <CommentList comments={data[0].answerDiscussions} />
     </Grid>
   );
 }
