@@ -25,30 +25,17 @@ export default function UpdateGroup({ groupId }) {
   const dispatch = useDispatch();
   const { groupInfo, subjectLists } = useSelector((state) => state.studyGroup);
 
-  useEffect(() => {
-    console.log("Fetching group info...");
-    dispatch(getGroupInfo(groupId));
-  }, [dispatch, groupId]);
-
-  const handleFileChange = (event) => {
-    const file = event.target.files[0];
-    setSelectedFile(file);
-    formik.setFieldValue("image", file);
-  };
-
-  const validationSchema = Yup.object({
-    name: Yup.string().trim().required("Group name is required."),
-    description: Yup.string().trim().required("Description is required."),
-  });
-
   const formik = useFormik({
     initialValues: {
-      name: groupInfo?.name || "",
-      description: groupInfo?.description || "",
+      name: "",
+      description: "",
       image: "",
-      subjects: groupInfo?.subjects || [],
+      subjects: [],
     },
-    validationSchema,
+    validationSchema: Yup.object({
+      name: Yup.string().trim().required("Group name is required."),
+      description: Yup.string().trim().required("Description is required."),
+    }),
     onSubmit: async (values) => {
       console.log("Submitting form...");
       const formData = new FormData();
@@ -71,7 +58,24 @@ export default function UpdateGroup({ groupId }) {
     },
   });
 
-  console.log("Render UpdateGroup component:", groupInfo, subjectLists);
+  useEffect(() => {
+    dispatch(getGroupInfo(groupId));
+  }, [dispatch, groupId]);
+
+  useEffect(() => {
+    formik.setValues({
+      name: groupInfo?.name || "",
+      description: groupInfo?.description || "",
+      image: "",
+      subjects: groupInfo?.subjects || [],
+    });
+  }, [groupInfo]);
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    setSelectedFile(file);
+    formik.setFieldValue("image", file);
+  };
 
   return (
     <Box
