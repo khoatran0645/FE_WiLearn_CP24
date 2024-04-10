@@ -99,10 +99,19 @@ export const createGroup = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     const submitData = new FormData();
     for (const key in values) {
+
       if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
         const keyValue = values[key];
-        submitData.append(key, keyValue);
-        console.log(`studyGroup/createGroup Key: ${key}, Value: ${keyValue}`);
+        if (key != "subjectIds") {
+          submitData.append(key, keyValue);
+        } else {
+          //subjectIds là list lại xài formdata nên đặt biệt
+          keyValue.forEach(subId => {
+            submitData.append(key, subId);
+
+          });
+        }
+        console.log(`studyGroup/createGroup Key: ${key}, Value:`, keyValue);
       }
     }
     console.log(`studyGroup/createGroup submitData:`, submitData);
