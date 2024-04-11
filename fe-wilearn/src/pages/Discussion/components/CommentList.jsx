@@ -21,7 +21,7 @@ const CommentList = (props) => {
   // ];
 
   return (
-    <Grid style={{maxWidth:'900px', marginLeft: '200px', textAlign: 'left', paddingTop:"20px"}}>
+    <Grid style={{ textAlign: 'left', paddingTop:"20px", paddingLeft: "300px"}}>
       {/* {comments.map((comment, index) => (
         <Comment
           key={index}

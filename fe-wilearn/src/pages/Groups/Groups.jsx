@@ -42,7 +42,7 @@ export default function Groups() {
           image={group.imagePath}
           alt="scene"
         />
-        <CardContent>
+        <CardContent sx={{paddingBottom: "20px", height: "100px"}}>
           <Typography gutterBottom variant="h5" align="center">
             {group.name}
           </Typography>
@@ -64,7 +64,6 @@ export default function Groups() {
             </Link> */}
             View
           </Button>
-          <Stack></Stack>
         </CardActions>
       </Card>
     ));
