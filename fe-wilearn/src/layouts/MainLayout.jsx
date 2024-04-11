@@ -4,7 +4,7 @@ import NavbarMenu from "../components/Nabar/NavbarMenu";
 import Drawer from "../components/Navbar/Drawer";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { getUserInfo } from "../app/reducer/userReducer";
+import { getUserInfo, getUsermMeetings } from "../app/reducer/userReducer";
 import { toast } from "react-toastify";
 import { getGroupNotJoin, getSubjectLists } from "../app/reducer/studyGroupReducer";
 
@@ -13,6 +13,7 @@ export default function MainLayout() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
+    dispatch(getUsermMeetings());
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
     if (!userInfo) {

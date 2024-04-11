@@ -56,6 +56,16 @@ export const register = createAsyncThunk(
   }
 );
 
+export const getUsermMeetings = createAsyncThunk(
+  "auth/getUsermMeetings",
+  async (_, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_YOUR_MEETINGS)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
 export const getUserInfo = createAsyncThunk(
   "auth/getUserInfo",
   async (_, { rejectWithValue }) => {
