@@ -5,6 +5,8 @@ import Typography from "@mui/material/Typography";
 import Grid from "@mui/material/Grid";
 import { useState } from "react";
 import { Check as CheckIcon } from '@mui/icons-material';
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
 import {
   TextField,
   Box,
@@ -13,38 +15,127 @@ import {
   Avatar,
   Input,
 } from "@mui/material";
+import { useFormik } from "formik";
+import { createGroup, getGroupLists } from "../app/reducer/studyGroupReducer";
+import { getUserInfo } from "../app/reducer/userReducer";
+import * as Yup from 'yup'
 
 const defaultAvatar = "/src/assets/default.jpg";
 
 export default function GroupSettings() {
   const [subject, setSubject] = useState([]);
-  const [selectedFile, setSelectedFile] = useState(null);
   const [groupIntro, setGroupIntro] = useState("");
+  const [selectedFile, setSelectedFile] = useState(null);
+  const dispatch = useDispatch();
+
+  const { subjectLists, groupInfo } = useSelector(state => state.studyGroup)
+
+  const groupName = groupInfo?.name? groupInfo?.name: "";
+  const groupDescription = groupInfo?.description?groupInfo?.description:"";
+  const groupSubjects = groupInfo?.subjects?groupInfo?.subjects:[];
+  const groupImagePath = groupInfo?.imagePath?groupInfo?.imagePath:"";
+ 
+//   async createFile(path, name: string, type: string): Promise<File> {
+//     let response = await fetch(path);
+//     let data = await response.blob();
+//     let metadata = {
+//         type: type
+//     };
+//     return new File([data], name, metadata);
+// }
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log("handleFileChange", file)
     setSelectedFile(file);
+    formik.setFieldValue('image', file);
   };
 
-  const subjects = ["React", "Python", "Java"];
-  
+  const validationSchema = Yup.object({
+    name: Yup.string().trim().required('Require information.'),
+    description: Yup.string().trim().required('Require information.'),
+    // subjectIds: Yup.array().min(1, 'Please select at least one subject')
+  });
+  const formik = useFormik({
+    initialValues: {
+      name: groupName,
+      description: groupDescription,
+      image: groupImagePath,
+      subjects: groupSubjects,
+    },
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      // if (groupInfo) {
+      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
+      //   const response = await dispatch(
+      //     updateGroupInfo({ ...values, subjectIds: transformSbjIds })
+      //   );
+      //   if (response.type === updateGroupInfo.fulfilled.type) {
+      //     formik.resetForm();
+      //     dispatch(getGroupInfo(groupInfo?.id));
+      //     onClose();
+      //   }
+      // } else {
+      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
+      //   const response = await dispatch(createGroup({ ...values, subjectIds: transformSbjIds }));
+      //   if (response.type === createGroup.fulfilled.type) {
+      //     dispatch(getGroupLists());
+      //     formik.resetForm();
+      //     onClose();
+      //   }
+      // }
+      // const data = { ...values, subjectIds: values.subjects.map(sub=> parseInt(sub.id)) }
+      const data = {
+        name: values.name,
+        description: values.description,
+        image: values.image,
+        subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+      }
+      console.log("CreateGroup submit values", values);
+      console.log("CreateGroup submit data", data);
+      const response = await dispatch(createGroup(data));
+      if (response.type === createGroup.fulfilled.type) {
+        dispatch(getGroupLists());
+        dispatch(getUserInfo())
+        formik.resetForm();
+        handleCloseDialog();
+        toast.success("Create group successfully")
+      } else {
+        toast.error("Fail to create a new group")
+        dispatch(getUserInfo())
+      }
+    }
+  });
   return (
-    <Grid container marginLeft={10} paddingTop={10}>
-      <Grid item xs={6}>
-        {/* title */}
-        <Typography variant="h5" textAlign={"center"}>
-          Update group
-        </Typography>
-
-        <FormContainer
-          onSuccess={(data) => console.log(data)}
-        >
+    <Box
+      component={'form'}
+      // onSubmit={(values)=>formik.handleSubmit(values)}
+      onSubmit={formik.handleSubmit}
+      // onSubmit={()=>alert('aaaa')}
+      sx={{
+        display: 'flex',
+        flexDirection: 'column'
+      }}
+      mt={'24px'}
+    // rowGap={'32px'}
+    >
+      <Grid container marginLeft={10} paddingTop={10}>
+        <Grid item xs={6}>
+          {/* title */}
+          <Typography variant="h5" textAlign={"center"}>
+            Update group
+          </Typography>
           <Stack spacing={2} paddingTop={2}>
-            <TextFieldElement
-              name="group_name"
-              label="Group name"
-              required
-              margin="dense"
+            <TextField
+              label="Group Name"
+              fullWidth
+              sx={{ marginTop: "10px" }}
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
             />
             <TextField
               label="Introduction"
@@ -52,98 +143,104 @@ export default function GroupSettings() {
               multiline
               rows={4}
               sx={{ marginTop: "15px" }}
-              value={groupIntro}
-              onChange={(e) => setGroupIntro(e.target.value)}
+              name="description"
+              value={formik.values.description}
+              onChange={formik.handleChange}
+              error={formik.touched.description && Boolean(formik.errors.description)}
+              helperText={formik.touched.description && formik.errors.description}
             />
             <Box sx={{ marginTop: "1rem" }}>
               <Autocomplete
-                sx={{ width: "100%" }}
                 multiple
-                options={subjects}
-                value={subject}
-                onChange={(event, newValue) => {
-                  setSubject(newValue);
+                id="subjects"
+                options={subjectLists}
+                isOptionEqualToValue={
+                  (option, value) => option.id == value.id || option.name == value.name
+                }
+                getOptionLabel={(option) => option.name}
+                value={formik.values.subjects}
+                onChange={(event, selectedOptions) => {
+                  formik.setFieldValue('subjects', selectedOptions);
                 }}
-                disableCloseOnSelect
+                onBlur={formik.handleBlur('subjects')}
                 renderInput={(params) => (
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Select subject"
-                    placeholder="Subjects"
-                    fullWidth
+                    label="Select group subjects"
+                    placeholder="Select subjects"
+                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                    helperText={formik.touched.subjects && formik.errors.subjects}
                   />
                 )}
-                renderOption={(props, option, { selected }) => (
-                  <MenuItem
-                    {...props}
-                    key={option}
-                    value={option}
-                    sx={{ justifyContent: "space-between" }}
-                  >
-                    {option}
-                    {selected && <CheckIcon color="info" />}
-                  </MenuItem>
-                )}
               />
+
             </Box>
             <Button type="submit">Submit</Button>
           </Stack>
-        </FormContainer>
-      </Grid>
+        </Grid>
 
-      <Grid item xs={5} paddingLeft={2}>
-        <Box
-          style={{
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            marginTop: "10px",
-          }}
-        >
-          <Typography variant="body1" marginBottom={1}>
-            Image group
-          </Typography>
-          <Avatar
-            style={{ width: "250px", height: "250px", borderRadius: 0 }}
-            src={
-              selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar
-            }
-          />
-          <Input
-            accept="image/*"
-            type="file"
-            id="avatar-upload"
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <label htmlFor="avatar-upload">
-            <Button
-              variant="contained"
-              component="span"
-              style={{
-                marginTop: "16px",
-                padding: "2px 5px",
-                backgroundColor: "transparent",
-                color: "#000",
-                border: "1px solid #000",
-                fontSize: "12px",
-              }}
-            >
-              Choose File
-            </Button>
-          </label>
-          {selectedFile ? (
-            <Typography variant="body2" marginTop="10px">
-              Local avatar selected: {selectedFile.name}
+        <Grid item xs={5} paddingLeft={2}>
+          <Box
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              marginTop: "10px",
+            }}
+          >
+            <Typography variant="body1" marginBottom={1}>
+              Image group
             </Typography>
-          ) : (
-            <Typography variant="body2" marginTop="10px">
-              No local avatar is set. Use the upload field to add a local image.
-            </Typography>
-          )}
-        </Box>
+            <Avatar
+              style={{ width: "250px", height: "250px", borderRadius: 0 }}
+              src={
+                // selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar
+                selectedFile ? URL.createObjectURL(selectedFile) 
+                : groupImagePath? groupImagePath : defaultAvatar
+              }
+            />
+           <Input
+                  accept="image/*"
+                  type="file"
+                  id="avatar-upload"
+                  style={{ display: "none" }}
+                  name="image"
+                  // value={formik.values.image}
+                  onChange={(e)=>{
+                    handleFileChange(e)
+                  }}
+                  error={formik.touched.image && Boolean(formik.errors.image)}
+                  // helperText={formik.touched.image && formik.errors.image}
+                />
+            <label htmlFor="avatar-upload">
+              <Button
+                variant="contained"
+                component="span"
+                style={{
+                  marginTop: "16px",
+                  padding: "2px 5px",
+                  backgroundColor: "transparent",
+                  color: "#000",
+                  border: "1px solid #000",
+                  fontSize: "12px",
+                }}
+              >
+                Choose File
+              </Button>
+            </label>
+            {selectedFile ? (
+              <Typography variant="body2" marginTop="10px">
+                Local avatar selected: {selectedFile.name}
+              </Typography>
+            ) : (
+              <Typography variant="body2" marginTop="10px">
+                No local avatar is set. Use the upload field to add a local image.
+              </Typography>
+            )}
+          </Box>
+        </Grid>
       </Grid>
-    </Grid>
+    </Box >
   );
 }
