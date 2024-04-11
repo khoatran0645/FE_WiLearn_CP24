@@ -242,11 +242,36 @@ export const getGroupInfoAsMember = createAsyncThunk(
   }
 );
 
-export const updateGroupInfo = createAsyncThunk(
+export const updateGroupInfoOld = createAsyncThunk(
   "studyGroup/updateGroupInfo",
   async (data, { rejectWithValue }) => {
     return await axiosClient
       .put(API_UPDATE_GROUP_INFO.replace("{groupId}", data.id), data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const updateGroupInfo = createAsyncThunk(
+  "studyGroup/updateGroupInfo",
+  async (values, { rejectWithValue }) => {
+    const submitData = new FormData();
+    for (const key in values) {
+      if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
+        const keyValue = values[key];
+        if (key != "subjectIds") {
+          submitData.append(key, keyValue);
+        } else {
+          //subjectIds là list lại xài formdata nên đặt biệt
+          keyValue.forEach(subId => {
+            submitData.append(key, subId);
+          });
+        }
+        console.log(`studyGroup/updateGroupInfo Key: ${key}, Value:`, keyValue);
+      }
+    }
+    return await axiosClient
+      .put(API_UPDATE_GROUP_INFO.replace("{groupId}", values.id), submitData)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

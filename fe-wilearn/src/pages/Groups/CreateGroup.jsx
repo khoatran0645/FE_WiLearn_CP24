@@ -8,39 +8,28 @@ import {
   DialogActions,
   Box,
   Autocomplete,
-  MenuItem,
   Typography,
   Avatar,
   Input,
 } from "@mui/material";
 import AddIcon from "@mui/icons-material/Add";
 import * as Yup from 'yup';
-import { Check as CheckIcon } from "@mui/icons-material";
 import { useFormik } from "formik";
 import { useDispatch, useSelector } from "react-redux";
 import { createGroup, getGroupLists } from "../../app/reducer/studyGroupReducer";
 import { toast } from "react-toastify";
-import { API_GET_USER_INFO } from "../../constants";
 import { getUserInfo } from "../../app/reducer/userReducer";
 
 const defaultAvatar = "/src/assets/default.jpg";
 
 export default function CreateGroup() {
   const [openDialog, setOpenDialog] = useState(false);
-  const [groupName, setGroupName] = useState("");
-  const [subject, setSubject] = useState([]);
   const [selectedFile, setSelectedFile] = useState(null);
-  const [groupIntro, setGroupIntro] = useState("");
   const dispatch = useDispatch();
 
   const {subjectLists} = useSelector(state=>state.studyGroup)
 
   const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
-  const handleCreateGroup = () => {
-    console.log("Creating group:", { groupName, subject, groupIntro });
     setOpenDialog(false);
   };
 
