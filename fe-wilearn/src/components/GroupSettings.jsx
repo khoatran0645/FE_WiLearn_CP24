@@ -16,9 +16,10 @@ import {
   Input,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { createGroup, getGroupLists, updateGroupInfo } from "../app/reducer/studyGroupReducer";
+import { createGroup, getGroupInfo, getGroupLists, getSubjectLists, updateGroupInfo } from "../app/reducer/studyGroupReducer";
 import { getUserInfo } from "../app/reducer/userReducer";
 import * as Yup from 'yup'
+import { getGroupInfoAsMember, getGroupMemberLists, getRequestFormList } from "../app/reducer/studyGroupReducer/studyGroupActions";
 
 const defaultAvatar = "/src/assets/default.jpg";
 
@@ -36,14 +37,7 @@ export default function GroupSettings() {
   const groupSubjects = groupInfo?.subjects?groupInfo?.subjects:[];
   const groupImagePath = groupInfo?.imagePath?groupInfo?.imagePath:"";
  
-//   async createFile(path, name: string, type: string): Promise<File> {
-//     let response = await fetch(path);
-//     let data = await response.blob();
-//     let metadata = {
-//         type: type
-//     };
-//     return new File([data], name, metadata);
-// }
+
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
@@ -98,11 +92,16 @@ export default function GroupSettings() {
       console.log("UpdateGroup submit values", values);
       console.log("UpdateGroup submit data", data);
       const response = await dispatch(updateGroupInfo(data));
-      if (response.type === createGroup.fulfilled.type) {
+      if (response.type === updateGroupInfo.fulfilled.type) {
         dispatch(getGroupLists());
         dispatch(getUserInfo())
+        dispatch(getSubjectLists());
+        dispatch(getGroupInfo(groupId));
+        dispatch(getGroupInfoAsMember(groupId));
+        dispatch(getGroupLists());
+        dispatch(getGroupMemberLists());
+        dispatch(getRequestFormList(groupId));
         formik.resetForm();
-        handleCloseDialog();
         toast.success("Update group info successfully")
       } else {
         toast.error("Fail to update group info")
@@ -110,6 +109,17 @@ export default function GroupSettings() {
       }
     }
   });
+//   const createFile= async(path)=> {
+//     let response = await fetch(path);
+//     let data = await response.blob();
+//     let metadata = {
+//         type: response.headers["content-type"]
+//     };
+//     return new File([data], `Group${userInfo?.id}Ava.}`, metadata);
+// }
+//   if(groupInfo?.imagePath){
+
+//   }
   return (
     <Box
       component={'form'}
