@@ -1,4 +1,4 @@
-import { FormContainer, TextFieldElement } from "react-hook-form-mui";
+
 import Stack from "@mui/material/Stack";
 import Button from "@mui/material/Button";
 import Typography from "@mui/material/Typography";
@@ -210,7 +210,7 @@ export default function GroupSettings() {
               style={{ width: "250px", height: "250px", borderRadius: 0 }}
               src={
                 // selectedFile ? URL.createObjectURL(selectedFile) : defaultAvatar
-                selectedFile ? URL.createObjectURL(selectedFile) 
+                selectedFile ? URL.createObjectURL(selectedFile)
                 : groupImagePath? groupImagePath : defaultAvatar
               }
             />

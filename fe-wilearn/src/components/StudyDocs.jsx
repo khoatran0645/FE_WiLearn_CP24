@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Grid,
   Typography,
@@ -15,7 +15,7 @@ import {
   Box,
   Tab,
   Button,
-
+  Stack,
 } from "@mui/material";
 
 import TabContext from "@mui/lab/TabContext";
@@ -26,7 +26,12 @@ import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
+import { useDispatch, useSelector } from "react-redux";
+import { getDocumentListByGroup } from "../app/reducer/studyGroupReducer/studyGroupActions";
+
 import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
+import { toast } from "react-toastify";
+
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
   clipPath: "inset(50%)",
@@ -41,10 +46,39 @@ const VisuallyHiddenInput = styled("input")({
 
 export default function StudyDocs() {
   const [uploadedFile, setUploadedFile] = useState([]);
+  const dispatch = useDispatch();
+
+  const { groupInfo, listFile } = useSelector((state) => state.studyGroup);
+  // console.log("groupInfo", groupInfo);
+  // console.log("listFile", listFile);
+
+  const approvedList = listFile?.filter((doc) => doc.approved == true);
+  const pendingList = listFile?.filter((doc) => doc.approved == false);
+  // console.log("pendingList", pendingList);
+
+  // console.log("documentList docs", documentList);
+
+  useEffect(() => {
+    // const response = dispatch(getDocumentListByGroup(groupInfo.id));
+    // console.log("response", response);
+  }, []);
 
   const handleFileChange = (event) => {
-    event.target.files?.length &&
-      setUploadedFile(Array.from(event.target.files));
+    console.log("handleFileChange", event.target.files.length);
+    if (event.target.files == undefined || event.target.files.length == 0) {
+      console.log("handleFileChange", uploadedFile);
+      return;
+    }
+    const fileType = event.target.files[0].type.toLowerCase();
+    const validFileTypes = ["application/pdf", "image/jpeg", "image/png"];
+    // event.target.files?.length && setUploadedFile(event.target.files[0]);
+    if (!validFileTypes.includes(fileType)) {
+      toast.success("Wrong format");
+    } else {
+      setUploadedFile(event.target.files[0]);
+      console.log("handleFileChange", uploadedFile);
+      
+    }
   };
 
   const handleUploadNewFile = () => {
@@ -60,41 +94,21 @@ export default function StudyDocs() {
     setValue(newValue);
   };
 
-  const approvedFile = [
-    { name: "file1.pdf" },
-    { name: "file2.pdf" },
-    { name: "file3.pdf" },
-    { name: "file4.pdf" },
-    { name: "file5.pdf" },
-    { name: "file6.pdf" },
-    { name: "file7.pdf" },
-    { name: "file8.pdf" },
-    { name: "file9.pdf" },
-    { name: "file10.pdf" },
-    { name: "file11.pdf" },
-  ];
+  const handleViewfile = (httpLink) => {
+    // console.log("handleViewfile", httpLink);
+    window.open(httpLink, "_blank");
+  };
 
-  const checkList = [
-    { name: "file1.pdf" },
-    { name: "file2.pdf" },
-    { name: "file3.pdf" },
-  ];
-
-  const approvedList = approvedFile.map((file) => (
-    <Paper elevation={0} key={file.name}>
+  const showApprovedList = pendingList.map((file) => (
+    <Paper elevation={0} key={file.id}>
       <ListItem>
-        <ListItemButton
-          divider
-          onClick={() => {
-            console.log("open");
-          }}
-        >
+        <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
             <Avatar>
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={file.name} secondary="alternate content" />
+          <ListItemText primary={file.id} secondary={file.httpLink} />
 
           {/* <ListItemIcon>
             <IconButton
@@ -123,23 +137,11 @@ export default function StudyDocs() {
     </Paper>
   ));
 
-  const showcheckList = checkList.map((file) => (
+  const showcheckList = pendingList.map((file) => (
     <Paper elevation={0} key={file.name}>
-      <ListItem>
-        <ListItemButton
-          divider
-          onClick={() => {
-            console.log("open");
-          }}
-        >
-          <ListItemAvatar>
-            <Avatar>
-              <InsertDriveFileIcon />
-            </Avatar>
-          </ListItemAvatar>
-          <ListItemText primary={file.name} secondary="alternate content" />
-
-          <ListItemIcon>
+      <ListItem
+        secondaryAction={
+          <Stack direction={"row"} paddingRight={5}>
             <IconButton
               aria-label="deny"
               color="error"
@@ -149,8 +151,6 @@ export default function StudyDocs() {
             >
               <BlockIcon fontSize="large" />
             </IconButton>
-          </ListItemIcon>
-          <ListItemIcon>
             <IconButton
               aria-label="accept"
               color="success"
@@ -160,7 +160,16 @@ export default function StudyDocs() {
             >
               <CheckIcon fontSize="large" />
             </IconButton>
-          </ListItemIcon>
+          </Stack>
+        }
+      >
+        <ListItemButton divider onClick={() => console.log("view")}>
+          <ListItemAvatar>
+            <Avatar>
+              <InsertDriveFileIcon />
+            </Avatar>
+          </ListItemAvatar>
+          <ListItemText primary={file.name} secondary="alternate content" />
         </ListItemButton>
       </ListItem>
     </Paper>
@@ -175,58 +184,22 @@ export default function StudyDocs() {
           gutterBottom
           sx={{ fontWeight: "bold", textAlign: "left" }}
         >
-          Study Docs
+          Study Documents
         </Typography>
       </Grid>
 
-      {/* <Grid
-        container
-        direction="row"
-        justifyContent="space-around"
-        alignItems="baseline"
-        padding={2}
-      >
-        <Grid item xs={6}>
-          <Grid xs={12}>
-            <Typography variant="h6">List of files</Typography>
-          </Grid>
-
-          <Grid xs={10}>
-            <Paper style={{ maxHeight: "50vh", overflow: "auto" }}>
-              <List>{listFiles}</List>
-            </Paper>
-          </Grid>
-        </Grid>
-
-        <Grid item xs={6}>
-          
-
-          <Grid item xs={12}>
-            <Typography variant="h6">
-              Uploaded File: {uploadedFile.name}
-            </Typography>
-            <DocViewer
-              documents={uploadedFile.map((file) => ({
-                uri: window.URL.createObjectURL(file),
-                fileName: file.name,
-              }))}
-              pluginRenderers={DocViewerRenderers}
-            />
-          </Grid>
-        </Grid>
-      </Grid> */}
-      <Grid xs={6}>
+      <Grid xs={12}>
         <Box sx={{ width: "100%", typography: "body1" }}>
           <TabContext value={value}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
-                <Tab label="Approved" value="1" />
-                {isLeader && <Tab label="Pending" value="2" />}
+                <Tab label="Approved file" value="1" />
+                {isLeader && <Tab label="Pending file" value="2" />}
               </TabList>
             </Box>
             <TabPanel value="1">
               <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                <List overflow="auto">{approvedList}</List>
+                <List overflow="auto">{showApprovedList}</List>
               </Paper>
             </TabPanel>
             <TabPanel value="2">
@@ -237,21 +210,20 @@ export default function StudyDocs() {
           </TabContext>
         </Box>
       </Grid>
-      <Grid sx={{marginLeft: "400px"}}>
-      <Button
-            component="label"
-            variant="contained"
-            
-            // startIcon={<CloudUploadIcon />}
-            onClick={handleUploadNewFile}
-          >
-            Share File
-            <VisuallyHiddenInput
-              type="file"
-              multiple
-              onChange={handleFileChange}
-            />
-          </Button>
+      <Grid sx={{ marginLeft: "400px" }}>
+        <Button
+          component="label"
+          variant="contained"
+          // startIcon={<CloudUploadIcon />}
+          onClick={handleUploadNewFile}
+        >
+          Share File
+          <VisuallyHiddenInput
+            type="file"
+            accept="application/pdf, image/*"
+            onChange={handleFileChange}
+          />
+        </Button>
       </Grid>
     </Grid>
   );

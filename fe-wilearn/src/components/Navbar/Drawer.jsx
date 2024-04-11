@@ -27,6 +27,7 @@ import {
   getGroupLists,
   getGroupMemberLists,
   getRequestFormList,
+  getDocumentListByGroup,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -50,7 +51,10 @@ export default function ClippedDrawer() {
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
+    dispatch(getDocumentListByGroup(groupId));
   };
+
+  
 
   useEffect(() => {
     dispatch(getSubjectLists());
@@ -59,6 +63,7 @@ export default function ClippedDrawer() {
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
+    dispatch(getDocumentListByGroup(groupId));
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
