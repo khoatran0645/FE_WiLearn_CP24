@@ -137,19 +137,30 @@ export default function DiscussionDetail() {
           />
         </Box>
       </Grid>
-
-      <Grid sx={{ marginTop: "20px", maxWidth: "600px", marginLeft: "190px" }}>
-        <Typography
-          variant="h5"
-          style={{
-            fontSize: "20px",
-            marginBottom: "10px",
-            textAlign: "left",
-            fontStyle: "italic",
-          }}
-        >
-          Answer
-        </Typography>
+      <Typography
+        variant="h5"
+        style={{
+          fontSize: "20px",
+          marginBottom: "10px",
+          marginTop: "30px",
+          textAlign: "left",
+          marginLeft: "300px",
+          fontStyle: "italic",
+        }}
+      >
+        Answer
+      </Typography>
+      <Grid
+        sx={{
+          maxWidth: "600px",
+          margin: "auto",
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+          marginLeft: "300px",
+        }}
+      >
         <TextareaAutosize
           value={replyText}
           onChange={handleReplyChange}
