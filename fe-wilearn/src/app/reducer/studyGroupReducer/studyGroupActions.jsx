@@ -26,6 +26,7 @@ import {
   API_UPLOAD_DISCUSSION,
   API_GET_DISCUSSION_BY_ID,
   API_GET_GROUP_NOT_JOIN,
+  GET_LIST_DOCUMENTS_BY_GROUP,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -85,7 +86,7 @@ export const getMeetingList = createAsyncThunk(
 export const createGroupOld = createAsyncThunk(
   "studyGroup/createGroup",
   async (values, { rejectWithValue }) => {
-    const submitData = values
+    const submitData = values;
 
     return await axiosClient
       .post(API_CREATE_GROUP, submitData)
@@ -99,16 +100,15 @@ export const createGroup = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     const submitData = new FormData();
     for (const key in values) {
-
-      if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
+      if (values.hasOwnProperty(key)) {
+        // Check if the property belongs to the object (not inherited)
         const keyValue = values[key];
         if (key != "subjectIds") {
           submitData.append(key, keyValue);
         } else {
           //subjectIds là list lại xài formdata nên đặt biệt
-          keyValue.forEach(subId => {
+          keyValue.forEach((subId) => {
             submitData.append(key, subId);
-
           });
         }
         console.log(`studyGroup/createGroup Key: ${key}, Value:`, keyValue);
@@ -257,13 +257,14 @@ export const updateGroupInfo = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     const submitData = new FormData();
     for (const key in values) {
-      if (values.hasOwnProperty(key)) { // Check if the property belongs to the object (not inherited)
+      if (values.hasOwnProperty(key)) {
+        // Check if the property belongs to the object (not inherited)
         const keyValue = values[key];
         if (key != "subjectIds") {
           submitData.append(key, keyValue);
         } else {
           //subjectIds là list lại xài formdata nên đặt biệt
-          keyValue.forEach(subId => {
+          keyValue.forEach((subId) => {
             submitData.append(key, subId);
           });
         }
@@ -404,6 +405,16 @@ export const getDiscussionById = createAsyncThunk(
     console.log("id", id);
     return await axiosClient
       .get(API_GET_DISCUSSION_BY_ID.replace("{discussionId}", id))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getDocumentListByGroup = createAsyncThunk(
+  "studyGroup/getDocumentList",
+  async (groupId, { rejectWithValue }) => {
+    return await axiosClient
+      .get(GET_LIST_DOCUMENTS_BY_GROUP.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
