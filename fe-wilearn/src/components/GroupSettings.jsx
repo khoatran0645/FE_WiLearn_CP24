@@ -16,7 +16,7 @@ import {
   Input,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { createGroup, getGroupLists } from "../app/reducer/studyGroupReducer";
+import { createGroup, getGroupLists, updateGroupInfo } from "../app/reducer/studyGroupReducer";
 import { getUserInfo } from "../app/reducer/userReducer";
 import * as Yup from 'yup'
 
@@ -30,6 +30,7 @@ export default function GroupSettings() {
 
   const { subjectLists, groupInfo } = useSelector(state => state.studyGroup)
 
+  const groupId = groupInfo?.id? groupInfo?.id: 0;
   const groupName = groupInfo?.name? groupInfo?.name: "";
   const groupDescription = groupInfo?.description?groupInfo?.description:"";
   const groupSubjects = groupInfo?.subjects?groupInfo?.subjects:[];
@@ -58,6 +59,7 @@ export default function GroupSettings() {
   });
   const formik = useFormik({
     initialValues: {
+      id: groupId,
       name: groupName,
       description: groupDescription,
       image: groupImagePath,
@@ -87,22 +89,23 @@ export default function GroupSettings() {
       // }
       // const data = { ...values, subjectIds: values.subjects.map(sub=> parseInt(sub.id)) }
       const data = {
+        id: values.id,
         name: values.name,
         description: values.description,
         image: values.image,
         subjectIds: values.subjects.map(sub => parseInt(sub.id)),
       }
-      console.log("CreateGroup submit values", values);
-      console.log("CreateGroup submit data", data);
-      const response = await dispatch(createGroup(data));
+      console.log("UpdateGroup submit values", values);
+      console.log("UpdateGroup submit data", data);
+      const response = await dispatch(updateGroupInfo(data));
       if (response.type === createGroup.fulfilled.type) {
         dispatch(getGroupLists());
         dispatch(getUserInfo())
         formik.resetForm();
         handleCloseDialog();
-        toast.success("Create group successfully")
+        toast.success("Update group info successfully")
       } else {
-        toast.error("Fail to create a new group")
+        toast.error("Fail to update group info")
         dispatch(getUserInfo())
       }
     }
@@ -120,6 +123,7 @@ export default function GroupSettings() {
       mt={'24px'}
     // rowGap={'32px'}
     >
+      <input name="id" type="hidden" value={formik.values.id}/>
       <Grid container marginLeft={10} paddingTop={10}>
         <Grid item xs={6}>
           {/* title */}
