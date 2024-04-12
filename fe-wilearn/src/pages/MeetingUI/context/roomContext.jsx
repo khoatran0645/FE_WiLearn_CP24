@@ -332,9 +332,9 @@ export const RoomProvider = ({ children }) => {
             setShareScreenTrack(lastScreenTrack);
             connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
           }
-          alert('reach here switchStream')
+          // alert('reach here switchStream')
           switchStream(newStream);
-          alert('reach here')
+          // alert('reach here')
           setIsSharing(true);
           console.log("me: ", me)
           console.log("me: ", me?.id)
@@ -509,7 +509,7 @@ export const RoomProvider = ({ children }) => {
       setStream(defaultStream);
       return newDefaultStream;
       if (!defaultStream) {
-        alert("reach heeerre initstream try catch")
+        // alert("reach heeerre initstream try catch")
       } else {
         setStream(defaultStream);
       }
