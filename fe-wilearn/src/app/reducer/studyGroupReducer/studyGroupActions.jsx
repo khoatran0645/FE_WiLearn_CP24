@@ -427,7 +427,7 @@ export const uploadFile = createAsyncThunk(
     console.log("upload action", data.file);
     const form = new FormData();
     form.append("file", data.file);
-    
+    console.log("upload success", form)
     return await axiosClient
       .post(CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace("{accountId}", data.userId), form)
       .then((response) => response)
