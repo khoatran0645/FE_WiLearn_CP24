@@ -28,7 +28,7 @@ import BlockIcon from "@mui/icons-material/Block";
 
 import { useDispatch, useSelector } from "react-redux";
 import { uploadFile } from "../app/reducer/studyGroupReducer/studyGroupActions";
-
+import path from 'path';
 import { toast } from "react-toastify";
 
 const VisuallyHiddenInput = styled("input")({
@@ -44,18 +44,18 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function StudyDocs() {
-  const [uploadedFile, setUploadedFile] = useState(null);
+  // const [uploadedFile, setUploadedFile] = useState(null);
   const [initTab, setInitTab] = useState("1");
   const dispatch = useDispatch();
 
   const { groupInfo, listFile } = useSelector((state) => state.studyGroup);
   const { userInfo } = useSelector((state) => state.user);
-  console.log("groupInfo", groupInfo.id);
-  console.log("userInfo", userInfo.id);
+  // console.log("groupInfo", groupInfo.id);
+  // console.log("userInfo", userInfo.id);
 
   const approvedList = listFile?.filter((doc) => doc.approved);
   const pendingList = listFile?.filter((doc) => !doc.approved);
-  // console.log("pendingList", pendingList);
+  console.log("pendingList", pendingList);
 
   // console.log("documentList docs", documentList);
 
@@ -71,13 +71,12 @@ export default function StudyDocs() {
         toast.error("Wrong format.");
         toast.info("Only pdf, jpeg, png file is accepted");
       } else {
-        const data = JSON.parse(
-          JSON.stringify({
-            userId: userInfo.id,
-            groupId: groupInfo.id,
-            file: event.target.files[0],
-          })
-        );
+        const data = {
+          userId: userInfo.id,
+          groupId: groupInfo.id,
+          file: event.target.files[0],
+        };
+        console.log("file2", event.target.files[0]);
         // setUploadedFile(event.target.files[0]);
         const res = dispatch(uploadFile(data));
         console.log("res", res);
@@ -112,7 +111,7 @@ export default function StudyDocs() {
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={file.id} secondary={file.httpLink} />
+          <ListItemText primary={file.httpLink.match(/_(.*?)\?/)[1]} />
 
           {/* <ListItemIcon>
             <IconButton
@@ -142,7 +141,7 @@ export default function StudyDocs() {
   ));
 
   const showcheckList = pendingList.map((file) => (
-    <Paper elevation={0} key={file.name}>
+    <Paper elevation={0} key={file.id}>
       <ListItem
         secondaryAction={
           <Stack direction={"row"} paddingRight={5}>
@@ -167,13 +166,13 @@ export default function StudyDocs() {
           </Stack>
         }
       >
-        <ListItemButton divider onClick={() => console.log("view")}>
+        <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
             <Avatar>
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={file.name} secondary="alternate content" />
+          <ListItemText primary={file.httpLink.match(/_(.*?)\?/)[1]}  />
         </ListItemButton>
       </ListItem>
     </Paper>
@@ -226,7 +225,6 @@ export default function StudyDocs() {
             type="file"
             accept="application/pdf, image/jpeg, image/png"
             onChange={handleFileChange}
-            onAbort={handleUploadNewFile}
           />
         </Button>
       </Grid>
