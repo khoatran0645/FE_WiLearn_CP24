@@ -29,7 +29,6 @@ import BlockIcon from "@mui/icons-material/Block";
 import { useDispatch, useSelector } from "react-redux";
 import { getDocumentListByGroup } from "../app/reducer/studyGroupReducer/studyGroupActions";
 
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { toast } from "react-toastify";
 
 const VisuallyHiddenInput = styled("input")({
