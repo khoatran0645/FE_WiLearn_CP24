@@ -1,6 +1,7 @@
 
-export const BE_URL = "http://www.groupstudy.somee.com";
-// export const BE_URL = 'http://localhost:8000';
+ export const BE_URL = "http://www.groupstudy.somee.com";
+//export const BE_URL = 'http://localhost:8001';
+
 // export const BE_URL = 'http://localhost:5000';
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
@@ -81,7 +82,7 @@ export const ACCEPT_DOCUMENT = "/accept-file";
 export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset";
 
 //Lessons
-export const API_ALL_MEETINGS = "/api/Meetings/All/Student";
+export const API_YOUR_MEETINGS = "/api/Meetings/All/Student";
 export const DELETE_MEMBER = "/api/GroupMembers/Group";
 
 //New Stat
