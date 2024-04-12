@@ -21,13 +21,23 @@ import CreateSchedule from "./CreateSchedule";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
 const localizer = momentLocalizer(moment);
 
 function Schedule() {
   dayjs.extend(advancedFormat);
-  const { groupInfo } = useSelector(state => state.studyGroup);
+
+  const {groupId} = useParams();
+  let leadGroups = [];
+  const { userInfo } = useSelector(state => state.user);
+  if(userInfo){
+    leadGroups = userInfo.leadGroups?userInfo.leadGroups:[];
+  }
+  const isLead = leadGroups.some(g=>g.id==parseInt(groupId));
+
   // let { liveMeetings, scheduleMeetings } = groupInfo;
+  const { groupInfo } = useSelector(state => state.studyGroup);
   let liveMeetings = [];
   let scheduleMeetings = [];
   if (groupInfo) {
@@ -53,45 +63,6 @@ function Schedule() {
     state: "schedule"
   }))
   const schedule = [...liveMeetingsCal, ...scheduleMeetingsCal];
-  // const schedule = [...scheduleMeetingsCal];
-  //   const schedule = [
-  //   {
-  //     id: 1,
-  //     title: "Math class",
-  //     start: new Date(2024, 3, 18, 9, 0),
-  //     end: new Date(2024, 3, 18, 11, 0),
-  //   },
-  //   {
-  //     id: 2,
-  //     title: "Chemistry 2 class",
-  //     start: new Date(2024, 3, 22, 14, 0),
-  //     end: new Date(2024, 3, 22, 16, 0),
-  //   },
-  //   {
-  //     id: 3,
-  //     title: "Chemistry 3 class",
-  //     start: new Date(2024, 3, 22, 15, 0),
-  //     end: new Date(2024, 3, 22, 16, 0),
-  //   },
-  //   {
-  //     id: 4,
-  //     title: "Chemistry 4 class",
-  //     start: new Date(2024, 3, 22, 16, 0),
-  //     end: new Date(2024, 3, 22, 17, 0),
-  //   },
-  //   {
-  //     id: 5,
-  //     title: "Chemistry 5 class",
-  //     start: new Date(2024, 3, 22, 17, 0),
-  //     end: new Date(2024, 3, 22, 18, 0),
-  //   },
-  //   {
-  //     id: 6,
-  //     title: "Chemistry 6 class",
-  //     start: new Date(2024, 3, 22, 18, 0),
-  //     end: new Date(2024, 3, 22, 19, 0),
-  //   },
-  // ];
 
   const EventComponent = ({ event }) => {
     // const color=  "3px solid " +(
@@ -276,7 +247,7 @@ function Schedule() {
           </Grid>
           <Grid xs={6} item>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={5}>
-              <CreateSchedule />
+              {isLead&&(<CreateSchedule />)}
             </Stack>
           </Grid>
         </Grid>
@@ -311,7 +282,6 @@ function Schedule() {
           </Typography>
         </Grid>
         <Grid xs={6} sx={{ textAlign: "right" }} paddingRight={5}>
-          <CreateSchedule />
         </Grid>
       </Grid>
 

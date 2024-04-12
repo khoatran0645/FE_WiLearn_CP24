@@ -11,7 +11,6 @@ import {
   Autocomplete,
   MenuItem,
 } from "@mui/material";
-import AddIcon from "@mui/icons-material/Add";
 import CheckIcon from "@mui/icons-material/Check";
 
 const daysOfWeek = [
@@ -60,7 +59,6 @@ export default function CreateSchedule() {
   return (
     <>
       <Button
-        startIcon={<AddIcon />}
         variant="contained"
         sx={{
           backgroundColor: "#4CAF50",

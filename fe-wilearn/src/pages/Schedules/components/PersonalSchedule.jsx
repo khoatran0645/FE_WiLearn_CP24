@@ -9,15 +9,10 @@ import {
   Button,
   CardContent,
 } from "@mui/material";
-import { Calendar, momentLocalizer } from "react-big-calendar";
+import { Calendar, momentLocalizer, Views as CalenderViews } from "react-big-calendar";
 import moment from "moment";
 import "react-big-calendar/lib/css/react-big-calendar.css";
 import AccessTimeIcon from "@mui/icons-material/AccessTime";
-import StartMeetingButton from "../../Meeting/StartMeetingButton";
-import UpdateMeetingButton from "./UpdateMeetingButton";
-import HistoryMeeting from "../../Meeting/HistoryMeeting";
-import MeetingNowButton from "./MeetingNowButton";
-import CreateSchedule from "./CreateSchedule";
 import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
@@ -40,6 +35,7 @@ function PersonalSchedule() {
   const liveMeetingsCal = liveMeetings.map(m => ({
     id: m.id,
     title: m.name,
+    scheduleGroupId: m.scheduleGroupId,
     start: new Date(m.start),
     end: m.scheduleEnd ? new Date(m.scheduleEnd) : new Date(m.start),
     hasEnd: m.scheduleEnd ? true : false,
@@ -49,6 +45,7 @@ function PersonalSchedule() {
   const scheduleMeetingsCal = scheduleMeetings.map(m => ({
     id: m.id,
     title: m.name,
+    scheduleGroupId: m.scheduleGroupId,
     start: new Date(m.scheduleStart),
     end: m.scheduleEnd ? new Date(m.scheduleEnd) : new Date(m.start),
     hasEnd: m.scheduleEnd ? true : false,
@@ -58,6 +55,7 @@ function PersonalSchedule() {
   const pastMeetingsCal = pastMeetings.map(m => ({
     id: m.id,
     title: m.name,
+    scheduleGroupId: m.scheduleGroupId,
     start: new Date(m.scheduleStart),
     end: m.scheduleEnd ? new Date(m.scheduleEnd) : new Date(m.start),
     hasEnd: m.scheduleEnd ? true : false,
@@ -73,18 +71,20 @@ function PersonalSchedule() {
         : event.canStart ? "orange" : "red"
     )
     return (
-      <Box onClick={() => alert('a')} style={{ backgroundColor: color }}>
-        <Typography>{event.title}</Typography>
-        <Box sx={{ display: "flex", alignItems: "center" }}>
-          <Typography>
-            <Box sx={{ display: "flex", alignItems: "center" }}>
-              <AccessTimeIcon sx={{ marginRight: 1 }} />
-              {moment(event.start).format("HH:mm")}
-              {event.hasEnd && (` - ${moment(event.end).format("HH:mm")}`)}
-            </Box>
-          </Typography>
+      <NavLink to={`/groups/${event.scheduleGroupId}/meetings`} style={{ textDecoration: "none" }}>
+        <Box onClick={() => { }} style={{ backgroundColor: color }}>
+          <Typography>{event.title}</Typography>
+          <Box sx={{ display: "flex", alignItems: "center" }}>
+            <Typography>
+              <Box sx={{ display: "flex", alignItems: "center" }}>
+                <AccessTimeIcon sx={{ marginRight: 1 }} />
+                {moment(event.start).format("HH:mm")}
+                {event.hasEnd && (` - ${moment(event.end).format("HH:mm")}`)}
+              </Box>
+            </Typography>
+          </Box>
         </Box>
-      </Box>
+      </NavLink>
     );
   };
   const eventStyleGetter = (event) => {
@@ -215,21 +215,21 @@ function PersonalSchedule() {
               sx={{ paddingTop: "1rem" }}
             >
               <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
-              <NavLink to={`/groups/${meeting.scheduleGroupId}/meetings`} style={{ textDecoration: "none" }}>
-                <Button
-                  variant="contained"
-                  size="small"
-                  sx={{
-                    backgroundColor: "#258f3b",
-                    '&:hover': {
-                      backgroundColor: "#258f3b"
-                    },
-                  }}
-                >
-                  Go to group
-                </Button>
-              </NavLink>
-            </Grid>
+                <NavLink to={`/groups/${meeting.scheduleGroupId}/meetings`} style={{ textDecoration: "none" }}>
+                  <Button
+                    variant="contained"
+                    size="small"
+                    sx={{
+                      backgroundColor: "#258f3b",
+                      '&:hover': {
+                        backgroundColor: "#258f3b"
+                      },
+                    }}
+                  >
+                    Go to group
+                  </Button>
+                </NavLink>
+              </Grid>
             </Grid>
           </CardContent>
         </CardActionArea>
@@ -284,7 +284,6 @@ function PersonalSchedule() {
           </Grid>
           <Grid xs={6} item>
             <Stack direction={"row"} spacing={2} justifyContent={"flex-end"} paddingRight={5}>
-              <CreateSchedule />
             </Stack>
           </Grid>
         </Grid>
@@ -319,7 +318,6 @@ function PersonalSchedule() {
           </Typography>
         </Grid>
         <Grid xs={6} sx={{ textAlign: "right" }} paddingRight={5}>
-          <CreateSchedule />
         </Grid>
       </Grid>
 
@@ -338,6 +336,7 @@ function PersonalSchedule() {
               event: EventComponent,
             }}
             eventPropGetter={eventStyleGetter}
+            defaultView={CalenderViews.AGENDA}
           />
         </Box>
       </Grid>
