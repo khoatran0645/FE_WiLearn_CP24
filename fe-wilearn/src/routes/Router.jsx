@@ -24,24 +24,7 @@ import SearchPage from "./../pages/SearchGr/components/SearchPage";
 import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
-
-// import { lazy } from "react";
-
-// const HomePage = lazy(() => import("../pages/Home/HomePage"));
-// const Groups = lazy(() => import("../pages/Groups/Groups"));
-// const SignIn = lazy(() => import("../pages/Signin/SigninPage"));
-// const Register = lazy(() => import("../pages/Register/Register"));
-// const Members = lazy(() => import("../pages/Groups/Members"));
-// const Discussion = lazy(() => import("../pages/Discussion/components/Discussion"));
-// const LandingPage = lazy(() => import("../pages/Landing/LandingPage"));
-// const Schedule = lazy(() => import("../pages/Schedules/components/Schedule"));
-// const Statistics = lazy(() => import("../pages/Statistic/components/Statistics"));
-// const StudyDocs = lazy(() => import("../components/StudyDocs"));
-// const GroupSettings = lazy(() => import("../components/GroupSettings"));
-// const DiscussionDetail = lazy(() => import("../pages/Discussion/components/DiscussionDetail"));
-// const UserProfile = lazy(() => import("../components/UserProfile"));
-// const SearchPage = lazy(() => import("../pages/SearchGr/components/SearchPage"));
-// const Meeting = lazy(() => import("../pages/MeetingUI/Meeting"));
+import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 
 export default function Router() {
   const routes = useRoutes([
@@ -110,7 +93,7 @@ export default function Router() {
         },
         {
           path: "schedules",
-          element: <Schedule />,
+          element: <PersonalSchedule />,
         },
         {
           path: "profile",

@@ -81,7 +81,7 @@ export const ACCEPT_DOCUMENT = "/accept-file";
 export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset";
 
 //Lessons
-export const API_ALL_MEETINGS = "/api/Meetings/All/Student";
+export const API_YOUR_MEETINGS = "/api/Meetings/All/Student";
 export const DELETE_MEMBER = "/api/GroupMembers/Group";
 
 //New Stat
