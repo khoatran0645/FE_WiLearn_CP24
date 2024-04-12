@@ -28,7 +28,7 @@ export const Room = () => {
     handleUserList,
     handleVoteChange,
     setConnection: setContextConnection,
-    focusList,
+    focusScreenList,
     showAvaList,
 
   } = useContext(RoomContext);
@@ -71,14 +71,14 @@ export const Room = () => {
   // const { [screenSharingId]: sharing, ...peersToShow } = peersRC;
   const othersCount = peersToShowRcObj.length;
   const isPeerIdFocus = (peerId) => {
-    console.log("isPeerIdFocus focusList", focusList)
+    console.log("isPeerIdFocus focusScreenList", focusScreenList)
     console.log("isPeerIdFocus peerId", peerId)
-    return focusList.some(focus => focus.peerId == peerId)
+    return focusScreenList.some(focus => focus.peerId == peerId)
   }
   const addFocusActionsToUsername = (peerId, uname) => {
     let actionsString = null;
-    focusList.forEach(focus => {
-      console.log("addFocusActionsToUsername focusList.forEach focus", focus)
+    focusScreenList.forEach(focus => {
+      console.log("addFocusActionsToUsername focusScreenList.forEach focus", focus)
       if (focus.peerId == peerId) {
         actionsString = focus.actions.join(", ")
       }
@@ -225,6 +225,7 @@ export const Room = () => {
               overflow: 'hidden'
             }}
           >
+            Me screen
             {
               screenSharingVideo && vidGrid(screenSharingVideo, "You", meId, 1)
             }
@@ -235,7 +236,7 @@ export const Room = () => {
         )}
       </Transition>
       <Transition
-        in={othersCount != 0 && focusList.length==0}
+        in={othersCount != 0 && focusScreenList.length==0}
         timeout={2000}
       >
         {state => (
@@ -248,6 +249,7 @@ export const Room = () => {
               overflow: 'hidden'
             }}
           >
+            Other screen
             {peersToShowRcObj.map((otherPeer) => (
               <>
                 {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, othersCount)}
@@ -257,16 +259,16 @@ export const Room = () => {
         )}
       </Transition>
       <Transition
-        in={othersCount != 0 && focusList.length!=0}
+        in={othersCount != 0 && focusScreenList.length!=0}
         timeout={2000}
       >
         {state => {
           const peersObj = Object.values(peers).filter((peer) =>!!peer.stream);
           const peersObjMapped = Object.values(peers)
           .map(peer=>{
-            console.log("focusList", focusList)
+            console.log("focusScreenList", focusScreenList)
             console.log("peer", peer)
-            const focus = focusList.find(f=>f.peerId == peer.id)
+            const focus = focusScreenList.find(f=>f.peerId == peer.id)
             if(focus){
               const uname = peer.userName== userName? "You": peer.userName;
               const mappedPeer ={stream: peer.stream, id: peer.id, userName: uname, actions: focus.actions.join(", ")}
@@ -286,6 +288,7 @@ export const Room = () => {
                 overflow: 'hidden'
               }}
             >
+              Focus screen
               {peersObjMapped.map((peer) => (
                 <>
                   {vidGridWithAction(peer.userName=="You"?stream: peer.stream, peer.userName, peer.id, peer.actions,peersObjMapped.length)}

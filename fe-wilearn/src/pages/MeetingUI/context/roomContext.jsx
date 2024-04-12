@@ -31,6 +31,7 @@ export const RoomProvider = ({ children }) => {
 
   const [isReviewing, setIsReviewing] = useState(false);
   const [focusList, setFocusList] = useState([]);
+  const [focusScreenList, setFocusScreenList] = useState([]);
   const [showAvaList, setShowAvaList] = useState([]);
   const [me, setMe] = useState();
   const [shareScreenTrack, setShareScreenTrack] = useState();
@@ -586,6 +587,11 @@ export const RoomProvider = ({ children }) => {
           console.log("get-focusList", list);
           setFocusList(list);
         });
+        newConnect.on("get-focusScreenList", (list) => {
+          // toast.info("get-focusList");
+          console.log("get-focusScreenList", list);
+          setFocusScreenList(list);
+        });
 
         // setConnectionState(newConnect.state);
       }
@@ -837,6 +843,7 @@ export const RoomProvider = ({ children }) => {
         isReviewing,
         setIsReviewing,
         focusList,
+        focusScreenList,
         //new show avatar
         isCamOn,
         showAvaList,
