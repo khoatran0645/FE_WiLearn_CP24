@@ -111,9 +111,9 @@ function Schedule() {
     return (
       <Card
         key={meeting.id}
-        sx={{ maxWidth: 345, minWidth: 200, border: `3px solid green` }}
+        sx={{ maxWidth: 345, minWidth: 345, border: `3px solid green` }}
       >
-        <CardActionArea>
+        
           <CardContent sx={{ textAlign: "left" }}>
             <Typography gutterBottom variant="h6">
               {meeting.name}
@@ -145,7 +145,7 @@ function Schedule() {
             </Typography>
             <JoinMeetingButton meetingId={meeting.id} />
           </CardContent>
-        </CardActionArea>
+        
       </Card>
     )
   }
@@ -157,9 +157,9 @@ function Schedule() {
     return (
       <Card
         key={meeting.id}
-        sx={{ maxWidth: 345, minWidth: 200, border: borderStyle }}
+        sx={{ maxWidth: 345, minWidth: 345, border: borderStyle }}
       >
-        <CardActionArea>
+        
           <CardContent sx={{ textAlign: "left" }}>
             <Typography gutterBottom variant="h6">
               {meeting.name}
@@ -195,7 +195,7 @@ function Schedule() {
               <UpdateMeetingButton />
             </Grid>
           </CardContent>
-        </CardActionArea>
+        
       </Card>
     )
   }
