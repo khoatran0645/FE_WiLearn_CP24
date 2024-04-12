@@ -14,10 +14,6 @@ export default function UserMoreInfo(props) {
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
 
-  const randomNumber = Math.floor(
-    Math.random() * (999999999 - 111111111 + 1) + 111111111
-  );
-
   return (
     <>
       <Button variant="outlined" sx={{ width: "100px" }} size="small" onClick={() => handleOpen()}>
@@ -46,7 +42,7 @@ export default function UserMoreInfo(props) {
           />
           <TextField
             label="Phone"
-            defaultValue={"0" + randomNumber}
+            defaultValue={props.phone}
             fullWidth
             InputProps={{
               readOnly: true,
