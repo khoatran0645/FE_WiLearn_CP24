@@ -70,7 +70,7 @@ export default function CreateSchedule() {
         }}
         onClick={handleOpen}
       >
-        Schedule new meeting
+        Create Schedule
       </Button>
       <Modal
         open={open}

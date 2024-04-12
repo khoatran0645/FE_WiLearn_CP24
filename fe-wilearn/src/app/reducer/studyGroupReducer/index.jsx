@@ -25,6 +25,7 @@ import {
   addDiscussion,
   getDiscussionById,
   getGroupNotJoin,
+  getDocumentListByGroup,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -45,6 +46,7 @@ const initialState = {
   discussionForm: null,
   discussionDetailInfo: [],
   groupNotJoin: [],
+  listFile: [],
 };
 
 const studyGroupSlice = createSlice({
@@ -469,13 +471,12 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // })
 
-
     builder.addCase(getGroupNotJoin.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
 
-    builder.addCase(getGroupNotJoin.fulfilled, (state, {payload}) => {
+    builder.addCase(getGroupNotJoin.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.groupNotJoin = payload;
     });
@@ -484,7 +485,7 @@ const studyGroupSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
-        //ADD DISCUSSION
+    //ADD DISCUSSION
     builder.addCase(addDiscussion.pending, (state) => {
       state.loading = true;
       state.error = null;
@@ -507,6 +508,20 @@ const studyGroupSlice = createSlice({
       state.discussionDetailInfo = payload;
     });
     builder.addCase(getDiscussionById.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    //  GET LIST OF FILE
+    builder.addCase(getDocumentListByGroup.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getDocumentListByGroup.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.listFile = payload;
+    });
+    builder.addCase(getDocumentListByGroup.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -536,10 +551,10 @@ export {
   meetingNow,
   getMeetingList,
   getClassLists,
-
   addDiscussion,
   getDiscussionById,
   getGroupNotJoin,
+  getDocumentListByGroup,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions

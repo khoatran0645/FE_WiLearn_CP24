@@ -71,9 +71,9 @@ export const API_SEARCH_STUDENT_BY_PARENTS = "/api/Accounts/search";
 export const API_MEETING_REPEAT = "/api/Meetings/Mass-schedule";
 
 //Documents
-export const GET_LIST_DOCUMENTS = "/get-list-file";
-export const GET_LIST_DOCUMENTS_BY_GROUP = "/get-file-by-group";
-export const CREATE_DOCUMENT = "/upload-file";
+// export const GET_LIST_DOCUMENTS = "/api/DocumentFiles/api/Document/Get/{groupId}";
+export const GET_LIST_DOCUMENTS_BY_GROUP = "/api/DocumentFiles/api/Document/Get/{groupId}";
+export const CREATE_DOCUMENT = "/api/DocumentFiles/api/Document/Upload?groupId=1&accountId=1";
 export const DELETE_DOCUMENT = "/delete-file";
 export const ACCEPT_DOCUMENT = "/accept-file";
 

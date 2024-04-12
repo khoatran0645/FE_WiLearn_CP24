@@ -24,7 +24,6 @@ export default function HomePage() {
     <Container maxWidth="lg">
       <Grid container spacing={2}>
         <Grid
-
           container
           justifyContent={"flex-end"}
           alignContent={"center"}
