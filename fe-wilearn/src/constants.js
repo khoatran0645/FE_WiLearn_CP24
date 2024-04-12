@@ -1,6 +1,6 @@
 
-// export const BE_URL = "http://www.groupstudy.somee.com";
-export const BE_URL = 'http://localhost:8001';
+export const BE_URL = "http://www.groupstudy.somee.com";
+// export const BE_URL = 'http://localhost:8000';
 // export const BE_URL = 'http://localhost:5000';
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
@@ -73,7 +73,7 @@ export const API_MEETING_REPEAT = "/api/Meetings/Mass-schedule";
 //Documents
 // export const GET_LIST_DOCUMENTS = "/api/DocumentFiles/api/Document/Get/{groupId}";
 export const GET_LIST_DOCUMENTS_BY_GROUP = "/api/DocumentFiles/api/Document/Get/{groupId}";
-export const CREATE_DOCUMENT = "/api/DocumentFiles/api/Document/Upload?groupId=1&accountId=1";
+export const CREATE_DOCUMENT = "/api/DocumentFiles/api/Document/Upload?groupId={groupId}&accountId={accountId}";
 export const DELETE_DOCUMENT = "/delete-file";
 export const ACCEPT_DOCUMENT = "/accept-file";
 

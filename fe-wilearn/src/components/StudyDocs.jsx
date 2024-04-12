@@ -27,9 +27,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
 import { useDispatch, useSelector } from "react-redux";
-import { getDocumentListByGroup } from "../app/reducer/studyGroupReducer/studyGroupActions";
+import { uploadFile } from "../app/reducer/studyGroupReducer/studyGroupActions";
 
-import DocViewer, { DocViewerRenderers } from "@cyntler/react-doc-viewer";
 import { toast } from "react-toastify";
 
 const VisuallyHiddenInput = styled("input")({
@@ -45,53 +44,58 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function StudyDocs() {
-  const [uploadedFile, setUploadedFile] = useState([]);
+  const [uploadedFile, setUploadedFile] = useState(null);
+  const [initTab, setInitTab] = useState("1");
   const dispatch = useDispatch();
 
   const { groupInfo, listFile } = useSelector((state) => state.studyGroup);
-  // console.log("groupInfo", groupInfo);
-  // console.log("listFile", listFile);
+  const { userInfo } = useSelector((state) => state.user);
+  console.log("groupInfo", groupInfo.id);
+  console.log("userInfo", userInfo.id);
 
-  const approvedList = listFile?.filter((doc) => doc.approved == true);
-  const pendingList = listFile?.filter((doc) => doc.approved == false);
+  const approvedList = listFile?.filter((doc) => doc.approved);
+  const pendingList = listFile?.filter((doc) => !doc.approved);
   // console.log("pendingList", pendingList);
 
   // console.log("documentList docs", documentList);
 
-  useEffect(() => {
-    // const response = dispatch(getDocumentListByGroup(groupInfo.id));
-    // console.log("response", response);
-  }, []);
-
   const handleFileChange = (event) => {
-    console.log("handleFileChange", event.target.files.length);
-    if (event.target.files == undefined || event.target.files.length == 0) {
-      console.log("handleFileChange", uploadedFile);
+    console.log("file", event.target.files[0]);
+    if (event.target.files[0].type == undefined) {
       return;
-    }
-    const fileType = event.target.files[0].type.toLowerCase();
-    const validFileTypes = ["application/pdf", "image/jpeg", "image/png"];
-    // event.target.files?.length && setUploadedFile(event.target.files[0]);
-    if (!validFileTypes.includes(fileType)) {
-      toast.success("Wrong format");
     } else {
-      setUploadedFile(event.target.files[0]);
-      console.log("handleFileChange", uploadedFile);
-      
+      const fileType = event.target.files[0].type.toLowerCase();
+      // console.log("fileType", fileType);
+      const validFileTypes = ["application/pdf", "image/jpeg", "image/png"];
+      if (!validFileTypes.includes(fileType)) {
+        toast.error("Wrong format.");
+        toast.info("Only pdf, jpeg, png file is accepted");
+      } else {
+        const data = JSON.parse(
+          JSON.stringify({
+            userId: userInfo.id,
+            groupId: groupInfo.id,
+            file: event.target.files[0],
+          })
+        );
+        // setUploadedFile(event.target.files[0]);
+        const res = dispatch(uploadFile(data));
+        console.log("res", res);
+        // console.log("uploadedFile", uploadedFile);
+      }
     }
   };
 
   const handleUploadNewFile = () => {
     // Gọi hàm để reset trạng thái đã upload (nếu cần)
-    // setUploadedFile(null);
+    setUploadedFile(null);
   };
-
-  const [value, setValue] = useState("1");
 
   const isLeader = true;
 
+  //neccessary for TabPanel
   const handleChange = (event, newValue) => {
-    setValue(newValue);
+    setInitTab(newValue);
   };
 
   const handleViewfile = (httpLink) => {
@@ -99,7 +103,7 @@ export default function StudyDocs() {
     window.open(httpLink, "_blank");
   };
 
-  const showApprovedList = pendingList.map((file) => (
+  const showApprovedList = approvedList.map((file) => (
     <Paper elevation={0} key={file.id}>
       <ListItem>
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
@@ -190,7 +194,7 @@ export default function StudyDocs() {
 
       <Grid xs={12}>
         <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={value}>
+          <TabContext value={initTab}>
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved file" value="1" />
@@ -215,13 +219,14 @@ export default function StudyDocs() {
           component="label"
           variant="contained"
           // startIcon={<CloudUploadIcon />}
-          onClick={handleUploadNewFile}
+          // onClick={handleUploadNewFile}
         >
           Share File
           <VisuallyHiddenInput
             type="file"
-            accept="application/pdf, image/*"
+            accept="application/pdf, image/jpeg, image/png"
             onChange={handleFileChange}
+            onAbort={handleUploadNewFile}
           />
         </Button>
       </Grid>
