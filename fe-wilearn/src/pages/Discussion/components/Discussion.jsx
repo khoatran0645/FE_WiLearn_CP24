@@ -14,6 +14,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, Link } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
+import { useState } from 'react';
 
 export default function DiscussionList() {
   const navigate = useNavigate();
@@ -21,6 +22,17 @@ export default function DiscussionList() {
 
   const discussions = groupInfo ? groupInfo.discussions : [];
   // console.log("discussions", discussions);
+  const [currentPage, setCurrentPage] = useState(1);
+  const discussionsPerPage = 2;
+
+  const totalPages = Math.ceil(discussions.length / discussionsPerPage);
+  const startIndex = (currentPage - 1) * discussionsPerPage;
+  const endIndex = Math.min(startIndex + discussionsPerPage, discussions.length);
+  const currentDiscussions = discussions.slice(startIndex, endIndex);
+
+  const handlePageChange = (page) => {
+    setCurrentPage(page);
+  };
 
   const handleSeeMoreClick = () => {
     // navigate(`/home/groups/:id/discussionDetail`);
@@ -60,7 +72,7 @@ export default function DiscussionList() {
       <AddDiscussion />
       <Grid item xs={12} md={8}>
         <List>
-          {discussions.map((discussion) => (
+          {currentDiscussions.map((discussion) => (
             <ListItem key={discussion.id} mb={3}>
               <Card
                 sx={{
@@ -104,14 +116,11 @@ export default function DiscussionList() {
             </ListItem>
           ))}
         </List>
-        <Grid
-          container
-          justifyContent="center"
-          alignItems="center"
-          paddingTop={5}
-        >
-          <Paginate count={10} />
-        </Grid>
+        {totalPages > 1 && (
+          <Grid item container justifyContent="center" alignItems="center" paddingTop={5}>
+            <Paginate count={totalPages} onPageChange={handlePageChange} />
+          </Grid>
+        )}
       </Grid>
     </Grid>
   );
