@@ -151,7 +151,7 @@ export const RoomProvider = ({ children }) => {
       connection && connection.invoke("LeaveRoom", {
         roomId: roomId,
         peerId: meId,
-      }).then(()=>{
+      }).then(() => {
         toast.success("Đã rời phòng thành công");
         //reset roomId
         setRoomId("");
@@ -180,13 +180,13 @@ export const RoomProvider = ({ children }) => {
         return true;
       })
         .catch((error) => {
-          toast.error("Lỗi khi rời phòng")
+          // toast.error("Lỗi khi rời phòng")
           console.log("connection.stop error", error);
           return false
         });
     } catch (error) {
       console.log("setUpLeave error", error);
-      toast.error("Đã xảy ra lỗi khi rời phòng");
+      // toast.error("Đã xảy ra lỗi khi rời phòng");
       return false
     }
   }
@@ -229,30 +229,30 @@ export const RoomProvider = ({ children }) => {
     setStream(newStream);
     try {
       Object.values(me?.connections).forEach((connection) => {
-        // const videoTrack = newStream
-        //   ?.getTracks()
-        //   .find((track) => track.kind === "video");
-        // connection[0].peerConnection
-        //   .getSenders()[1]
-        //   .replaceTrack(videoTrack)
-        //   .catch((err) => {
-        //     console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
-        //   })
+        const videoTrack = newStream
+          ?.getTracks()
+          .find((track) => track.kind === "video");
+        connection[0].peerConnection
+          .getSenders()[1]
+          .replaceTrack(videoTrack)
+          .catch((err) => {
+            console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+          })
         // console.log("switchStream connection", connection)
         // console.log("switchStream connection[0].peerConnection", connection[0].peerConnection)
         // console.log("switchStream connection[0].peerConnection.getSenders()", connection[0].peerConnection.getSenders())
-        newStream?.getTracks().forEach(videoTrack=>{
-          connection[0].peerConnection
-            .getSenders()[1]
-            .replaceTrack(videoTrack)
-            .catch((err) => {
-              console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
-            })
-        })
+        // newStream?.getTracks().forEach(videoTrack=>{
+        //   connection[0].peerConnection
+        //     .getSenders()[1]
+        //     .replaceTrack(videoTrack)
+        //     .catch((err) => {
+        //       console.log("switchStream connection[0].peerConnection.getSenders()[1].replaceTrack err", err)
+        //     })
+        // })
       });
     } catch (error) {
       console.log("switchStream error", error)
-      toast.error("switchStream error");
+      // toast.error("switchStream error");
     }
 
   };
@@ -288,7 +288,7 @@ export const RoomProvider = ({ children }) => {
             }
           });
       }
-    //Nếu !srceenSharing => hiện tại đang ko sharescreen => Bật share screen
+      //Nếu !srceenSharing => hiện tại đang ko sharescreen => Bật share screen
     } else {
       // navigator.mediaDevices.getDisplayMedia({}).then(switchStream);
       navigator.mediaDevices.getDisplayMedia({})
@@ -302,7 +302,8 @@ export const RoomProvider = ({ children }) => {
               // alert("end share screen")
               connection.invoke("EndFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
               setScreenSharingId("");
-              setIsSharing(false);
+              setIsSharing(false);   
+              
               // setScreenSharingId(null);
               // window.location.reload(false);
               if (camStream) {
@@ -609,18 +610,18 @@ export const RoomProvider = ({ children }) => {
   }
   const toogleSound = (isActive) => {
     //Nếu đang bật mic mà chưa có cam stream=> chưa có mic từ cam=>lấy cam stream r lấy audiotrack add vào stream
-    if(isActive && !camStream){
+    if (isActive && !camStream) {
       navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((newCamStream) => {
-            setCamStream(newCamStream)
-            //Lấy audio cũ gắn vô stream screen
-            if (mediaStream && stream.getAudioTracks()) {
-              stream.getAudioTracks().forEach(audioTrack => {
-                newStream.addTrack(audioTrack);
-              });
-            }
-          })
+        .getUserMedia({ video: true, audio: true })
+        .then((newCamStream) => {
+          setCamStream(newCamStream)
+          //Lấy audio cũ gắn vô stream screen
+          if (mediaStream && stream.getAudioTracks()) {
+            stream.getAudioTracks().forEach(audioTrack => {
+              newStream.addTrack(audioTrack);
+            });
+          }
+        })
     }
     if (stream.getAudioTracks()[0]) {
       stream.getAudioTracks()[0].enabled = isActive;
@@ -633,31 +634,32 @@ export const RoomProvider = ({ children }) => {
     //   stream.getVideoTracks()[0].enabled = isActive;
     // }
     if (isActive) {
-
-      if (camStream) {
-        connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
-        switchStream(camStream);
-      } else {
-        navigator.mediaDevices
-          .getUserMedia({ video: true, audio: true })
-          .then((newCamStream) => {
-            connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
-            if (newCamStream.getAudioTracks()[0]) {
-              newCamStream.getAudioTracks()[0].enabled = false;
-            }
-            setCamStream(newCamStream)
-            switchStream(newCamStream);
-          })
-          .catch(async (error) => {
-            console.log("Get cam error", error)
-            if (!defaultStream) {
-              const newDefaultStream = await createEmptyVideoStream();
-              setDefaultStream(newDefaultStream)
-              switchStream(newDefaultStream);
-            } else {
-              switchStream(defaultStream);
-            }
-          });
+      connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+      if (stream == defaultStream) {
+        if (camStream) {
+          switchStream(camStream);
+        } else {
+          navigator.mediaDevices
+            .getUserMedia({ video: true, audio: true })
+            .then((newCamStream) => {
+              connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
+              if (newCamStream.getAudioTracks()[0]) {
+                newCamStream.getAudioTracks()[0].enabled = false;
+              }
+              setCamStream(newCamStream)
+              switchStream(newCamStream);
+            })
+            .catch(async (error) => {
+              console.log("Get cam error", error)
+              if (!defaultStream) {
+                const newDefaultStream = await createEmptyVideoStream();
+                setDefaultStream(newDefaultStream)
+                switchStream(newDefaultStream);
+              } else {
+                switchStream(defaultStream);
+              }
+            });
+        }
       }
     } else {
       connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
@@ -780,7 +782,7 @@ export const RoomProvider = ({ children }) => {
     });
     connection.on("get-showAvaList", (list) => {
       console.log("get-showAvaList", list);
-      toast.info("get-showcamList");
+      // toast.info("get-showAvaList");
       setShowAvaList(list);
     });
 

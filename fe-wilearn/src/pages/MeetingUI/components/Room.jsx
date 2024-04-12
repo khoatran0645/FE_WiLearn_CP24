@@ -141,7 +141,7 @@ export const Room = () => {
                 sx={{
                   // height: "",
                   // height: (ava?"0px":"0px"),
-                  transition: 'all 1s ease-in-and-out',
+                  // transition: 'all 1s ease-in-and-out',
                 }}
               />
             <Box>{addFocusActionsToUsername(peerId ,streamName)}</Box>
@@ -199,7 +199,7 @@ export const Room = () => {
                 sx={{
                   // height: "0px",
                   // height:(ava?"0px":"0px"),
-                  transition: 'all 1s ease-in-and-out',
+                  // transition: 'all 1s ease-in-and-out',
                 }}
               />
             <Box>{streamName==="You"? "You are ": `${streamName} is `}{actions}</Box>
