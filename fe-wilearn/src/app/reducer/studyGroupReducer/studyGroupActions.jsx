@@ -27,6 +27,7 @@ import {
   API_GET_DISCUSSION_BY_ID,
   API_GET_GROUP_NOT_JOIN,
   GET_LIST_DOCUMENTS_BY_GROUP,
+  CREATE_DOCUMENT,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -415,6 +416,20 @@ export const getDocumentListByGroup = createAsyncThunk(
   async (groupId, { rejectWithValue }) => {
     return await axiosClient
       .get(GET_LIST_DOCUMENTS_BY_GROUP.replace("{groupId}", groupId))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const uploadFile = createAsyncThunk(
+  "studyGroup/uploadFile",
+  async (data,{ rejectWithValue }) => {
+    console.log("upload action", data.file);
+    const form = new FormData();
+    form.append("file", data.file);
+    
+    return await axiosClient
+      .post(CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace("{accountId}", data.userId), form)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

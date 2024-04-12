@@ -26,6 +26,7 @@ import {
   getDiscussionById,
   getGroupNotJoin,
   getDocumentListByGroup,
+  uploadFile,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -522,6 +523,20 @@ const studyGroupSlice = createSlice({
       state.listFile = payload;
     });
     builder.addCase(getDocumentListByGroup.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    // UPLOAD FILE
+    builder.addCase(uploadFile.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(uploadFile.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.listFile = payload;
+    });
+    builder.addCase(uploadFile.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
