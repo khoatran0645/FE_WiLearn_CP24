@@ -17,6 +17,7 @@ import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
 import { massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
+import { DatePicker } from '@mui/x-date-pickers';
 
 const daysOfWeek = [
   {
@@ -69,7 +70,7 @@ export default function CreateSchedule() {
 
   const validationSchema = Yup.object({
     name: Yup.string().trim().required('Require information.'),
-    description: Yup.string().trim().required('Require information.'),
+    content: Yup.string().trim().required('Require information.'),
     // subjectIds: Yup.array().min(1, 'Please select at least one subject')
   });
   const formik = useFormik({
@@ -93,6 +94,7 @@ export default function CreateSchedule() {
     enableReinitialize: true,
     onSubmit: async (values) => {
       alert("submit")
+      console.log("submit values", values);
       const isRepeat = currentTab !== 0;
       if (isRepeat) {
         const data = {
@@ -271,6 +273,17 @@ export default function CreateSchedule() {
                 shrink: true,
               }}
             />
+            <Box>
+              <Typography variant="subtitle1" gutterBottom>
+                Meeting date
+              </Typography>
+              <DatePicker
+                value={selectedDate}
+                // onChange={handleDateChange}
+                renderInput={(params) => <input {...params.inputProps} />}
+                fullWidth
+              />
+            </Box>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
