@@ -11,17 +11,20 @@ import {
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
+import { setLoginError } from ".";
 // import { API_SIGNIN_URL } from '../../../constants';
 
 export const checkLogin = createAsyncThunk(
   "auth/login",
-  async (data, { rejectWithValue }) => {
-    // Call API checkLogin
+  async (data, { rejectWithValue, dispatch }) => {
     const submitData = data;
     return await axiosClient
       .post(API_SIGNIN_URL, submitData)
       .then((response) => response)
-      .catch((error) => rejectWithValue(error.response.data));
+      .catch((error) => {
+        dispatch(setLoginError("Tên đăng nhập hoặc mật khẩu không chính xác")); // Dispatch action lỗi
+        return rejectWithValue(error.response.data);
+      });
   }
 );
 
