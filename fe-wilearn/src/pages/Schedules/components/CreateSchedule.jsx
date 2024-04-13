@@ -12,15 +12,45 @@ import {
   MenuItem,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
+import { massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 
 const daysOfWeek = [
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
-  "Sunday",
+  {
+    id: 2,
+    value: 2,
+    label: "Monday",
+  },
+  {
+    id: 3,
+    value: 3,
+    label: "Tuesday",
+  },
+  {
+    id: 4,
+    value: 4,
+    label: "Wednesday",
+  },
+  {
+    id: 5,
+    value: 5,
+    label: "Thursday",
+  },
+  {
+    id: 6,
+    value: 6,
+    label: "Friday",
+  },
+  {
+    id: 7,
+    value: 7,
+    label: "Saturday",
+  },
+  {
+    id: 8,
+    value: 8,
+    label: "Sunday",
+  },
 ];
 
 export default function CreateSchedule() {
@@ -32,6 +62,67 @@ export default function CreateSchedule() {
   const [endTime, setEndTime] = useState("");
   const [currentTab, setCurrentTab] = useState(0);
   const [repeatedDays, setRepeatedDays] = useState([]);
+
+  const validationSchema = Yup.object({
+    name: Yup.string().trim().required('Require information.'),
+    description: Yup.string().trim().required('Require information.'),
+    // subjectIds: Yup.array().min(1, 'Please select at least one subject')
+  });
+  const formik = useFormik({
+    initialValues: {
+      name: '',
+      description: '',
+      image: '',
+      subjects: [],
+    },
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      const isRepeat = currentTab !== 0;
+      if (isRepeat) {
+        const data = {
+          name: values.name,
+          description: values.description,
+          image: values.image,
+          subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+        }
+        console.log("CreateSchedule submit values", values);
+        console.log("CreateSchedule submit data", data);
+        const response = await dispatch(scheduleMeeting(data));
+        if (response.type === scheduleMeeting.fulfilled.type) {
+          dispatch(getGroupLists());
+          dispatch(getUserInfo())
+          formik.resetForm();
+          handleCloseDialog();
+          toast.success("Create meeting successfully")
+        } else {
+          toast.error("Fail to create a new meeting")
+          dispatch(getUserInfo())
+        }
+      } else {
+        const data = {
+          name: values.name,
+          description: values.description,
+          image: values.image,
+          subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+        }
+        console.log("CreateSchedule mass submit values", values);
+        console.log("CreateSchedule mass submit data", data);
+        const response = await dispatch(massScheduleMeeting(data));
+        if (response.type === massScheduleMeeting.fulfilled.type) {
+          dispatch(getGroupLists());
+          dispatch(getUserInfo())
+          formik.resetForm();
+          handleCloseDialog();
+          toast.success("Create repeating meetings successfully")
+        } else {
+          toast.error("Fail to create new repeatings meeting")
+          dispatch(getUserInfo())
+        }
+      }
+    }
+
+  });
 
   const handleOpen = () => {
     setOpen(true);
@@ -100,6 +191,7 @@ export default function CreateSchedule() {
             <Tab label="Do not repeat" />
             <Tab label="Repeat" />
           </Tabs>
+          {/* Do not repeat */}
           <Box
             hidden={currentTab !== 0}
             sx={{
@@ -156,6 +248,7 @@ export default function CreateSchedule() {
               </Grid>
             </Grid>
           </Box>
+          {/* Repeat */}
           <Box
             hidden={currentTab !== 1}
             sx={{
@@ -219,6 +312,7 @@ export default function CreateSchedule() {
                 value={repeatedDays}
                 onChange={(event, newValue) => {
                   setRepeatedDays(newValue);
+                  formik.setFieldValue('subjects', selectedOptions);
                 }}
                 disableCloseOnSelect
                 renderInput={(params) => (
@@ -228,16 +322,18 @@ export default function CreateSchedule() {
                     label="Select days to repeat"
                     placeholder="Days"
                     fullWidth
+                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                    helperText={formik.touched.subjects && formik.errors.subjects}
                   />
                 )}
                 renderOption={(props, option, { selected }) => (
                   <MenuItem
                     {...props}
-                    key={option}
-                    value={option}
+                    key={option.id}
+                    value={option.id}
                     sx={{ justifyContent: "space-between" }}
                   >
-                    {option}
+                    {option.label}
                     {selected ? <CheckIcon color="info" /> : null}
                   </MenuItem>
                 )}

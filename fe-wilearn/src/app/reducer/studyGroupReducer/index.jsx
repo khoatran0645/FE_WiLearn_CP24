@@ -27,6 +27,7 @@ import {
   getGroupNotJoin,
   getDocumentListByGroup,
   uploadFile,
+  massScheduleMeeting,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -400,6 +401,18 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // })
 
+    // Reducers for scheduleMeeting action
+    builder.addCase(massScheduleMeeting.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(massScheduleMeeting.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(massScheduleMeeting.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
     // Reducers for scheduleMeeting action
     // [scheduleMeeting.pending]: (state) => {
     //   state.loading = true;
