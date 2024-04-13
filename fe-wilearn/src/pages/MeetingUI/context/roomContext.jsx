@@ -804,7 +804,7 @@ export const RoomProvider = ({ children }) => {
     connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
 
     if (isSharing) {
-      connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "raising hand" })
+      connection.invoke("StartFocus", { roomId: roomId, peerId: meId, action: "sharing screen" })
     }
   }, [me, connection])
   // }, [me, connection, stream])
