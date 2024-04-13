@@ -12,8 +12,11 @@ import {
   MenuItem,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
+import * as Yup from 'yup'
 import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
 import { massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { useFormik } from "formik";
+import { useParams } from "react-router-dom";
 
 const daysOfWeek = [
   {
@@ -62,6 +65,7 @@ export default function CreateSchedule() {
   const [endTime, setEndTime] = useState("");
   const [currentTab, setCurrentTab] = useState(0);
   const [repeatedDays, setRepeatedDays] = useState([]);
+  const groupId = useParams()
 
   const validationSchema = Yup.object({
     name: Yup.string().trim().required('Require information.'),
@@ -70,14 +74,25 @@ export default function CreateSchedule() {
   });
   const formik = useFormik({
     initialValues: {
+      // groupId: parseInt(groupId),
       name: '',
-      description: '',
-      image: '',
-      subjects: [],
+      content: '',
+      // startTime: new Date(),
+      // endTime: new Date(),
+      // //Date for not repeat, startDate for Repeat
+      // startDate: new Date(),
+      // endDate: new Date(),
+      startTime: "",
+      endTime: "",
+      //Date for not repeat, startDate for Repeat
+      startDate: "",
+      endDate: "",
+      dayOfWeeks: [],
     },
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
+      alert("submit")
       const isRepeat = currentTab !== 0;
       if (isRepeat) {
         const data = {
@@ -85,6 +100,15 @@ export default function CreateSchedule() {
           description: values.description,
           image: values.image,
           subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+
+          //   groupId,
+          // name: values.name,
+          // content: values.content,
+          // scheduleStartTime: startTimeConvert,
+          // scheduleEndTime: endTimeConvert,
+          // scheduleRangeStart: rangeDateStart,
+          // scheduleRangeEnd: rangeDateEnd,
+          // dayOfWeeks: values.dayOfWeeks,
         }
         console.log("CreateSchedule submit values", values);
         console.log("CreateSchedule submit data", data);
@@ -105,6 +129,13 @@ export default function CreateSchedule() {
           description: values.description,
           image: values.image,
           subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+
+          //   groupId,
+          // name: values.name,
+          // content: values.content,
+          // date: dateLearn,
+          // scheduleStartTime: startTimeConvert,
+          // scheduleEndTime: endTimeConvert,
         }
         console.log("CreateSchedule mass submit values", values);
         console.log("CreateSchedule mass submit data", data);
@@ -168,7 +199,9 @@ export default function CreateSchedule() {
         aria-describedby="modal-modal-description"
       >
         <Box
-          sx={{
+            component={'form'}
+            onSubmit={formik.handleSubmit}
+            sx={{
             position: "absolute",
             top: "50%",
             left: "50%",
@@ -202,21 +235,38 @@ export default function CreateSchedule() {
             <TextField
               label="Meeting name"
               fullWidth
-              value={meetingName}
-              onChange={(e) => setMeetingName(e.target.value)}
+              // value={meetingName}
+              // onChange={(e) => setMeetingName(e.target.value)}
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
             />
             <TextField
               label="Content"
               fullWidth
-              value={meetingContent}
-              onChange={(e) => setMeetingContent(e.target.value)}
+              // value={meetingContent}
+              // onChange={(e) => setMeetingContent(e.target.value)}
+              name="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              error={formik.touched.content && Boolean(formik.errors.content)}
+              helperText={formik.touched.content && formik.errors.content}
             />
             <TextField
               label="Meeting date"
               type="date"
               fullWidth
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
+              // value={selectedDate}
+              // onChange={(e) => setSelectedDate(e.target.value)}
+
+              //Date for not repeat 
+              name="startDate"
+              value={formik.values.startDate}
+              onChange={formik.handleChange}
+              error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+              helperText={formik.touched.startDate && formik.errors.startDate}
               InputLabelProps={{
                 shrink: true,
               }}
@@ -227,8 +277,13 @@ export default function CreateSchedule() {
                   label="Start time"
                   type="time"
                   fullWidth
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  // value={startTime}
+                  // onChange={(e) => setStartTime(e.target.value)}
+                  name="startTime"
+                  value={formik.values.startTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.startTime && Boolean(formik.errors.startTime)}
+                  helperText={formik.touched.startTime && formik.errors.startTime}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -239,9 +294,14 @@ export default function CreateSchedule() {
                   label="End time"
                   type="time"
                   fullWidth
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
-                  InputLabelProps={{
+                  // value={endTime}
+                  // onChange={(e) => setEndTime(e.target.value)}
+                  name="endTime"
+                  value={formik.values.endTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.endTime && Boolean(formik.errors.endTime)}
+                  helperText={formik.touched.endTime && formik.errors.endTime}
+                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
@@ -259,33 +319,75 @@ export default function CreateSchedule() {
             <TextField
               label="Meeting name"
               fullWidth
-              value={meetingName}
-              onChange={(e) => setMeetingName(e.target.value)}
+              // value={meetingName}
+              // onChange={(e) => setMeetingName(e.target.value)}
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
             />
-            <TextField
-              label="Content"
-              fullWidth
-              value={meetingContent}
-              onChange={(e) => setMeetingContent(e.target.value)}
-            />
-            <TextField
-              label="Meeting date"
-              type="date"
-              fullWidth
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+                <TextField
+                  label="Content"
+                  fullWidth
+                  // value={meetingContent}
+                  // onChange={(e) => setMeetingContent(e.target.value)} name="content"
+                  name="content"
+                  value={formik.values.content}
+                  onChange={formik.handleChange}
+                  error={formik.touched.content && Boolean(formik.errors.content)}
+                  helperText={formik.touched.content && formik.errors.content}
+                />
+            <Grid container spacing={2}>
+              <Grid item xs={6}>
+                <TextField
+                  label="Start date"
+                  type="date"
+                  fullWidth
+                  // value={selectedDate}
+                  // onChange={(e) => setSelectedDate(e.target.value)}
+                  name="startTime"
+                  value={formik.values.startDate}
+                  onChange={formik.handleChange}
+                  error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                  helperText={formik.touched.startDate && formik.errors.startDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  />
+              </Grid>
+              <Grid item xs={6}>
+              <TextField
+                  label="End date"
+                  type="date"
+                  fullWidth
+                  // value={selectedDate}
+                  // onChange={(e) => setSelectedDate(e.target.value)}
+                  name="endDate"
+                  value={formik.values.endDate}
+                  onChange={formik.handleChange}
+                  error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                  helperText={formik.touched.endDate && formik.errors.endDate}
+                  InputLabelProps={{
+                    shrink: true,
+                  }}
+                  />
+              </Grid>
+            </Grid>
+
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   label="Start time"
                   type="time"
                   fullWidth
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  // value={startTime}
+                  // onChange={(e) => setStartTime(e.target.value)}
+                  name="startTime"
+                  value={formik.values.startTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.startTime && Boolean(formik.errors.startTime)}
+                  helperText={formik.touched.startTime && formik.errors.startTime}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -296,8 +398,13 @@ export default function CreateSchedule() {
                   label="End time"
                   type="time"
                   fullWidth
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
+                  // value={endTime}
+                  // onChange={(e) => setEndTime(e.target.value)}
+                  name="endTime"
+                  value={formik.values.endTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.endTime && Boolean(formik.errors.endTime)}
+                  helperText={formik.touched.endTime && formik.errors.endTime}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -310,9 +417,12 @@ export default function CreateSchedule() {
                 multiple
                 options={daysOfWeek}
                 value={repeatedDays}
+                isOptionEqualToValue={
+                  (option, value)=>option.id==value.id || option.value==value.value
+                }
                 onChange={(event, newValue) => {
                   setRepeatedDays(newValue);
-                  formik.setFieldValue('subjects', selectedOptions);
+                  formik.setFieldValue('dayOfWeeks', newValue);
                 }}
                 disableCloseOnSelect
                 renderInput={(params) => (
@@ -322,25 +432,26 @@ export default function CreateSchedule() {
                     label="Select days to repeat"
                     placeholder="Days"
                     fullWidth
-                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
-                    helperText={formik.touched.subjects && formik.errors.subjects}
+                    error={formik.touched.dayOfWeeks && Boolean(formik.errors.dayOfWeeks)}
+                    helperText={formik.touched.dayOfWeeks && formik.errors.dayOfWeeks}
                   />
                 )}
-                renderOption={(props, option, { selected }) => (
-                  <MenuItem
-                    {...props}
-                    key={option.id}
-                    value={option.id}
-                    sx={{ justifyContent: "space-between" }}
-                  >
-                    {option.label}
-                    {selected ? <CheckIcon color="info" /> : null}
-                  </MenuItem>
-                )}
+                // renderOption={(props, option, { selected }) => (
+                //   <MenuItem
+                //     {...props}
+                //     key={option.id}
+                //     value={option.id}
+                //     sx={{ justifyContent: "space-between" }}
+                //   >
+                //     {option.label}
+                //     {selected ? <CheckIcon color="info" /> : null}
+                //   </MenuItem>
+                // )}
               />
             </Box>
           </Box>
-          <Button onClick={handleCreateMeeting} color="success">
+          {/* <Button onClick={handleCreateMeeting} color="success"> */}
+          <Button type="submit" color="success">
             Create
           </Button>
           <Button onClick={handleClose} color="inherit">
