@@ -28,6 +28,7 @@ import {
   API_GET_GROUP_NOT_JOIN,
   GET_LIST_DOCUMENTS_BY_GROUP,
   CREATE_DOCUMENT,
+  API_MEETING_REPEAT,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -278,7 +279,15 @@ export const updateGroupInfo = createAsyncThunk(
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
-
+export const massScheduleMeeting = createAsyncThunk(
+  "studyGroup/massScheduleMeeting",
+  async (data, { rejectWithValue }) => {
+    return await axiosClient
+      .post(API_MEETING_REPEAT, data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
 export const scheduleMeeting = createAsyncThunk(
   "studyGroup/scheduleMeeting",
   async (data, { rejectWithValue }) => {
