@@ -18,6 +18,7 @@ import { massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/stud
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { DatePicker } from '@mui/x-date-pickers';
+import dayjs from 'dayjs'
 
 const daysOfWeek = [
   {
@@ -68,6 +69,26 @@ export default function CreateSchedule() {
   const [repeatedDays, setRepeatedDays] = useState([]);
   const groupId = useParams()
 
+  const formatDatePickerResultToISOWithTimezone = (date) => {
+    if (!date) return null;
+    const padNumber = (number, length) => {
+      return number.toString().padStart(length, '0');
+    };
+    console.log('utcOffset', date.utcOffset())
+    const dateString = date.toISOString();
+    // const timezoneOffset = date.getTimezoneOffset();
+    // const timezoneOffset = date.utcOffset();
+    
+    const timezoneOffset = date.$d.getTimezoneOffset();
+    const offsetHours = Math.abs(Math.floor(timezoneOffset / 60));
+    const offsetMinutes = Math.abs(timezoneOffset % 60);
+    const offsetSign = timezoneOffset > 0 ? '-' : '+';
+
+    const timezoneString = `${offsetSign}${padNumber(offsetHours, 2)}:${padNumber(offsetMinutes, 2)}`;
+
+    return `${dateString.slice(0, -1)}${timezoneString}`;
+  };
+
   const validationSchema = Yup.object({
     name: Yup.string().trim().required('Require information.'),
     content: Yup.string().trim().required('Require information.'),
@@ -86,7 +107,8 @@ export default function CreateSchedule() {
       startTime: "",
       endTime: "",
       //Date for not repeat, startDate for Repeat
-      startDate: "",
+      // startDate: "",
+      startDate: dayjs(new Date()),
       endDate: "",
       dayOfWeeks: [],
     },
@@ -99,9 +121,11 @@ export default function CreateSchedule() {
       if (isRepeat) {
         const data = {
           name: values.name,
-          description: values.description,
-          image: values.image,
-          subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+          content: values.content,
+          startTime: values.startTime,
+          endTime: values.endTime,
+          date: values.startDate.toISOString(),
+          date2: formatDatePickerResultToISOWithTimezone(values.startDate),
 
           //   groupId,
           // name: values.name,
@@ -112,25 +136,27 @@ export default function CreateSchedule() {
           // scheduleRangeEnd: rangeDateEnd,
           // dayOfWeeks: values.dayOfWeeks,
         }
-        console.log("CreateSchedule submit values", values);
-        console.log("CreateSchedule submit data", data);
-        const response = await dispatch(scheduleMeeting(data));
-        if (response.type === scheduleMeeting.fulfilled.type) {
-          dispatch(getGroupLists());
-          dispatch(getUserInfo())
-          formik.resetForm();
-          handleCloseDialog();
-          toast.success("Create meeting successfully")
-        } else {
-          toast.error("Fail to create a new meeting")
-          dispatch(getUserInfo())
-        }
+        console.log("CreateSchedule mass submit values", values);
+        console.log("CreateSchedule mass submit data", data);
+        // const response = await dispatch(scheduleMeeting(data));
+        // if (response.type === scheduleMeeting.fulfilled.type) {
+        //   dispatch(getGroupLists());
+        //   dispatch(getUserInfo())
+        //   formik.resetForm();
+        //   handleCloseDialog();
+        //   toast.success("Create meeting successfully")
+        // } else {
+        //   toast.error("Fail to create a new meeting")
+        //   dispatch(getUserInfo())
+        // }
       } else {
         const data = {
           name: values.name,
-          description: values.description,
-          image: values.image,
-          subjectIds: values.subjects.map(sub => parseInt(sub.id)),
+          content: values.content,
+          startTime: values.startTime,
+          endTime: values.endTime,
+          date: values.startDate.toISOString(),
+          date2: formatDatePickerResultToISOWithTimezone(values.startDate),
 
           //   groupId,
           // name: values.name,
@@ -139,8 +165,8 @@ export default function CreateSchedule() {
           // scheduleStartTime: startTimeConvert,
           // scheduleEndTime: endTimeConvert,
         }
-        console.log("CreateSchedule mass submit values", values);
-        console.log("CreateSchedule mass submit data", data);
+        console.log("CreateSchedule  submit values", values);
+        console.log("CreateSchedule  submit data", data);
         const response = await dispatch(massScheduleMeeting(data));
         if (response.type === massScheduleMeeting.fulfilled.type) {
           dispatch(getGroupLists());
@@ -256,7 +282,7 @@ export default function CreateSchedule() {
               error={formik.touched.content && Boolean(formik.errors.content)}
               helperText={formik.touched.content && formik.errors.content}
             />
-            <TextField
+            {/* <TextField
               label="Meeting date"
               type="date"
               fullWidth
@@ -272,16 +298,22 @@ export default function CreateSchedule() {
               InputLabelProps={{
                 shrink: true,
               }}
-            />
+            /> */}
             <Box>
               <Typography variant="subtitle1" gutterBottom>
                 Meeting date
               </Typography>
               <DatePicker
-                value={selectedDate}
-                // onChange={handleDateChange}
+                name="startDate"
+                value={formik.values.startDate}
+                // onChange={formik.handleChange}
+                onChange={(date) => formik.setFieldValue('startDate', date)}
+                error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                helperText={formik.touched.startDate && formik.errors.startDate}
                 renderInput={(params) => <input {...params.inputProps} />}
                 fullWidth
+                sx={{width:"100%"}}
+                disablePast
               />
             </Box>
             <Grid container spacing={2}>
@@ -353,7 +385,7 @@ export default function CreateSchedule() {
                 />
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                <TextField
+                {/* <TextField
                   label="Start date"
                   type="date"
                   fullWidth
@@ -367,7 +399,22 @@ export default function CreateSchedule() {
                   InputLabelProps={{
                     shrink: true,
                   }}
-                  />
+                  /> */}
+                  <Box>
+              <Typography variant="subtitle1" gutterBottom>
+                Start date
+              </Typography>
+              <DatePicker
+                name="startDate"
+                value={formik.values.startDate}
+                // onChange={formik.handleChange}
+                onChange={(date) => formik.setFieldValue('startDate', date)}
+                error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                helperText={formik.touched.startDate && formik.errors.startDate}
+                renderInput={(params) => <input {...params.inputProps} />}
+                fullWidth
+              />
+            </Box>
               </Grid>
               <Grid item xs={6}>
               <TextField
