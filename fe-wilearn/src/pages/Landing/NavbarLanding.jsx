@@ -3,12 +3,6 @@ import ButtonSignin from "../../components/ButtonSignin";
 import { Box, Typography, Container } from "@mui/material";
 import ButtonRegister from "../../components/ButtonRegister";
 
-const pageRoutes = [
-  { label: "Home", path: "/landing" },
-  { label: "Contact", path: "/contact" },
-  { label: "About", path: "/about" },
-];
-
 export default function NavbarLanding() {
   const navigate = useNavigate();
 

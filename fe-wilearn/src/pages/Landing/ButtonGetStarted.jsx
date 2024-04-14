@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import Button from "@mui/material/Button";
-import Grid from "@mui/material/Grid";
+import { Button, Grid } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 function ButtonGetStarted({ onClick }) {

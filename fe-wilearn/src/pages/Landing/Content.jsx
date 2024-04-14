@@ -1,4 +1,12 @@
-import { Box, Button, Card, Divider, Grid, Stack, Typography } from "@mui/material";
+import {
+  Box,
+  Button,
+  Card,
+  Divider,
+  Grid,
+  Stack,
+  Typography,
+} from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ButtonGetStarted from "./ButtonGetStarted";
 import { AccountBalance, Home, HowToReg, MenuBook } from "@mui/icons-material";
@@ -22,17 +30,20 @@ export default function Content() {
     },
     {
       title: "Find a study programme",
-      description: "Search through our database of English-taught study programmes.",
+      description:
+        "Search through our database of English-taught study programmes.",
       icon: <MenuBook />,
     },
     {
       title: "How to apply",
-      description: "Find out about admission requirements and how to apply for a study programme.",
+      description:
+        "Find out about admission requirements and how to apply for a study programme.",
       icon: <HowToReg />,
     },
     {
       title: "Finding a place to live",
-      description: "Finding a room is a challenge, so start looking as soon as possible.",
+      description:
+        "Finding a room is a challenge, so start looking as soon as possible.",
       icon: <Home />,
     },
   ];
@@ -43,7 +54,7 @@ export default function Content() {
         <Grid
           container
           sx={{
-            backgroundImage: 'url("/src/assets/study.jpg")',
+            backgroundImage: 'url("/study.jpg")',
             height: "600px",
             backgroundSize: "cover",
             position: "relative",
@@ -51,7 +62,7 @@ export default function Content() {
         >
           <Grid item xs={6} display="flex">
             <img
-              src="/src/assets/11276378.png"
+              src="logo.png"
               alt="Logo"
               style={{
                 width: "50px",
@@ -106,12 +117,14 @@ export default function Content() {
                 onClick={handleSignIn}
                 color="inherit"
                 sx={{
-                  backgroundImage: "linear-gradient(to right, #00b4db, #0083b0)",
+                  backgroundImage:
+                    "linear-gradient(to right, #00b4db, #0083b0)",
                   color: "#fff",
                   borderRadius: "5px",
                   padding: "8px 10px",
                   "&:hover": {
-                    backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
+                    backgroundImage:
+                      "linear-gradient(to left, #00b4db, #0083b0)",
                   },
                 }}
               >
@@ -143,9 +156,11 @@ export default function Content() {
                   textAlign: "center",
                 }}
               >
-                A system for online meetings designed to facilitate effective group learning,
+                A system for online meetings designed to facilitate effective
+                group learning,
                 <br />
-                supporting individuals studying collaboratively over the internet.
+                supporting individuals studying collaboratively over the
+                internet.
               </Typography>
               <Box
                 style={{
