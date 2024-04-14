@@ -28,6 +28,7 @@ import {
   getGroupMemberLists,
   getRequestFormList,
   getDocumentListByGroup,
+  getStudentInvites,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -52,6 +53,7 @@ export default function ClippedDrawer() {
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
+    dispatch(getStudentInvites());
   };
 
   
