@@ -7,6 +7,7 @@ import {
   Card,
   CardActionArea,
   CardContent,
+  Chip,
 } from "@mui/material";
 import { Calendar, momentLocalizer } from "react-big-calendar";
 import moment from "moment";
@@ -118,6 +119,10 @@ function Schedule() {
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
+            {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
+            {meeting.subjects.map(s=>(
+              <Chip label={s.name} size="small" variant="filled" />
+            ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}
             </Typography>
@@ -164,6 +169,10 @@ function Schedule() {
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
+            {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
+            {meeting.subjects.map(s=>(
+              <Chip label={s.name} size="small" variant="filled" />
+            ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}
             </Typography>

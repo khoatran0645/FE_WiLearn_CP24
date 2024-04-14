@@ -19,7 +19,7 @@ import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs'
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../../../app/reducer/userReducer";
 import { toast } from "react-toastify";
 
@@ -72,6 +72,12 @@ export default function CreateSchedule() {
   const [repeatedDays, setRepeatedDays] = useState([]);
   const dispatch = useDispatch();
   const {groupId} = useParams();
+  let subjectLists = [];
+  const { groupInfo } = useSelector((state) => state.studyGroup);
+  if(groupInfo){
+    subjectLists= groupInfo.subjects
+  }
+
   const formatDatePickerResultToISOWithTimezone = (date) => {
     if (!date) return null;
     const padNumber = (number, length) => {
@@ -115,7 +121,6 @@ export default function CreateSchedule() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      alert("submit")
       console.log("submit values", values);
       const isRepeat = currentTab !== 0;
       if (isRepeat) {
@@ -197,17 +202,6 @@ export default function CreateSchedule() {
 
   const handleClose = () => {
     setOpen(false);
-  };
-
-  const handleCreateMeeting = () => {
-    console.log("Submitted:", {
-      meetingName,
-      meetingContent,
-      selectedDate,
-      startTime,
-      endTime,
-      repeatedDays,
-    });
   };
 
   const handleTabChange = (_, newValue) => {
@@ -345,6 +339,32 @@ export default function CreateSchedule() {
                 />
               </Grid>
             </Grid>
+            <Box sx={{ marginTop: "1rem" }}>
+              <Autocomplete
+                multiple
+                id="subjects"
+                options={subjectLists}
+                isOptionEqualToValue={
+                  (option, value)=>option.id==value.id || option.name==value.name
+                }
+                getOptionLabel={(option) => option.name}
+                value={formik.values.subjects}
+                onChange={(event, selectedOptions) => {
+                  formik.setFieldValue('subjects', selectedOptions);
+                }}
+                onBlur={formik.handleBlur('subjects')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Select group subjects"
+                    placeholder="Select subjects"
+                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                    helperText={formik.touched.subjects && formik.errors.subjects}
+                  />
+                )}
+              />
+            </Box>
           </Box>
           {/* Repeat */}
           <Box
@@ -481,31 +501,31 @@ export default function CreateSchedule() {
               />
             </Box>
             <Box sx={{ marginTop: "1rem" }}>
-                <Autocomplete
-                  multiple
-                  id="subjects"
-                  options={subjectLists}
-                  isOptionEqualToValue={
-                    (option, value)=>option.id==value.id || option.name==value.name
-                  }
-                  getOptionLabel={(option) => option.name}
-                  value={formik.values.subjects}
-                  onChange={(event, selectedOptions) => {
-                    formik.setFieldValue('subjects', selectedOptions);
-                  }}
-                  onBlur={formik.handleBlur('subjects')}
-                  renderInput={(params) => (
-                    <TextField
-                      {...params}
-                      variant="outlined"
-                      label="Select group subjects"
-                      placeholder="Select subjects"
-                      error={formik.touched.subjects && Boolean(formik.errors.subjects)}
-                      helperText={formik.touched.subjects && formik.errors.subjects}
-                    />
-                  )}
-                />
-              </Box>
+              <Autocomplete
+                multiple
+                id="subjects"
+                options={subjectLists}
+                isOptionEqualToValue={
+                  (option, value)=>option.id==value.id || option.name==value.name
+                }
+                getOptionLabel={(option) => option.name}
+                value={formik.values.subjects}
+                onChange={(event, selectedOptions) => {
+                  formik.setFieldValue('subjects', selectedOptions);
+                }}
+                onBlur={formik.handleBlur('subjects')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Select group subjects"
+                    placeholder="Select subjects"
+                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                    helperText={formik.touched.subjects && formik.errors.subjects}
+                  />
+                )}
+              />
+            </Box>
           </Box>
           {/* <Button onClick={handleCreateMeeting} color="success"> */}
           <Button type="submit" color="success">
