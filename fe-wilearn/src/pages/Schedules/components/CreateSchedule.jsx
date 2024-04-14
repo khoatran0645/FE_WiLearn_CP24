@@ -110,7 +110,7 @@ export default function CreateSchedule() {
       // startDate: dayjs(),
       endDate: null,
       dayOfWeeks: [],
-      // subjects:[]
+      subjects:[]
     },
     validationSchema,
     enableReinitialize: true,
@@ -131,7 +131,7 @@ export default function CreateSchedule() {
           scheduleRangeStart: values.startDate.format(),
           scheduleRangeEnd: values.endDate.format(),
           dayOfWeeks: values.dayOfWeeks.map(day=>day.id),
-          subjectIds:[]
+          subjectIds: values.subjects.map(sub=> parseInt(sub.id)),
           //   groupId,
           // name: values.name,
           // content: values.content,
@@ -164,7 +164,8 @@ export default function CreateSchedule() {
           // date: values.startDate.toISOString(),
           // date: formatDatePickerResultToISOWithTimezone(values.startDate),
           date: values.startDate.format(),
-
+          subjectIds: values.subjects.map(sub=> parseInt(sub.id)),
+          
           //   groupId,
           // name: values.name,
           // content: values.content,
@@ -477,19 +478,34 @@ export default function CreateSchedule() {
                     helperText={formik.touched.dayOfWeeks && formik.errors.dayOfWeeks}
                   />
                 )}
-                // renderOption={(props, option, { selected }) => (
-                //   <MenuItem
-                //     {...props}
-                //     key={option.id}
-                //     value={option.id}
-                //     sx={{ justifyContent: "space-between" }}
-                //   >
-                //     {option.label}
-                //     {selected ? <CheckIcon color="info" /> : null}
-                //   </MenuItem>
-                // )}
               />
             </Box>
+            <Box sx={{ marginTop: "1rem" }}>
+                <Autocomplete
+                  multiple
+                  id="subjects"
+                  options={subjectLists}
+                  isOptionEqualToValue={
+                    (option, value)=>option.id==value.id || option.name==value.name
+                  }
+                  getOptionLabel={(option) => option.name}
+                  value={formik.values.subjects}
+                  onChange={(event, selectedOptions) => {
+                    formik.setFieldValue('subjects', selectedOptions);
+                  }}
+                  onBlur={formik.handleBlur('subjects')}
+                  renderInput={(params) => (
+                    <TextField
+                      {...params}
+                      variant="outlined"
+                      label="Select group subjects"
+                      placeholder="Select subjects"
+                      error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                      helperText={formik.touched.subjects && formik.errors.subjects}
+                    />
+                  )}
+                />
+              </Box>
           </Box>
           {/* <Button onClick={handleCreateMeeting} color="success"> */}
           <Button type="submit" color="success">
