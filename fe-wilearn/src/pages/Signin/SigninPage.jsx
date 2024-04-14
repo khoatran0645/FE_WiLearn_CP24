@@ -20,7 +20,8 @@ import { useNavigate } from "react-router-dom";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { checkLogin } from "../../app/reducer/userReducer";
+import { checkLogin, setLoginError } from "../../app/reducer/userReducer";
+import { toast } from 'react-toastify';
 
 const defaultTheme = createTheme();
 const validationSchema = Yup.object({
@@ -29,7 +30,7 @@ const validationSchema = Yup.object({
 });
 
 export default function SignIn() {
-  const { userInfo, loading } = useSelector((state) => state.user);
+  const { userInfo, loading, loginError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -46,11 +47,14 @@ export default function SignIn() {
   });
 
   useEffect(() => {
-    console.log("userInfo", userInfo);
     if (userInfo?.token) {
       navigate("/home");
     }
-  }, [userInfo]);
+    if (loginError) {
+      toast.error(loginError);
+      dispatch(setLoginError(null));
+    }
+  }, [userInfo, loginError]);
 
   return (
     <Grid

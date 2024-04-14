@@ -53,7 +53,10 @@ export default function HomePage() {
                 <Typography gutterBottom variant="h5" component="div">
                   {group.name}
                 </Typography>
-                <Chip label={group.subjects} size="small" variant="filled" />
+                {/* <Chip label={group.subjects.join(', ')} size="small" variant="filled" /> */}
+                {group.subjects.map(s=>(
+                  <Chip label={s} size="small" variant="filled" />
+                ))}
                 <Grid container alignItems="center" spacing={1}>
                   <Grid item>
                     <GroupsIcon />

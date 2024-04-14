@@ -8,6 +8,7 @@ import {
   CardActionArea,
   Button,
   CardContent,
+  Chip,
 } from "@mui/material";
 import { Calendar, momentLocalizer, Views as CalenderViews } from "react-big-calendar";
 import moment from "moment";
@@ -17,6 +18,7 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import HistoryMeeting from './../../Meeting/HistoryMeeting';
 
 const localizer = momentLocalizer(moment);
 
@@ -120,6 +122,10 @@ function PersonalSchedule() {
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
+            {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
+            {meeting.subjects.map(s=>(
+              <Chip label={s.name} size="small" variant="filled" />
+            ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}
             </Typography>
@@ -184,6 +190,10 @@ function PersonalSchedule() {
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
+            {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
+            {meeting.subjects.map(s=>(
+              <Chip label={s.name} size="small" variant="filled" />
+            ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}
             </Typography>
@@ -308,7 +318,7 @@ function PersonalSchedule() {
       </Grid>
 
       <Grid xs={11.5} paddingTop={3} paddingBottom={2}>
-        {/* <HistoryMeeting /> */}
+        <HistoryMeeting />
       </Grid>
       {/* <Grid container paddingLeft={5}> */}
       <Grid container>
