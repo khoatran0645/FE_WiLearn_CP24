@@ -18,9 +18,9 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo, discussionDetailInfo } = useSelector((state) => state.studyGroup);
 
-  // console.log("groupInfo", groupInfo);
+  console.log("discussionDetailInfo", discussionDetailInfo);
 
   const location = useLocation();
   const { pathname } = location;
@@ -38,8 +38,8 @@ export default function DiscussionDetail() {
   });
 
   // const data = discussions.filter((discussions) => discussions.id === state.id);
-  console.log("data", data[0]);
-  console.log("answerDiscussions", data[0].answerDiscussions);
+  // console.log("data", data[0]);
+  // console.log("answerDiscussions", data[0].answerDiscussions);
 
   // const data = await dispatch(getDiscussionById(1));
   // console.log("data", data);
@@ -103,7 +103,7 @@ export default function DiscussionDetail() {
             style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
           >
             {/* March 17, 2024 10:00 AM */}
-            {dayjs(data[0].createAt).format("MMMM DD, YYYY hh:mm a")}
+            {dayjs(data[0].createAt).format("DD/MM/YYYY HH:mm:ss")}
           </Typography>
         </Box>
         <Box sx={{ padding: "20px" }}>

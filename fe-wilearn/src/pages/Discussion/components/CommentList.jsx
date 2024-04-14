@@ -1,10 +1,12 @@
 import { Grid } from "@mui/material";
 import Comment from "./Comment";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 const CommentList = (props) => {
+  const {answerList} = useSelector((state) => state.studyGroup);
+  console.log("answerList", answerList);
  
-  console.log("props", props.comments);
+  console.log("props", props);
   // const comments = [
   //   {
   //     avatarUrl: 'https://banner2.cleanpng.com/20181231/fta/kisspng-computer-icons-user-profile-portable-network-graph-circle-svg-png-icon-free-download-5-4714-onli-5c2a3809d6e8e6.1821006915462707298803.jpg',

@@ -22,7 +22,7 @@ export default function DiscussionList() {
   const { groupInfo } = useSelector((state) => state.studyGroup);
 
   const discussions = groupInfo ? groupInfo.discussions : [];
-  console.log("discussions", discussions);
+  // console.log("discussions", discussions);
   const [currentPage, setCurrentPage] = useState(1);
   const discussionsPerPage = 2;
 

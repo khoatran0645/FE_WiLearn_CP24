@@ -1,14 +1,18 @@
 import React, { useEffect, useState } from "react";
-import Box from "@mui/material/Box";
-import Drawer from "@mui/material/Drawer";
-import CssBaseline from "@mui/material/CssBaseline";
-import Toolbar from "@mui/material/Toolbar";
-import List from "@mui/material/List";
-
-import ListItem from "@mui/material/ListItem";
-import ListItemButton from "@mui/material/ListItemButton";
-import ListItemIcon from "@mui/material/ListItemIcon";
-import ListItemText from "@mui/material/ListItemText";
+import {
+  Box,
+  Drawer,
+  CssBaseline,
+  Toolbar,
+  List,
+  ListItem,
+  ListItemButton,
+  ListItemIcon,
+  ListItemText,
+  Avatar,
+  Grid,
+  Typography,
+} from "@mui/material";
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
@@ -17,7 +21,7 @@ import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
 import UploadFileIcon from "@mui/icons-material/UploadFile";
 import EqualizerIcon from "@mui/icons-material/Equalizer";
 import SettingsIcon from "@mui/icons-material/Settings";
-import { Avatar, Grid, Typography } from "@mui/material";
+
 import {
   getGroupInfo,
   getSubjectLists,
@@ -29,6 +33,7 @@ import {
   getRequestFormList,
   getDocumentListByGroup,
   getStudentInvites,
+  getAnswerByDiscussionId,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -54,10 +59,8 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
-    
+    dispatch(getAnswerByDiscussionId(groupId));
   };
-
-  
 
   useEffect(() => {
     dispatch(getSubjectLists());
@@ -67,6 +70,7 @@ export default function ClippedDrawer() {
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
+    dispatch(getAnswerByDiscussionId(groupId));
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
