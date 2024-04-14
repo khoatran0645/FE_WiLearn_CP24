@@ -14,11 +14,14 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import * as Yup from 'yup'
 import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
-import { massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { getGroupLists, massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs'
+import { useDispatch } from "react-redux";
+import { getUserInfo } from "../../../app/reducer/userReducer";
+import { toast } from "react-toastify";
 
 const daysOfWeek = [
   {
@@ -67,8 +70,8 @@ export default function CreateSchedule() {
   const [endTime, setEndTime] = useState("");
   const [currentTab, setCurrentTab] = useState(0);
   const [repeatedDays, setRepeatedDays] = useState([]);
-  const groupId = useParams()
-
+  const dispatch = useDispatch();
+  const {groupId} = useParams();
   const formatDatePickerResultToISOWithTimezone = (date) => {
     if (!date) return null;
     const padNumber = (number, length) => {
@@ -96,21 +99,18 @@ export default function CreateSchedule() {
   });
   const formik = useFormik({
     initialValues: {
-      // groupId: parseInt(groupId),
+      groupId: parseInt(groupId),
       name: '',
       content: '',
-      // startTime: new Date(),
-      // endTime: new Date(),
-      // //Date for not repeat, startDate for Repeat
-      // startDate: new Date(),
-      // endDate: new Date(),
       startTime: "",
       endTime: "",
       //Date for not repeat, startDate for Repeat
       // startDate: "",
-      startDate: dayjs(new Date()),
-      endDate: "",
+      startDate: null,
+      // startDate: dayjs(),
+      endDate: null,
       dayOfWeeks: [],
+      // subjects:[]
     },
     validationSchema,
     enableReinitialize: true,
@@ -120,13 +120,18 @@ export default function CreateSchedule() {
       const isRepeat = currentTab !== 0;
       if (isRepeat) {
         const data = {
+          groupId: values.groupId,
           name: values.name,
           content: values.content,
-          startTime: values.startTime,
-          endTime: values.endTime,
-          date: values.startDate.toISOString(),
-          date2: formatDatePickerResultToISOWithTimezone(values.startDate),
-
+          scheduleStartTime: values.startTime+":00",
+          scheduleEndTime: values.endTime+":00",
+          // date: values.startDate.toISOString(),
+          // scheduleRangeStart: formatDatePickerResultToISOWithTimezone(values.startDate),
+          // scheduleRangeEnd: formatDatePickerResultToISOWithTimezone(values.endDate),
+          scheduleRangeStart: values.startDate.format(),
+          scheduleRangeEnd: values.endDate.format(),
+          dayOfWeeks: values.dayOfWeeks.map(day=>day.id),
+          subjectIds:[]
           //   groupId,
           // name: values.name,
           // content: values.content,
@@ -138,25 +143,27 @@ export default function CreateSchedule() {
         }
         console.log("CreateSchedule mass submit values", values);
         console.log("CreateSchedule mass submit data", data);
-        // const response = await dispatch(scheduleMeeting(data));
-        // if (response.type === scheduleMeeting.fulfilled.type) {
-        //   dispatch(getGroupLists());
-        //   dispatch(getUserInfo())
-        //   formik.resetForm();
-        //   handleCloseDialog();
-        //   toast.success("Create meeting successfully")
-        // } else {
-        //   toast.error("Fail to create a new meeting")
-        //   dispatch(getUserInfo())
-        // }
+        const response = await dispatch(massScheduleMeeting(data));
+        if (response.type === massScheduleMeeting.fulfilled.type) {
+          dispatch(getGroupLists());
+          dispatch(getUserInfo())
+          formik.resetForm();
+          // handleCloseDialog();
+          toast.success("Create repeating meetings successfully")
+        } else {
+          toast.error("Fail to create new meetings")
+          dispatch(getUserInfo())
+        }
       } else {
         const data = {
+          groupId: values.groupId,
           name: values.name,
           content: values.content,
-          startTime: values.startTime,
-          endTime: values.endTime,
-          date: values.startDate.toISOString(),
-          date2: formatDatePickerResultToISOWithTimezone(values.startDate),
+          scheduleStartTime: values.startTime+":00",
+          scheduleEndTime: values.endTime+":00",
+          // date: values.startDate.toISOString(),
+          // date: formatDatePickerResultToISOWithTimezone(values.startDate),
+          date: values.startDate.format(),
 
           //   groupId,
           // name: values.name,
@@ -167,15 +174,15 @@ export default function CreateSchedule() {
         }
         console.log("CreateSchedule  submit values", values);
         console.log("CreateSchedule  submit data", data);
-        const response = await dispatch(massScheduleMeeting(data));
-        if (response.type === massScheduleMeeting.fulfilled.type) {
+        const response = await dispatch(scheduleMeeting(data));
+        if (response.type === scheduleMeeting.fulfilled.type) {
           dispatch(getGroupLists());
           dispatch(getUserInfo())
           formik.resetForm();
-          handleCloseDialog();
-          toast.success("Create repeating meetings successfully")
+          // handleCloseDialog();
+          toast.success("Create meeting successfully")
         } else {
-          toast.error("Fail to create new repeatings meeting")
+          toast.error("Fail to create a new meeting")
           dispatch(getUserInfo())
         }
       }
@@ -273,6 +280,7 @@ export default function CreateSchedule() {
             />
             <TextField
               label="Content"
+              type="text"
               fullWidth
               // value={meetingContent}
               // onChange={(e) => setMeetingContent(e.target.value)}
@@ -282,23 +290,6 @@ export default function CreateSchedule() {
               error={formik.touched.content && Boolean(formik.errors.content)}
               helperText={formik.touched.content && formik.errors.content}
             />
-            {/* <TextField
-              label="Meeting date"
-              type="date"
-              fullWidth
-              // value={selectedDate}
-              // onChange={(e) => setSelectedDate(e.target.value)}
-
-              //Date for not repeat 
-              name="startDate"
-              value={formik.values.startDate}
-              onChange={formik.handleChange}
-              error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-              helperText={formik.touched.startDate && formik.errors.startDate}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            /> */}
             <Box>
               <Typography variant="subtitle1" gutterBottom>
                 Meeting date
@@ -310,10 +301,11 @@ export default function CreateSchedule() {
                 onChange={(date) => formik.setFieldValue('startDate', date)}
                 error={formik.touched.startDate && Boolean(formik.errors.startDate)}
                 helperText={formik.touched.startDate && formik.errors.startDate}
-                renderInput={(params) => <input {...params.inputProps} />}
+                // renderInput={(params) => <input {...params.inputProps} />}
                 fullWidth
                 sx={{width:"100%"}}
                 disablePast
+                format="DD/MM/YYYY"
               />
             </Box>
             <Grid container spacing={2}>
@@ -385,53 +377,42 @@ export default function CreateSchedule() {
                 />
             <Grid container spacing={2}>
               <Grid item xs={6}>
-                {/* <TextField
-                  label="Start date"
-                  type="date"
-                  fullWidth
-                  // value={selectedDate}
-                  // onChange={(e) => setSelectedDate(e.target.value)}
-                  name="startTime"
-                  value={formik.values.startDate}
-                  onChange={formik.handleChange}
-                  error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-                  helperText={formik.touched.startDate && formik.errors.startDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  /> */}
                   <Box>
-              <Typography variant="subtitle1" gutterBottom>
-                Start date
-              </Typography>
-              <DatePicker
-                name="startDate"
-                value={formik.values.startDate}
-                // onChange={formik.handleChange}
-                onChange={(date) => formik.setFieldValue('startDate', date)}
-                error={formik.touched.startDate && Boolean(formik.errors.startDate)}
-                helperText={formik.touched.startDate && formik.errors.startDate}
-                renderInput={(params) => <input {...params.inputProps} />}
-                fullWidth
-              />
-            </Box>
+                    <Typography variant="subtitle1" gutterBottom>
+                      Start date
+                    </Typography>
+                    <DatePicker
+                      name="startDate"
+                      value={formik.values.startDate}
+                      // onChange={formik.handleChange}
+                      onChange={(date) => formik.setFieldValue('startDate', date)}
+                      error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                      helperText={formik.touched.startDate && formik.errors.startDate}
+                      // renderInput={(params) => <input {...params.inputProps} />}
+                      fullWidth
+                      format="DD/MM/YYYY"
+                />
+                  </Box>
               </Grid>
               <Grid item xs={6}>
-              <TextField
-                  label="End date"
-                  type="date"
-                  fullWidth
-                  // value={selectedDate}
-                  // onChange={(e) => setSelectedDate(e.target.value)}
-                  name="endDate"
-                  value={formik.values.endDate}
-                  onChange={formik.handleChange}
-                  error={formik.touched.endDate && Boolean(formik.errors.endDate)}
-                  helperText={formik.touched.endDate && formik.errors.endDate}
-                  InputLabelProps={{
-                    shrink: true,
-                  }}
-                  />
+                  <Box>
+                    <Typography variant="subtitle1" gutterBottom>
+                      End date
+                    </Typography>
+                    <DatePicker
+                      name="startDate"
+                      value={formik.values.endDate}
+                      // onChange={formik.handleChange}
+                      onChange={(date) => formik.setFieldValue('endDate', date)}
+                      error={formik.touched.endDate && Boolean(formik.errors.endDate)}
+                      helperText={formik.touched.endDate && formik.errors.endDate}
+                      // renderInput={(params) => <input {...params.inputProps} />}
+                      fullWidth
+                      sx={{width:"100%"}}
+                      disablePast
+                      format="DD/MM/YYYY"
+                    />
+                  </Box>
               </Grid>
             </Grid>
 
@@ -476,7 +457,7 @@ export default function CreateSchedule() {
                 sx={{ width: "100%" }}
                 multiple
                 options={daysOfWeek}
-                value={repeatedDays}
+                // value={repeatedDays}
                 isOptionEqualToValue={
                   (option, value)=>option.id==value.id || option.value==value.value
                 }
