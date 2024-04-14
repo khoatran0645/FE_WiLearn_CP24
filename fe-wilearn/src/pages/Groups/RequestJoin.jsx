@@ -3,7 +3,8 @@ import { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { acceptJoinGroup, getGroupInfo, getRequestFormList, getSubjectLists } from '../../app/reducer/studyGroupReducer';
 import { useParams } from 'react-router-dom';
-import { getDocumentListByGroup, getGroupInfoAsMember, getGroupLists, getGroupMemberLists } from '../../app/reducer/studyGroupReducer/studyGroupActions';
+import { declineJoinGroup, getDocumentListByGroup, getGroupInfoAsMember, getGroupLists, getGroupMemberLists } from '../../app/reducer/studyGroupReducer/studyGroupActions';
+import { toast } from 'react-toastify';
 
 export default function RequestJoin() {
   const dispatch=useDispatch();
@@ -29,16 +30,13 @@ export default function RequestJoin() {
 
   const handleAccept = async (reqId, stuName) => {
     const response = await dispatch(acceptJoinGroup(reqId));
-    if (response) {
-      onCloseJoinFormModal();
-    }
     if (response.type === acceptJoinGroup.fulfilled.type) {
       toast.success("Accpected new student "+ stuName);
       dispatch(getRequestFormList(groupId));
 
       handleCloseDialog();
     }else{
-      toast.error("Something went wrong when accepting")
+      toast.error("Something went wrong when accepting student "+ stuName)
     }
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
@@ -50,7 +48,22 @@ export default function RequestJoin() {
   };
 
   const handleReject = async (reqId, stuName) => {
-    handleCloseDialog();
+    const response = await dispatch(declineJoinGroup(reqId));
+    if (response.type === declineJoinGroup.fulfilled.type) {
+      toast.success("Decline new student "+ stuName);
+      dispatch(getRequestFormList(groupId));
+
+      handleCloseDialog();
+    }else{
+      toast.error("Something went wrong when declining student "+ stuName)
+    }
+    dispatch(getSubjectLists());
+    dispatch(getGroupInfo(groupId));
+    dispatch(getGroupInfoAsMember(groupId));
+    dispatch(getGroupLists());
+    dispatch(getGroupMemberLists());
+    dispatch(getRequestFormList(groupId));
+    dispatch(getDocumentListByGroup(groupId));
     
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
