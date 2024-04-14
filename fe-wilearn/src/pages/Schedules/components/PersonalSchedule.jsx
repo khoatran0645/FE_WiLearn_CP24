@@ -17,6 +17,7 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import HistoryMeeting from './../../Meeting/HistoryMeeting';
 
 const localizer = momentLocalizer(moment);
 
@@ -308,7 +309,7 @@ function PersonalSchedule() {
       </Grid>
 
       <Grid xs={11.5} paddingTop={3} paddingBottom={2}>
-        {/* <HistoryMeeting /> */}
+        <HistoryMeeting />
       </Grid>
       {/* <Grid container paddingLeft={5}> */}
       <Grid container>

@@ -36,6 +36,18 @@ const userSlice = createSlice({
     // Define reducers for asynchronous actions
 
     // // Reducers for register action
+    builder.addCase(register.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(register.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(register.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+    
     // [register.pending]: (state) => {
     //   state.loading = true;
     //   state.error = null;
