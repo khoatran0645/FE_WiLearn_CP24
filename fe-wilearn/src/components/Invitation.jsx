@@ -21,19 +21,6 @@ export default function Invitation() {
     alert('getStudentInvites')
     dispatch(getStudentInvites());
   };
-  // const groupInvites = [
-  // const invitations = [
-  //   {
-  //     name: "Chicken never die",
-  //     subject: "Java",
-  //     members: 10,
-  //   },
-  //   {
-  //     name: "Chicken never die",
-  //     subject: "Java",
-  //     members: 10,
-  //   }
-  // ];
 
   const handleInvitationClick = () => {
     setOpenDialog(true);
@@ -44,10 +31,6 @@ export default function Invitation() {
   };
 
   const handleAccept =async (inviteId, gname) => {
-    // setGroupInvites((prevGroupInfo) => ({
-    //   ...prevGroupInfo,
-    // }));
-    // alert(gname+'Accept '+inviteId)
     const response = await dispatch(acceptInvitation(inviteId));
     if (response.type === acceptInvitation.fulfilled.type) {
       toast.success("Accpected to join group "+ gname);
@@ -66,10 +49,6 @@ export default function Invitation() {
   };
 
   const handleReject = async (inviteId, gname) => {
-    // setGroupInvites((prevGroupInfo) => ({
-    //   ...prevGroupInfo,
-    // }));
-    // alert(gname+'Reject '+inviteId)
     const response = await dispatch(declineInvitation(inviteId));
     if (response.type === declineInvitation.fulfilled.type) {
       toast.success("Rejected to join group "+ gname);

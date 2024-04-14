@@ -1,16 +1,23 @@
 import { Avatar, Box, Button, Dialog, DialogActions, DialogContent, Grid, Typography } from '@mui/material';
 import { useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { acceptJoinGroup, getGroupInfo, getRequestFormList, getSubjectLists } from '../../app/reducer/studyGroupReducer';
+import { useParams } from 'react-router-dom';
+import { getDocumentListByGroup, getGroupInfoAsMember, getGroupLists, getGroupMemberLists } from '../../app/reducer/studyGroupReducer/studyGroupActions';
 
 export default function RequestJoin() {
+  const dispatch=useDispatch();
+  const {groupId} = useParams()
   const [openDialog, setOpenDialog] = useState(false);
-  const [users, setUsers] = useState([
-    {
-      accountName: 'lanpt',
-      name: 'Lan Anh',
-      email: 'lanpt88@gmail.com',
-      avatar: 'https://cdn.icon-icons.com/icons2/2560/PNG/512/woman_user_avatar_account_female_icon_153149.png',
-    }
-  ]);
+  let { requestFormList  } = useSelector((state) => state.studyGroup);
+  // const [requestFormList, setRequestFormList] = useState([
+  //   {
+  //     accountName: 'lanpt',
+  //     name: 'Lan Anh',
+  //     email: 'lanpt88@gmail.com',
+  //     avatar: 'https://cdn.icon-icons.com/icons2/2560/PNG/512/woman_user_avatar_account_female_icon_153149.png',
+  //   }
+  // ]);
 
   const handleRequestClick = () => {
     setOpenDialog(true);
@@ -20,18 +27,38 @@ export default function RequestJoin() {
     setOpenDialog(false);
   };
 
-  const handleAccept = () => {
-    setUsers((prevUserInfo) => ({
-      ...prevUserInfo,
-    }));
-    handleCloseDialog();
+  const handleAccept = async (reqId, stuName) => {
+    const response = await dispatch(acceptJoinGroup(reqId));
+    if (response) {
+      onCloseJoinFormModal();
+    }
+    if (response.type === acceptJoinGroup.fulfilled.type) {
+      toast.success("Accpected new student "+ stuName);
+      dispatch(getRequestFormList(groupId));
+
+      handleCloseDialog();
+    }else{
+      toast.error("Something went wrong when accepting")
+    }
+    dispatch(getSubjectLists());
+    dispatch(getGroupInfo(groupId));
+    dispatch(getGroupInfoAsMember(groupId));
+    dispatch(getGroupLists());
+    dispatch(getGroupMemberLists());
+    dispatch(getRequestFormList(groupId));
+    dispatch(getDocumentListByGroup(groupId));
   };
 
-  const handleReject = () => {
-    setUsers((prevUserInfo) => ({
-      ...prevUserInfo,
-    }));
+  const handleReject = async (reqId, stuName) => {
     handleCloseDialog();
+    
+    dispatch(getSubjectLists());
+    dispatch(getGroupInfo(groupId));
+    dispatch(getGroupInfoAsMember(groupId));
+    dispatch(getGroupLists());
+    dispatch(getGroupMemberLists());
+    dispatch(getRequestFormList(groupId));
+    dispatch(getDocumentListByGroup(groupId));
   };
   return (
     <>
@@ -40,27 +67,28 @@ export default function RequestJoin() {
       </Button>
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
         <DialogContent>
-          {users.map(users=>(
+          {(!requestFormList||requestFormList.length==0)&&"No student is requesting to join"}
+          {requestFormList.map(request=>(
           <Box>
             <Grid container justifyContent="center">
-              <Avatar src={users.avatar} sx={{ width: 100, height: 100, marginBottom: '10px' }} />
+              <Avatar src={request.avatar} sx={{ width: 100, height: 100, marginBottom: '10px' }} />
             </Grid>
             <Grid sx={{ display: 'flex', flexDirection: 'column', paddingLeft: '120px' }}>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>Account name:</span> {users.accountName}
+                <span style={{ fontWeight: 'bold' }}>Account name:</span> {request.userName}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>User name:</span> {users.name}
+                <span style={{ fontWeight: 'bold' }}>User name:</span> {request.fullName}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>Email:</span> {users.email}
+                <span style={{ fontWeight: 'bold' }}>Email:</span> {request.email}
               </Typography>
             </Grid>
             <DialogActions sx={{ marginRight: '20px' }}>
-              <Button onClick={handleReject} color="primary">
+              <Button onClick={()=>handleReject(request.id, request.userName)} color="primary">
                 Deny
               </Button>
-              <Button onClick={handleAccept} color="primary">
+              <Button onClick={()=>handleAccept(request.id, request.userName)} color="primary">
                 Accept
               </Button>
             </DialogActions>
