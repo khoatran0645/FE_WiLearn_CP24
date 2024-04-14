@@ -13,6 +13,7 @@ const initialState = {
   userInfo: null,
   meetings: null,
   error: null,
+  loginError: null,
 };
 
 const userSlice = createSlice({
@@ -26,6 +27,9 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.meetings = null;
       state.error = null;
+    },
+    setLoginError: (state, action) => {
+      state.loginError = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -153,7 +157,7 @@ const userSlice = createSlice({
 
 export { checkLogin, register, getUserInfo, getUsermMeetings }; // export asynchronous actions
 
-export const { reset } = userSlice.actions; // export synchronous actions
+export const { reset, setLoginError } = userSlice.actions; // export synchronous actions
 
 // export reducer
 // reducer need to be registered with a state name at src/store/rootReducers.js
