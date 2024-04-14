@@ -82,17 +82,17 @@ export default function CreateGroup() {
       }
       console.log("CreateGroup submit values", values);
       console.log("CreateGroup submit data", data);
-      // const response = await dispatch(createGroup(data));
-      // if (response.type === createGroup.fulfilled.type) {
-      //   dispatch(getGroupLists());
-      //   dispatch(getUserInfo())
-      //   formik.resetForm();
-      //   handleCloseDialog();
-      //   toast.success("Create group successfully")
-      // }else{
-      //   toast.error("Fail to create a new group")
-      //   dispatch(getUserInfo())
-      // }
+      const response = await dispatch(createGroup(data));
+      if (response.type === createGroup.fulfilled.type) {
+        dispatch(getGroupLists());
+        dispatch(getUserInfo())
+        formik.resetForm();
+        handleCloseDialog();
+        toast.success("Create group successfully")
+      }else{
+        toast.error("Fail to create a new group")
+        dispatch(getUserInfo())
+      }
     }
   });
 
