@@ -54,6 +54,7 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
+    
   };
 
   

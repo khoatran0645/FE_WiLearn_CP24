@@ -1,5 +1,5 @@
 //  export const BE_URL = "http://www.groupstudy.somee.com";
-export const BE_URL = 'http://localhost:8001';
+export const BE_URL = "http://localhost:8001";
 // export const BE_URL = 'http://localhost:5000';
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
@@ -71,8 +71,10 @@ export const API_MEETING_REPEAT = "/api/Meetings/Mass-schedule";
 
 //Documents
 // export const GET_LIST_DOCUMENTS = "/api/DocumentFiles/api/Document/Get/{groupId}";
-export const GET_LIST_DOCUMENTS_BY_GROUP = "/api/DocumentFiles/api/Document/Get/{groupId}";
-export const CREATE_DOCUMENT = "/api/DocumentFiles/api/Document/Upload?groupId={groupId}&accountId={accountId}";
+export const GET_LIST_DOCUMENTS_BY_GROUP =
+  "/api/DocumentFiles/api/Document/Get/{groupId}";
+export const CREATE_DOCUMENT =
+  "/api/DocumentFiles/api/Document/Upload?groupId={groupId}&accountId={accountId}";
 export const DELETE_DOCUMENT = "/delete-file";
 export const ACCEPT_DOCUMENT = "/accept-file";
 
@@ -90,8 +92,14 @@ export const NEW_STAT_API = "/api/Stats";
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 
 // disscussion
-export const API_UPLOAD_DISCUSSION = "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
-export const API_GET_DISCUSSION_BY_ID = "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
+export const API_UPLOAD_DISCUSSION =
+  "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
+export const API_GET_DISCUSSION_BY_ID =
+  "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
+
+// discussion answer
+export const API_GET_ANSWER_BY_DISCUSSION_ID =
+  "/api/AnswerDiscussion/Get?discussionId={discussionId}";
 
 export const publicRoutes = {
   root: "/",

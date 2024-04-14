@@ -15,13 +15,14 @@ import { useNavigate, Link } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { useState } from 'react';
+import dayjs from "dayjs";
 
 export default function DiscussionList() {
   const navigate = useNavigate();
   const { groupInfo } = useSelector((state) => state.studyGroup);
 
   const discussions = groupInfo ? groupInfo.discussions : [];
-  // console.log("discussions", discussions);
+  console.log("discussions", discussions);
   const [currentPage, setCurrentPage] = useState(1);
   const discussionsPerPage = 2;
 
@@ -96,7 +97,7 @@ export default function DiscussionList() {
                     color="textSecondary"
                     component="p"
                   >
-                    {discussion.accountFullname} - {discussion.dateTime}
+                    {discussion.accountFullname} - {dayjs(discussion.createAt).format("DD/MM/YYYY")}
                   </Typography>
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
 

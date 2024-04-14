@@ -12,7 +12,6 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getDiscussionById } from "../../../app/reducer/studyGroupReducer";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 
