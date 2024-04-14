@@ -1,53 +1,53 @@
-import { Avatar, Grid, Typography } from '@mui/material';
-import PropTypes from 'prop-types';
+import { Avatar, Grid, Typography } from "@mui/material";
+import PropTypes from "prop-types";
 
 const Comment = ({ avatarUrl, username, content, timestamp }) => {
   const styles = {
     commentContainer: {
-      display: 'flex',
-      alignItems: 'center',
-      marginBottom: '15px',
+      display: "flex",
+      alignItems: "center",
+      marginBottom: "15px",
     },
     userInfo: {
-      display: 'flex',
-      alignItems: 'center',
+      display: "flex",
+      alignItems: "center",
     },
     username: {
-      fontSize: '16px',
-      fontWeight: 'bold',
-      marginBottom: '5px',
+      fontSize: "16px",
+      fontWeight: "bold",
+      marginBottom: "5px",
     },
     userDetail: {
-      display: 'flex',
-      flexDirection: 'column',
-      marginLeft: '10px',
+      display: "flex",
+      flexDirection: "column",
+      marginLeft: "10px",
     },
     content: {
-      fontSize: '14px',
-      marginBottom: '5px',
-      marginLeft: '40px',
+      fontSize: "14px",
+      marginBottom: "5px",
+      marginLeft: "40px",
     },
     timestamp: {
-      fontSize: '12px',
-      color: '#888',
-      marginLeft: '40px',
+      fontSize: "12px",
+      color: "#888",
+      marginLeft: "40px",
     },
     avatar: {
-      width: '30px',
-      height: '30px',
-      marginRight: '10px',
+      width: "30px",
+      height: "30px",
+      marginRight: "10px",
     },
   };
 
   return (
     <Grid style={styles.commentContainer}>
-      <Grid style={styles.userInfo}>       
+      <Grid style={styles.userInfo}>
         <Grid style={styles.userDetail}>
-          <Grid sx={{display: 'flex'}}>
-          <Avatar src={avatarUrl} alt="Avatar" style={styles.avatar} />
-          <Typography style={styles.username}>{username}</Typography>
+          <Grid sx={{ display: "flex" }}>
+            <Avatar src={avatarUrl} alt="Avatar" style={styles.avatar} />
+            <Typography style={styles.username}>{username}</Typography>
           </Grid>
-          <Typography style={styles.content}>{content}</Typography>          
+          <Typography style={styles.content}>{content}</Typography>
           <Typography style={styles.timestamp}>{timestamp}</Typography>
         </Grid>
       </Grid>

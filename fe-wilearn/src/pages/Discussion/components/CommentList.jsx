@@ -1,12 +1,12 @@
 import { Grid } from "@mui/material";
 import Comment from "./Comment";
 import { useDispatch, useSelector } from "react-redux";
+import dayjs from "dayjs";
 
-const CommentList = (props) => {
-  const {answerList} = useSelector((state) => state.studyGroup);
-  console.log("answerList", answerList);
- 
-  console.log("props", props);
+const CommentList = () => {
+  const { answerList } = useSelector((state) => state.studyGroup);
+  // console.log("answerList", answerList);
+
   // const comments = [
   //   {
   //     avatarUrl: 'https://banner2.cleanpng.com/20181231/fta/kisspng-computer-icons-user-profile-portable-network-graph-circle-svg-png-icon-free-download-5-4714-onli-5c2a3809d6e8e6.1821006915462707298803.jpg',
@@ -23,7 +23,9 @@ const CommentList = (props) => {
   // ];
 
   return (
-    <Grid style={{ textAlign: 'left', paddingTop:"20px", paddingLeft: "300px"}}>
+    <Grid
+      style={{ textAlign: "left", paddingTop: "20px", paddingLeft: "300px" }}
+    >
       {/* {comments.map((comment, index) => (
         <Comment
           key={index}
@@ -33,13 +35,13 @@ const CommentList = (props) => {
           timestamp={comment.timestamp}
         />
       ))} */}
-      {props.comments.map((comment, index) => (
+      {answerList.map((comment) => (
         <Comment
-          key={index}
-          avatarUrl={comment.avatarUrl}
-          username={comment.accountId}
+          key={comment.id}
+          avatarUrl={comment.account.imagePath}
+          username={comment.account.fullName}
           content={comment.content}
-          timestamp={comment.createAt}
+          timestamp={dayjs(comment.createAt).format('DD/MM/YYYY')}
         />
       ))}
     </Grid>

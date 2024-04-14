@@ -18,9 +18,10 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
-  const { groupInfo, discussionDetailInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo } = useSelector(
+    (state) => state.studyGroup
+  );
 
-  console.log("discussionDetailInfo", discussionDetailInfo);
 
   const location = useLocation();
   const { pathname } = location;
@@ -182,7 +183,7 @@ export default function DiscussionDetail() {
           Submit
         </Button>
       </Grid>
-      <CommentList comments={data[0].answerDiscussions} />
+      <CommentList />
     </Grid>
   );
 }
