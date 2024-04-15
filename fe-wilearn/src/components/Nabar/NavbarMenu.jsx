@@ -30,7 +30,7 @@ export default function NavbarMenu() {
       <Container maxWidth="xl">
         <Toolbar disableGutters>
           <img
-            src="/src/assets/11276378.png"
+            src="/logo.png"
             alt="Logo"
             style={{ marginRight: "8px", width: "40px", height: "40px" }}
           />

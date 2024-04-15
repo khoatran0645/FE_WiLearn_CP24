@@ -12,16 +12,16 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { getDiscussionById } from "../../../app/reducer/studyGroupReducer";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { addAnswer } from "../../../app/reducer/studyGroupReducer";
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
+  const dispatch = useDispatch();
   const { groupInfo } = useSelector((state) => state.studyGroup);
-
-  // console.log("groupInfo", groupInfo);
+  const { userInfo } = useSelector((state) => state.user);
 
   const location = useLocation();
   const { pathname } = location;
@@ -39,8 +39,8 @@ export default function DiscussionDetail() {
   });
 
   // const data = discussions.filter((discussions) => discussions.id === state.id);
-  console.log("data", data[0]);
-  console.log("answerDiscussions", data[0].answerDiscussions);
+  // console.log("data", data[0]);
+  // console.log("answerDiscussions", data[0].answerDiscussions);
 
   // const data = await dispatch(getDiscussionById(1));
   // console.log("data", data);
@@ -51,6 +51,15 @@ export default function DiscussionDetail() {
 
   const handleReplySubmit = () => {
     console.log(`Reply submitted: ${replyText}`);
+    const data = {
+      userId: userInfo.id,
+      discussionId: discussId,
+      content: replyText,
+      file: "",
+    };
+    console.log("data", data);
+    const res = dispatch(addAnswer(data));
+    console.log("res", res);
     setReplyText("");
   };
 
@@ -104,7 +113,7 @@ export default function DiscussionDetail() {
             style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
           >
             {/* March 17, 2024 10:00 AM */}
-            {dayjs(data[0].createAt).format("MMMM DD, YYYY hh:mm a")}
+            {dayjs(data[0].createAt).format("DD/MM/YYYY HH:mm:ss")}
           </Typography>
         </Box>
         <Box sx={{ padding: "20px" }}>
@@ -183,7 +192,7 @@ export default function DiscussionDetail() {
           Submit
         </Button>
       </Grid>
-      <CommentList comments={data[0].answerDiscussions} />
+      <CommentList />
     </Grid>
   );
 }
