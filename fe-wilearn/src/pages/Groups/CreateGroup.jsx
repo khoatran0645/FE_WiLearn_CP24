@@ -54,26 +54,6 @@ export default function CreateGroup() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // if (groupInfo) {
-      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
-      //   const response = await dispatch(
-      //     updateGroupInfo({ ...values, subjectIds: transformSbjIds })
-      //   );
-      //   if (response.type === updateGroupInfo.fulfilled.type) {
-      //     formik.resetForm();
-      //     dispatch(getGroupInfo(groupInfo?.id));
-      //     onClose();
-      //   }
-      // } else {
-      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
-      //   const response = await dispatch(createGroup({ ...values, subjectIds: transformSbjIds }));
-      //   if (response.type === createGroup.fulfilled.type) {
-      //     dispatch(getGroupLists());
-      //     formik.resetForm();
-      //     onClose();
-      //   }
-      // }
-      // const data = { ...values, subjectIds: values.subjects.map(sub=> parseInt(sub.id)) }
       const data = {
         name: values.name,
         description: values.description,
@@ -82,17 +62,17 @@ export default function CreateGroup() {
       }
       console.log("CreateGroup submit values", values);
       console.log("CreateGroup submit data", data);
-      // const response = await dispatch(createGroup(data));
-      // if (response.type === createGroup.fulfilled.type) {
-      //   dispatch(getGroupLists());
-      //   dispatch(getUserInfo())
-      //   formik.resetForm();
-      //   handleCloseDialog();
-      //   toast.success("Create group successfully")
-      // }else{
-      //   toast.error("Fail to create a new group")
-      //   dispatch(getUserInfo())
-      // }
+      const response = await dispatch(createGroup(data));
+      if (response.type === createGroup.fulfilled.type) {
+        dispatch(getGroupLists());
+        dispatch(getUserInfo())
+        formik.resetForm();
+        handleCloseDialog();
+        toast.success("Create group successfully")
+      }else{
+        toast.error("Fail to create a new group")
+        dispatch(getUserInfo())
+      }
     }
   });
 

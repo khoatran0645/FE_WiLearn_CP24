@@ -60,6 +60,8 @@ export default function ClippedDrawer() {
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
     dispatch(getAnswerByDiscussionId(groupId));
+
+
   };
 
   useEffect(() => {
