@@ -123,8 +123,8 @@ function PersonalSchedule() {
               {meeting.name}
             </Typography>
             {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
-            {meeting.subjects.map(s=>(
-              <Chip label={s.name} size="small" variant="filled" />
+            {meeting.subjects && meeting.subjects.map((s, index)=>(
+              <Chip key={index} label={s.name} size="small" variant="filled" />
             ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}
@@ -191,8 +191,8 @@ function PersonalSchedule() {
               {meeting.name}
             </Typography>
             {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
-            {meeting.subjects.map(s=>(
-              <Chip label={s.name} size="small" variant="filled" />
+            {meeting.subjects && meeting.subjects.map((s, index)=>(
+              <Chip key={index} label={s.name} size="small" variant="filled" />
             ))}
             <Typography variant="body1" color="text.secondary">
               Content: {meeting.content}

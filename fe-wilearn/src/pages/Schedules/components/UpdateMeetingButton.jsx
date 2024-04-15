@@ -1,4 +1,5 @@
 import {
+  Autocomplete,
   Box,
   Button,
   Grid,
@@ -6,6 +7,8 @@ import {
   TextField,
   Typography
 } from "@mui/material";
+import { DatePicker } from "@mui/x-date-pickers";
+import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useState } from "react";
 import { useSelector } from "react-redux";
@@ -14,12 +17,16 @@ import * as Yup from 'yup'
 
 export default function UpdateMeetingButton({meeting}) {
   const [open, setOpen] = useState(false);
-  const [meetingName, setMeetingName] = useState(meeting.name);
-  const [meetingContent, setMeetingContent] = useState(meeting.content);
-  const [selectedDate, setSelectedDate] = useState(meeting.date);
-  const [startTime, setStartTime] = useState("");
-  const [endTime, setEndTime] = useState("");
-
+  // const [meetingName, setMeetingName] = useState(meeting.name);
+  // const [meetingContent, setMeetingContent] = useState(meeting.content);
+  // const [selectedDate, setSelectedDate] = useState(meeting.date);
+  // const [startTime, setStartTime] = useState("");
+  // const [endTime, setEndTime] = useState("");
+  let subjectLists = [];
+  const { groupInfo } = useSelector((state) => state.studyGroup);
+  if(groupInfo){
+    subjectLists= groupInfo.subjects
+  }
   const { groupId } = useParams();
   let leadGroups = [];
   const { userInfo } = useSelector(state => state.user);
@@ -30,20 +37,21 @@ export default function UpdateMeetingButton({meeting}) {
 
   const handleOpen = () => {
     setOpen(true);
+    console.log("UpdateMeetingButton meeting", meeting)
   };
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const handleCreateMeeting = () => {
-    console.log("Submitted:", {
-      meetingName,
-      meetingContent,
-      selectedDate,
-      startTime,
-      endTime,
-    });
+  const handleUpdateMeeting = () => {
+    // console.log("Submitted:", {
+    //   meetingName,
+    //   meetingContent,
+    //   selectedDate,
+    //   startTime,
+    //   endTime,
+    // });
   };
 
 
@@ -81,17 +89,15 @@ export default function UpdateMeetingButton({meeting}) {
   const formik = useFormik({
     initialValues: {
       groupId: parseInt(groupId),
-      name: '',
-      content: '',
-      startTime: "",
-      endTime: "",
+      name: meeting.name,
+      content: meeting.content,
+      startTime: dayjs(meeting.scheduleStart).format("HH:mm"),
+      endTime: dayjs(meeting.scheduleEnd).format("HH:mm"),
       //Date for not repeat, startDate for Repeat
-      // startDate: "",
-      startDate: null,
+      // startDate: null,
+      startDate:dayjs(meeting.scheduleStart),
       // startDate: dayjs(),
-      endDate: null,
-      dayOfWeeks: [],
-      subjects: []
+      subjects: meeting.subjects
     },
     validationSchema,
     enableReinitialize: true,
@@ -116,6 +122,7 @@ export default function UpdateMeetingButton({meeting}) {
         dispatch(getGroupLists());
         dispatch(getUserInfo())
         formik.resetForm();
+        handleClose();
         // handleCloseDialog();
         toast.success("Create repeating meetings successfully")
       } else {
@@ -202,33 +209,68 @@ export default function UpdateMeetingButton({meeting}) {
             <TextField
               label="Meeting name"
               fullWidth
-              value={meetingName}
-              onChange={(e) => setMeetingName(e.target.value)}
+              // value={meetingName}
+              // onChange={(e) => setMeetingName(e.target.value)}
+              disabled={!isLead}
+              name="name"
+              value={formik.values.name}
+              onChange={formik.handleChange}
+              error={formik.touched.name && Boolean(formik.errors.name)}
+              helperText={formik.touched.name && formik.errors.name}
             />
             <TextField
               label="Content"
               fullWidth
-              value={meetingContent}
-              onChange={(e) => setMeetingContent(e.target.value)}
+              // value={meetingContent}
+              // onChange={(e) => setMeetingContent(e.target.value)}
+              disabled={!isLead}
+              name="content"
+              value={formik.values.content}
+              onChange={formik.handleChange}
+              error={formik.touched.content && Boolean(formik.errors.content)}
+              helperText={formik.touched.content && formik.errors.content}
             />
-            <TextField
-              label="Meeting date"
-              type="date"
-              fullWidth
-              value={selectedDate}
-              onChange={(e) => setSelectedDate(e.target.value)}
-              InputLabelProps={{
-                shrink: true,
-              }}
-            />
+             <Box>
+              <Typography variant="subtitle1" gutterBottom>
+                Meeting date
+              </Typography>
+              <DatePicker
+                disabled={!isLead}
+                name="startDate"
+                value={formik.values.startDate}
+                // onChange={formik.handleChange}
+                onChange={(date) => {
+                  formik.setFieldValue('startDate', date)
+                  console.log("DatePicker onChange", date)
+                }}
+                error={formik.touched.startDate && Boolean(formik.errors.startDate)}
+                helperText={formik.touched.startDate && formik.errors.startDate}
+                fullWidth
+                sx={{width:"100%"}}
+                disablePast
+                // format="DD/MM/YYYY"
+              />
+              {formik.values.startDate&&formik.values.startDate.format()}
+              {(formik.touched.startDate && formik.errors.startDate) && (
+                <Typography variant="caption" gutterBottom sx={{color:"red"}}>
+                  {formik.errors.startDate}
+                </Typography>
+              )}
+            </Box>
             <Grid container spacing={2}>
               <Grid item xs={6}>
                 <TextField
                   label="Start time"
                   type="time"
                   fullWidth
-                  value={startTime}
-                  onChange={(e) => setStartTime(e.target.value)}
+                  disabled={!isLead}
+                  // value={startTime}
+                  // onChange={(e) => setStartTime(e.target.value)}
+                  name="startTime"
+                  value={formik.values.startTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.startTime && Boolean(formik.errors.startTime)}
+                  helperText={formik.touched.startTime && formik.errors.startTime}
                   InputLabelProps={{
                     shrink: true,
                   }}
@@ -239,18 +281,51 @@ export default function UpdateMeetingButton({meeting}) {
                   label="End time"
                   type="time"
                   fullWidth
-                  value={endTime}
-                  onChange={(e) => setEndTime(e.target.value)}
+                  disabled={!isLead}
+                  // value={endTime}
+                  // onChange={(e) => setEndTime(e.target.value)}
+                  name="endTime"
+                  value={formik.values.endTime}
+                  onChange={formik.handleChange}
+                  error={formik.touched.endTime && Boolean(formik.errors.endTime)}
+                  helperText={formik.touched.endTime && formik.errors.endTime}
                   InputLabelProps={{
                     shrink: true,
                   }}
                 />
               </Grid>
             </Grid>
+            <Box sx={{ marginTop: "1rem" }}>
+              <Autocomplete
+                multiple
+                id="subjects"
+                disabled={!isLead}
+                options={subjectLists}
+                isOptionEqualToValue={
+                  (option, value)=>option.id==value.id || option.name==value.name
+                }
+                getOptionLabel={(option) => option.name}
+                value={formik.values.subjects}
+                onChange={(event, selectedOptions) => {
+                  formik.setFieldValue('subjects', selectedOptions);
+                }}
+                onBlur={formik.handleBlur('subjects')}
+                renderInput={(params) => (
+                  <TextField
+                    {...params}
+                    variant="outlined"
+                    label="Select group subjects"
+                    placeholder="Select subjects"
+                    error={formik.touched.subjects && Boolean(formik.errors.subjects)}
+                    helperText={formik.touched.subjects && formik.errors.subjects}
+                  />
+                )}
+              />
+            </Box>
           </Box>
           {isLead&&(
             <>
-              <Button color="success" onClick={handleCreateMeeting}>Update</Button>
+              <Button color="success" onClick={handleUpdateMeeting}>Update</Button>
               <Button onClick={handleDeleteMeeting} color="error">Delete</Button>
             </>
           )}
