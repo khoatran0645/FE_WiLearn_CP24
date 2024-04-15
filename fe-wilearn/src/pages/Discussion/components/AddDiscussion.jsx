@@ -44,17 +44,19 @@ export default function AddDiscussion() {
     setContent(value);
   };
 
-  const handleSubmit = () => {
+  const handleSubmit = async () => {
     if (topic.trim().length === 0 || content.trim().length === 0) {
       toast.error("Please fill all the fields.");
     } else {
-      const data = JSON.parse(JSON.stringify({
-        "userId": userInfo.id,
-        "groupId": groupInfo.id,
-        "Question": topic,
-        "Content": content,
-        "File": "",
-      }));
+      const data = JSON.parse(
+        JSON.stringify({
+          userId: userInfo.id,
+          groupId: groupInfo.id,
+          Question: topic,
+          Content: content,
+          File: "",
+        })
+      );
       console.log("data", data);
       dispatch(addDiscussion(data));
       handleClose();

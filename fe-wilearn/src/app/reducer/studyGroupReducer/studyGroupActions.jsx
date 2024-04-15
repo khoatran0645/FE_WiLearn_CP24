@@ -25,6 +25,8 @@ import {
   API_UPDATE_GROUP_INFO,
   API_UPLOAD_DISCUSSION,
   API_GET_DISCUSSION_BY_ID,
+  API_GET_ANSWER_BY_DISCUSSION_ID,
+  API_POST_ANSWER_DISCUSSION,
   API_GET_GROUP_NOT_JOIN,
   GET_LIST_DOCUMENTS_BY_GROUP,
   CREATE_DOCUMENT,
@@ -420,6 +422,36 @@ export const getDiscussionById = createAsyncThunk(
   }
 );
 
+export const getAnswerByDiscussionId = createAsyncThunk(
+  "studyGroup/getAnswerByDiscussionId",
+  async (id, { rejectWithValue }) => {
+    console.log("id", id);
+    return await axiosClient
+      .get(API_GET_ANSWER_BY_DISCUSSION_ID.replace("{discussionId}", id))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const addAnswer = createAsyncThunk(
+  "studyGroup/addAnswer",
+  async (data, { rejectWithValue }) => {
+    console.log("answer data", data);
+    const form = new FormData();
+    form.append("File", '');
+    return await axiosClient
+      .post(
+        API_POST_ANSWER_DISCUSSION.replace("{accountId}", data.userId).replace(
+          "{discussionId}",
+          data.discussionId
+        ).replace("{content}", data.content),
+        form
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
 export const getDocumentListByGroup = createAsyncThunk(
   "studyGroup/getDocumentList",
   async (groupId, { rejectWithValue }) => {
@@ -432,13 +464,19 @@ export const getDocumentListByGroup = createAsyncThunk(
 
 export const uploadFile = createAsyncThunk(
   "studyGroup/uploadFile",
-  async (data,{ rejectWithValue }) => {
+  async (data, { rejectWithValue }) => {
     console.log("upload action", data.file);
     const form = new FormData();
     form.append("file", data.file);
-    console.log("upload success", form)
+    console.log("upload success", form);
     return await axiosClient
-      .post(CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace("{accountId}", data.userId), form)
+      .post(
+        CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace(
+          "{accountId}",
+          data.userId
+        ),
+        form
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
