@@ -120,7 +120,7 @@ function Schedule() {
               {meeting.name}
             </Typography>
             {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
-            {meeting.subjects.map(s=>(
+            {meeting.subjects && meeting.subjects.map(s=>(
               <Chip label={s.name} size="small" variant="filled" />
             ))}
             <Typography variant="body1" color="text.secondary">
@@ -170,7 +170,7 @@ function Schedule() {
               {meeting.name}
             </Typography>
             {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
-            {meeting.subjects.map(s=>(
+            {meeting.subjects&&meeting.subjects.map(s=>(
               <Chip label={s.name} size="small" variant="filled" />
             ))}
             <Typography variant="body1" color="text.secondary">
@@ -201,7 +201,7 @@ function Schedule() {
               sx={{ paddingTop: "1rem" }}
             >
               {meeting.canStart && (<StartMeetingButton meetingId={meeting.id} />)}
-              <UpdateMeetingButton />
+              {<UpdateMeetingButton meeting={meeting}/>}
             </Grid>
           </CardContent>
         
