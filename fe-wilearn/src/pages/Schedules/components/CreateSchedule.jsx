@@ -13,7 +13,7 @@ import {
 import CheckIcon from "@mui/icons-material/Check";
 import * as Yup from 'yup'
 import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
-import { getGroupLists, massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { getGroupInfo, getGroupLists, massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { ErrorMessage, useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { DatePicker } from '@mui/x-date-pickers';
@@ -174,6 +174,7 @@ export default function CreateSchedule() {
           console.log('formik.errors', formik.errors)
           dispatch(getUserInfo())
         }
+        dispatch(getGroupInfo(groupId))
       } else {
         const data = {
           groupId: values.groupId,
@@ -260,9 +261,9 @@ export default function CreateSchedule() {
         aria-describedby="modal-modal-description"
       >
         <Box
-            component={'form'}
-            onSubmit={formik.handleSubmit}
-            sx={{
+          component={'form'}
+          onSubmit={formik.handleSubmit}
+          sx={{
             position: "absolute",
             top: "50%",
             left: "50%",

@@ -11,12 +11,16 @@ import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useFormik } from "formik";
 import { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import * as Yup from 'yup'
+import { getGroupInfo, getGroupLists, updateMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { toast } from "react-toastify";
+import { getUserInfo } from "../../../app/reducer/userReducer";
 
 export default function UpdateMeetingButton({meeting}) {
   const [open, setOpen] = useState(false);
+  const dispatch = useDispatch();
   // const [meetingName, setMeetingName] = useState(meeting.name);
   // const [meetingContent, setMeetingContent] = useState(meeting.content);
   // const [selectedDate, setSelectedDate] = useState(meeting.date);
@@ -86,9 +90,11 @@ export default function UpdateMeetingButton({meeting}) {
     content: Yup.string().trim().required('Require information.'),
     // subjectIds: Yup.array().min(1, 'Please select at least one subject')
   });
+  // alert(meeting.id)
   const formik = useFormik({
     initialValues: {
       groupId: parseInt(groupId),
+      id: meeting.id,
       name: meeting.name,
       content: meeting.content,
       startTime: dayjs(meeting.scheduleStart).format("HH:mm"),
@@ -103,59 +109,54 @@ export default function UpdateMeetingButton({meeting}) {
     enableReinitialize: true,
     onSubmit: async (values) => {
       console.log("submit values", values);
-      const isRepeat = currentTab !== 0;
       const data = {
-        groupId: values.groupId,
+        id: values.id,
         name: values.name,
         content: values.content,
         scheduleStartTime: values.startTime + ":00",
         scheduleEndTime: values.endTime + ":00",
-        scheduleRangeStart: values.startDate.format(),
-        scheduleRangeEnd: values.endDate.format(),
-        dayOfWeeks: values.dayOfWeeks.map(day => day.id),
+        date: values.startDate.format(),
         subjectIds: values.subjects.map(sub => parseInt(sub.id)),
       }
-      console.log("CreateSchedule mass submit values", values);
-      console.log("CreateSchedule mass submit data", data);
-      const response = await dispatch(massScheduleMeeting(data));
-      if (response.type === massScheduleMeeting.fulfilled.type) {
+      console.log("updateMeeting submit values", values);
+      console.log("updateMeeting submit data", data);
+      const response = await dispatch(updateMeeting(data));
+      if (response.type === updateMeeting.fulfilled.type) {
         dispatch(getGroupLists());
         dispatch(getUserInfo())
         formik.resetForm();
         handleClose();
         // handleCloseDialog();
-        toast.success("Create repeating meetings successfully")
+        toast.success("Update meeting successfully")
       } else {
-        toast.error("Fail to create new meetings")
+        toast.error("Fail to update  meeting")
         const errorMap = response.payload.failuresMap;
-        console.log("CreateSchedule error", errorMap)
+        console.log("UpdateSchedule error", errorMap)
         const {
-          groupId,
           name,
           content,
           scheduleStartTime,
           scheduleEndTime,
-          scheduleRangeStart,
-          scheduleRangeEnd,
+          date,
           subjectIds,
           ...others
         } = errorMap
         // alert(date)
         await formik.setErrors({
           ...formik.errors,
-          groupId: groupId,
           name: name,
           content: content,
           startTime: scheduleStartTime,
           endTime: scheduleEndTime,
-          startDate: scheduleRangeStart,
-          endDate: scheduleRangeEnd,
+          startDate: date,
           subjects: subjectIds,
           // others: others
         });
         console.log('formik.errors', formik.errors)
         dispatch(getUserInfo())
       }
+      dispatch(getGroupInfo(groupId))
+
     }
 
   });
@@ -181,6 +182,8 @@ export default function UpdateMeetingButton({meeting}) {
         aria-describedby="modal-modal-description"
       >
         <Box
+          component={'form'}
+          onSubmit={formik.handleSubmit}
           sx={{
             position: "absolute",
             top: "50%",
@@ -250,7 +253,6 @@ export default function UpdateMeetingButton({meeting}) {
                 disablePast
                 // format="DD/MM/YYYY"
               />
-              {formik.values.startDate&&formik.values.startDate.format()}
               {(formik.touched.startDate && formik.errors.startDate) && (
                 <Typography variant="caption" gutterBottom sx={{color:"red"}}>
                   {formik.errors.startDate}
@@ -325,7 +327,7 @@ export default function UpdateMeetingButton({meeting}) {
           </Box>
           {isLead&&(
             <>
-              <Button color="success" onClick={handleUpdateMeeting}>Update</Button>
+              <Button type="submit" color="success" onClick={handleUpdateMeeting}>Update</Button>
               <Button onClick={handleDeleteMeeting} color="error">Delete</Button>
             </>
           )}

@@ -30,6 +30,7 @@ import {
   getDocumentListByGroup,
   uploadFile,
   massScheduleMeeting,
+  updateMeeting,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -460,6 +461,18 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // },
     builder.addCase(meetingNow.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    builder.addCase(updateMeeting.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateMeeting.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(updateMeeting.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
