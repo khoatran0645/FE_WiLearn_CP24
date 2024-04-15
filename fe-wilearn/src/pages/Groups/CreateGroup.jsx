@@ -54,26 +54,6 @@ export default function CreateGroup() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      // if (groupInfo) {
-      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
-      //   const response = await dispatch(
-      //     updateGroupInfo({ ...values, subjectIds: transformSbjIds })
-      //   );
-      //   if (response.type === updateGroupInfo.fulfilled.type) {
-      //     formik.resetForm();
-      //     dispatch(getGroupInfo(groupInfo?.id));
-      //     onClose();
-      //   }
-      // } else {
-      //   const transformSbjIds = values.subjectIds.map((id) => parseInt(id));
-      //   const response = await dispatch(createGroup({ ...values, subjectIds: transformSbjIds }));
-      //   if (response.type === createGroup.fulfilled.type) {
-      //     dispatch(getGroupLists());
-      //     formik.resetForm();
-      //     onClose();
-      //   }
-      // }
-      // const data = { ...values, subjectIds: values.subjects.map(sub=> parseInt(sub.id)) }
       const data = {
         name: values.name,
         description: values.description,

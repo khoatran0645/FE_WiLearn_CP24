@@ -15,7 +15,7 @@ import CheckIcon from "@mui/icons-material/Check";
 import * as Yup from 'yup'
 import { scheduleMeeting } from "../../../app/reducer/studyGroupReducer";
 import { getGroupLists, massScheduleMeeting } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
-import { useFormik } from "formik";
+import { ErrorMessage, useFormik } from "formik";
 import { useParams } from "react-router-dom";
 import { DatePicker } from '@mui/x-date-pickers';
 import dayjs from 'dayjs'
@@ -130,21 +130,10 @@ export default function CreateSchedule() {
           content: values.content,
           scheduleStartTime: values.startTime+":00",
           scheduleEndTime: values.endTime+":00",
-          // date: values.startDate.toISOString(),
-          // scheduleRangeStart: formatDatePickerResultToISOWithTimezone(values.startDate),
-          // scheduleRangeEnd: formatDatePickerResultToISOWithTimezone(values.endDate),
           scheduleRangeStart: values.startDate.format(),
           scheduleRangeEnd: values.endDate.format(),
           dayOfWeeks: values.dayOfWeeks.map(day=>day.id),
           subjectIds: values.subjects.map(sub=> parseInt(sub.id)),
-          //   groupId,
-          // name: values.name,
-          // content: values.content,
-          // scheduleStartTime: startTimeConvert,
-          // scheduleEndTime: endTimeConvert,
-          // scheduleRangeStart: rangeDateStart,
-          // scheduleRangeEnd: rangeDateEnd,
-          // dayOfWeeks: values.dayOfWeeks,
         }
         console.log("CreateSchedule mass submit values", values);
         console.log("CreateSchedule mass submit data", data);
@@ -157,6 +146,33 @@ export default function CreateSchedule() {
           toast.success("Create repeating meetings successfully")
         } else {
           toast.error("Fail to create new meetings")
+          const errorMap = response.payload.failuresMap;
+          console.log("CreateSchedule error", errorMap)
+          const {
+            groupId,
+            name,
+            content,
+            scheduleStartTime,
+            scheduleEndTime,
+            scheduleRangeStart,
+            scheduleRangeEnd,
+            subjectIds,
+            ...others
+          } = errorMap
+          // alert(date)
+          await formik.setErrors({ 
+            ...formik.errors, 
+            groupId: groupId,
+            name: name,
+            content: content,
+            startTime: scheduleStartTime,
+            endTime: scheduleEndTime,
+            startDate: scheduleRangeStart,
+            endDate: scheduleRangeEnd,
+            subjects: subjectIds, 
+            // others: others
+          });
+          console.log('formik.errors', formik.errors)
           dispatch(getUserInfo())
         }
       } else {
@@ -166,17 +182,8 @@ export default function CreateSchedule() {
           content: values.content,
           scheduleStartTime: values.startTime+":00",
           scheduleEndTime: values.endTime+":00",
-          // date: values.startDate.toISOString(),
-          // date: formatDatePickerResultToISOWithTimezone(values.startDate),
           date: values.startDate.format(),
           subjectIds: values.subjects.map(sub=> parseInt(sub.id)),
-          
-          //   groupId,
-          // name: values.name,
-          // content: values.content,
-          // date: dateLearn,
-          // scheduleStartTime: startTimeConvert,
-          // scheduleEndTime: endTimeConvert,
         }
         console.log("CreateSchedule  submit values", values);
         console.log("CreateSchedule  submit data", data);
@@ -189,6 +196,31 @@ export default function CreateSchedule() {
           toast.success("Create meeting successfully")
         } else {
           toast.error("Fail to create a new meeting")
+          const errorMap = response.payload.failuresMap;
+          console.log("CreateSchedule error", errorMap)
+          const {
+            groupId,
+            name,
+            content,
+            scheduleStartTime,
+            scheduleEndTime,
+            date,
+            subjectIds,
+            ...others
+          } = errorMap
+          // alert(date)
+          await formik.setErrors({ 
+            ...formik.errors, 
+            groupId: groupId,
+            name: name,
+            content: content,
+            startTime: scheduleStartTime,
+            endTime: scheduleEndTime,
+            startDate: date,
+            subjects: subjectIds, 
+            // others: others
+          });
+          console.log('formik.errors', formik.errors)
           dispatch(getUserInfo())
         }
       }
@@ -296,12 +328,16 @@ export default function CreateSchedule() {
                 onChange={(date) => formik.setFieldValue('startDate', date)}
                 error={formik.touched.startDate && Boolean(formik.errors.startDate)}
                 helperText={formik.touched.startDate && formik.errors.startDate}
-                // renderInput={(params) => <input {...params.inputProps} />}
                 fullWidth
                 sx={{width:"100%"}}
                 disablePast
                 format="DD/MM/YYYY"
               />
+              {(formik.touched.startDate && formik.errors.startDate) && (
+                <Typography variant="caption" gutterBottom sx={{color:"red"}}>
+                  {formik.errors.startDate}
+                </Typography>
+              )}
             </Box>
             <Grid container spacing={2}>
               <Grid item xs={6}>
@@ -412,7 +448,13 @@ export default function CreateSchedule() {
                       // renderInput={(params) => <input {...params.inputProps} />}
                       fullWidth
                       format="DD/MM/YYYY"
-                />
+                      disablePast
+                    />
+                    {(formik.touched.startDate && formik.errors.startDate) && (
+                      <Typography variant="caption" gutterBottom sx={{color:"red"}}>
+                        {formik.errors.startDate}
+                      </Typography>
+                    )}
                   </Box>
               </Grid>
               <Grid item xs={6}>
@@ -433,6 +475,11 @@ export default function CreateSchedule() {
                       disablePast
                       format="DD/MM/YYYY"
                     />
+                    {(formik.touched.endDate && formik.errors.endDate) && (
+                      <Typography variant="caption" gutterBottom sx={{color:"red"}}>
+                        {formik.errors.endDate}
+                      </Typography>
+                    )}
                   </Box>
               </Grid>
             </Grid>
