@@ -25,6 +25,7 @@ import {
   addDiscussion,
   getDiscussionById,
   getAnswerByDiscussionId,
+  addAnswer,
   getGroupNotJoin,
   getDocumentListByGroup,
   uploadFile,
@@ -542,6 +543,19 @@ const studyGroupSlice = createSlice({
       state.error = payload;
     });
 
+    //POST ANSWER
+    builder.addCase(addAnswer.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(addAnswer.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(addAnswer.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
     //  GET LIST OF FILE
     builder.addCase(getDocumentListByGroup.pending, (state) => {
       state.loading = true;
@@ -597,6 +611,7 @@ export {
   getClassLists,
   addDiscussion,
   getDiscussionById,
+  addAnswer,
   getAnswerByDiscussionId,
   getGroupNotJoin,
   getDocumentListByGroup,

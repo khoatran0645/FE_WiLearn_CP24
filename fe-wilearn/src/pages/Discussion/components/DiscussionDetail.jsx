@@ -14,14 +14,14 @@ import { useLocation } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
+import { addAnswer } from "../../../app/reducer/studyGroupReducer";
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
-  const { groupInfo } = useSelector(
-    (state) => state.studyGroup
-  );
-
+  const dispatch = useDispatch();
+  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { userInfo } = useSelector((state) => state.user);
 
   const location = useLocation();
   const { pathname } = location;
@@ -51,6 +51,15 @@ export default function DiscussionDetail() {
 
   const handleReplySubmit = () => {
     console.log(`Reply submitted: ${replyText}`);
+    const data = {
+      userId: userInfo.id,
+      discussionId: discussId,
+      content: replyText,
+      file: "",
+    };
+    console.log("data", data);
+    const res = dispatch(addAnswer(data));
+    console.log("res", res);
     setReplyText("");
   };
 

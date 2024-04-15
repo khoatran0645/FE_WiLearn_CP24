@@ -96,6 +96,7 @@ export const API_UPLOAD_DISCUSSION =
   "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
 export const API_GET_DISCUSSION_BY_ID =
   "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
+  export const API_POST_ANSWER_DISCUSSION = "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}"
 
 // discussion answer
 export const API_GET_ANSWER_BY_DISCUSSION_ID =

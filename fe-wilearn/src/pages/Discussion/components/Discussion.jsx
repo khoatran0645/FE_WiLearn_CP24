@@ -6,40 +6,72 @@ import {
   Card,
   CardContent,
   Button,
+  Autocomplete,
+  TextField,
 } from "@mui/material";
 import AddDiscussion from "./AddDiscussion";
-import SeeMore from "./SeeMore";
 import Paginate from "./../../../components/Paginate";
 import { useSelector } from "react-redux";
-import { useNavigate, Link } from "react-router-dom";
+import { Link } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
-import { useState } from 'react';
+import { useEffect, useState } from "react";
 import dayjs from "dayjs";
 
 export default function DiscussionList() {
-  const navigate = useNavigate();
   const { groupInfo } = useSelector((state) => state.studyGroup);
-
   const discussions = groupInfo ? groupInfo.discussions : [];
   // console.log("discussions", discussions);
+  const [sortedData, setSortedData] = useState([]);
+
+  useEffect(() => {}, []);
+  useEffect(() => {}, [discussions]);
+
+  const options = ["Newest", "Oldest"];
+  const handleSort = (event, newValue) => {
+    // console.log("Selected value:", newValue);
+    // switch (newValue) {
+    //   case "Newest": {
+    //     console.log("newest");
+    //     const newestData = [...discussions].sort((a, b) => {
+    //       dayjs(b.createdAt) - dayjs(a.createdAt);
+    //     });
+    //     console.log("newest data:", newestData);
+    //     setSortedData(newestData);
+    //     break;
+    //   }
+    //   case "Oldest": {
+    //     console.log("oldest");
+    //     const oldestData = [...discussions].sort(
+    //       (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
+    //     );
+    //     setSortedData(oldestData);
+    //     break;
+    //   }
+    //   default: {
+    //     setSortedData(discussions);
+    //   }
+    // }
+  };
+
+  // console.log("sortedData", sortedData);
+
   const [currentPage, setCurrentPage] = useState(1);
   const discussionsPerPage = 2;
 
   const totalPages = Math.ceil(discussions.length / discussionsPerPage);
   const startIndex = (currentPage - 1) * discussionsPerPage;
-  const endIndex = Math.min(startIndex + discussionsPerPage, discussions.length);
+  const endIndex = Math.min(
+    startIndex + discussionsPerPage,
+    discussions.length
+  );
   const currentDiscussions = discussions.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
 
-  const handleSeeMoreClick = () => {
-    // navigate(`/home/groups/:id/discussionDetail`);
-    // navigate(`./${discussionId}`);
-  };
-  var formats = [
+  const formats = [
     "background",
     "bold",
     "color",
@@ -72,6 +104,17 @@ export default function DiscussionList() {
       </Grid>
       <AddDiscussion />
       <Grid item xs={12} md={8}>
+        <Autocomplete
+          disablePortal
+          id="combo-box-demo"
+          options={options}
+          defaultValue={"Newest"}
+          sx={{ width: 150 }}
+          getOptionLabel={(option) => option}
+          onChange={handleSort}
+          disableClearable
+          renderInput={(params) => <TextField {...params} label="Sort by" />}
+        />
         <List>
           {currentDiscussions.map((discussion) => (
             <ListItem key={discussion.id} mb={3}>
@@ -97,7 +140,8 @@ export default function DiscussionList() {
                     color="textSecondary"
                     component="p"
                   >
-                    {discussion.accountFullname} - {dayjs(discussion.createAt).format("DD/MM/YYYY")}
+                    {discussion.accountFullname} -{" "}
+                    {dayjs(discussion.createAt).format("DD/MM/YYYY")}
                   </Typography>
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
 
@@ -118,7 +162,13 @@ export default function DiscussionList() {
           ))}
         </List>
         {totalPages > 1 && (
-          <Grid item container justifyContent="center" alignItems="center" paddingTop={5}>
+          <Grid
+            item
+            container
+            justifyContent="center"
+            alignItems="center"
+            paddingTop={5}
+          >
             <Paginate count={totalPages} onPageChange={handlePageChange} />
           </Grid>
         )}

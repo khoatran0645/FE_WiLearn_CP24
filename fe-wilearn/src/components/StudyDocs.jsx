@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import {useState } from "react";
 import {
   Grid,
   Typography,
@@ -27,8 +27,8 @@ import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
 
 import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import { uploadFile } from "../app/reducer/studyGroupReducer/studyGroupActions";
-import path from 'path';
 import { toast } from "react-toastify";
 
 const VisuallyHiddenInput = styled("input")({
@@ -44,7 +44,6 @@ const VisuallyHiddenInput = styled("input")({
 });
 
 export default function StudyDocs() {
-  // const [uploadedFile, setUploadedFile] = useState(null);
   const [initTab, setInitTab] = useState("1");
   const dispatch = useDispatch();
 
@@ -57,7 +56,6 @@ export default function StudyDocs() {
   const pendingList = listFile?.filter((doc) => !doc.approved);
   console.log("pendingList", pendingList);
 
-  // console.log("documentList docs", documentList);
 
   const handleFileChange = (event) => {
     console.log("file", event.target.files[0]);
@@ -85,14 +83,15 @@ export default function StudyDocs() {
     }
   };
 
-  const handleUploadNewFile = () => {
-    // Gọi hàm để reset trạng thái đã upload (nếu cần)
-    setUploadedFile(null);
-  };
+  const {groupId} = useParams();
+  let leadGroups = [];
+  if(userInfo){
+    leadGroups = userInfo.leadGroups?userInfo.leadGroups:[];
+  }
+  const isLead = leadGroups.some(g=>g.id==parseInt(groupId));
 
-  const isLeader = true;
 
-  //neccessary for TabPanel
+  
   const handleChange = (event, newValue) => {
     setInitTab(newValue);
   };
@@ -111,7 +110,7 @@ export default function StudyDocs() {
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={file.httpLink.match(/_(.*?)\?/)[1]} />
+          <ListItemText primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])} />
 
           {/* <ListItemIcon>
             <IconButton
@@ -172,7 +171,7 @@ export default function StudyDocs() {
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={file.httpLink.match(/_(.*?)\?/)[1]}  />
+          <ListItemText primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}  />
         </ListItemButton>
       </ListItem>
     </Paper>
@@ -197,7 +196,7 @@ export default function StudyDocs() {
             <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
               <TabList onChange={handleChange}>
                 <Tab label="Approved file" value="1" />
-                {isLeader && <Tab label="Pending file" value="2" />}
+                {isLead && <Tab label="Pending file" value="2" />}
               </TabList>
             </Box>
             <TabPanel value="1">
