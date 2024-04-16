@@ -10,40 +10,23 @@ import {
 import CommentList from "./CommentList";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
-import { useLocation } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addAnswer } from "../../../app/reducer/studyGroupReducer";
+import { toast } from "react-toastify";
 
 export default function DiscussionDetail() {
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
   const dispatch = useDispatch();
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { discussionId } = useParams();
+
+  const { discussionDetail } = useSelector((state) => state.studyGroup);
   const { userInfo } = useSelector((state) => state.user);
 
-  const location = useLocation();
-  const { pathname } = location;
-  const parts = pathname.split("/");
-  const discussId = parts[parts.length - 1];
-  // console.log("discussId", discussId);
-
-  let discussions = groupInfo.discussions;
-  // console.log("discussions detail", discussions);
-
-  const data = discussions.filter((discussion) => {
-    // console.log("discussion", discussion.id);
-    // console.log("state.id", state.id);
-    return discussion.id == discussId;
-  });
-
-  // const data = discussions.filter((discussions) => discussions.id === state.id);
-  // console.log("data", data[0]);
-  // console.log("answerDiscussions", data[0].answerDiscussions);
-
-  // const data = await dispatch(getDiscussionById(1));
-  // console.log("data", data);
+  console.log("discussionDetail", discussionDetail);
 
   const handleReplyChange = (event) => {
     setReplyText(event.target.value);
@@ -53,11 +36,11 @@ export default function DiscussionDetail() {
     console.log(`Reply submitted: ${replyText}`);
     const data = {
       userId: userInfo.id,
-      discussionId: discussId,
-      content: replyText,
+      discussionId: discussionId,
+      content: replyText.trim(),
       file: "",
     };
-    console.log("data", data);
+    // console.log("data", data);
     const res = dispatch(addAnswer(data));
     console.log("res", res);
     setReplyText("");
@@ -91,21 +74,21 @@ export default function DiscussionDetail() {
                 textAlign: "center",
               }}
             >
-              {data[0].question}
+              {discussionDetail?.question}
             </Typography>
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
-              alt={data[0].accountFullName}
+              alt={discussionDetail?.account.fullName}
               // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
-              src={data[0].accountImagePath}
+              src={discussionDetail?.account.ImagePath}
               sx={{ marginRight: "10px" }}
             />
             <Typography
               variant="body1"
               style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
             >
-              {data[0].accountFullname}
+              {discussionDetail?.account.fullName}
             </Typography>
           </Grid>
           <Typography
@@ -113,34 +96,12 @@ export default function DiscussionDetail() {
             style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
           >
             {/* March 17, 2024 10:00 AM */}
-            {dayjs(data[0].createAt).format("DD/MM/YYYY HH:mm:ss")}
+            {dayjs(discussionDetail?.createAt).format("DD/MM/YYYY HH:mm")}
           </Typography>
         </Box>
         <Box sx={{ padding: "20px" }}>
-          {/* <img
-            src="https://www.thietkewebthuonghieu.com/wp-content/uploads/2019/04/splash.png"
-            alt="Discussion Image"
-            style={{ maxWidth: "100%", height: "auto", marginBottom: "10px" }}
-          /> */}
-          {/* <Typography
-            variant="body1"
-            style={{ fontSize: "16px", textAlign: "justify" }}
-          >
-            .NET là một nền tảng nguồn mở để xây dựng các ứng dụng trên máy tính
-            để bàn, web và thiết bị di động có thể chạy nguyên bản trên bất kỳ
-            hệ điều hành nào. Hệ thống .NET bao gồm các công cụ, thư viện và
-            ngôn ngữ hỗ trợ phát triển phần mềm hiện đại, có quy mô linh hoạt và
-            hiệu năng cao. Một cộng đồng nhà phát triển hoạt động tích cực trong
-            việc duy trì và hỗ trợ nền tảng .NET. Nói một cách dễ hiểu, nền tảng
-            .NET là phần mềm có thể thực hiện những tác vụ sau: Dịch mã ngôn ngữ
-            lập trình .NET thành hướng dẫn mà thiết bị máy tính có thể xử lý.
-            Cung cấp các tiện ích để phát triển phần mềm hiệu quả. Ví dụ: nó có
-            thể tìm thời gian hiện tại hoặc in văn bản trên màn hình. Xác định
-            một tập gồm các loại dữ liệu để lưu trữ thông tin như văn bản, số và
-            ngày tháng trên máy tính.
-          </Typography> */}
           <ReactQuill
-            value={data[0].content}
+            value={discussionDetail?.content}
             readOnly={true}
             theme={"bubble"}
           />
@@ -185,6 +146,7 @@ export default function DiscussionDetail() {
           onClick={handleReplySubmit}
           variant="contained"
           size="small"
+          {...(replyText.trim() === "" ? { disabled: true } : {})}
           style={{
             marginTop: "8px",
           }}

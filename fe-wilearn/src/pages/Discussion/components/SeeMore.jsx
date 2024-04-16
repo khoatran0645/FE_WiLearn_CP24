@@ -5,8 +5,7 @@ import { useSelector } from "react-redux";
 export default function SeeMore({ discussionId }) {
   const navigate = useNavigate();
 
-  const { groupInfo } = useSelector((state) => state.studyGroup);
-  console.log(groupInfo)
+  
 
   const handleSeeMoreClick = () => {
     // navigate(`/home/groups/:id/discussionDetail`);

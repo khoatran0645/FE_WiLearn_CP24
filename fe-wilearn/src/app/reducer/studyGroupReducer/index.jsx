@@ -23,6 +23,7 @@ import {
   getMeetingList,
   getClassLists,
   addDiscussion,
+  getDiscussionByGroupId,
   getDiscussionById,
   getAnswerByDiscussionId,
   addAnswer,
@@ -48,7 +49,8 @@ const initialState = {
   searchGroupss: [],
   requestFormList: [],
   discussionForm: null,
-  discussionDetailInfo: [],
+  discussionList: [],
+  discussionDetail: null,
   answerList: [],
   groupNotJoin: [],
   listFile: [],
@@ -515,6 +517,20 @@ const studyGroupSlice = createSlice({
       state.error = payload;
     });
 
+    //GET DISCUSSION BY GROUP ID
+    builder.addCase(getDiscussionByGroupId.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getDiscussionByGroupId.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.discussionList = payload;
+    });
+    builder.addCase(getDiscussionByGroupId.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
     //GET DISCUSSION BY ID
     builder.addCase(getDiscussionById.pending, (state) => {
       state.loading = true;
@@ -522,7 +538,7 @@ const studyGroupSlice = createSlice({
     });
     builder.addCase(getDiscussionById.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.discussionDetailInfo = payload;
+      state.discussionDetail = payload;
     });
     builder.addCase(getDiscussionById.rejected, (state, { payload }) => {
       state.loading = false;

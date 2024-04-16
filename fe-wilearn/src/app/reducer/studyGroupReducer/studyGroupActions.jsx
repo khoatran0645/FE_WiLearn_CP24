@@ -25,6 +25,7 @@ import {
   API_UPDATE_GROUP_INFO,
   API_UPLOAD_DISCUSSION,
   API_GET_DISCUSSION_BY_ID,
+  API_GET_DISCUSSION_BY_GROUP_ID,
   API_GET_ANSWER_BY_DISCUSSION_ID,
   API_POST_ANSWER_DISCUSSION,
   API_GET_GROUP_NOT_JOIN,
@@ -411,10 +412,18 @@ export const addDiscussion = createAsyncThunk(
   }
 );
 
+export const getDiscussionByGroupId = createAsyncThunk(
+  "studyGroup/getDiscussionList",
+  async (groupId, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_GET_DISCUSSION_BY_GROUP_ID.replace("{groupId}", groupId))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
 export const getDiscussionById = createAsyncThunk(
   "studyGroup/getDiscussionById",
   async (id, { rejectWithValue }) => {
-    console.log("id", id);
     return await axiosClient
       .get(API_GET_DISCUSSION_BY_ID.replace("{discussionId}", id))
       .then((response) => response)
@@ -425,7 +434,7 @@ export const getDiscussionById = createAsyncThunk(
 export const getAnswerByDiscussionId = createAsyncThunk(
   "studyGroup/getAnswerByDiscussionId",
   async (id, { rejectWithValue }) => {
-    console.log("id", id);
+    // console.log("id", id);
     return await axiosClient
       .get(API_GET_ANSWER_BY_DISCUSSION_ID.replace("{discussionId}", id))
       .then((response) => response)
@@ -438,13 +447,12 @@ export const addAnswer = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log("answer data", data);
     const form = new FormData();
-    form.append("File", '');
+    form.append("File", "");
     return await axiosClient
       .post(
-        API_POST_ANSWER_DISCUSSION.replace("{accountId}", data.userId).replace(
-          "{discussionId}",
-          data.discussionId
-        ).replace("{content}", data.content),
+        API_POST_ANSWER_DISCUSSION.replace("{accountId}", data.userId)
+          .replace("{discussionId}", data.discussionId)
+          .replace("{content}", data.content),
         form
       )
       .then((response) => response)
