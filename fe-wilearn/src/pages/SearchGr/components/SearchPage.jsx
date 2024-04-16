@@ -13,6 +13,8 @@ import {
 } from "@mui/material";
 import ListGroup from "./ListGroup";
 import { Form } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { searchGroups } from "../../../app/reducer/studyGroupReducer";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -43,7 +45,7 @@ const names = [
 export default function SearchPage() {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const [searchTerm, setSearchTerm] = useState("");
-
+  const dispatch = useDispatch();
   const selectAllSubjectsOpt = {
     id: -1,
     name: "Select All"
@@ -213,7 +215,12 @@ export default function SearchPage() {
     name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleSearchClick = () => {
+  const handleSearchClick = async() => {
+    const response = await dispatch(searchGroups(searchTerm));
+
+    if (response.type === searchGroups.fulfilled.type) {
+      // setNewSearch(searchGroups);
+    }
   };
 
   return (
@@ -227,6 +234,7 @@ export default function SearchPage() {
             sx={{ width: "500px" }}
             value={searchTerm}
             onChange={(e) => setSearchTerm(e.target.value)}
+            // onChange={onSearch}
           />
         </Grid>
         {/* <Form onSubmit={handleSearchClick}> */}
