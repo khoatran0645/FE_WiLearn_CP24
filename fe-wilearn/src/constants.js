@@ -90,6 +90,7 @@ export const NEW_STAT_API = "/api/Stats";
 //DELETE MEETING
 
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
+export const API_UPDATE_MEETING = "/api/Meetings/Schedule/{id}";
 
 // disscussion
 export const API_UPLOAD_DISCUSSION =
