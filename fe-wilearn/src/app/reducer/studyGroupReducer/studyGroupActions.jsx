@@ -342,6 +342,16 @@ export const searchGroups = createAsyncThunk(
   }
 );
 
+export const searchGroupsCode = createAsyncThunk(
+  "studyGroup/searchGroupsCode",
+  async (keyword, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_SEARCH_GROUP_CODE.replace("{keyword}", keyword))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
 export const requestJoinGroup = createAsyncThunk(
   "studyGroup/requestJoinGroup",
   async ({ groupId, studentId }, { rejectWithValue }) => {

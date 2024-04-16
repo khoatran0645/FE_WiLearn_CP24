@@ -54,12 +54,20 @@ export default function ListGroup(props) {
     <Grid container justifyContent="center">
       <Grid item xs={12} style={{ margin: "0 auto" }}>
         <Grid container justifyContent="center" paddingTop={2}>
-          {groups.length==0 && searchTerm.trim()=="" && (
+          {groups.length==0 && (!searchTerm || searchTerm.trim()=="") && (
             <Typography
               variant="h2"
               color="textSecondary"
             >
                 Search group to join
+            </Typography>
+          )}
+          {groups.length==0 && searchTerm && searchTerm.trim()!="" && (
+            <Typography
+              variant="h2"
+              color="textSecondary"
+            >
+              No groups to found
             </Typography>
           )}
           {currentGroups.map((group, index) => (
