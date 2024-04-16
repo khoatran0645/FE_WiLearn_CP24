@@ -9,152 +9,59 @@ import {
   Typography,
 } from "@mui/material";
 import Paginate from "../../../components/Paginate";
+import { useDispatch, useSelector } from "react-redux";
+import { getGroupMemberLists, getGroupNotJoin, getStudentInvites, getSubjectLists, requestJoinGroup } from "../../../app/reducer/studyGroupReducer";
+import { toast } from "react-toastify";
+import { getUserInfo, getUsermMeetings } from "../../../app/reducer/userReducer";
 
-const groups = [
-  {
-    name: "KTeam",
-    introduction: "Join and start studying right away with the community!",
-    subject: "Java",
-    img: "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjBxXC93bA22ghW67CX040WwL8PzLC0DcNOcvtXUL0LhrfywjCoRFsTdQqWRatvKwuzqZl63K-ax8LMP7nX0_S5ko9v-9_cu9OfaWciDWIQGN1fUa8iIEwXfPy9mNGrplOGdQjKb3NdYq9quxO6Rm1JRAf2bbZ4Il3BhvwZJf2MgMapZ5rl2mEq5FuluA/s1600/hinh%20nen%2012%20con%20giap%20phong%20cach%20it%20tuoi%20ti.jpg",
-  },
-  {
-    name: "JsLand",
-    introduction:
-      "Discover new frontiers in web development with our JavaScript coding community",
-    subject: "Javascript",
-    img: "https://www.shutterstock.com/shutterstock/photos/1932042689/display_1500/stock-photo-businessman-using-mobile-smart-phone-business-global-internet-connection-application-technology-1932042689.jpg",
-  },
-  {
-    name: "HackMasters",
-    introduction: "Innovative programming team specializing in Java and more.",
-    subject: "Java, Python",
-    img: "https://hoangphucphoto.com/wp-content/uploads/2024/02/IMG_9923.jpg",
-  },
-  {
-    name: "CodeCrafters",
-    introduction:
-      "Explore the power of Go programming language with our dedicated Golang group",
-    subject: "Golang",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLytpLCORdw7AZ4N1S8cEeeb4NdIpjuSwG9Q",
-  },
-  {
-    name: "BitMinds",
-    introduction:
-      "Join our ReactJS community for cutting-edge web development discussions and projects!",
-    subject: "Reactjs",
-    img: "https://cdn.mienphitemplate.com/powerpoint_images/images/simple-blackboard-infographics/simple-blackboard-infographics/slide-21-extra.jpg",
-  },
-  {
-    name: "ScriptSavants",
-    introduction: "Join our Python coding group for fun and learning!",
-    subject: "Python, Kotlin",
-    img: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "TechWizards",
-    introduction:
-      "Connect with fellow C++ and C enthusiasts in our dedicated coding community",
-    subject: "C++, C#",
-    img: "https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "CodeNinjas",
-    introduction:
-      "Embrace the future of mobile and web development with our Flutter and React community",
-    subject: "Flutter, React",
-    img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
-  },
-  {
-    name: "JsLand",
-    introduction:
-      "Discover new frontiers in web development with our JavaScript coding community",
-    subject: "Javascript",
-    img: "https://www.shutterstock.com/shutterstock/photos/1932042689/display_1500/stock-photo-businessman-using-mobile-smart-phone-business-global-internet-connection-application-technology-1932042689.jpg",
-  },
-  {
-    name: "HackMasters",
-    introduction: "Innovative programming team specializing in Java and more.",
-    subject: "Java, Python",
-    img: "https://hoangphucphoto.com/wp-content/uploads/2024/02/IMG_9923.jpg",
-  },
-  {
-    name: "CodeCrafters",
-    introduction:
-      "Explore the power of Go programming language with our dedicated Golang group",
-    subject: "Golang",
-    img: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTLytpLCORdw7AZ4N1S8cEeeb4NdIpjuSwG9Q",
-  },
-  {
-    name: "BitMinds",
-    introduction:
-      "Join our ReactJS community for cutting-edge web development discussions and projects!",
-    subject: "Reactjs",
-    img: "https://cdn.mienphitemplate.com/powerpoint_images/images/simple-blackboard-infographics/simple-blackboard-infographics/slide-21-extra.jpg",
-  },
-  {
-    name: "ScriptSavants",
-    introduction: "Join our Python coding group for fun and learning!",
-    subject: "Python, Kotlin",
-    img: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "TechWizards",
-    introduction:
-      "Connect with fellow C++ and C enthusiasts in our dedicated coding community",
-    subject: "C++, C#",
-    img: "https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "CodeNinjas",
-    introduction:
-      "Embrace the future of mobile and web development with our Flutter and React community",
-    subject: "Flutter, React",
-    img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
-  },
-  {
-    name: "BitMinds",
-    introduction:
-      "Join our ReactJS community for cutting-edge web development discussions and projects!",
-    subject: "Reactjs",
-    img: "https://cdn.mienphitemplate.com/powerpoint_images/images/simple-blackboard-infographics/simple-blackboard-infographics/slide-21-extra.jpg",
-  },
-  {
-    name: "ScriptSavants",
-    introduction: "Join our Python coding group for fun and learning!",
-    subject: "Python, Kotlin",
-    img: "https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "TechWizards",
-    introduction:
-      "Connect with fellow C++ and C enthusiasts in our dedicated coding community",
-    subject: "C++, C#",
-    img: "https://product.bachkhoa-aptech.edu.vn:33/resources/upload/image/chia-se/noi-kho-cua-dan-it-nhung-dieu-chua-noi-01.jpg",
-  },
-  {
-    name: "CodeNinjas",
-    introduction:
-      "Embrace the future of mobile and web development with our Flutter and React community",
-    subject: "Flutter, React",
-    img: "https://hanoispiritofplace.com/wp-content/uploads/2018/01/bo-suu-tap-hinh-nen-cuc-chat-danh-cho-dan-4.jpg",
-  },
-];
 
-export default function ListGroup() {
+
+export default function ListGroup(props) {
+  const {groups, searchTerm} = props;
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(groups.length / 8);
   const startIndex = (page - 1) * 8;
   const endIndex = Math.min(startIndex + 8, groups.length);
   const currentGroups = groups.slice(startIndex, endIndex);
 
+  const {userInfo} = useSelector(state=>state.user)
+  const dispatch = useDispatch();
+
   const handlePageChange = (pageNumber) => {
     setPage(pageNumber);
+  };
+
+  const onRequestJoinGroup = async(groupId, gname) => {
+
+    const response = await dispatch(requestJoinGroup({ groupId, studentId: userInfo?.id }));
+    if (response.type === requestJoinGroup.fulfilled.type) {
+      toast.success("Request to join group "+ gname + "successflly");
+      dispatch(getGroupMemberLists());
+    }else{
+      toast.error(`Something went wrong when requesting to join group ${gname}`)
+      response.payload
+    }
+    dispatch(getStudentInvites());
+
+    dispatch(getUserInfo());
+    dispatch(getUsermMeetings());
+    dispatch(getGroupNotJoin());
+    dispatch(getSubjectLists());
+    dispatch(getStudentInvites())
   };
 
   return (
     <Grid container justifyContent="center">
       <Grid item xs={12} style={{ margin: "0 auto" }}>
         <Grid container justifyContent="center" paddingTop={2}>
+          {groups.length==0 && searchTerm.trim()=="" && (
+            <Typography
+              variant="h2"
+              color="textSecondary"
+            >
+                Search group to join
+            </Typography>
+          )}
           {currentGroups.map((group, index) => (
             <Grid item key={index} xs={12} sm={6} md={4} lg={3}>
               <Card
@@ -175,7 +82,7 @@ export default function ListGroup() {
                   }
                   subheader={
                     <Typography variant="body2" style={{ fontSize: "11px" }}>
-                      {group.subject}
+                      {group.subjects.join(', ')}
                     </Typography>
                   }
                   style={{ paddingBottom: "2px", paddingTop: "8px" }}
@@ -183,7 +90,7 @@ export default function ListGroup() {
                 <CardMedia
                   component="img"
                   height="100"
-                  image={group.img}
+                  image={group.imagePath}
                   alt={group.name}
                   style={{ objectFit: "cover" }}
                 />
@@ -200,7 +107,7 @@ export default function ListGroup() {
                     component="p"
                     fontSize="14px"
                   >
-                    {group.introduction}
+                    {group.description}
                   </Typography>
                 </CardContent>
                 <Grid container justifyContent="center">
@@ -213,6 +120,7 @@ export default function ListGroup() {
                       backgroundImage:
                         "linear-gradient(to left, #00b4db, #0083b0)",
                     }}
+                    onClick={()=>onRequestJoinGroup(group.id, group.name)}
                   >
                     Join Group
                   </Button>
