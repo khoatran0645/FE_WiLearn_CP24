@@ -30,7 +30,6 @@ const MenuProps = {
 
 export default function SearchPage() {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
-  const searchRef = useRef();
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const {subjectLists} = useSelector(state=>state.studyGroup)
@@ -101,7 +100,6 @@ export default function SearchPage() {
             size="small"
             sx={{ width: "500px" }}
             value={searchTerm}
-            ref={searchRef}
             onChange={async(e) => {
               await setSearchTerm(e.target.value)
               await handleSearchClick(e.target.value);

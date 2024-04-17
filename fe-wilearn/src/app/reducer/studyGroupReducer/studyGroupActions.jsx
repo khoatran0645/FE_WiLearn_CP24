@@ -151,9 +151,7 @@ export const searchStudent = createAsyncThunk(
           groupId
         )
       )
-      .then((response) => {
-        return response;
-      })
+      .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
 );

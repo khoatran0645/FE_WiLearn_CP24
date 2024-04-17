@@ -30,7 +30,6 @@ const MenuProps = {
 };
 
 export default function SearchCodePage() {
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const {code} = useParams()
   console.log("code", code)
   const [searchCode, setSearchCode] = useState(code);
