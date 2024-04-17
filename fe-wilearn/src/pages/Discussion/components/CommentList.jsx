@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
 
 const CommentList = () => {
+  // console.log(props);
   const { answerList } = useSelector((state) => state.studyGroup);
   // console.log("answerList", answerList);
 

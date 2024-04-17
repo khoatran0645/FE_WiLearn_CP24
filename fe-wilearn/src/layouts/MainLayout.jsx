@@ -6,25 +6,28 @@ import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo, getUsermMeetings } from "../app/reducer/userReducer";
 import { toast } from "react-toastify";
-import { getGroupNotJoin, getStudentInvites, getSubjectLists } from "../app/reducer/studyGroupReducer";
+import {
+  getGroupNotJoin,
+  getStudentInvites,
+  getSubjectLists,
+} from "../app/reducer/studyGroupReducer";
 
 export default function MainLayout() {
-  const { userInfo } = useSelector(state => state.user);
+  const { userInfo } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(getUsermMeetings());
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
-    dispatch(getStudentInvites())
+    dispatch(getStudentInvites());
     if (!userInfo) {
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
-          
           const token = localStorage.getItem("token");
           // toast.warn(token)
           // toast.warn(response.type);
-          toast.warn("You have not login")
+          toast.warn("You have not login");
           // alert(token);
           // alert(response.type);
           // alert("You have not login")

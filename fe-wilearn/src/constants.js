@@ -1,6 +1,6 @@
 //  export const BE_URL = "http://www.groupstudy.somee.com";
-// export const BE_URL = 'http://localhost:8001';
-export const BE_URL = 'http://localhost:5000';
+export const BE_URL = "http://localhost:8001";
+// export const BE_URL = "http://localhost:5000";
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
 export const API_SIGNIN_URL = "/api/Auth/Login";
@@ -72,13 +72,13 @@ export const API_SEARCH_STUDENT_BY_PARENTS = "/api/Accounts/search";
 export const API_MEETING_REPEAT = "/api/Meetings/Mass-schedule";
 
 //Documents
-// export const GET_LIST_DOCUMENTS = "/api/DocumentFiles/api/Document/Get/{groupId}";
 export const GET_LIST_DOCUMENTS_BY_GROUP =
   "/api/DocumentFiles/api/Document/Get/{groupId}";
 export const CREATE_DOCUMENT =
   "/api/DocumentFiles/api/Document/Upload?groupId={groupId}&accountId={accountId}";
+export const CHECK_FILE =
+  "/api/DocumentFiles/api/Document/AproveOrReject?documentId={docId}&groupId={groupId}&check={check}";
 export const DELETE_DOCUMENT = "/delete-file";
-export const ACCEPT_DOCUMENT = "/accept-file";
 
 // Auth
 export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset";
@@ -90,16 +90,17 @@ export const DELETE_MEMBER = "/api/GroupMembers/Group";
 //New Stat
 export const NEW_STAT_API = "/api/Stats";
 //DELETE MEETING
-
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 export const API_UPDATE_MEETING = "/api/Meetings/Schedule/{id}";
 
-// disscussion
+// discussion
 export const API_UPLOAD_DISCUSSION =
   "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
+export const API_GET_DISCUSSION_BY_GROUP_ID = "/api/Discussion/Get/{groupId}";
 export const API_GET_DISCUSSION_BY_ID =
   "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
-  export const API_POST_ANSWER_DISCUSSION = "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}"
+export const API_POST_ANSWER_DISCUSSION =
+  "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}";
 
 // discussion answer
 export const API_GET_ANSWER_BY_DISCUSSION_ID =

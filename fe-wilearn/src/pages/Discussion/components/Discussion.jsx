@@ -11,65 +11,38 @@ import {
 } from "@mui/material";
 import AddDiscussion from "./AddDiscussion";
 import Paginate from "./../../../components/Paginate";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
 import { useEffect, useState } from "react";
 import dayjs from "dayjs";
-
+import { getAnswerByDiscussionId, getDiscussionById } from "../../../app/reducer/studyGroupReducer";
 export default function DiscussionList() {
-  const { groupInfo } = useSelector((state) => state.studyGroup);
-  const discussions = groupInfo ? groupInfo.discussions : [];
-  // console.log("discussions", discussions);
-  const [sortedData, setSortedData] = useState([]);
-
-  useEffect(() => {}, []);
-  useEffect(() => {}, [discussions]);
+  const { discussionList, answerList } = useSelector(
+    (state) => state.studyGroup
+  );
+  const dispatch = useDispatch();
+  console.log("discussionList", discussionList);
+  console.log("answerList", answerList);
 
   const options = ["Newest", "Oldest"];
-  const handleSort = (event, newValue) => {
-    // console.log("Selected value:", newValue);
-    // switch (newValue) {
-    //   case "Newest": {
-    //     console.log("newest");
-    //     const newestData = [...discussions].sort((a, b) => {
-    //       dayjs(b.createdAt) - dayjs(a.createdAt);
-    //     });
-    //     console.log("newest data:", newestData);
-    //     setSortedData(newestData);
-    //     break;
-    //   }
-    //   case "Oldest": {
-    //     console.log("oldest");
-    //     const oldestData = [...discussions].sort(
-    //       (a, b) => new Date(a.createdAt) - new Date(b.createdAt)
-    //     );
-    //     setSortedData(oldestData);
-    //     break;
-    //   }
-    //   default: {
-    //     setSortedData(discussions);
-    //   }
-    // }
-  };
-
-  // console.log("sortedData", sortedData);
 
   const [currentPage, setCurrentPage] = useState(1);
   const discussionsPerPage = 2;
 
-  const totalPages = Math.ceil(discussions.length / discussionsPerPage);
+  const totalPages = Math.ceil(discussionList.length / discussionsPerPage);
   const startIndex = (currentPage - 1) * discussionsPerPage;
   const endIndex = Math.min(
     startIndex + discussionsPerPage,
-    discussions.length
+    discussionList.length
   );
-  const currentDiscussions = discussions.slice(startIndex, endIndex);
+  const currentDiscussions = discussionList.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
   };
+
 
   const formats = [
     "background",
@@ -111,7 +84,6 @@ export default function DiscussionList() {
           defaultValue={"Newest"}
           sx={{ width: 150 }}
           getOptionLabel={(option) => option}
-          onChange={handleSort}
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
         />
@@ -140,7 +112,7 @@ export default function DiscussionList() {
                     color="textSecondary"
                     component="p"
                   >
-                    {discussion.accountFullname} -{" "}
+                    {discussion.account.fullName} -{" "}
                     {dayjs(discussion.createAt).format("DD/MM/YYYY")}
                   </Typography>
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
@@ -154,7 +126,11 @@ export default function DiscussionList() {
 
                   {/* <SeeMore discussionId={discussion.id} /> */}
                   <Link to={`./${discussion.id}`}>
-                    <Button variant="outlined">See more</Button>
+                    <Button
+                      variant="outlined"
+                    >
+                      See more
+                    </Button>
                   </Link>
                 </CardContent>
               </Card>
