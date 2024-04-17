@@ -25,7 +25,7 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import HistoryChat from './../../Meeting/HistoryChat';
+import HistoryChat from "./../../Meeting/HistoryChat";
 
 const localizer = momentLocalizer(moment);
 
@@ -150,36 +150,44 @@ function Schedule() {
         sx={{ maxWidth: 345, minWidth: 345, border: `3px solid green` }}
       >
         <CardContent sx={{ textAlign: "left" }}>
-          <Typography gutterBottom variant="h6">
-            {meeting.name}
-          </Typography>
-          {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
-          {meeting.subjects &&
-            meeting.subjects.map((s, index) => (
-              <Chip key={index} label={s.name} size="small" variant="filled" />
-            ))}
-          <Typography variant="body1" color="text.secondary">
-            Content: {meeting.content}
-          </Typography>
-          {meeting.scheduleStart && (
-            <Typography variant="body1" color="text.secondary">
-              Expected: {moment(meeting.scheduleStart).format("DD/MM HH:mm")}
-              {meeting.scheduleEnd &&
-                ` - ${moment(meeting.scheduleEnd).format("DD/MM HH:mm")}`}
+          <Grid sx={{height:"170px"}}>
+            <Typography gutterBottom variant="h6">
+              {meeting.name}
             </Typography>
-          )}
-          {meeting.start && (
+            {/* <Chip label={meeting.subjects.map(s=>s.name).join(', ')} size="small" variant="filled" /> */}
+            {meeting.subjects &&
+              meeting.subjects.map((s, index) => (
+                <Chip
+                  key={index}
+                  label={s.name}
+                  size="small"
+                  variant="filled"
+                />
+              ))}
             <Typography variant="body1" color="text.secondary">
-              Happened: {moment(meeting.start).format("DD/MM HH:mm")}
-              {meeting.end && ` - ${moment(meeting.end).format("DD/MM HH:mm")}`}
+              Content: {meeting.content}
             </Typography>
-          )}
-          {/* <Typography variant="body1" color="text.secondary">
+            {meeting.scheduleStart && (
+              <Typography variant="body1" color="text.secondary">
+                Expected: {moment(meeting.scheduleStart).format("DD/MM HH:mm")}
+                {meeting.scheduleEnd &&
+                  ` - ${moment(meeting.scheduleEnd).format("DD/MM HH:mm")}`}
+              </Typography>
+            )}
+            {meeting.start && (
+              <Typography variant="body1" color="text.secondary">
+                Happened: {moment(meeting.start).format("DD/MM HH:mm")}
+                {meeting.end &&
+                  ` - ${moment(meeting.end).format("DD/MM HH:mm")}`}
+              </Typography>
+            )}
+            {/* <Typography variant="body1" color="text.secondary">
               Status: Can join now
             </Typography> */}
-          <Typography variant="body1" color="text.secondary">
-            {meeting.countMember} people
-          </Typography>
+            <Typography variant="body1" color="text.secondary">
+              {meeting.countMember} people
+            </Typography>
+          </Grid>
           <JoinMeetingButton meetingId={meeting.id} />
         </CardContent>
       </Card>
@@ -377,12 +385,12 @@ function Schedule() {
                         Status: Happened
                       </Typography>
                       <Grid
-                      container
-                      justifyContent="center"
-                      sx={{ paddingTop: "1rem" }}
-                    >
-                      <HistoryChat />
-                    </Grid>
+                        container
+                        justifyContent="center"
+                        sx={{ paddingTop: "1rem" }}
+                      >
+                        <HistoryChat />
+                      </Grid>
                     </CardContent>
                   </Card>
                 </Card>
