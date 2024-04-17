@@ -14,7 +14,7 @@ import {
   Typography,
 } from "@mui/material";
 
-import { NavLink, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -34,6 +34,8 @@ import {
   getDocumentListByGroup,
   getStudentInvites,
   getAnswerByDiscussionId,
+  getDiscussionByGroupId,
+  getDiscussionById,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -50,6 +52,20 @@ export default function ClippedDrawer() {
   const { groupInfo } = useSelector((state) => state.studyGroup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  function extractValueFromPath(path) {
+    const segments = path.split("/"); // Split the path into segments
+    const index = segments.indexOf("discussions"); // Find the index of 'discussions'
+
+    if (index !== -1 && index + 1 < segments.length) {
+      // Check if 'discussions' is found and there's a segment after it
+      return segments[index + 1]; // Return the segment after 'discussions'
+    } else {
+      return null; // or any other default value if 'discussions' is not found or there's no segment after it
+    }
+  }
+
+  const discussionId = extractValueFromPath(useLocation().pathname);
   const onRefreshGroup = () => {
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
@@ -59,9 +75,9 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
-    dispatch(getAnswerByDiscussionId(groupId));
-
-
+    dispatch(getAnswerByDiscussionId(discussionId));
+    dispatch(getDiscussionByGroupId(groupId));
+    dispatch(getDiscussionById(discussionId))
   };
 
   useEffect(() => {
@@ -72,7 +88,9 @@ export default function ClippedDrawer() {
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
-    dispatch(getAnswerByDiscussionId(groupId));
+    dispatch(getDiscussionByGroupId(groupId));
+    dispatch(getAnswerByDiscussionId(discussionId));
+    dispatch(getDiscussionById(discussionId))
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {

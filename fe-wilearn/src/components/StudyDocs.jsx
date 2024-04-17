@@ -1,4 +1,4 @@
-import {useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Grid,
   Typography,
@@ -28,8 +28,12 @@ import BlockIcon from "@mui/icons-material/Block";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
-import { uploadFile } from "../app/reducer/studyGroupReducer/studyGroupActions";
+import {
+  uploadFile,
+  checkFile,
+} from "../app/reducer/studyGroupReducer/studyGroupActions";
 import { toast } from "react-toastify";
+import Loading from "../components/Loading";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -47,18 +51,20 @@ export default function StudyDocs() {
   const [initTab, setInitTab] = useState("1");
   const dispatch = useDispatch();
 
-  const { groupInfo, listFile } = useSelector((state) => state.studyGroup);
+  const { groupInfo, listFile, loading, error } = useSelector(
+    (state) => state.studyGroup
+  );
   const { userInfo } = useSelector((state) => state.user);
   // console.log("groupInfo", groupInfo.id);
   // console.log("userInfo", userInfo.id);
 
   const approvedList = listFile?.filter((doc) => doc.approved);
   const pendingList = listFile?.filter((doc) => !doc.approved);
-  console.log("pendingList", pendingList);
-
+  // console.log("approvedList", approvedList);
+  // console.log("pendingList", pendingList);
 
   const handleFileChange = (event) => {
-    console.log("file", event.target.files[0]);
+    // console.log("file", event.target.files[0]);
     if (event.target.files[0].type == undefined) {
       return;
     } else {
@@ -74,24 +80,57 @@ export default function StudyDocs() {
           groupId: groupInfo.id,
           file: event.target.files[0],
         };
-        console.log("file2", event.target.files[0]);
+        // console.log("file2", event.target.files[0]);
         // setUploadedFile(event.target.files[0]);
-        const res = dispatch(uploadFile(data));
-        console.log("res", res);
+        dispatch(uploadFile(data));
+        // console.log("res", res);
+        // console.log(loading);
+        // console.log(error);
+        // Check if upload was successful
+        if (loading === false && error === null) {
+          // console.log("Upload fulfilled");
+          toast.success("File uploaded successfully.");
+          // console.log("listFile", listFile); // Log the result
+          // setTimeout(() => {
+          //   location.reload();
+          // }, 3000);
+        } else {
+          // console.error("Upload failed:", error); // Log the reason for failure
+          toast.error("File upload failed.");
+        }
         // console.log("uploadedFile", uploadedFile);
       }
     }
   };
 
-  const {groupId} = useParams();
+  const handleDenyFile = (id) => {
+    console.log("handleCheckFile", id);
+    const data = {
+      fileId: id,
+      groupId: groupInfo.id,
+      checkFile: false,
+    };
+    const res = dispatch(checkFile(data));
+    console.log("handleDenyFile", res);
+  };
+  const handleApproveFile = (id) => {
+    console.log("handleCheckFile", id);
+    const data = {
+      fileId: id,
+      groupId: groupInfo.id,
+      checkFile: true,
+    };
+    const res = dispatch(checkFile(data));
+    console.log("handleApproveFile", res);
+  };
+
+  const { groupId } = useParams();
   let leadGroups = [];
-  if(userInfo){
-    leadGroups = userInfo.leadGroups?userInfo.leadGroups:[];
+  if (userInfo) {
+    leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
   }
-  const isLead = leadGroups.some(g=>g.id==parseInt(groupId));
+  const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
-
-  
   const handleChange = (event, newValue) => {
     setInitTab(newValue);
   };
@@ -110,7 +149,10 @@ export default function StudyDocs() {
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])} />
+          <ListItemText
+            primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}
+            // secondary={file.id}
+          />
 
           {/* <ListItemIcon>
             <IconButton
@@ -148,7 +190,7 @@ export default function StudyDocs() {
               aria-label="deny"
               color="error"
               onClick={() => {
-                console.log("deny");
+                handleDenyFile(file.id);
               }}
             >
               <BlockIcon fontSize="large" />
@@ -157,7 +199,7 @@ export default function StudyDocs() {
               aria-label="accept"
               color="success"
               onClick={() => {
-                console.log("accept");
+                handleApproveFile(file.id);
               }}
             >
               <CheckIcon fontSize="large" />
@@ -171,62 +213,71 @@ export default function StudyDocs() {
               <InsertDriveFileIcon />
             </Avatar>
           </ListItemAvatar>
-          <ListItemText primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}  />
+          <ListItemText
+            primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}
+            // secondary={file.id}
+          />
         </ListItemButton>
       </ListItem>
     </Paper>
   ));
 
   return (
-    <Grid container>
-      <Grid item xs={12}>
-        <Typography
-          variant="h4"
-          component="h1"
-          gutterBottom
-          sx={{ fontWeight: "bold", textAlign: "left" }}
-        >
-          Study Documents
-        </Typography>
-      </Grid>
+    <>
+      {loading && <Loading />}
+      {listFile && (
+        <Grid container>
+          <Grid item xs={12}>
+            <Typography
+              variant="h4"
+              component="h1"
+              gutterBottom
+              sx={{ fontWeight: "bold", textAlign: "left" }}
+            >
+              Study Documents
+            </Typography>
+          </Grid>
 
-      <Grid xs={12}>
-        <Box sx={{ width: "100%", typography: "body1" }}>
-          <TabContext value={initTab}>
-            <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-              <TabList onChange={handleChange}>
-                <Tab label="Approved file" value="1" />
-                {isLead && <Tab label="Pending file" value="2" />}
-              </TabList>
+          <Grid xs={12}>
+            <Box sx={{ width: "100%", typography: "body1" }}>
+              <TabContext value={initTab}>
+                <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
+                  <TabList onChange={handleChange}>
+                    <Tab label="Approved file" value="1" />
+                    {isLead && <Tab label="Pending file" value="2" />}
+                  </TabList>
+                </Box>
+                <TabPanel value="1">
+                  <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                    <List overflow="auto">{showApprovedList}</List>
+                  </Paper>
+                </TabPanel>
+                <TabPanel value="2">
+                  <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                    <List overflow="auto">{showcheckList}</List>
+                  </Paper>
+                </TabPanel>
+              </TabContext>
             </Box>
-            <TabPanel value="1">
-              <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                <List overflow="auto">{showApprovedList}</List>
-              </Paper>
-            </TabPanel>
-            <TabPanel value="2">
-              <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                <List overflow="auto">{showcheckList}</List>
-              </Paper>
-            </TabPanel>
-          </TabContext>
-        </Box>
-      </Grid>
-      <Grid sx={{ marginLeft: "400px" }}>
-        <Button
-          component="label"
-          variant="contained"
-          // startIcon={<CloudUploadIcon />}
-          // onClick={handleUploadNewFile}
-        >
-          Share File
-          <VisuallyHiddenInput
-            type="file"
-            accept="application/pdf, image/jpeg, image/png"
-            onChange={handleFileChange}
-          />
-        </Button>
-      </Grid>
-    </Grid>
+          </Grid>
+          <Grid sx={{ marginLeft: "400px" }}>
+            <Button
+              component="label"
+              variant="contained"
+              // startIcon={<CloudUploadIcon />}
+              // onClick={handleUploadNewFile}
+            >
+              Share File
+              <VisuallyHiddenInput
+                type="file"
+                accept="application/pdf, image/jpeg, image/png"
+                onChange={handleFileChange}
+                disabled={loading}
+              />
+            </Button>
+          </Grid>
+        </Grid>
+      )}
+    </>
   );
 }
