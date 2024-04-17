@@ -14,6 +14,8 @@ import axiosClient from "../../../services/axiosClient";
 import { setLoginError } from ".";
 // import { API_SIGNIN_URL } from '../../../constants';
 
+
+
 export const checkLogin = createAsyncThunk(
   "auth/login",
   async (data, { rejectWithValue, dispatch }) => {
@@ -48,7 +50,7 @@ export const register = createAsyncThunk(
       .post(API_SIGNUP_URL, submitData)
       // .then((response) => response)
       .then((response) => {
-        toast.success("Đăng kí tài khoản thành công");
+        toast.success("Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn.");
       })
       .catch((error) => {
         rejectWithValue(error.response.data);

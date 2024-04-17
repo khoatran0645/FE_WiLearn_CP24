@@ -7,11 +7,12 @@ import LandingPage from "../pages/Landing/LandingPage";
 import HomePage from "../pages/Home/HomePage";
 import SignIn from "../pages/Signin/SigninPage";
 import { Navigate, useRoutes } from "react-router-dom";
-import Register from "../pages/Register/Register";
+// import Register from "../pages/Register/Register";
+import RegisterPage from "../pages/Register/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
 
 import Groups from "../pages/Groups/Groups";
-import Members from "../pages/Groups/Members"; 
+import Members from "../pages/Groups/Members";
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
@@ -59,7 +60,7 @@ export default function Router() {
         },
         {
           path: "register",
-          element: <Register />,
+          element: <RegisterPage/>,
         },
       ],
     },
@@ -123,7 +124,7 @@ export default function Router() {
         },
         {
           path: "groups/:groupId/meetings/:meetingId/whiteboard",
-          element: <WhiteBoard/>,
+          element: <WhiteBoard />,
         },
         {
           path: "groups/:groupId",
