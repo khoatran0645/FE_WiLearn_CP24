@@ -47,8 +47,8 @@ const initialState = {
   searchStudentList: [],
   invitations: [],
   groupsAsMember: [],
-  searchGroupss: [],
-  searchGroupsCode: [],
+  searchedGroups: [],
+  searchedCodeGroups: [],
   requestFormList: [],
   discussionForm: null,
   discussionDetailInfo: [],
@@ -68,7 +68,7 @@ const studyGroupSlice = createSlice({
       state.error = null;
     },
     clearSearchGroup: (state) => {
-      state.searchGroupss = [];
+      state.searchedGroups = [];
     },
   },
   extraReducers: (builder) => {
@@ -139,7 +139,7 @@ const studyGroupSlice = createSlice({
     // },
     builder.addCase(searchGroups.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.searchGroupss = payload;
+      state.searchedGroups = payload;
     });
     // [searchGroups.rejected]: (state, { payload }) => {
     //   state.loading = false;
@@ -154,18 +154,10 @@ const studyGroupSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    // [searchGroups.fulfilled]: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.searchGroupss = payload;
-    // },
     builder.addCase(searchGroupsCode.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.searchGroupsCode = payload;
+      state.searchedCodeGroups = payload;
     });
-    // [searchGroups.rejected]: (state, { payload }) => {
-    //   state.loading = false;
-    //   state.error = payload;
-    // },
     builder.addCase(searchGroupsCode.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;

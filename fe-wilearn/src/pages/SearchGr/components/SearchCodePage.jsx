@@ -13,9 +13,10 @@ import {
   Typography,
 } from "@mui/material";
 import ListGroup from "./ListGroup";
-import { Form, useParams } from "react-router-dom";
+import { Form, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchGroups } from "../../../app/reducer/studyGroupReducer";
+import { searchGroupsCode } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -31,58 +32,33 @@ const MenuProps = {
 export default function SearchCodePage() {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
   const {code} = useParams()
+  console.log("code", code)
   const [searchCode, setSearchCode] = useState(code);
   const dispatch = useDispatch();
-  const {subjectLists} = useSelector(state=>state.studyGroup)
   // const subjectOpts = [selectAllSubsOpt, ...subjectLists]
-  const subjectOpts = [ ...subjectLists]
-  console.log("subjectOpts", subjectOpts)
   // const allGroups = [...groupNotJoin ]
-  const { searchGroupss } = useSelector((state) => state.studyGroup);
-  const [groups, setGroups] = useState(searchGroupss)
+  const  {searchedCodeGroups}  = useSelector((state) => state.studyGroup);
+  // const [groups, setGroups] = useState(searchGroupsCode)
 
-  useEffect(()=>{
-    const filteredGroups = searchGroupss.filter(g=>groupContainsSelectedSubject(g.subjects))
-    setGroups(filteredGroups);
-  }, [selectedSubjects, searchGroupss])
+  // useEffect(()=>{
+  //   const filteredGroups = searchGroupsCode.filter(g=>groupContainsSelectedSubject(g.subjects))
+  //   setGroups(filteredGroups);
+  // }, [searchGroupsCode])
 
-  function groupContainsSelectedSubject(groupSubjects) {
-    // Iterate through each item in list2
-    if (selectedSubjects.length==0) return true;
-    for (let subject of selectedSubjects) {
-        // Check if the item exists in list1
-        if (groupSubjects.includes(subject.name)) {
-            return true; // Found a matching item
-        }
-    }
-    return false; // No matching item found
-}
-
-  const handleSubjectsChange = (event) => {
-    const { value } = event.target;
-    console.log("handleSubjectsChange value", value)
-    if (value.includes("Select All")) {
-      if (selectedSubjects.length === subjectOpts.length) {
-        setSelectedSubjects([]);
-      } else {
-        setSelectedSubjects([...subjectOpts]);
-      }
-    } else {
-      setSelectedSubjects(value);
-    }
-  };
-
-  // const filteredSubjects = subjectOpts.filter((name) =>
-  //   name.toLowerCase().includes(searchTerm.toLowerCase())
-  // );
 
   const handleSearchClick = async() => {
-    const response = await dispatch(searchGroups(searchCode));
+    const response = await dispatch(searchGroupsCode(searchCode));
 
     if (response.type === searchGroups.fulfilled.type) {
-      // setNewSearch(searchGroups);
     }
   };
+
+  const searchCodeFunc = async()=>{
+    const response = await dispatch(searchGroupsCode(searchCode));
+  }
+  useEffect(()=>{
+    searchCodeFunc();
+  },[searchCode])
 
   return (
     <Grid>
@@ -93,7 +69,8 @@ export default function SearchCodePage() {
             variant="outlined"
             size="small"
             sx={{ width: "500px" }}
-            value={searchCode}
+            // value={searchCode}
+            defaultValue={searchCode}
             onChange={(e) => setSearchCode(e.target.value)}
             // onChange={onSearch}
           />
@@ -120,7 +97,7 @@ export default function SearchCodePage() {
       
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={8}>
-          <ListGroup groups={groups} searchTerm={searchCode}/>
+          <ListGroup groups={searchedCodeGroups} searchTerm={searchCode}/>
         </Grid>
       </Grid>
       {/* )} */}

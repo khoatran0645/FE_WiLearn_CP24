@@ -43,6 +43,8 @@ export const API_MEETING_NOW = "/api/Meetings/Instant";
 
 export const API_SEARCH_GROUP =
   "/api/Groups/Search?search={keyword}&newGroup=true";
+  export const API_SEARCH_GROUP_CODE =
+  "/api/Groups/Search/Code?search={keyword}&newGroup=true";
 export const API_REQUEST_JOIN_GROUP = "/api/GroupMembers/Request";
 export const API_GET_REQUEST_FORM_LIST =
   "/api/GroupMembers/Request/Group/{groupId}";

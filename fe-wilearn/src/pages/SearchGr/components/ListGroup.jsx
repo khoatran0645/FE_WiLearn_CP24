@@ -64,10 +64,10 @@ export default function ListGroup(props) {
           )}
           {groups.length==0 && searchTerm && searchTerm.trim()!="" && (
             <Typography
-              variant="h2"
+              variant="h3"
               color="textSecondary"
             >
-              No groups to found
+              No groups found or you have joined these groups
             </Typography>
           )}
           {currentGroups.map((group, index) => (
