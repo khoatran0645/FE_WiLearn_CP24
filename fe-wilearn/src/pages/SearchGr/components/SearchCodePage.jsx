@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ListGroup from "./ListGroup";
+import ListGroupToJoin from "./ListGroup";
 import { Form, useLocation, useParams } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchGroups } from "../../../app/reducer/studyGroupReducer";
@@ -30,7 +30,6 @@ const MenuProps = {
 };
 
 export default function SearchCodePage() {
-  const [selectedSubjects, setSelectedSubjects] = useState([]);
   const {code} = useParams()
   console.log("code", code)
   const [searchCode, setSearchCode] = useState(code);
@@ -65,6 +64,7 @@ export default function SearchCodePage() {
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={4}>
           <TextField
+            label="Invitatiion Code"
             placeholder="Enter invitation code to search"
             variant="outlined"
             size="small"
@@ -97,7 +97,7 @@ export default function SearchCodePage() {
       
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={8}>
-          <ListGroup groups={searchedCodeGroups} searchTerm={searchCode}/>
+          <ListGroupToJoin groups={searchedCodeGroups} searchTerm={searchCode}/>
         </Grid>
       </Grid>
       {/* )} */}

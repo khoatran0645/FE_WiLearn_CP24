@@ -16,7 +16,7 @@ import { getUserInfo, getUsermMeetings } from "../../../app/reducer/userReducer"
 
 
 
-export default function ListGroup(props) {
+export default function ListGroupToJoin(props) {
   const {groups, searchTerm} = props;
   const [page, setPage] = useState(1);
   const totalPages = Math.ceil(groups.length / 8);
@@ -35,11 +35,13 @@ export default function ListGroup(props) {
 
     const response = await dispatch(requestJoinGroup({ groupId, studentId: userInfo?.id }));
     if (response.type === requestJoinGroup.fulfilled.type) {
-      toast.success("Request to join group "+ gname + "successflly");
+      toast.success("Request to join group "+ gname + " successflly");
       dispatch(getGroupMemberLists());
     }else{
       toast.error(`Something went wrong when requesting to join group ${gname}`)
-      response.payload
+      response.payload.failures.forEach(f => {
+        toast.error(f)        
+      });
     }
     dispatch(getStudentInvites());
 
