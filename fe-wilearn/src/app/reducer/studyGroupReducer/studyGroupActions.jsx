@@ -164,6 +164,8 @@ export const inviteStudent = createAsyncThunk(
         accountId: parseInt(studentId),
         groupId,
       })
+      // .then((response) => response)
+      // .catch((error) => rejectWithValue(error.response.data));
       .then((response) => {
         return response;
       })
@@ -361,13 +363,15 @@ export const requestJoinGroup = createAsyncThunk(
         groupId,
         accountId: studentId,
       })
-      .then((response) => {
-        toast.success("Xin vào thành công");
-      })
-      .catch((error) => {
-        toast.error("Bạn đã xin vào nhóm này rồi");
-        rejectWithValue(error.response.data);
-      });
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+      // .then((response) => {
+      //   toast.success("Xin vào thành công");
+      // })
+      // .catch((error) => {
+      //   // toast.error("Đã xảy ra sự cố khi vào nhóm");
+      //   rejectWithValue(error.response.data);
+      // });
   }
 );
 

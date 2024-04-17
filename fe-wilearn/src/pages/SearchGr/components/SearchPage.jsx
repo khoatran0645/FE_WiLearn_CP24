@@ -12,7 +12,7 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
-import ListGroup from "./ListGroup";
+import ListGroupToJoin from "./ListGroup";
 import { Form } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { searchGroups } from "../../../app/reducer/studyGroupReducer";
@@ -155,7 +155,7 @@ export default function SearchPage() {
       
       <Grid container justifyContent="center" alignItems="center">
         <Grid item xs={12} sm={8}>
-          <ListGroup groups={groups} searchTerm={searchTerm}/>
+          <ListGroupToJoin groups={groups} searchTerm={searchTerm}/>
         </Grid>
       </Grid>
       {/* )} */}
