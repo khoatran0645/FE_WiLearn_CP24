@@ -151,7 +151,7 @@ export default function StudyDocs() {
           </ListItemAvatar>
           <ListItemText
             primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}
-            secondary={file.id}
+            // secondary={file.id}
           />
 
           {/* <ListItemIcon>
@@ -215,7 +215,7 @@ export default function StudyDocs() {
           </ListItemAvatar>
           <ListItemText
             primary={decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1])}
-            secondary={file.id}
+            // secondary={file.id}
           />
         </ListItemButton>
       </ListItem>
