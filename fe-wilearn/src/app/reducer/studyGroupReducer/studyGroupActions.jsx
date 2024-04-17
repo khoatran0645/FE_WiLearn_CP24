@@ -32,6 +32,7 @@ import {
   CREATE_DOCUMENT,
   API_MEETING_REPEAT,
   API_UPDATE_MEETING,
+  API_SEARCH_GROUP_CODE,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -337,6 +338,16 @@ export const searchGroups = createAsyncThunk(
   async (keyword, { rejectWithValue }) => {
     return await axiosClient
       .get(API_SEARCH_GROUP.replace("{keyword}", keyword))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const searchGroupsCode = createAsyncThunk(
+  "studyGroup/searchGroupsCode",
+  async (keyword, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_SEARCH_GROUP_CODE.replace("{keyword}", keyword))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

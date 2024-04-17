@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -28,42 +28,27 @@ const MenuProps = {
   },
 };
 
-// const subjectOpts = [
-//   "Java",
-//   "React",
-//   "Python",
-//   ".Net",
-//   "Golang",
-//   "Kotlin",
-//   "Flutter",
-//   "FullStack",
-//   "Web",
-//   "Mobile",
-//   "C++",
-//   "C#",
-// ];
-
 export default function SearchPage() {
   const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const searchRef = useRef();
   const [searchTerm, setSearchTerm] = useState("");
   const dispatch = useDispatch();
   const {subjectLists} = useSelector(state=>state.studyGroup)
   // const subjectOpts = [selectAllSubsOpt, ...subjectLists]
   const subjectOpts = [ ...subjectLists]
-  console.log("subjectOpts", subjectOpts)
   // const allGroups = [...groupNotJoin ]
-  const { searchGroupss } = useSelector((state) => state.studyGroup);
-  // const [searchGroupss, setAllGroups] = useState([])
-  const [groups, setGroups] = useState(searchGroupss)
+  const { searchedGroups } = useSelector((state) => state.studyGroup);
+  // const [searchedGroups, setAllGroups] = useState([])
+  const [groups, setGroups] = useState(searchedGroups)
 
   // useEffect(()=>{
   //   setGroups(filteredGroups);
-  // }, [searchGroupss])
+  // }, [searchedGroups])
 
   useEffect(()=>{
-    const filteredGroups = searchGroupss.filter(g=>groupContainsSelectedSubject(g.subjects))
+    const filteredGroups = searchedGroups.filter(g=>groupContainsSelectedSubject(g.subjects))
     setGroups(filteredGroups);
-  }, [selectedSubjects, searchGroupss])
+  }, [selectedSubjects, searchedGroups])
 
   function groupContainsSelectedSubject(groupSubjects) {
     // Iterate through each item in list2
@@ -95,7 +80,10 @@ export default function SearchPage() {
   //   name.toLowerCase().includes(searchTerm.toLowerCase())
   // );
 
-  const handleSearchClick = async() => {
+  const handleSearchClick = async(searchTerm) => {
+    // const searchTerm = searchRef.current.value;
+    // console.log("searchTerm",searchTerm)
+    // setSearchTerm(searchTerm);
     const response = await dispatch(searchGroups(searchTerm));
 
     if (response.type === searchGroups.fulfilled.type) {
@@ -113,7 +101,11 @@ export default function SearchPage() {
             size="small"
             sx={{ width: "500px" }}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            ref={searchRef}
+            onChange={async(e) => {
+              await setSearchTerm(e.target.value)
+              await handleSearchClick(e.target.value);
+            }}
             // onChange={onSearch}
           />
         </Grid>
@@ -148,7 +140,7 @@ export default function SearchPage() {
             <Button
               variant="contained"
               fullWidth
-              onClick={handleSearchClick}
+              onClick={()=>handleSearchClick(searchTerm)}
               sx={{
                 backgroundImage:
                   "linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)",

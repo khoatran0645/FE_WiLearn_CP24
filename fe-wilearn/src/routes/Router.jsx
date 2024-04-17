@@ -25,6 +25,7 @@ import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
+import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
 
 export default function Router() {
   const routes = useRoutes([
@@ -84,6 +85,14 @@ export default function Router() {
             {
               path: "search",
               element: <SearchPage />,
+            },
+            {
+              path: "search/code",
+              element: <SearchCodePage />,
+            },
+            {
+              path: "search/code/:code",
+              element: <SearchCodePage />,
             },
           ],
         },
