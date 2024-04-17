@@ -43,11 +43,7 @@ export default function DiscussionList() {
     setCurrentPage(page);
   };
 
-  // const handleSeeMoreLoading = async (discussionId) => {
-  //   console.log("discussionId", discussionId);
-  //   dispatch(getDiscussionById(discussionId));
-  //   dispatch(getAnswerByDiscussionId(discussionId));
-  // };
+
   const formats = [
     "background",
     "bold",
@@ -132,7 +128,6 @@ export default function DiscussionList() {
                   <Link to={`./${discussion.id}`}>
                     <Button
                       variant="outlined"
-                      // onClick={() => handleSeeMoreLoading(discussion.id)}
                     >
                       See more
                     </Button>

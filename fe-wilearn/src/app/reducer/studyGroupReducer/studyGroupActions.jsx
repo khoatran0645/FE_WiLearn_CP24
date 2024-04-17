@@ -31,6 +31,7 @@ import {
   API_GET_GROUP_NOT_JOIN,
   GET_LIST_DOCUMENTS_BY_GROUP,
   CREATE_DOCUMENT,
+  CHECK_FILE,
   API_MEETING_REPEAT,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
@@ -473,10 +474,10 @@ export const getDocumentListByGroup = createAsyncThunk(
 export const uploadFile = createAsyncThunk(
   "studyGroup/uploadFile",
   async (data, { rejectWithValue }) => {
-    console.log("upload action", data.file);
+    console.log("upload action", data);
     const form = new FormData();
     form.append("file", data.file);
-    console.log("upload success", form);
+    console.log("uploading", form);
     return await axiosClient
       .post(
         CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace(
@@ -484,6 +485,21 @@ export const uploadFile = createAsyncThunk(
           data.userId
         ),
         form
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const checkFile = createAsyncThunk(
+  "studyGroup/checkFile",
+  async (data, { rejectWithValue }) => {
+    console.log("upload action", data);
+    return await axiosClient
+      .post(
+        CHECK_FILE.replace("{docId}", data.fileId)
+          .replace("{groupId}", data.groupId)
+          .replace("{check}", data.checkFile)
       )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));

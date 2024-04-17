@@ -30,6 +30,7 @@ import {
   getGroupNotJoin,
   getDocumentListByGroup,
   uploadFile,
+  checkFile,
   massScheduleMeeting,
 } from "./studyGroupActions";
 
@@ -67,7 +68,7 @@ const studyGroupSlice = createSlice({
       state.error = null;
     },
     clearSearchGroup: (state) => {
-      state.searchGroupss = [];
+      state.searchGroups = [];
     },
   },
   extraReducers: (builder) => {
@@ -591,11 +592,23 @@ const studyGroupSlice = createSlice({
       state.loading = true;
       state.error = null;
     });
-    builder.addCase(uploadFile.fulfilled, (state, { payload }) => {
+    builder.addCase(uploadFile.fulfilled, (state) => {
       state.loading = false;
-      state.listFile = payload;
     });
     builder.addCase(uploadFile.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    // APPROVE OR DENY FILE
+    builder.addCase(checkFile.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(checkFile.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(checkFile.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -631,6 +644,8 @@ export {
   getAnswerByDiscussionId,
   getGroupNotJoin,
   getDocumentListByGroup,
+  uploadFile,
+  checkFile,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions
