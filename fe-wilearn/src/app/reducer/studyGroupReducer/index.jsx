@@ -32,6 +32,8 @@ import {
   uploadFile,
   checkFile,
   massScheduleMeeting,
+  updateMeeting,
+  searchGroupsCode,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -47,7 +49,8 @@ const initialState = {
   searchStudentList: [],
   invitations: [],
   groupsAsMember: [],
-  searchGroupss: [],
+  searchedGroups: [],
+  searchedCodeGroups: [],
   requestFormList: [],
   discussionForm: null,
   discussionList: [],
@@ -68,7 +71,8 @@ const studyGroupSlice = createSlice({
       state.error = null;
     },
     clearSearchGroup: (state) => {
-      state.searchGroups = [];
+
+      state.searchedGroups = [];
     },
   },
   extraReducers: (builder) => {
@@ -139,13 +143,26 @@ const studyGroupSlice = createSlice({
     // },
     builder.addCase(searchGroups.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.searchGroupss = payload;
+      state.searchedGroups = payload;
     });
     // [searchGroups.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
     builder.addCase(searchGroups.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    builder.addCase(searchGroupsCode.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(searchGroupsCode.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.searchedCodeGroups = payload;
+    });
+    builder.addCase(searchGroupsCode.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -463,6 +480,18 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // },
     builder.addCase(meetingNow.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    builder.addCase(updateMeeting.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateMeeting.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(updateMeeting.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

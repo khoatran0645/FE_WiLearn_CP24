@@ -9,20 +9,37 @@ import {
   Container,
   Box,
   Stack,
-  CircularProgress
+  CircularProgress,
+  Input,
+  TextField,
+  Paper,
+  Button
 } from "@mui/material";
-
+// import { Copy } from '@mui/icons-material';
+import ContentCopyIcon from '@mui/icons-material/ContentCopy';
 import InviteUser from "../../components/InviteUser";
 import RequestJoin from "./RequestJoin";
 import UserMoreInfo from "./UserMoreInfo";
 import Paginate from "../../components/Paginate";
 import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { toast } from "react-toastify";
 
 export default function MemberList() {
   const { groupInfo, loading } = useSelector((state) => state.studyGroup);
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
 
+  const { groupId } = useParams();
+  let leadGroups = [];
+
+  
+  const { userInfo } = useSelector((state) => state.user);
+  if (userInfo) {
+    leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
+  }
+  const isLead = leadGroups.some(g => g.id == parseInt(groupId));
+  
   useEffect(() => {
     if (groupInfo && groupInfo.members) {
       setUserList(groupInfo.members);
@@ -31,6 +48,12 @@ export default function MemberList() {
     }
   }, [groupInfo]);
 
+  const invitationCode = window.location.host + '/groups/search/code/' + groupInfo?.inviteCode
+  
+  const handleCopyClick = () => {
+    navigator.clipboard.writeText(invitationCode);
+    toast.info('Invitation code copied to clipboard!');
+  };
   const renderMemberCard = (user) => (
     <Grid key={user.id} item xs={12} sm={6} md={4} lg={2}>
       <Card sx={{ maxWidth: 180, marginTop: "15px" }} elevation={5}>
@@ -96,6 +119,42 @@ export default function MemberList() {
           <Paginate count={totalPages} onPageChange={handlePageChange} />
         </Grid>
       )}
+      {/* <Grid item container xs={12} justifyContent="flex-start"> */}
+        {/* <Container maxWidth="lg"> */}
+        <Container >
+          <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+            <Typography variant="h5" gutterBottom>
+            Invite link
+        </Typography>
+            <TextField
+              label="Invitation Code"
+              variant="outlined"
+              fullWidth
+              // value={window.location.host + '/groups/search/code/' + groupInfo?.inviteCode}
+              value={invitationCode}
+              // onChange={handleInputChange}invitationCode
+              sx={{ marginBottom: 2 }}
+              disabled
+            />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handleCopyClick}
+              startIcon={<ContentCopyIcon />}
+            // disabled={!invitationCode.trim()}
+            >
+              Copy Invitation Code
+            </Button>
+            {/* {invitationCode && (
+          <Box mt={2}>
+            <Typography variant="body1">
+              Your Invitation Code: <strong>{invitationCode}</strong>
+            </Typography>
+          </Box>
+        )} */}
+          </Paper>
+        </Container>
+      {/* </Grid> */}
     </Grid>
   );
 }

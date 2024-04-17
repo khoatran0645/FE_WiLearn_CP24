@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
   Button,
   Checkbox,
@@ -10,8 +10,12 @@ import {
   OutlinedInput,
   Select,
   TextField,
+  Typography,
 } from "@mui/material";
 import ListGroup from "./ListGroup";
+import { Form } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { searchGroups } from "../../../app/reducer/studyGroupReducer";
 
 const ITEM_HEIGHT = 48;
 const ITEM_PADDING_TOP = 8;
@@ -24,43 +28,67 @@ const MenuProps = {
   },
 };
 
-const names = [
-  "Java",
-  "React",
-  "Python",
-  ".Net",
-  "Golang",
-  "Kotlin",
-  "Flutter",
-  "FullStack",
-  "Web",
-  "Mobile",
-];
-
 export default function SearchPage() {
-  const [subject, setSubject] = useState([]);
+  const [selectedSubjects, setSelectedSubjects] = useState([]);
+  const searchRef = useRef();
   const [searchTerm, setSearchTerm] = useState("");
-  const [showListGroup, setShowListGroup] = useState(false);
+  const dispatch = useDispatch();
+  const {subjectLists} = useSelector(state=>state.studyGroup)
+  // const subjectOpts = [selectAllSubsOpt, ...subjectLists]
+  const subjectOpts = [ ...subjectLists]
+  // const allGroups = [...groupNotJoin ]
+  const { searchedGroups } = useSelector((state) => state.studyGroup);
+  // const [searchedGroups, setAllGroups] = useState([])
+  const [groups, setGroups] = useState(searchedGroups)
 
-  const handleChange = (event) => {
+  // useEffect(()=>{
+  //   setGroups(filteredGroups);
+  // }, [searchedGroups])
+
+  useEffect(()=>{
+    const filteredGroups = searchedGroups.filter(g=>groupContainsSelectedSubject(g.subjects))
+    setGroups(filteredGroups);
+  }, [selectedSubjects, searchedGroups])
+
+  function groupContainsSelectedSubject(groupSubjects) {
+    // Iterate through each item in list2
+    if (selectedSubjects.length==0) return true;
+    for (let subject of selectedSubjects) {
+        // Check if the item exists in list1
+        if (groupSubjects.includes(subject.name)) {
+            return true; // Found a matching item
+        }
+    }
+    return false; // No matching item found
+}
+
+  const handleSubjectsChange = (event) => {
     const { value } = event.target;
+    console.log("handleSubjectsChange value", value)
     if (value.includes("Select All")) {
-      if (subject.length === names.length) {
-        setSubject([]);
+      if (selectedSubjects.length === subjectOpts.length) {
+        setSelectedSubjects([]);
       } else {
-        setSubject([...names]);
+        setSelectedSubjects([...subjectOpts]);
       }
     } else {
-      setSubject(value);
+      setSelectedSubjects(value);
     }
   };
 
-  const filteredSubjects = names.filter((name) =>
-    name.toLowerCase().includes(searchTerm.toLowerCase())
-  );
+  // const filteredSubjects = subjectOpts.filter((name) =>
+  //   name.toLowerCase().includes(searchTerm.toLowerCase())
+  // );
 
-  const handleSearchClick = () => {
-    setShowListGroup(true);
+  const handleSearchClick = async(searchTerm) => {
+    // const searchTerm = searchRef.current.value;
+    // console.log("searchTerm",searchTerm)
+    // setSearchTerm(searchTerm);
+    const response = await dispatch(searchGroups(searchTerm));
+
+    if (response.type === searchGroups.fulfilled.type) {
+      // setNewSearch(searchGroups);
+    }
   };
 
   return (
@@ -73,57 +101,65 @@ export default function SearchPage() {
             size="small"
             sx={{ width: "500px" }}
             value={searchTerm}
-            onChange={(e) => setSearchTerm(e.target.value)}
+            ref={searchRef}
+            onChange={async(e) => {
+              await setSearchTerm(e.target.value)
+              await handleSearchClick(e.target.value);
+            }}
+            // onChange={onSearch}
           />
         </Grid>
-        <Grid item xs={12} sm={1.5}>
-          <FormControl fullWidth size="small">
-            <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
-            <Select
-              labelId="demo-multiple-checkbox-label"
-              id="demo-multiple-checkbox"
-              multiple
-              value={subject}
-              onChange={handleChange}
-              input={<OutlinedInput label="Subject" />}
-              renderValue={(selected) => selected.join(", ")}
-              MenuProps={MenuProps}
-            >
-              <MenuItem key="Select All" value="Select All">
-                <Checkbox checked={subject.length === names.length} />
-                <ListItemText primary="Select All" />
-              </MenuItem>
-              {filteredSubjects.map((name) => (
-                <MenuItem key={name} value={name}>
-                  <Checkbox checked={subject.indexOf(name) > -1} />
-                  <ListItemText primary={name} />
+        {/* <Form onSubmit={handleSearchClick}> */}
+          <Grid item xs={12} sm={1.5}>
+            <FormControl fullWidth size="small">
+              <InputLabel id="demo-multiple-checkbox-label">Subject</InputLabel>
+              <Select
+                labelId="demo-multiple-checkbox-label"
+                id="demo-multiple-checkbox"
+                multiple
+                value={selectedSubjects}
+                onChange={handleSubjectsChange}
+                input={<OutlinedInput label="Subject" />}
+                renderValue={(selected) => selected.map(sub=>sub.name).join(", ")}
+                MenuProps={MenuProps}
+              >
+                <MenuItem key="Select All" value="Select All">
+                  <Checkbox checked={selectedSubjects.length === subjectOpts.length} />
+                  <ListItemText primary="Select All" />
                 </MenuItem>
-              ))}
-            </Select>
-          </FormControl>
-        </Grid>
-        <Grid item xs={12} sm={1} paddingLeft={1}>
-          <Button
-            variant="contained"
-            fullWidth
-            onClick={handleSearchClick}
-            sx={{
-              backgroundImage:
-                "linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)",
-            }}
-          >
-            Search
-          </Button>
+                {subjectOpts.map((sub) => (
+                  <MenuItem key={sub.name} value={sub}>
+                    <Checkbox checked={selectedSubjects.some(s=>s.id==sub.id)} />
+                    <ListItemText primary={sub.name} />
+                  </MenuItem>
+                ))}
+              </Select>
+            </FormControl>
+          </Grid>
+          <Grid item xs={12} sm={1} paddingLeft={1}>
+            <Button
+              variant="contained"
+              fullWidth
+              onClick={()=>handleSearchClick(searchTerm)}
+              sx={{
+                backgroundImage:
+                  "linear-gradient(to right, #7474BF 0%, #348AC7 51%, #7474BF 100%)",
+              }}
+            >
+              Search
+            </Button>
+          </Grid>
+        {/* </Form> */}
+      </Grid>
+      {/* {showListGroup && ( */}
+      
+      <Grid container justifyContent="center" alignItems="center">
+        <Grid item xs={12} sm={8}>
+          <ListGroup groups={groups} searchTerm={searchTerm}/>
         </Grid>
       </Grid>
-      {showListGroup && (
-        <Grid container justifyContent="center" alignItems="center">
-          <Grid item xs={12} sm={8}>
-            <ListGroup />
-          </Grid>
-        </Grid>
-      )}
-      
+      {/* )} */}
+
     </Grid>
   );
 }

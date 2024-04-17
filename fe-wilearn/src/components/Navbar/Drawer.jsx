@@ -104,7 +104,7 @@ export default function ClippedDrawer() {
         accessTokenFactory: () => accessTokenFactory,
       })
       .build();
-    groupHub.start().catch((err) => console.log(err));
+    groupHub.start().catch((err) => console.log("groupHub.start err",err));
 
     groupHub.on("OnReloadMeeting", (message) => {
       onRefreshGroup();
