@@ -106,6 +106,11 @@ export const API_POST_ANSWER_DISCUSSION =
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
 
+export const API_GET_REPORTS = "/api/Reports"
+export const API_CREATE_REPORTS = "/api/Reports"
+export const API_RESOLVED_REPORTS = "/api/Reports?reportId={id}&isApproved={isApproved}"
+export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve"
+
 export const publicRoutes = {
   root: "/",
   login: "/login",

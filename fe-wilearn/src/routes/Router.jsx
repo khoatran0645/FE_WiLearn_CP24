@@ -27,6 +27,8 @@ import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
+import AdminLayout from "../layouts/AdminLayout";
+import ReportsPage from "../pages/Admin/ReportsPage";
 
 export default function Router() {
   const routes = useRoutes([
@@ -171,6 +173,23 @@ export default function Router() {
           ],
         },
       ],
+    },
+    {
+      path: '/admin',
+      element:(
+        <AdminLayout> 
+          {/* <h1>Admin</h1> */}
+          {/* <ReportsPage/> */}
+        </AdminLayout>
+      ),
+      // element: <h1>Admin</h1>,
+      errorElement: <ErrorPage />,
+      children:[
+        {
+          index: true,
+          element: <ReportsPage/>
+        }
+      ]
     },
   ]);
   return routes;
