@@ -23,11 +23,12 @@ export default function RegisterPage() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { userInfo, loading, error } = useSelector((state) => state.user);
-  console.log("loading", loading);
-  console.log("error", error);
+
   const validationSchema = Yup.object({
     username: Yup.string().required("Xin hãy nhập tên đăng nhập."),
-    email: Yup.string().required("Xin hãy nhập Email.").email("Email không hop le."),
+    email: Yup.string()
+      .required("Xin hãy nhập Email.")
+      .email("Email không hop le."),
     password: Yup.string().required("Xin hãy nhập Mật Khẩu."),
     confirmPassword: Yup.string().oneOf(
       [Yup.ref("password"), null],
@@ -53,21 +54,19 @@ export default function RegisterPage() {
     onSubmit: (values) => {
       //   console.log(values);
       dispatch(register(values));
-      if(error === null) {
+      if (error === null) {
         navigate("/signin");
-      }else{
+      } else {
         toast.error(error);
-        return
       }
-      
     },
   });
 
-  //   useEffect(() => {
-  //     if (userInfo) {
-  //       navigate("/signin");
-  //     }
-  //   }, [userInfo]);
+    useEffect(() => {
+      if (userInfo) {
+        navigate("/signin");
+      }
+    }, [userInfo]);
   return (
     <Grid
       style={{
