@@ -8,6 +8,7 @@ import {
   getSubjectLists,
 } from "../app/reducer/studyGroupReducer";
 import AdminNavbarMenu from "../components/Nabar/AdminNavbarMenu";
+import { getNewReportLists, getReportLists } from "../app/reducer/adminReducer/adminActions";
 
 export default function AdminLayout() {
   const { userInfo } = useSelector((state) => state.user);
@@ -31,6 +32,9 @@ export default function AdminLayout() {
     }else{
       if(userInfo.roleName!="Admin"){
         navigate("/home")
+      }else{
+        dispatch(getReportLists())
+        dispatch(getNewReportLists())
       }
     }
   }, [userInfo]);

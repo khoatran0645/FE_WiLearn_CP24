@@ -13,7 +13,6 @@ import {
 } from "../app/reducer/studyGroupReducer";
 
 export default function MainLayout() {
-  alert("Yo")
   const { userInfo } = useSelector((state) => state.user);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -22,7 +21,7 @@ export default function MainLayout() {
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
     dispatch(getStudentInvites());
-    if (!userInfo) {
+    if (!userInfo) { 
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
           const token = localStorage.getItem("token");
@@ -37,7 +36,6 @@ export default function MainLayout() {
       });
     }else{
       if(userInfo.roleName=="Admin"){
-        alert("Yo admin")
         navigate("admin")
       }
     }
