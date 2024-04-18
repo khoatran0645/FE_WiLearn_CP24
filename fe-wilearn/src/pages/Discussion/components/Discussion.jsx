@@ -11,20 +11,18 @@ import {
 } from "@mui/material";
 import AddDiscussion from "./AddDiscussion";
 import Paginate from "./../../../components/Paginate";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.bubble.css";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import dayjs from "dayjs";
-import { getAnswerByDiscussionId, getDiscussionById } from "../../../app/reducer/studyGroupReducer";
+
 export default function DiscussionList() {
-  const { discussionList, answerList } = useSelector(
-    (state) => state.studyGroup
-  );
-  const dispatch = useDispatch();
-  console.log("discussionList", discussionList);
-  console.log("answerList", answerList);
+  const { discussionList } = useSelector((state) => state.studyGroup);
+
+  // console.log("discussionList", discussionList);
+  // console.log("answerList", answerList);
 
   const options = ["Newest", "Oldest"];
 
@@ -126,11 +124,7 @@ export default function DiscussionList() {
 
                   {/* <SeeMore discussionId={discussion.id} /> */}
                   <Link to={`./${discussion.id}`}>
-                    <Button
-                      variant="outlined"
-                    >
-                      See more
-                    </Button>
+                    <Button variant="outlined">See more</Button>
                   </Link>
                 </CardContent>
               </Card>
