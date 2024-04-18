@@ -1,7 +1,9 @@
 import { Grid, Typography } from '@mui/material';
 import { Bar } from 'react-chartjs-2';
-
+import { useSelector } from 'react-redux';
 const ChartMeeting = () => {
+  const {statsData} = useSelector((state) => state.user);
+  console.log(statsData);
   const data = {
     labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
     datasets: [

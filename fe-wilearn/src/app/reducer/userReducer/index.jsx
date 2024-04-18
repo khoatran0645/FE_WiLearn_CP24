@@ -7,6 +7,7 @@ import {
   register,
   updateUserInfo,
   resetPassword,
+  getPersonalStatistics,
 } from "./userActions";
 
 const initialState = {
@@ -15,6 +16,7 @@ const initialState = {
   meetings: null,
   error: null,
   loginError: null,
+  statsData: null,
 };
 
 const userSlice = createSlice({
@@ -28,6 +30,8 @@ const userSlice = createSlice({
       state.userInfo = null;
       state.meetings = null;
       state.error = null;
+      state.loginError = null;
+      state.statsData = null;
     },
     setLoginError: (state, action) => {
       state.loginError = action.payload;
@@ -178,10 +182,24 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+
+    // get personal statistics
+    builder.addCase(getPersonalStatistics.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getPersonalStatistics.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.statsData = payload;
+    });
+    builder.addCase(getPersonalStatistics.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   },
 });
 
-export { checkLogin, register, getUserInfo, getUsermMeetings, resetPassword }; // export asynchronous actions
+export { checkLogin, register, getUserInfo, getUsermMeetings, resetPassword, getPersonalStatistics }; // export asynchronous actions
 
 export const { reset, setLoginError } = userSlice.actions; // export synchronous actions
 

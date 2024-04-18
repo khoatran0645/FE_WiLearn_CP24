@@ -1,6 +1,6 @@
 //  export const BE_URL = "http://www.groupstudy.somee.com";
-// export const BE_URL = "http://localhost:8001";
-export const BE_URL = "http://localhost:5000";
+export const BE_URL = "http://localhost:8001";
+// export const BE_URL = "http://localhost:5000";
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
 export const API_SIGNIN_URL = "/api/Auth/Login";
@@ -43,7 +43,7 @@ export const API_MEETING_NOW = "/api/Meetings/Instant";
 
 export const API_SEARCH_GROUP =
   "/api/Groups/Search?search={keyword}&newGroup=true";
-  export const API_SEARCH_GROUP_CODE =
+export const API_SEARCH_GROUP_CODE =
   "/api/Groups/Search/Code?search={keyword}&newGroup=true";
 export const API_REQUEST_JOIN_GROUP = "/api/GroupMembers/Request";
 export const API_GET_REQUEST_FORM_LIST =
@@ -105,6 +105,12 @@ export const API_POST_ANSWER_DISCUSSION =
 // discussion answer
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
+
+// personal stats
+export const API_GET_PERSONAL_STATS ="/api/Stats/Account/{userId}/{time}";
+
+// group stats
+export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{year}-{month}"
 
 export const publicRoutes = {
   root: "/",

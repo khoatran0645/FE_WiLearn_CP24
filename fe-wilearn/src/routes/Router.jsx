@@ -10,13 +10,11 @@ import { Navigate, useRoutes } from "react-router-dom";
 // import Register from "../pages/Register/Register";
 import RegisterPage from "../pages/Register/RegisterPage";
 import ErrorPage from "../pages/ErrorPage";
-
 import Groups from "../pages/Groups/Groups";
 import Members from "../pages/Groups/Members";
 import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
-import Statistics from "../pages/Statistic/components/Statistics";
 import StudyDocs from "../components/StudyDocs";
 import GroupSettings from "../components/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
@@ -27,7 +25,8 @@ import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
-
+import PersonalStatistics from "./../pages/Statistic/components/PersonalStatistics";
+import GroupStatistics from "../pages/Statistic/components/GroupStatistics";
 export default function Router() {
   const routes = useRoutes([
     {
@@ -60,7 +59,7 @@ export default function Router() {
         },
         {
           path: "register",
-          element: <RegisterPage/>,
+          element: <RegisterPage />,
         },
       ],
     },
@@ -99,7 +98,7 @@ export default function Router() {
         },
         {
           path: "statistics",
-          element: <Statistics />,
+          element: <PersonalStatistics />,
         },
         {
           path: "schedules",
@@ -158,7 +157,7 @@ export default function Router() {
             },
             {
               path: "statistics",
-              element: <Statistics />,
+              element: <GroupStatistics />,
             },
             {
               path: "groupsettings",
