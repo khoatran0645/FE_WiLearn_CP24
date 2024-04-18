@@ -58,8 +58,8 @@ export default function StudyDocs() {
   // console.log("groupInfo", groupInfo.id);
   // console.log("userInfo", userInfo.id);
 
-  const approvedList = listFile?.filter((doc) => doc.approved);
-  const pendingList = listFile?.filter((doc) => !doc.approved);
+  const approvedList = listFile?.filter((doc) => doc.approved && doc.isActive);
+  const pendingList = listFile?.filter((doc) => !doc.approved && doc.isActive);
   // console.log("approvedList", approvedList);
   // console.log("pendingList", pendingList);
 
@@ -87,6 +87,9 @@ export default function StudyDocs() {
         // console.log(loading);
         // console.log(error);
         // Check if upload was successful
+        if(loading){
+          toast.loading("Uploading...");
+        }
         if (loading === false && error === null) {
           // console.log("Upload fulfilled");
           toast.success("File uploaded successfully.");
@@ -111,6 +114,11 @@ export default function StudyDocs() {
       checkFile: false,
     };
     const res = dispatch(checkFile(data));
+    if(error != null){
+      toast.error(error);
+    }else {
+      toast.promise("File deny.");
+    }
     console.log("handleDenyFile", res);
   };
   const handleApproveFile = (id) => {
@@ -121,6 +129,11 @@ export default function StudyDocs() {
       checkFile: true,
     };
     const res = dispatch(checkFile(data));
+    if(error != null){
+      toast.error(error);
+    }else {
+      toast.info("File approved.");
+    }
     console.log("handleApproveFile", res);
   };
 

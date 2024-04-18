@@ -469,7 +469,7 @@ export const getAnswerByDiscussionId = createAsyncThunk(
 export const addAnswer = createAsyncThunk(
   "studyGroup/addAnswer",
   async (data, { rejectWithValue }) => {
-    console.log("answer data", data);
+    // console.log("answer data", data);
     const form = new FormData();
     form.append("File", "");
     return await axiosClient

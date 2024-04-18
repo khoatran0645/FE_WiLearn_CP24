@@ -16,24 +16,45 @@ import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addAnswer } from "../../../app/reducer/studyGroupReducer";
 import { toast } from "react-toastify";
+import Loading from "../../../components/Loading";
+import {
+  getAnswerByDiscussionId,
+  getDiscussionById,
+} from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 
 export default function DiscussionDetail() {
+  const { discussionDetail, loading, error } = useSelector(
+    (state) => state.studyGroup
+  );
+  const { userInfo } = useSelector((state) => state.user);
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
   const dispatch = useDispatch();
   const { discussionId } = useParams();
 
-  const { discussionDetail } = useSelector((state) => state.studyGroup);
-  const { userInfo } = useSelector((state) => state.user);
+  useEffect(() => {
+    dispatch(getAnswerByDiscussionId(discussionId));
+    dispatch(getDiscussionById(discussionId));
+  }, [discussionId]);
 
-  console.log("discussionDetail", discussionDetail);
+  if (loading) {
+    return <Loading />; // Render loading indicator
+  }
+
+  if (!discussionDetail) {
+    return <div>No data available</div>; // Handle case when data is null
+  }
+
+  // console.log("discussionDetail", discussionDetail);
+  // console.log("discussionId", discussionId);
+  // console.log("error", error);
 
   const handleReplyChange = (event) => {
     setReplyText(event.target.value);
   };
 
   const handleReplySubmit = () => {
-    console.log(`Reply submitted: ${replyText}`);
+    // console.log(`Reply submitted: ${replyText}`);
     const data = {
       userId: userInfo.id,
       discussionId: discussionId,
@@ -41,8 +62,17 @@ export default function DiscussionDetail() {
       file: "",
     };
     // console.log("data", data);
-    const res = dispatch(addAnswer(data));
-    console.log("res", res);
+    dispatch(addAnswer(data))
+      .then(() => {
+        // Fetch updated comments after adding a new comment
+        dispatch(getAnswerByDiscussionId(discussionId));
+      })
+      .catch((error) => {
+        // Handle error if necessary
+        console.error("Error adding answer:", error);
+        // Display error message to the user
+        toast.error("Failed to add answer. Please try again.");
+      });
     setReplyText("");
   };
 
@@ -79,16 +109,16 @@ export default function DiscussionDetail() {
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "center" }}>
             <Avatar
-              alt={discussionDetail?.account.fullName}
+              alt={discussionDetail?.account?.fullName}
               // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
-              src={discussionDetail?.account.ImagePath}
+              src={discussionDetail.account.ImagePath}
               sx={{ marginRight: "10px" }}
             />
             <Typography
               variant="body1"
               style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
             >
-              {discussionDetail?.account.fullName}
+              {discussionDetail?.account?.fullName}
             </Typography>
           </Grid>
           <Typography
