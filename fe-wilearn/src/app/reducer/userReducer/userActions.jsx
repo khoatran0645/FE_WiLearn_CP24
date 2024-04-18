@@ -8,6 +8,7 @@ import {
   API_UPDATE_PROFILE,
   API_UPDATE_PASSWORD,
   API_YOUR_MEETINGS,
+  API_FORGOT_PASSWORD,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
@@ -111,3 +112,14 @@ export const updateUserPassword = createAsyncThunk(
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
+
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (email, { rejectWithValue }) => {
+    const submitData = email;
+    return await axiosClient
+      .get(API_FORGOT_PASSWORD.replace("{email}", encodeURIComponent(submitData)))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+)
