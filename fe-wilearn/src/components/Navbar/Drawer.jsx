@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Box,
   Drawer,
@@ -10,11 +10,10 @@ import {
   ListItemIcon,
   ListItemText,
   Avatar,
-  Grid,
   Typography,
 } from "@mui/material";
 
-import { NavLink, useLocation, useNavigate, useParams } from "react-router-dom";
+import { NavLink, useNavigate, useParams } from "react-router-dom";
 import GroupsIcon from "@mui/icons-material/Groups";
 import LocalLibraryIcon from "@mui/icons-material/LocalLibrary";
 import CalendarMonthIcon from "@mui/icons-material/CalendarMonth";
@@ -33,9 +32,7 @@ import {
   getRequestFormList,
   getDocumentListByGroup,
   getStudentInvites,
-  getAnswerByDiscussionId,
   getDiscussionByGroupId,
-  getDiscussionById,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -53,19 +50,6 @@ export default function ClippedDrawer() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  function extractValueFromPath(path) {
-    const segments = path.split("/"); // Split the path into segments
-    const index = segments.indexOf("discussions"); // Find the index of 'discussions'
-
-    if (index !== -1 && index + 1 < segments.length) {
-      // Check if 'discussions' is found and there's a segment after it
-      return segments[index + 1]; // Return the segment after 'discussions'
-    } else {
-      return null; // or any other default value if 'discussions' is not found or there's no segment after it
-    }
-  }
-
-  const discussionId = extractValueFromPath(useLocation().pathname);
   const onRefreshGroup = () => {
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
@@ -75,9 +59,7 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
-    dispatch(getAnswerByDiscussionId(discussionId));
     dispatch(getDiscussionByGroupId(groupId));
-    dispatch(getDiscussionById(discussionId))
   };
 
   useEffect(() => {
@@ -89,8 +71,6 @@ export default function ClippedDrawer() {
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getDiscussionByGroupId(groupId));
-    dispatch(getAnswerByDiscussionId(discussionId));
-    dispatch(getDiscussionById(discussionId))
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
@@ -104,7 +84,7 @@ export default function ClippedDrawer() {
         accessTokenFactory: () => accessTokenFactory,
       })
       .build();
-    groupHub.start().catch((err) => console.log("groupHub.start err",err));
+    groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
     groupHub.on("OnReloadMeeting", (message) => {
       onRefreshGroup();
@@ -319,7 +299,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="members"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",
@@ -338,7 +318,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="discussions"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",
@@ -356,7 +336,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="meetings"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",
@@ -374,7 +354,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="docs"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",
@@ -392,7 +372,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="statistics"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",
@@ -410,7 +390,7 @@ export default function ClippedDrawer() {
             <ListItem>
               <NavLink
                 to="groupsettings"
-                style={({ isActive, isPending }) => {
+                style={({ isActive }) => {
                   return {
                     color: isActive ? "#ff8080" : "black",
                     textDecoration: "none",

@@ -8,11 +8,14 @@ import {
   API_UPDATE_PROFILE,
   API_UPDATE_PASSWORD,
   API_YOUR_MEETINGS,
+  API_FORGOT_PASSWORD,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
 import { setLoginError } from ".";
 // import { API_SIGNIN_URL } from '../../../constants';
+
+
 
 export const checkLogin = createAsyncThunk(
   "auth/login",
@@ -48,7 +51,7 @@ export const register = createAsyncThunk(
       .post(API_SIGNUP_URL, submitData)
       // .then((response) => response)
       .then((response) => {
-        toast.success("Đăng kí tài khoản thành công");
+        toast.success("Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn.");
       })
       .catch((error) => {
         rejectWithValue(error.response.data);
@@ -109,3 +112,14 @@ export const updateUserPassword = createAsyncThunk(
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
+
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (email, { rejectWithValue }) => {
+    const submitData = email;
+    return await axiosClient
+      .get(API_FORGOT_PASSWORD.replace("{email}", encodeURIComponent(submitData)))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+)

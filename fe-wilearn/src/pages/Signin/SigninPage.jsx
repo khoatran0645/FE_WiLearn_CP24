@@ -5,23 +5,30 @@ import {
   TextField,
   FormControlLabel,
   Checkbox,
-  Link,
   Grid,
   Box,
   Typography,
   Container,
   CircularProgress,
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogContentText,
+  DialogActions,
 } from "@mui/material";
-
+import { useState, useEffect } from "react";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import * as Yup from "yup";
-import { useNavigate } from "react-router-dom";
-import { useEffect } from "react";
+import { useNavigate, Link } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { useFormik } from "formik";
-import { checkLogin, setLoginError } from "../../app/reducer/userReducer";
-import { toast } from 'react-toastify';
+import {
+  checkLogin,
+  setLoginError,
+  resetPassword,
+} from "../../app/reducer/userReducer";
+import { toast } from "react-toastify";
 
 const defaultTheme = createTheme();
 const validationSchema = Yup.object({
@@ -30,6 +37,7 @@ const validationSchema = Yup.object({
 });
 
 export default function SignIn() {
+  const [open, setOpen] = useState(false);
   const { userInfo, loading, loginError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,6 +63,25 @@ export default function SignIn() {
       dispatch(setLoginError(null));
     }
   }, [userInfo, loginError]);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+  const handleClose = () => {
+    setOpen(false);
+  };
+
+  const handleForgotPassword = (email) => {
+    // console.log(email);
+    dispatch(resetPassword(email))
+      .then(() => {
+        toast.success("Reset Password successfully");
+        navigate("/signin");
+      })
+      .catch((err) => {
+        toast.error(err.message);
+      });
+  };
 
   return (
     <Grid
@@ -150,16 +177,53 @@ export default function SignIn() {
               </Button>
               <Grid container>
                 <Grid item xs>
-                  <Link href="#" variant="body2">
+                  <Link to="#" onClick={handleClickOpen}>
                     Forgot password?
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="/register" variant="body2">
+                  <Link to="/register">
                     {"Don't have an account? Register"}
                   </Link>
                 </Grid>
               </Grid>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                PaperProps={{
+                  component: "form",
+                  onSubmit: (event) => {
+                    event.preventDefault();
+                    const form = new FormData(event.currentTarget);
+                    const formJson = Object.fromEntries(form.entries());
+                    const email = formJson.email;
+                    handleForgotPassword(email);
+                    handleClose();
+                  },
+                }}
+              >
+                <DialogTitle>Forgot your password</DialogTitle>
+                <DialogContent>
+                  <DialogContentText>
+                    Please enter your email to reset your password.
+                  </DialogContentText>
+                  <TextField
+                    autoFocus
+                    required
+                    margin="dense"
+                    id="email"
+                    name="email"
+                    label="Email Address"
+                    type="email"
+                    fullWidth
+                    variant="standard"
+                  />
+                </DialogContent>
+                <DialogActions>
+                  <Button onClick={handleClose}>Cancel</Button>
+                  <Button type="submit">Submit</Button>
+                </DialogActions>
+              </Dialog>
             </Box>
           </Box>
         </Container>

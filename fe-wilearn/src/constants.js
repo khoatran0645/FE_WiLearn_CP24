@@ -81,7 +81,7 @@ export const CHECK_FILE =
 export const DELETE_DOCUMENT = "/delete-file";
 
 // Auth
-export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset";
+export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset?email={email}";
 
 //Lessons
 export const API_YOUR_MEETINGS = "/api/Meetings/All/Student";

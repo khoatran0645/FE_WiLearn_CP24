@@ -6,6 +6,7 @@ import {
   getUsermMeetings,
   register,
   updateUserInfo,
+  resetPassword,
 } from "./userActions";
 
 const initialState = {
@@ -47,7 +48,7 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
-    
+
     // [register.pending]: (state) => {
     //   state.loading = true;
     //   state.error = null;
@@ -115,7 +116,7 @@ const userSlice = createSlice({
     });
     builder.addCase(getUsermMeetings.fulfilled, (state, { payload }) => {
       state.loading = false;
-      state.meetings = payload
+      state.meetings = payload;
     });
     builder.addCase(getUsermMeetings.rejected, (state, { payload }) => {
       state.loading = false;
@@ -164,10 +165,23 @@ const userSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+
+    // reset password
+    builder.addCase(resetPassword.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(resetPassword.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(resetPassword.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   },
 });
 
-export { checkLogin, register, getUserInfo, getUsermMeetings }; // export asynchronous actions
+export { checkLogin, register, getUserInfo, getUsermMeetings, resetPassword }; // export asynchronous actions
 
 export const { reset, setLoginError } = userSlice.actions; // export synchronous actions
 
