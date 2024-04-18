@@ -35,6 +35,7 @@ import {
   API_MEETING_REPEAT,
   API_UPDATE_MEETING,
   API_SEARCH_GROUP_CODE,
+  API_CREATE_REPORTS,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -524,6 +525,18 @@ export const checkFile = createAsyncThunk(
           .replace("{groupId}", data.groupId)
           .replace("{check}", data.checkFile)
       )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const createReport = createAsyncThunk(
+  "studyGroup/createReport",
+  async (values, { rejectWithValue }) => {
+    const submitData = values;
+
+    return await axiosClient
+      .post(API_CREATE_REPORTS, submitData)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
