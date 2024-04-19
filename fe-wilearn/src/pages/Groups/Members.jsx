@@ -33,13 +33,13 @@ export default function MemberList() {
   const { groupId } = useParams();
   let leadGroups = [];
 
-  
+
   const { userInfo } = useSelector((state) => state.user);
   if (userInfo) {
     leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
   }
   const isLead = leadGroups.some(g => g.id == parseInt(groupId));
-  
+
   useEffect(() => {
     if (groupInfo && groupInfo.members) {
       setUserList(groupInfo.members);
@@ -49,7 +49,7 @@ export default function MemberList() {
   }, [groupInfo]);
 
   const invitationCode = window.location.host + '/groups/search/code/' + groupInfo?.inviteCode
-  
+
   const handleCopyClick = () => {
     navigator.clipboard.writeText(invitationCode);
     toast.info('Invitation code copied to clipboard!');
@@ -120,40 +120,40 @@ export default function MemberList() {
         </Grid>
       )}
       {/* <Grid item container xs={12} justifyContent="flex-start"> */}
-        {/* <Container maxWidth="lg"> */}
-        <Container >
-          <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
-            <Typography variant="h5" gutterBottom>
+      {/* <Container maxWidth="lg"> */}
+      <Container >
+        <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
+          <Typography variant="h5" gutterBottom>
             Invite link
-        </Typography>
-            <TextField
-              label="Invitation Code"
-              variant="outlined"
-              fullWidth
-              // value={window.location.host + '/groups/search/code/' + groupInfo?.inviteCode}
-              value={invitationCode}
-              // onChange={handleInputChange}invitationCode
-              sx={{ marginBottom: 2 }}
-              disabled
-            />
-            <Button
-              variant="contained"
-              color="primary"
-              onClick={handleCopyClick}
-              startIcon={<ContentCopyIcon />}
-            // disabled={!invitationCode.trim()}
-            >
-              Copy Invitation Code
-            </Button>
-            {/* {invitationCode && (
+          </Typography>
+          <TextField
+            label="Invitation Code"
+            variant="outlined"
+            fullWidth
+            // value={window.location.host + '/groups/search/code/' + groupInfo?.inviteCode}
+            value={invitationCode}
+            // onChange={handleInputChange}invitationCode
+            sx={{ marginBottom: 2 }}
+            disabled
+          />
+          <Button
+            variant="contained"
+            color="primary"
+            onClick={handleCopyClick}
+            startIcon={<ContentCopyIcon />}
+          // disabled={!invitationCode.trim()}
+          >
+            Copy Invitation Code
+          </Button>
+          {/* {invitationCode && (
           <Box mt={2}>
             <Typography variant="body1">
               Your Invitation Code: <strong>{invitationCode}</strong>
             </Typography>
           </Box>
         )} */}
-          </Paper>
-        </Container>
+        </Paper>
+      </Container>
       {/* </Grid> */}
     </Grid>
   );
