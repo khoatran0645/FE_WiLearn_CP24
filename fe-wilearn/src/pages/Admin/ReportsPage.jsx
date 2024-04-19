@@ -1,21 +1,37 @@
-import { Box, Paper, Typography } from '@mui/material'
+import { Box, Button, Paper, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useDispatch, useSelector } from 'react-redux'
+import { resolveReport } from '../../app/reducer/adminReducer/adminActions'
+import { toast } from "react-toastify";
 
 function ReportsPage() {
   const { reports } = useSelector(state => state.admin)
+  const dispatch = useDispatch();
   const admin = useSelector(state => state.admin)
+
+  const handleReport = async(id, isApproved)=>{
+    const response = await dispatch(resolveReport({id: id, isApproved: isApproved}))
+    if(response.type===resolveReport.fulfilled.type){
+      toast.success(`${isApproved?"Approved":"Rejected"} report successfully`);
+    }else{
+      toast.error(`Something went wrong when ${isApproved?"approving":"rejecting"} report`);
+      response?.payload?.failures&&response.payload.failures.forEach(error => {
+        toast.error(error)
+      });
+
+    }
+  }
   console.log("admin", admin);
   return (
     <>
-      <Typography variant='h2'>Reports aaa</Typography>
+      <Typography variant='h3'>Resolve Reports</Typography>
       {(!reports || reports.length == 0) && (
         "No new report"
       )}
       {reports.map(report => (
         <Box key={report.id} marginTop={2}>
-          <Paper elevation={3} sx={{ padding: 3, marginTop: 1 }}>
+          <Paper elevation={3} sx={{ padding: 2, marginTop: 1 }}>
             <Typography><strong>Id: </strong>{report.id}</Typography>
             <Typography><strong>Reason: </strong>{report.detail}</Typography>
             <Typography><strong>Sender: </strong>{report.sender.username} - {report.sender.fullName}</Typography>
@@ -54,6 +70,8 @@ function ReportsPage() {
                 <Typography><strong>File httpLink: </strong>{report.file.httpLink}</Typography>
               </Paper>
             )}
+            <Button variant='outlined' color='success' onClick={()=>handleReport(report.id, true)}>Approve</Button>
+            <Button variant='contained' color='warning' onClick={()=>handleReport(report.id, false)}>Reject</Button>
           </Paper>
         </Box>
       ))}

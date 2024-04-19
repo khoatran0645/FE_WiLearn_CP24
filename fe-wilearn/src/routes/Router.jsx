@@ -29,6 +29,7 @@ import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
 import AdminLayout from "../layouts/AdminLayout";
 import ReportsPage from "../pages/Admin/ReportsPage";
+import SubjectsPage from "../pages/Admin/SubjectsPage";
 
 export default function Router() {
   const routes = useRoutes([
@@ -188,6 +189,14 @@ export default function Router() {
         {
           index: true,
           element: <ReportsPage/>
+        },
+        {
+          path: 'reports',
+          element: <ReportsPage/>
+        },
+        {
+          path: 'subjects',
+          element: <SubjectsPage/>
         }
       ]
     },
