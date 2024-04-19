@@ -389,7 +389,7 @@ function Schedule() {
                         justifyContent="center"
                         sx={{ paddingTop: "1rem" }}
                       >
-                        <HistoryChat />
+                        <HistoryChat chatHistory={meeting.chats}/>
                       </Grid>
                     </CardContent>
                   </Card>
