@@ -25,8 +25,8 @@ import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
-import PersonalStatistics from "./../pages/Statistic/components/PersonalStatistics";
-import GroupStatistics from "../pages/Statistic/components/GroupStatistics";
+import PersonalStatistics from "../pages/Statistic/components/UserStats/PersonalStatistics";
+import GroupStatistics from "../pages/Statistic/components/GroupStats/GroupStatistics";
 export default function Router() {
   const routes = useRoutes([
     {
