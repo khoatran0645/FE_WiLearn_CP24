@@ -10,7 +10,10 @@ export const API_GET_USER_INFO = "/api/Accounts/profile";
 export const API_UPDATE_PASSWORD = "/api/Accounts/{id}/Password";
 export const API_UPDATE_PROFILE = "/api/Accounts/{id}";
 export const API_LIST_STUDENT_PARENT = "/api/Accounts/Students";
+
 export const API_GET_SUBJECT_LISTS = "/api/Subjects";
+export const API_CREATE_SUBJECT = "/api/Subjects?name={name}";
+
 export const API_CREATE_GROUP = "/api/Groups";
 export const API_GROUP_JOINED = "/api/Groups/Join";
 export const API_MEETING_PARENT = "api/Meetings/Children";
