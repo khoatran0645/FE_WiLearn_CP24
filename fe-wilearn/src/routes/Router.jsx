@@ -16,15 +16,17 @@ import Discussion from "../pages/Discussion/components/Discussion";
 import GroupLayout from "../layouts/GroupLayout";
 import Schedule from "../pages/Schedules/components/Schedule";
 import StudyDocs from "../components/StudyDocs";
-import GroupSettings from "../components/GroupSettings";
+import GroupSettings from "../pages/Groups/GroupSettings";
 import DiscussionDetail from "../pages/Discussion/components/DiscussionDetail";
-import UserProfile from "./../components/UserProfile";
+import UserProfile from "../pages/User/UserProfile";
 import SearchPage from "./../pages/SearchGr/components/SearchPage";
 import { RoomProvider } from "../pages/MeetingUI/context/roomContext";
 import Meeting from "../pages/MeetingUI/Meeting";
 import WhiteBoard from "../pages/MeetingUI/components/Whiteboard";
 import PersonalSchedule from "../pages/Schedules/components/PersonalSchedule";
 import SearchCodePage from "../pages/SearchGr/components/SearchCodePage";
+import PersonalStatistics from "../pages/Statistic/components/UserStats/PersonalStatistics";
+import GroupStatistics from "../pages/Statistic/components/GroupStats/GroupStatistics";
 import AdminLayout from "../layouts/AdminLayout";
 import ReportsPage from "../pages/Admin/ReportsPage";
 import SubjectsPage from "../pages/Admin/SubjectsPage";
@@ -174,29 +176,29 @@ export default function Router() {
       ],
     },
     {
-      path: '/admin',
-      element:(
-        <AdminLayout> 
+      path: "/admin",
+      element: (
+        <AdminLayout>
           {/* <h1>Admin</h1> */}
           {/* <ReportsPage/> */}
         </AdminLayout>
       ),
       // element: <h1>Admin</h1>,
       errorElement: <ErrorPage />,
-      children:[
+      children: [
         {
           index: true,
-          element: <ReportsPage/>
+          element: <ReportsPage />,
         },
         {
-          path: 'reports',
-          element: <ReportsPage/>
+          path: "reports",
+          element: <ReportsPage />,
         },
         {
-          path: 'subjects',
-          element: <SubjectsPage/>
-        }
-      ]
+          path: "subjects",
+          element: <SubjectsPage />,
+        },
+      ],
     },
   ]);
   return routes;

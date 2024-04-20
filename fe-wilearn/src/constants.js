@@ -109,18 +109,17 @@ export const API_POST_ANSWER_DISCUSSION =
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
 
-<<<<<<< HEAD
+
 // personal stats
 export const API_GET_PERSONAL_STATS ="/api/Stats/Account/{userId}/{time}";
 
 // group stats
 export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{year}-{month}"
-=======
+
 export const API_GET_REPORTS = "/api/Reports"
 export const API_CREATE_REPORTS = "/api/Reports"
 export const API_RESOLVED_REPORTS = "/api/Reports?reportId={id}&isApproved={isApproved}"
 export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve"
->>>>>>> main
 
 export const publicRoutes = {
   root: "/",

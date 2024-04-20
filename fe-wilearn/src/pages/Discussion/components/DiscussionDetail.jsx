@@ -6,6 +6,7 @@ import {
   Grid,
   Avatar,
   Box,
+  IconButton,
 } from "@mui/material";
 import CommentList from "./CommentList";
 import ReactQuill from "react-quill";
@@ -17,6 +18,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addAnswer } from "../../../app/reducer/studyGroupReducer";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
+import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import {
   getAnswerByDiscussionId,
   getDiscussionById,
@@ -114,12 +116,16 @@ export default function DiscussionDetail() {
               src={discussionDetail.account.ImagePath}
               sx={{ marginRight: "10px" }}
             />
+
             <Typography
               variant="body1"
               style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
             >
               {discussionDetail?.account?.fullName}
             </Typography>
+            <IconButton>
+              <FlagCircleIcon />
+            </IconButton>
           </Grid>
           <Typography
             variant="body1"
