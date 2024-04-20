@@ -10,8 +10,8 @@ import MultiLevelDropdown from "../Navbar/GroupsNavbarBtn/MultiLevelDropdown";
 import { useSelector } from "react-redux";
 
 const pageRoutes = [
-  { label: "Report", path: "report" },
-  { label: "Subject", path: "subject" },
+  { label: "Report", path: "reports" },
+  { label: "Subject", path: "subjects" },
 ];
 
 export default function AdminNavbarMenu() {

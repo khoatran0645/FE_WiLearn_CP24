@@ -33,7 +33,8 @@ export default function AdminLayout() {
       if(userInfo.roleName!="Admin"){
         navigate("/home")
       }else{
-        dispatch(getReportLists())
+    dispatch(getSubjectLists());
+    dispatch(getReportLists())
         dispatch(getNewReportLists())
       }
     }

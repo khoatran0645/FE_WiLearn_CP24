@@ -1,6 +1,6 @@
 //  export const BE_URL = "http://www.groupstudy.somee.com";
-// export const BE_URL = "http://localhost:8001";
-export const BE_URL = "http://localhost:5000";
+export const BE_URL = "http://localhost:8001";
+// export const BE_URL = "http://localhost:5000";
 // link to swagger api: "http://www.groupstudy.somee.com/swagger/index.html";
 
 export const API_SIGNIN_URL = "/api/Auth/Login";
@@ -10,7 +10,10 @@ export const API_GET_USER_INFO = "/api/Accounts/profile";
 export const API_UPDATE_PASSWORD = "/api/Accounts/{id}/Password";
 export const API_UPDATE_PROFILE = "/api/Accounts/{id}";
 export const API_LIST_STUDENT_PARENT = "/api/Accounts/Students";
+
 export const API_GET_SUBJECT_LISTS = "/api/Subjects";
+export const API_CREATE_SUBJECT = "/api/Subjects?name={name}";
+
 export const API_CREATE_GROUP = "/api/Groups";
 export const API_GROUP_JOINED = "/api/Groups/Join";
 export const API_MEETING_PARENT = "api/Meetings/Children";
