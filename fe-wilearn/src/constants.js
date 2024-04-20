@@ -10,7 +10,10 @@ export const API_GET_USER_INFO = "/api/Accounts/profile";
 export const API_UPDATE_PASSWORD = "/api/Accounts/{id}/Password";
 export const API_UPDATE_PROFILE = "/api/Accounts/{id}";
 export const API_LIST_STUDENT_PARENT = "/api/Accounts/Students";
+
 export const API_GET_SUBJECT_LISTS = "/api/Subjects";
+export const API_CREATE_SUBJECT = "/api/Subjects?name={name}";
+
 export const API_CREATE_GROUP = "/api/Groups";
 export const API_GROUP_JOINED = "/api/Groups/Join";
 export const API_MEETING_PARENT = "api/Meetings/Children";
@@ -106,11 +109,18 @@ export const API_POST_ANSWER_DISCUSSION =
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
 
+<<<<<<< HEAD
 // personal stats
 export const API_GET_PERSONAL_STATS ="/api/Stats/Account/{userId}/{time}";
 
 // group stats
 export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{year}-{month}"
+=======
+export const API_GET_REPORTS = "/api/Reports"
+export const API_CREATE_REPORTS = "/api/Reports"
+export const API_RESOLVED_REPORTS = "/api/Reports?reportId={id}&isApproved={isApproved}"
+export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve"
+>>>>>>> main
 
 export const publicRoutes = {
   root: "/",

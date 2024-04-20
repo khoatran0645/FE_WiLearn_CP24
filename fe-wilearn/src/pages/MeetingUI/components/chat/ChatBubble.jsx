@@ -2,9 +2,12 @@ import React, { useContext } from "react";
 import PropTypes from "prop-types";
 import { Box, Typography } from "@mui/material";
 import { RoomContext } from "../../context/roomContext";
+import { useSelector } from "react-redux";
 
 const ChatBubble = ({ message }) => {
-  const { userName: myName } = useContext(RoomContext);
+  // const { userName: myName } = useContext(RoomContext);
+  const {userInfo} = useSelector(state=>state.user)
+  const myName  = userInfo?.username
   const userName = message.username || "Anonimus";
   const isSelf = userName === myName;
   // const time = new Date(message.timestamp).toLocaleTimeString();

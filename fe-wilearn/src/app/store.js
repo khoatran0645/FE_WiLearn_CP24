@@ -3,6 +3,7 @@ import userReducer from "./reducer/userReducer";
 import studyGroupReducer from "./reducer/studyGroupReducer";
 import peersReducer from "./reducer/peersReducer/peersReducer";
 import votesReducer from "./reducer/voteReducer/votesReducer";
+import adminReducer from "./reducer/adminReducer/adminReducer";
 // import logger from 'redux-logger';
 
 const store = configureStore({
@@ -12,7 +13,8 @@ const store = configureStore({
         studyGroup: studyGroupReducer,
         // settings: settingsReducer,
         votes: votesReducer,
-        peers: peersReducer
+        peers: peersReducer,
+        admin: adminReducer
     },
     //   middleware: (getDefaultMiddleware) => getDefaultMiddleware().concat(logger)
 
