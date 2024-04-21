@@ -85,7 +85,7 @@ export default function Content() {
                 lineHeight: "50px",
               }}
             >
-              WiLearn
+              Group Study
             </Typography>
           </Grid>
           <Grid item xs={6}>
@@ -146,7 +146,7 @@ export default function Content() {
           >
             <Box style={{ marginBottom: "100px" }}>
               <Typography variant="h2" style={{ color: "white" }}>
-                Welcome to WiLearn
+                Welcome to Group Study
               </Typography>
               <Typography
                 variant="h6"

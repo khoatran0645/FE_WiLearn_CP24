@@ -75,7 +75,7 @@ export default function DiscussionList() {
       </Grid>
       <AddDiscussion />
       <Grid item xs={12} md={8}>
-        <Autocomplete
+        {/* <Autocomplete
           disablePortal
           id="combo-box-demo"
           options={options}
@@ -84,7 +84,7 @@ export default function DiscussionList() {
           getOptionLabel={(option) => option}
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
-        />
+        /> */}
         <List>
           {currentDiscussions.map((discussion) => (
             <ListItem key={discussion.id} mb={3}>

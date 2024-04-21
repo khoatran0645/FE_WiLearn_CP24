@@ -16,10 +16,10 @@ import {
   Input,
 } from "@mui/material";
 import { useFormik } from "formik";
-import { createGroup, getGroupInfo, getGroupLists, getSubjectLists, updateGroupInfo } from "../app/reducer/studyGroupReducer";
-import { getUserInfo } from "../app/reducer/userReducer";
+import { createGroup, getGroupInfo, getGroupLists, getSubjectLists, updateGroupInfo } from "../../app/reducer/studyGroupReducer";
+import { getUserInfo } from "../../app/reducer/userReducer";
 import * as Yup from 'yup'
-import { getGroupInfoAsMember, getGroupMemberLists, getRequestFormList } from "../app/reducer/studyGroupReducer/studyGroupActions";
+import { getGroupInfoAsMember, getGroupMemberLists, getRequestFormList } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 
 const defaultAvatar = "/src/assets/default.jpg";
 

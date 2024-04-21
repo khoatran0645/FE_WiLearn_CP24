@@ -1,5 +1,11 @@
-import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from '@mui/material';
-import React from 'react'
+import {
+  Button,
+  Dialog,
+  DialogActions,
+  DialogContent,
+  DialogContentText,
+} from "@mui/material";
+import React from "react";
 
 export default function DeleteMemButton() {
   const [open, setOpen] = React.useState(false);
@@ -17,33 +23,38 @@ export default function DeleteMemButton() {
         onClick={handleClickOpen}
         variant="contained"
         size="small"
-        sx={{ 
+        sx={{
           backgroundColor: "#DD0000",
-          '&:hover': {
-            backgroundColor: "#DD0000"
+          "&:hover": {
+            backgroundColor: "#DD0000",
           },
         }}
-        >
-        Kick           
+      >
+        Kick
       </Button>
       <Dialog
-          open={open}
-          onClose={handleClose}
-          aria-labelledby="alert-dialog-title"
-          aria-describedby="alert-dialog-description"
-        >
-          <DialogContent>
-            <DialogContentText id="alert-dialog-description">
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
             Are you sure you want to kick this member?
-            </DialogContentText>
-          </DialogContent>
-          <DialogActions>
-            <Button onClick={handleClose}>Cancle</Button>
-            <Button onClick={handleClose} autoFocus variant="contained" color="error">
-              Confirm
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </React.Fragment>
-  )
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>Cancle</Button>
+          <Button
+            onClick={handleClose}
+            autoFocus
+            variant="contained"
+            color="error"
+          >
+            Confirm
+          </Button>
+        </DialogActions>
+      </Dialog>
+    </React.Fragment>
+  );
 }

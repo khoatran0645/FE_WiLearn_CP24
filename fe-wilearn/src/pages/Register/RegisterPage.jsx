@@ -70,7 +70,7 @@ export default function RegisterPage() {
   return (
     <Grid
       style={{
-        backgroundImage: `url(https://visme.co/blog/wp-content/uploads/2017/07/50-Beautiful-and-Minimalist-Presentation-Backgrounds-042.jpg)`,
+        backgroundImage: `url('/backgrounds.jpg')`,
         backgroundSize: "cover",
         height: "100vh",
       }}

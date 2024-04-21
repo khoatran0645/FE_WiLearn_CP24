@@ -7,16 +7,30 @@ import {
   TextField,
   DialogActions,
 } from "@mui/material";
+import { useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 import DeleteMemButton from "./DeleteMemButton";
 
 export default function UserMoreInfo(props) {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const { userInfo } = useSelector((state) => state.user);
+
+  const { groupId } = useParams();
+  let leadGroups = [];
+  if (userInfo) {
+    leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
+  }
+  const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
   return (
     <>
-      <Button variant="outlined" sx={{ width: "100px" }} size="small" onClick={() => handleOpen()}>
+      <Button
+        variant="outlined"
+        size="small"
+        onClick={() => handleOpen()}
+      >
         More info
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -51,7 +65,7 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
-          <DeleteMemButton/>
+          {isLead && !props.isFirst && <DeleteMemButton />}
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>

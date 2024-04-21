@@ -19,12 +19,12 @@ import {
 
 import dayjs from "dayjs";
 import customParseFormat from "dayjs/plugin/customParseFormat";
-import Loading from "./Loading";
+import Loading from "../../components/Loading";
 import { useSelector, useDispatch } from "react-redux";
 import {
   updateUserInfo,
   updateUserPassword,
-} from "../app/reducer/userReducer/userActions";
+} from "../../app/reducer/userReducer/userActions";
 import { toast } from "react-toastify";
 
 export default function UserProfile() {

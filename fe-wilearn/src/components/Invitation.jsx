@@ -8,19 +8,26 @@ import {
   Box,
 } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
-import { getStudentInvites, getGroupNotJoin, getSubjectLists, getGroupMemberLists, acceptInvitation, declineInvitation } from "../app/reducer/studyGroupReducer";
+import {
+  getStudentInvites,
+  getGroupNotJoin,
+  getSubjectLists,
+  getGroupMemberLists,
+  acceptInvitation,
+  declineInvitation,
+} from "../app/reducer/studyGroupReducer";
 import { getUserInfo, getUsermMeetings } from "../app/reducer/userReducer";
 import { toast } from "react-toastify";
 
 export default function Invitation() {
-  const dispatch=useDispatch();
+  const dispatch = useDispatch();
   const [openDialog, setOpenDialog] = useState(false);
-  let { invitations  } = useSelector((state) => state.studyGroup);
-  if(!invitations){
+  let { invitations } = useSelector((state) => state.studyGroup);
+  if (!invitations) {
     // invitations = [];
-    alert('getStudentInvites')
+    alert("getStudentInvites");
     dispatch(getStudentInvites());
-  };
+  }
 
   const handleInvitationClick = () => {
     setOpenDialog(true);
@@ -30,14 +37,14 @@ export default function Invitation() {
     setOpenDialog(false);
   };
 
-  const handleAccept =async (inviteId, gname) => {
+  const handleAccept = async (inviteId, gname) => {
     const response = await dispatch(acceptInvitation(inviteId));
     if (response.type === acceptInvitation.fulfilled.type) {
-      toast.success("Accpected to join group "+ gname);
+      toast.success("Accpected to join group " + gname);
       dispatch(getGroupMemberLists());
       handleCloseDialog();
-    }else{
-      toast.error("Something went wrong when accepting")
+    } else {
+      toast.error("Something went wrong when accepting");
     }
     dispatch(getStudentInvites());
 
@@ -45,24 +52,24 @@ export default function Invitation() {
     dispatch(getUsermMeetings());
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
-    dispatch(getStudentInvites())
+    dispatch(getStudentInvites());
   };
 
   const handleReject = async (inviteId, gname) => {
     const response = await dispatch(declineInvitation(inviteId));
     if (response.type === declineInvitation.fulfilled.type) {
-      toast.success("Rejected to join group "+ gname);
+      toast.success("Rejected to join group " + gname);
       dispatch(getStudentInvites());
-    }else{
-      toast.error("Something went wrong when Rejecting")
+    } else {
+      toast.error("Something went wrong when Rejecting");
     }
     handleCloseDialog();
     dispatch(getStudentInvites());
-    
+
     dispatch(getUsermMeetings());
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
-    dispatch(getStudentInvites())
+    dispatch(getStudentInvites());
   };
 
   return (
@@ -84,8 +91,9 @@ export default function Invitation() {
             marginLeft: "70px",
           }}
         >
-          {(!invitations||invitations.length==0)&&"No group is inviting you"}
-          {invitations.map(invite => (
+          {(!invitations || invitations.length == 0) &&
+            "No group is inviting you"}
+          {invitations.map((invite) => (
             <Box>
               <Typography variant="body1" sx={{ marginBottom: "10px" }}>
                 <span style={{ fontWeight: "bold" }}>Group name:</span>{" "}
@@ -93,17 +101,23 @@ export default function Invitation() {
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: "10px" }}>
                 <span style={{ fontWeight: "bold" }}>Subject:</span>{" "}
-                {invite.subjects.join(', ')}
+                {invite.subjects.join(", ")}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: "10px" }}>
                 <span style={{ fontWeight: "bold" }}>Number of members:</span>{" "}
                 {invite.memberCount}
               </Typography>
               <DialogActions sx={{ marginRight: "20px" }}>
-                <Button onClick={()=>handleReject(invite.id, invite.groupName)} color="warning">
+                <Button
+                  onClick={() => handleReject(invite.id, invite.groupName)}
+                  color="warning"
+                >
                   Deny
                 </Button>
-                <Button onClick={()=>handleAccept(invite.id, invite.groupName)} color="primary">
+                <Button
+                  onClick={() => handleAccept(invite.id, invite.groupName)}
+                  color="primary"
+                >
                   Accept
                 </Button>
               </DialogActions>

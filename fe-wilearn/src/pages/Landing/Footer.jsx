@@ -27,7 +27,7 @@ export default function Footer() {
                 alt="Logo"
                 style={{ marginRight: "8px", width: "40px", height: "40px" }}
               />
-              <Typography variant="h6">WiLearn</Typography>
+              <Typography variant="h6">Group Study</Typography>
             </Box>
             <Typography variant="body2">
               Online meeting system for learning

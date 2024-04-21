@@ -36,7 +36,7 @@ export default function NavbarLanding() {
             textDecoration: "none",
           }}
         >
-          WiLearn
+          Group Study
         </Typography>
         <Box
           sx={{

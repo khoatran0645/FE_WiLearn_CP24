@@ -22,7 +22,6 @@ export default function InviteUser() {
   const { searchStudentList } = useSelector((state) => state.studyGroup);
   const [searchTerm, setSearchTerm] = useState("");
 
-
   const handleOpenSearchUser = () => {
     setOpenDialog(true);
   };
@@ -30,14 +29,16 @@ export default function InviteUser() {
   const handleCloseDialog = () => {
     setOpenDialog(false);
   };
-  const {groupId} = useParams();
+  const { groupId } = useParams();
 
-  const handleSearch = async(searchTerm) => {
+  const handleSearch = async (searchTerm) => {
     // const searchTerm = searchRef.current.value;
     // console.log("searchTerm",searchTerm)
     // setSearchTerm(searchTerm);
     // value && dispatch(searchStudent({ search: value, groupId }));
-    const response = await dispatch(searchStudent({ search: searchTerm, groupId }));
+    const response = await dispatch(
+      searchStudent({ search: searchTerm, groupId })
+    );
 
     if (response.type === searchStudent.fulfilled.type) {
       // setNewSearch(searchGroups);
@@ -48,12 +49,12 @@ export default function InviteUser() {
     const response = await dispatch(inviteStudent({ studentId, groupId }));
     if (response.type === inviteStudent.fulfilled.type) {
       // onClose();
-      toast.success("Invite student "+ stuName + " successflly");
-      dispatch(getRequestFormList(groupId))
-    }else{
-      toast.error(`Something went wrong when inviting ${stuName}`)
-      response.payload.failures.forEach(f => {
-        toast.error(f)        
+      toast.success("Invite student " + stuName + " successflly");
+      dispatch(getRequestFormList(groupId));
+    } else {
+      toast.error(`Something went wrong when inviting ${stuName}`);
+      response.payload.failures.forEach((f) => {
+        toast.error(f);
       });
     }
   };
@@ -64,20 +65,26 @@ export default function InviteUser() {
         Invite new member
       </Button>
 
-      <Dialog open={openDialog} onClose={handleCloseDialog} >
+      <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Search user</DialogTitle>
         <DialogContent>
-          <TextField 
-            label="Search student" 
+          <TextField
+            label="Search student"
             value={searchTerm}
-            fullWidth 
-            sx={{ marginTop: "10px" }} 
-            onChange={async(e) => {
-              await setSearchTerm(e.target.value)
+            fullWidth
+            sx={{ marginTop: "10px" }}
+            onChange={async (e) => {
+              await setSearchTerm(e.target.value);
               await handleSearch(e.target.value);
             }}
           />
-          <Box minHeight={'25vh'} minWidth={'40vw'} display="flex" flexDirection={'column'} rowGap={'32px'}>
+          <Box
+            minHeight={"25vh"}
+            minWidth={"40vw"}
+            display="flex"
+            flexDirection={"column"}
+            rowGap={"32px"}
+          >
             {searchStudentList.length ? (
               searchStudentList.map((student) => (
                 // <InviteComponent
@@ -105,15 +112,15 @@ export default function InviteUser() {
                 // />
                 <Box
                   sx={{
-                    backgroundColor: 'background.main',
-                    borderRadius: '12px',
-                    padding: '24px',
-                    width: '100%',
-                    display: 'flex',
-                    flexDirection: 'column',
-                    justifyContent: 'space-around',
-                    alignItems: 'center',
-                    gap: '18px'
+                    backgroundColor: "background.main",
+                    borderRadius: "12px",
+                    padding: "24px",
+                    width: "100%",
+                    display: "flex",
+                    flexDirection: "column",
+                    justifyContent: "space-around",
+                    alignItems: "center",
+                    gap: "18px",
                   }}
                 >
                   <Grid container>
@@ -147,22 +154,15 @@ export default function InviteUser() {
                   </Stack>
                 </Box>
               ))
-            ) : ((!searchTerm || searchTerm.trim() == "") ? (
-              <Typography
-                variant="h4"
-                color="textSecondary"
-              >
+            ) : !searchTerm || searchTerm.trim() == "" ? (
+              <Typography variant="h4" color="textSecondary">
                 Search student to inivite
               </Typography>
             ) : (
-              <Typography
-                variant="h5"
-                color="textSecondary"
-              >
+              <Typography variant="h5" color="textSecondary">
                 No students found or searched students have joined
               </Typography>
-            ))}
-
+            )}
           </Box>
         </DialogContent>
         {/* <DialogActions sx={{ marginRight: "10px" }}>

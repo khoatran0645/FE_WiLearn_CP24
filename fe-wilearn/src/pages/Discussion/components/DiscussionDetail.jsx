@@ -6,6 +6,8 @@ import {
   Grid,
   Avatar,
   Box,
+  IconButton,
+  Tooltip,
 } from "@mui/material";
 import CommentList from "./CommentList";
 import ReactQuill from "react-quill";
@@ -17,6 +19,7 @@ import customParseFormat from "dayjs/plugin/customParseFormat";
 import { addAnswer } from "../../../app/reducer/studyGroupReducer";
 import { toast } from "react-toastify";
 import Loading from "../../../components/Loading";
+import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 import {
   getAnswerByDiscussionId,
   getDiscussionById,
@@ -105,21 +108,29 @@ export default function DiscussionDetail() {
               }}
             >
               {discussionDetail?.question}
+              <Tooltip title="Report this discussion">
+              <IconButton>
+              <FlagCircleIcon />
+            </IconButton>
+              </Tooltip>
+              
             </Typography>
           </Grid>
-          <Grid sx={{ display: "flex", alignItems: "center" }}>
+          <Grid sx={{ display: "flex", alignItems: "end" }}>
             <Avatar
               alt={discussionDetail?.account?.fullName}
               // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
               src={discussionDetail.account.ImagePath}
               sx={{ marginRight: "10px" }}
             />
+
             <Typography
               variant="body1"
               style={{ fontSize: "16px", color: "#888", margin: "5px 0" }}
             >
               {discussionDetail?.account?.fullName}
             </Typography>
+            
           </Grid>
           <Typography
             variant="body1"

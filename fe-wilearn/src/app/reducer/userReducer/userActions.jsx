@@ -9,13 +9,12 @@ import {
   API_UPDATE_PASSWORD,
   API_YOUR_MEETINGS,
   API_FORGOT_PASSWORD,
+  API_GET_PERSONAL_STATS,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
 import { setLoginError } from ".";
 // import { API_SIGNIN_URL } from '../../../constants';
-
-
 
 export const checkLogin = createAsyncThunk(
   "auth/login",
@@ -51,7 +50,9 @@ export const register = createAsyncThunk(
       .post(API_SIGNUP_URL, submitData)
       // .then((response) => response)
       .then((response) => {
-        toast.success("Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn.");
+        toast.success(
+          "Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn."
+        );
       })
       .catch((error) => {
         rejectWithValue(error.response.data);
@@ -118,8 +119,25 @@ export const resetPassword = createAsyncThunk(
   async (email, { rejectWithValue }) => {
     const submitData = email;
     return await axiosClient
-      .get(API_FORGOT_PASSWORD.replace("{email}", encodeURIComponent(submitData)))
+      .get(
+        API_FORGOT_PASSWORD.replace("{email}", encodeURIComponent(submitData))
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
-)
+);
+
+export const getPersonalStatistics = createAsyncThunk(
+  "auth/getPersonalStatistics",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    console.log("getPersonalStatistics", submitData);
+    return await axiosClient
+      .get(
+        API_GET_PERSONAL_STATS.replace("{userId}", submitData.userId)
+          .replace("{time}", submitData.time)
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
