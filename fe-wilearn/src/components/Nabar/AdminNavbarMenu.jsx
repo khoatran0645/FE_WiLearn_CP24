@@ -45,7 +45,7 @@ export default function AdminNavbarMenu() {
               textDecoration: "none",
             }}
           >
-            WiLearn
+            Group Study
           </Typography>
           <Box
             sx={{

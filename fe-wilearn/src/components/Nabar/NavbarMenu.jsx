@@ -48,7 +48,7 @@ export default function NavbarMenu() {
               textDecoration: "none",
             }}
           >
-            WiLearn
+            Group Study
           </Typography>
           <Box
             sx={{
