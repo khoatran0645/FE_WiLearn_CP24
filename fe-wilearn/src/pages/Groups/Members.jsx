@@ -13,10 +13,10 @@ import {
   Input,
   TextField,
   Paper,
-  Button
+  Button,
 } from "@mui/material";
 // import { Copy } from '@mui/icons-material';
-import ContentCopyIcon from '@mui/icons-material/ContentCopy';
+import ContentCopyIcon from "@mui/icons-material/ContentCopy";
 import InviteUser from "../../components/InviteUser";
 import RequestJoin from "./RequestJoin";
 import UserMoreInfo from "./UserMoreInfo";
@@ -33,13 +33,11 @@ export default function MemberList() {
   const { groupId } = useParams();
   let leadGroups = [];
 
-
   const { userInfo } = useSelector((state) => state.user);
   if (userInfo) {
     leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
   }
-  const isLead = leadGroups.some(g => g.id == parseInt(groupId));
-
+  const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
   useEffect(() => {
     if (groupInfo && groupInfo.members) {
       setUserList(groupInfo.members);
@@ -48,16 +46,40 @@ export default function MemberList() {
     }
   }, [groupInfo]);
 
-  const invitationCode = window.location.host + '/groups/search/code/' + groupInfo?.inviteCode
+  const invitationCode =
+    window.location.host + "/groups/search/code/" + groupInfo?.inviteCode;
 
   const handleCopyClick = () => {
     navigator.clipboard.writeText(invitationCode);
-    toast.info('Invitation code copied to clipboard!');
+    toast.info("Invitation code copied to clipboard!");
   };
-  const renderMemberCard = (user) => (
+  const renderMemberCard = (user, isFirst) => (
     <Grid key={user.id} item xs={12} sm={6} md={4} lg={2}>
-      <Card sx={{ maxWidth: 180, marginTop: "15px" }} elevation={5}>
+      <Card
+        sx={{
+          height: "100%",
+          maxWidth: "200px",
+          display: "flex",
+          flexDirection: "column",
+        }}
+        // {/* sx={{
+        //   maxWidth: 200,
+        //   minHeight: 300,
+        //   maxHeight: 300,
+        //   marginTop: "15px",
+        // }} */}
+        elevation={5}
+      >
         <CardContent>
+          {isFirst && (
+            <Typography variant="h6" align="center" >
+              Group leader
+            </Typography>
+          ) || (
+            <Typography variant="h6" align="center">
+              Member
+            </Typography>
+          )}
           <Container
             sx={{
               display: "flex",
@@ -75,10 +97,13 @@ export default function MemberList() {
             </Typography>
           </Container>
         </CardContent>
-        <CardActions>
-          <Box sx={{ width: "100%", display: "flex", justifyContent: "center", paddingBottom: 2 }}>
-            <UserMoreInfo fullname={user.fullName} email={user.email} phone={user.phone} />
-          </Box>
+        <CardActions disableSpacing sx={{ mt: "auto", justifyContent: 'center' }}>
+          <UserMoreInfo
+            fullname={user.fullName}
+            email={user.email}
+            phone={user.phone}
+            isFirst={isFirst}
+          />
         </CardActions>
       </Card>
     </Grid>
@@ -111,17 +136,25 @@ export default function MemberList() {
             <CircularProgress />
           </Grid>
         ) : (
-          currentMembers.map((user) => renderMemberCard(user))
+          currentMembers.map((user, index) =>
+            renderMemberCard(user, index === 0)
+          )
         )}
       </Grid>
       {totalPages > 1 && (
-        <Grid item container justifyContent="center" alignItems="center" paddingTop={5}>
+        <Grid
+          item
+          container
+          justifyContent="center"
+          alignItems="center"
+          paddingTop={5}
+        >
           <Paginate count={totalPages} onPageChange={handlePageChange} />
         </Grid>
       )}
       {/* <Grid item container xs={12} justifyContent="flex-start"> */}
       {/* <Container maxWidth="lg"> */}
-      <Container >
+      <Container>
         <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
           <Typography variant="h5" gutterBottom>
             Invite link
@@ -141,7 +174,7 @@ export default function MemberList() {
             color="primary"
             onClick={handleCopyClick}
             startIcon={<ContentCopyIcon />}
-          // disabled={!invitationCode.trim()}
+            // disabled={!invitationCode.trim()}
           >
             Copy Invitation Code
           </Button>

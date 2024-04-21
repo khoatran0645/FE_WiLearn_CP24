@@ -45,14 +45,13 @@ const Comment = ({ avatarUrl, username, content, timestamp }) => {
     <Grid style={styles.commentContainer}>
       <Grid style={styles.userInfo}>
         <Grid style={styles.userDetail}>
-          
           <Grid sx={{ display: "flex" }}>
             <Avatar src={avatarUrl} alt="Avatar" style={styles.avatar} />
-            
+
             <Typography style={styles.username}>{username}</Typography>
-            <IconButton size="small">
-            <FlagCircleIcon fontSize="small"/>
-          </IconButton>
+            {/* <IconButton size="small">
+              <FlagCircleIcon fontSize="small" />
+            </IconButton> */}
           </Grid>
           <Typography style={styles.content}>{content}</Typography>
           <Typography style={styles.timestamp}>{timestamp}</Typography>

@@ -7,6 +7,7 @@ import {
   Avatar,
   Box,
   IconButton,
+  Tooltip,
 } from "@mui/material";
 import CommentList from "./CommentList";
 import ReactQuill from "react-quill";
@@ -107,9 +108,15 @@ export default function DiscussionDetail() {
               }}
             >
               {discussionDetail?.question}
+              <Tooltip title="Report this discussion">
+              <IconButton>
+              <FlagCircleIcon />
+            </IconButton>
+              </Tooltip>
+              
             </Typography>
           </Grid>
-          <Grid sx={{ display: "flex", alignItems: "center" }}>
+          <Grid sx={{ display: "flex", alignItems: "end" }}>
             <Avatar
               alt={discussionDetail?.account?.fullName}
               // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
@@ -123,9 +130,7 @@ export default function DiscussionDetail() {
             >
               {discussionDetail?.account?.fullName}
             </Typography>
-            <IconButton>
-              <FlagCircleIcon />
-            </IconButton>
+            
           </Grid>
           <Typography
             variant="body1"
