@@ -21,9 +21,7 @@ const VideoPlayer = (props) => {
     sx={{
         '& video': {
           width: '100%',
-          // height: '100%',
           height: {height},
-          transition: 'all 2s ease',
         }
       }}
     >

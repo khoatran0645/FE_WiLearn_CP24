@@ -99,7 +99,7 @@ export const Room = () => {
     let width = 1;
     if (count == 1 || count == 0) {
       //1-1: 1x1
-      width = 12;
+      width = 8;
     }
     else if (count == 2) {
       //2-2: 2x1
@@ -107,7 +107,7 @@ export const Room = () => {
     }
     else if (count == 3) {
       //3-4: 2x2
-      width = 4;
+      width = 3;
     }
     else if (count < 9) {
       //5-6: 3x2
@@ -119,9 +119,11 @@ export const Room = () => {
     }
     const ava = showAvaList.find(focus => focus.peerId == peerId);
     return (
-      <Grid item xs={width} key={peerId} sx={{
+      <Grid item xs={width} key={peerId} 
+      sx={{
         transition: 'all 2s ease',
-      }}>
+      }}
+      >
         <Box>
           <Box>
             <MeetingAvatar>
@@ -130,7 +132,7 @@ export const Room = () => {
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
-                  sx={{ width: '80%', height:'80%' }}
+                  sx={{ width: '50%', height:'50%' }}
                   />
                 )
               }
@@ -156,7 +158,7 @@ export const Room = () => {
     let width = 1;
     if (count == 1 || count == 0) {
       //1-1: 1x1
-      width = 12;
+      width = 8;
     }
     else if (count == 2) {
       //2-2: 2x1
@@ -164,7 +166,7 @@ export const Room = () => {
     }
     else if (count == 3) {
       //3-4: 2x2
-      width = 4;
+      width = 3;
     }
     else if (count < 9) {
       //5-6: 3x2
@@ -174,12 +176,16 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
-    const ava = showAvaList.find(focus => focus.peerId == peerId);
+    console.log("actions", actions)
+    const ava = !actions.includes("sharing screen") &&  showAvaList.find(focus => focus.peerId == peerId);
+    // const ava =   showAvaList.find(focus => focus.peerId == peerId);
     console.log("vidGridWithAction cam", ava)
     return (
-      <Grid item xs={width} key={peerId} sx={{
-        transition: 'all 2s ease',
-      }}>
+      <Grid item xs={width} key={peerId} 
+        sx={{
+          transition: 'all 2s ease',
+        }}
+      >
         <Box>
           <Box>
             <MeetingAvatar>
@@ -188,7 +194,7 @@ export const Room = () => {
                   <Avatar
                   alt={streamName==="You"? "You're avatar": `${streamName}'s avatar`}
                   src={ava?.imagePath}
-                  sx={{ width: '80%', height:'80%' }}
+                  sx={{ width: '60%', height:'60%' }}
                   />
                 )
               }
@@ -225,7 +231,6 @@ export const Room = () => {
               overflow: 'hidden'
             }}
           >
-            Me screen
             {
               screenSharingVideo && vidGrid(screenSharingVideo, "You", meId, 1)
             }
@@ -249,7 +254,6 @@ export const Room = () => {
               overflow: 'hidden'
             }}
           >
-            Other screen
             {peersToShowRcObj.map((otherPeer) => (
               <>
                 {vidGrid(otherPeer.stream, otherPeer.userName, otherPeer.id, othersCount)}
@@ -288,7 +292,6 @@ export const Room = () => {
                 overflow: 'hidden'
               }}
             >
-              Focus screen
               {peersObjMapped.map((peer) => (
                 <>
                   {vidGridWithAction(peer.userName=="You"?stream: peer.stream, peer.userName, peer.id, peer.actions,peersObjMapped.length)}
