@@ -131,7 +131,7 @@ export const getPersonalStatistics = createAsyncThunk(
   "auth/getPersonalStatistics",
   async (data, { rejectWithValue }) => {
     const submitData = data;
-    console.log("getPersonalStatistics", submitData);
+    // console.log("getPersonalStatistics", submitData);
     return await axiosClient
       .get(
         API_GET_PERSONAL_STATS.replace("{userId}", submitData.userId)

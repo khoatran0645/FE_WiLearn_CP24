@@ -1,8 +1,8 @@
 import { Grid, Typography } from "@mui/material";
 import ChartMeeting from "./ChartMeeting";
-import StatisticItem from "../StatisticItem";
 import HoursChart from "./HoursChart";
 import DiscussionChart from "./DiscussionChart";
+import PersonalStatisticItem from './PersonalStatisticItem';
 
 export default function PersonalStatistics() {
   return (
@@ -11,17 +11,17 @@ export default function PersonalStatistics() {
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Your Statistics
         </Typography>
-        <StatisticItem />
+        <PersonalStatisticItem />
       </Grid>
-      <Grid paddingTop={4}>
+      {/* <Grid paddingTop={4}>
         <ChartMeeting />
       </Grid>
       <Grid paddingTop={4}>
-        <HoursChart />
+        {/* <HoursChart />
       </Grid>
       <Grid paddingTop={4} paddingLeft={20}>
-        <DiscussionChart />
-      </Grid>
+        {/* <DiscussionChart />
+      </Grid> */}
     </Grid>
   );
 }

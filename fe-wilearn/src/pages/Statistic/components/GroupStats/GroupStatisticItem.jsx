@@ -3,13 +3,28 @@ import { Box, Card, Grid, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
-import { getPersonalStatistics } from "../../../app/reducer/userReducer/userActions";
+import { getGroupStats } from "../../../../app/reducer/studyGroupReducer/studyGroupActions";
 
-export default function StatisticItem() {
+export default function GroupStatisticItem() {
   const dispatch = useDispatch();
-  const { statsData, userInfo } = useSelector((state) => state.user);
+  const { groupStats, groupInfo } = useSelector((state) => state.studyGroup);
 
-  console.log(statsData);
+  // console.log("groupStats", groupStats);
+  // console.log("groupInfo", groupInfo);
+
+  useEffect(() => {
+    groupInfo ? handleTimeCHange(dayjs()) : null;
+  }, [groupInfo]);
+
+  const handleTimeCHange = (timeData) => {
+    const data = {
+      groupId: groupInfo.id,
+      time: dayjs(timeData).format("YYYY-MM"),
+    };
+    // console.log("data", data);
+    dispatch(getGroupStats(data));
+    // console.log(statsData);
+  };
 
   return (
     <Grid container direction="column" paddingTop={5}>
@@ -18,17 +33,9 @@ export default function StatisticItem() {
           disableFuture
           label={'"month" and "year"'}
           views={["month", "year"]}
-          // defaultValue={dayjs()}
+          defaultValue={dayjs()}
           closeOnSelect
-          onChange={(timeData) => {
-            const data = {
-              userId: userInfo.id,
-              time: dayjs(timeData).format("YYYY-MM"),
-            };
-            // console.log("data", data);
-            dispatch(getPersonalStatistics(data));
-            // console.log(statsData);
-          }}
+          onAccept={handleTimeCHange}
         />
       </Grid>
       <Grid container direction="row" paddingTop={4} spacing={2}>
@@ -53,14 +60,15 @@ export default function StatisticItem() {
             <Typography variant="h6">Number Of Meetings</Typography>
             <Box>
               <Typography>
-                Total Meetings: {statsData ? statsData.totalMeetingsCount : 0}
+                Total Meetings: {groupStats ? groupStats.totalMeetingsCount : 0}
               </Typography>
               <Typography>
                 Attended Meetings:{" "}
-                {statsData ? statsData.atendedMeetingsCount : 0}
+                {groupStats ? groupStats.atendedMeetingsCount : 0}
               </Typography>
               <Typography>
-                Absent Meetings: {statsData ? statsData.missedMeetingsCount : 0}
+                Absent Meetings:{" "}
+                {groupStats ? groupStats.missedMeetingsCount : 0}
               </Typography>
             </Box>
           </Card>
@@ -84,7 +92,9 @@ export default function StatisticItem() {
             }}
           >
             <Typography variant="h6">Meeting Hours Statistics</Typography>
-            <Typography>Total meeting hours: {statsData ? statsData.totalMeetingTme : 0}</Typography>
+            <Typography>
+              Total meeting hours: {groupStats ? groupStats.totalMeetingTme : 0}
+            </Typography>
           </Card>
         </Grid>
         <Grid item>
@@ -106,8 +116,14 @@ export default function StatisticItem() {
             }}
           >
             <Typography variant="h6">Discussion Statistics</Typography>
-            <Typography>Total Discussion: {statsData ? statsData.totalDiscussionsCount : 0}</Typography>
-            <Typography>Total Answer: {statsData ? statsData.totalAnswerDiscussionsCount : 0}</Typography>
+            <Typography>
+              Total Discussion:{" "}
+              {groupStats ? groupStats.totalDiscussionsCount : 0}
+            </Typography>
+            <Typography>
+              Total Answer:{" "}
+              {groupStats ? groupStats.totalAnswerDiscussionsCount : 0}
+            </Typography>
           </Card>
         </Grid>
       </Grid>

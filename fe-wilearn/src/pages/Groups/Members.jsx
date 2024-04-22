@@ -126,8 +126,8 @@ export default function MemberList() {
       </Grid>
       <Grid item container justifyContent="flex-end" paddingLeft={35}>
         <Stack spacing={1} direction="row">
-          <RequestJoin />
-          <InviteUser />
+          {isLead && <RequestJoin />}
+          {isLead && <InviteUser />}
         </Stack>
       </Grid>
       <Grid item container spacing={2}>
