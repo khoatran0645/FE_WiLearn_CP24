@@ -93,6 +93,7 @@ export default function StudyDocs() {
         if (loading === false && error === null) {
           // console.log("Upload fulfilled");
           toast.success("File uploaded successfully.");
+          toast.info("Please wait for approval");
           // console.log("listFile", listFile); // Log the result
           // setTimeout(() => {
           //   location.reload();
