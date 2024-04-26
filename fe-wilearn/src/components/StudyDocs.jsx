@@ -262,11 +262,18 @@ export default function StudyDocs() {
                 </Box>
                 <TabPanel value="1">
                   <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                    {(!showApprovedList || showApprovedList.length==0) && (
+                      <Typography align="center">No file yet</Typography>
+                    )}
                     <List overflow="auto">{showApprovedList}</List>
                   </Paper>
                 </TabPanel>
                 <TabPanel value="2">
-                  <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                  <Paper style={{ minHeight:"30vh", maxHeight: "70vh", overflow: "auto" }}>
+                    {(!showcheckList || showcheckList.length==0) && (
+                      <Typography align="center">No pending file yet</Typography>
+                    )}
+                    
                     <List overflow="auto">{showcheckList}</List>
                   </Paper>
                 </TabPanel>

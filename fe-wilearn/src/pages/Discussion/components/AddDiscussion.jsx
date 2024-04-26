@@ -17,35 +17,8 @@ import { addDiscussion, getDiscussionByGroupId, uploadDiscussionFile } from "../
 import { useFormik } from "formik";
 import * as Yup from 'yup'
 
-
-// const modules = {
-//   toolbar: {
-//     container: [
-//       [{ header: "1" }, { header: "2" }, { font: [] }],
-//       [{ size: [] }],
-//       ["bold", "italic", "underline", "strike", "blockquote"],
-//       [
-//         { list: "ordered" },
-//         { list: "bullet" },
-//         { indent: "-1" },
-//         { indent: "+1" },
-//       ],
-//       ["link", "image", "video"],
-//       ["code-block"],
-//       ["clean"],
-//     ],
-//     // handlers: {
-//     //   image: imageHandler,   // <- 
-//     // },
-//   }
-//   // clipboard: {
-//   //   matchVisual: false,
-//   // },
-// }
-
 export default function AddDiscussion() {
   const [open, setOpen] = useState(false);
-  // const reactQuillRef = useRef<ReactQuill>(null);
   const reactQuillRef = useRef(null);
 
   const dispatch = useDispatch();
@@ -53,8 +26,6 @@ export default function AddDiscussion() {
   const { userInfo } = useSelector((state) => state.user);
   const { groupInfo } = useSelector((state) => state.studyGroup);
 
-  // console.log("userInfo", userInfo);
-  // console.log("groupInfo", groupInfo);
   const handleOpen = () => {
     setOpen(true);
   };
@@ -79,14 +50,9 @@ export default function AddDiscussion() {
     input.onchange = async () => {
       const file = input.files[0];
       if (/^image\//.test(file.type)) {
-        // console.log(file);
-        // const formData = new FormData();
-        // formData.append("image", file);
-        // const res = await ImageUpload(formData); // upload data into server or aws or cloudinary
         console.log("file", file)
         const res = await dispatch(uploadDiscussionFile({ file: file }))
         if (res.type === uploadDiscussionFile.fulfilled.type) {
-          // const url = res?.data?.url;
           const url = res?.payload ? res?.payload : "";
           editor.insertEmbed(editor.getSelection(), "image", url);
         } else {
@@ -187,8 +153,6 @@ export default function AddDiscussion() {
               label="Enter topic"
               type="text"
               fullWidth
-              // value={topic}
-              // onChange={handleTopicChange}
               name="Question"
               value={formik.values.Question}
               onChange={formik.handleChange}
@@ -197,45 +161,20 @@ export default function AddDiscussion() {
             />
             <ReactQuill
               style={{ height: "300px" }}
-              // value={content}
               onChange={handleContentChange}
               ref={reactQuillRef}
               theme="snow"
               modules={modules}
               name="Content"
               value={formik.values.Content}
-              // onChange={formik.handleChange}
               error={formik.touched.Content && Boolean(formik.errors.Content)}
               helperText={formik.touched.Content && formik.errors.Content}
             />
-            {/* <ReactQuill
-            ref={reactQuillRef}
-            theme="snow"
-            placeholder="Start writing..."
-            modules={{
-              toolbar: {
-                container: [
-                  ...
-                  ["link", "image", "video"],
-                  ["code-block"],
-                  ["clean"],
-                ],
-                handlers: {
-                  image: imageHandler,   // <- 
-                },
-              },
-              clipboard: {
-                matchVisual: false,
-              },
-            }}
-          /> */}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            {/* <Button onClick={handleSubmit} color="primary"> */}
-            {/* <Button type="submit" onClick={formik.handleSubmit} color="primary"> */}
             <Button type="submit"  color="primary">
               Submit
             </Button>
