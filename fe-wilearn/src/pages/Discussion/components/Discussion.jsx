@@ -84,6 +84,9 @@ export default function DiscussionList() {
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
         /> */}
+        {(!currentDiscussions || currentDiscussions.length==0)&&(
+          <Typography align="center" variant="h5">No discussion yet</Typography>
+        )}
         <List>
           {currentDiscussions.map((discussion) => (
             <ListItem key={discussion.id} mb={3}>
@@ -110,7 +113,7 @@ export default function DiscussionList() {
                     component="p"
                   >
                     {discussion.account.fullName} -{" "}
-                    {dayjs(discussion.createAt).format("DD/MM/YYYY")}
+                    {dayjs(discussion.createAt).format("DD/MM/YYYY HH:MM")}
                   </Typography>
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
 

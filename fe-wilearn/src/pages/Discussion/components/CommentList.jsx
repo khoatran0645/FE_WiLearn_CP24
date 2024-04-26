@@ -1,4 +1,4 @@
-import { Grid } from "@mui/material";
+import { Grid, Typography } from "@mui/material";
 import Comment from "./Comment";
 import { useDispatch, useSelector } from "react-redux";
 import dayjs from "dayjs";
@@ -36,13 +36,16 @@ const CommentList = () => {
           timestamp={comment.timestamp}
         />
       ))} */}
+      {(!answerList || answerList.length==0)&&(
+          <Typography variant="h5">No answer yet</Typography>
+        )}
       {answerList.map((comment) => (
         <Comment
           key={comment.id}
           avatarUrl={comment.account.imagePath}
           username={comment.account.fullName}
           content={comment.content}
-          timestamp={dayjs(comment.createAt).format('DD/MM/YYYY')}
+          timestamp={dayjs(comment.createAt).format('DD/MM/YYYY HH:MM')}
         />
       ))}
     </Grid>
