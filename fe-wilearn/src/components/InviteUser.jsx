@@ -61,9 +61,11 @@ export default function InviteUser() {
 
   return (
     <Box>
-      <Button onClick={handleOpenSearchUser} variant="contained" size="small">
-        Invite new member
-      </Button>
+      <Grid paddingRight={2}>
+        <Button onClick={handleOpenSearchUser} variant="contained" size="small">
+          Invite new member
+        </Button>
+      </Grid>
 
       <Dialog open={openDialog} onClose={handleCloseDialog}>
         <DialogTitle>Search user</DialogTitle>
