@@ -41,7 +41,6 @@ export default function DiscussionList() {
     setCurrentPage(page);
   };
 
-
   const formats = [
     "background",
     "bold",
@@ -116,7 +115,11 @@ export default function DiscussionList() {
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
 
                   <ReactQuill
-                    value={discussion.content}
+                    value={
+                      discussion.content.length > 200
+                        ? discussion.content.substring(0, 200) + "..."
+                        : discussion.content
+                    }
                     readOnly
                     theme={"bubble"}
                     formats={formats}
