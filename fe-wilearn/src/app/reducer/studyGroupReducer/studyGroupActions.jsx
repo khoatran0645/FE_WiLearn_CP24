@@ -36,6 +36,7 @@ import {
   API_UPDATE_MEETING,
   API_SEARCH_GROUP_CODE,
   API_CREATE_REPORTS,
+  API_UPLOAD_DISCUSSION_FILE,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -431,6 +432,19 @@ export const addDiscussion = createAsyncThunk(
           data.groupId
         ),
         form
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const uploadDiscussionFile = createAsyncThunk(
+  "studyGroup/uploadDiscussionFile",
+  async (data, { rejectWithValue }) => {
+    console.log("discussion data", data);
+    return await axiosClient
+      .postForm(
+        API_UPLOAD_DISCUSSION_FILE, data
       )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));

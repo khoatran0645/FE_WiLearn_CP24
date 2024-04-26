@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Button,
   Grid,
@@ -7,19 +7,46 @@ import {
   DialogContent,
   DialogActions,
   TextField,
+  Box,
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
-
 import { useSelector, useDispatch } from "react-redux";
+import { addDiscussion, getDiscussionByGroupId, uploadDiscussionFile } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { useFormik } from "formik";
+import * as Yup from 'yup'
 
-import { addDiscussion } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+
+// const modules = {
+//   toolbar: {
+//     container: [
+//       [{ header: "1" }, { header: "2" }, { font: [] }],
+//       [{ size: [] }],
+//       ["bold", "italic", "underline", "strike", "blockquote"],
+//       [
+//         { list: "ordered" },
+//         { list: "bullet" },
+//         { indent: "-1" },
+//         { indent: "+1" },
+//       ],
+//       ["link", "image", "video"],
+//       ["code-block"],
+//       ["clean"],
+//     ],
+//     // handlers: {
+//     //   image: imageHandler,   // <- 
+//     // },
+//   }
+//   // clipboard: {
+//   //   matchVisual: false,
+//   // },
+// }
 
 export default function AddDiscussion() {
   const [open, setOpen] = useState(false);
-  const [topic, setTopic] = useState("");
-  const [content, setContent] = useState("");
+  // const reactQuillRef = useRef<ReactQuill>(null);
+  const reactQuillRef = useRef(null);
 
   const dispatch = useDispatch();
 
@@ -36,32 +63,98 @@ export default function AddDiscussion() {
     setOpen(false);
   };
 
-  const handleTopicChange = (event) => {
-    setTopic(event.target.value);
-  };
-
   const handleContentChange = (value) => {
-    setContent(value);
+    formik.setFieldValue('Content', value);
   };
 
-  const handleSubmit = async () => {
-    if (topic.trim().length === 0 || content.trim().length === 0) {
-      toast.error("Please fill all the fields.");
-    } else {
-      const data = JSON.parse(
-        JSON.stringify({
-          userId: userInfo.id,
-          groupId: groupInfo.id,
-          Question: topic,
-          Content: content,
-          File: "",
-        })
-      );
-      console.log("data", data);
-      dispatch(addDiscussion(data));
-      handleClose();
+  const imageHandler = useCallback(()=>
+  {
+    const editor = reactQuillRef.current.getEditor();
+    console.log("editor", editor)
+    const input = document.createElement("input");
+    input.setAttribute("type", "file");
+    input.setAttribute("accept", "image/*");
+    input.click();
+
+    input.onchange = async () => {
+      const file = input.files[0];
+      if (/^image\//.test(file.type)) {
+        // console.log(file);
+        // const formData = new FormData();
+        // formData.append("image", file);
+        // const res = await ImageUpload(formData); // upload data into server or aws or cloudinary
+        console.log("file", file)
+        const res = await dispatch(uploadDiscussionFile({ file: file }))
+        if (res.type === uploadDiscussionFile.fulfilled.type) {
+          // const url = res?.data?.url;
+          const url = res?.payload ? res?.payload : "";
+          editor.insertEmbed(editor.getSelection(), "image", url);
+        } else {
+          toast.error("Something went wrong when adding image to discussion's body")
+          res?.payload?.failures && res.payload.failures.forEach(error => {
+            toast.error(error)
+          });
+        }
+      } else {
+        toast.info('You could only upload images.');
+      }
+    };
+  },[])
+
+  const modules = useMemo(()=>({
+    toolbar: {
+      container: [
+        [{ header: "1" }, { header: "2" }, { font: [] }],
+        [{ size: [] }],
+        ["bold", "italic", "underline", "strike", "blockquote"],
+        [
+          { list: "ordered" },
+          { list: "bullet" },
+          { indent: "-1" },
+          { indent: "+1" },
+        ],
+        ["link", "image", "video"],
+        ["code-block"],
+        ["clean"],
+      ],
+      handlers: {
+        image: imageHandler,   // <- 
+      },
     }
-  };
+    // clipboard: {
+    //   matchVisual: false,
+    // },
+  }))
+
+  const validationSchema = Yup.object({
+    Question: Yup.string().trim().required('Require information.'),
+    Content: Yup.string().trim().required('Require information.'),
+  });
+  const formik = useFormik({
+    initialValues: {
+      userId: userInfo?.id,
+      groupId: groupInfo?.id,
+      Question: "",
+      Content: "",
+    },
+    validationSchema,
+    enableReinitialize: true,
+    onSubmit: async (values) => {
+      console.log("values", values)
+      const response = await dispatch(addDiscussion(values));
+      if (response.type == addDiscussion.fulfilled.type) {
+        toast.success("Create discussion " + values.Question + " successfully")
+        dispatch(getDiscussionByGroupId(values.groupId))
+        formik.resetForm();
+        handleClose();
+      } else {
+        toast.error("Something went wrong when creating disscusion " + values.Question)
+        response?.payload?.failures && response?.payload?.failures.forEach(fail => {
+          toast.error(fail)
+        });
+      }
+    }
+  });
 
   return (
     <Grid>
@@ -81,48 +174,73 @@ export default function AddDiscussion() {
         + Add Discussion
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
-        <DialogTitle>Add Discussion</DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="topic"
-            label="Enter topic"
-            type="text"
-            fullWidth
-            value={topic}
-            onChange={handleTopicChange}
-          />
-          <ReactQuill
-            style={{ height: "300px" }}
-            value={content}
-            onChange={handleContentChange}
+        <Box component="form" onSubmit={formik.handleSubmit}>
+          {/* <input type="hidden" name="userId" value={formik.values.userId}/> */}
+          {/* <input name="groupId" value={formik.values.groupId}/> */}
+          <DialogTitle>Add Discussion</DialogTitle>
+          <DialogContent>
+
+            <TextField
+              autoFocus
+              margin="dense"
+              id="topic"
+              label="Enter topic"
+              type="text"
+              fullWidth
+              // value={topic}
+              // onChange={handleTopicChange}
+              name="Question"
+              value={formik.values.Question}
+              onChange={formik.handleChange}
+              error={formik.touched.Question && Boolean(formik.errors.Question)}
+              helperText={formik.touched.Question && formik.errors.Question}
+            />
+            <ReactQuill
+              style={{ height: "300px" }}
+              // value={content}
+              onChange={handleContentChange}
+              ref={reactQuillRef}
+              theme="snow"
+              modules={modules}
+              name="Content"
+              value={formik.values.Content}
+              // onChange={formik.handleChange}
+              error={formik.touched.Content && Boolean(formik.errors.Content)}
+              helperText={formik.touched.Content && formik.errors.Content}
+            />
+            {/* <ReactQuill
+            ref={reactQuillRef}
             theme="snow"
+            placeholder="Start writing..."
             modules={{
-              toolbar: [
-                [{ header: "1" }, { header: "2" }, { font: [] }],
-                [{ size: [] }],
-                ["bold", "italic", "underline", "strike", "blockquote"],
-                [
-                  { list: "ordered" },
-                  { list: "bullet" },
-                  { indent: "-1" },
-                  { indent: "+1" },
+              toolbar: {
+                container: [
+                  ...
+                  ["link", "image", "video"],
+                  ["code-block"],
+                  ["clean"],
                 ],
-                ["link", "image", "video"],
-                ["clean"],
-              ],
+                handlers: {
+                  image: imageHandler,   // <- 
+                },
+              },
+              clipboard: {
+                matchVisual: false,
+              },
             }}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose} color="primary">
-            Cancel
-          </Button>
-          <Button onClick={handleSubmit} color="primary">
-            Submit
-          </Button>
-        </DialogActions>
+          /> */}
+          </DialogContent>
+          <DialogActions>
+            <Button onClick={handleClose} color="primary">
+              Cancel
+            </Button>
+            {/* <Button onClick={handleSubmit} color="primary"> */}
+            {/* <Button type="submit" onClick={formik.handleSubmit} color="primary"> */}
+            <Button type="submit"  color="primary">
+              Submit
+            </Button>
+          </DialogActions>
+        </Box>
       </Dialog>
     </Grid>
   );
