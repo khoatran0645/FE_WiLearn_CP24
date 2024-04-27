@@ -30,6 +30,8 @@ export default function DiscussionDetail() {
     (state) => state.studyGroup
   );
   const { userInfo } = useSelector((state) => state.user);
+  // console.log("userInfo", userInfo);
+  // console.log("discussionDetail", discussionDetail);
   const [replyText, setReplyText] = useState("");
   dayjs.extend(customParseFormat);
   const dispatch = useDispatch();
@@ -109,18 +111,17 @@ export default function DiscussionDetail() {
             >
               {discussionDetail?.question}
               <Tooltip title="Report this discussion">
-              <IconButton>
-              <FlagCircleIcon />
-            </IconButton>
+                <IconButton>
+                  <FlagCircleIcon />
+                </IconButton>
               </Tooltip>
-              
             </Typography>
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "end" }}>
             <Avatar
               alt={discussionDetail?.account?.fullName}
               // src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcST2mXZyjeEgVKZ4yOV5SS2dL5UC10y0RRCew&usqp=CAU"
-              src={discussionDetail.account.ImagePath}
+              src={discussionDetail?.account.imagePath}
               sx={{ marginRight: "10px" }}
             />
 
@@ -130,7 +131,6 @@ export default function DiscussionDetail() {
             >
               {discussionDetail?.account?.fullName}
             </Typography>
-            
           </Grid>
           <Typography
             variant="body1"

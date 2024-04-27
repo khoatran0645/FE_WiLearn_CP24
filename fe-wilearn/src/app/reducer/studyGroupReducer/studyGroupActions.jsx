@@ -368,13 +368,13 @@ export const requestJoinGroup = createAsyncThunk(
       })
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
-      // .then((response) => {
-      //   toast.success("Xin vào thành công");
-      // })
-      // .catch((error) => {
-      //   // toast.error("Đã xảy ra sự cố khi vào nhóm");
-      //   rejectWithValue(error.response.data);
-      // });
+    // .then((response) => {
+    //   toast.success("Xin vào thành công");
+    // })
+    // .catch((error) => {
+    //   // toast.error("Đã xảy ra sự cố khi vào nhóm");
+    //   rejectWithValue(error.response.data);
+    // });
   }
 );
 
@@ -548,18 +548,30 @@ export const getGroupStats = createAsyncThunk(
   "studyGroup/getGroupStats",
   async (data, { rejectWithValue }) => {
     return await axiosClient
-      .get(API_GET_GROUP_STATS.replace("{groupId}", data.groupId).replace("{time}", data.time))
+      .get(
+        API_GET_GROUP_STATS.replace("{groupId}", data.groupId).replace(
+          "{time}",
+          data.time
+        )
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
-)
+);
 
 export const getMoreGroupStats = createAsyncThunk(
-  "studyGroup/getGroupStats",
+  "studyGroup/getMoreGroupStats",
   async (data, { rejectWithValue }) => {
+    const submitData = data;
+    // console.log("submitData", submitData);
     return await axiosClient
-      .get(API_GET_MORE_GROUP_STATS.replace("{groupId}", data.groupId).replace("{userId}", data.userId))
+      .get(
+        API_GET_MORE_GROUP_STATS.replace("{userId}", submitData.userId).replace(
+          "{groupId}",
+          submitData.groupId
+        )
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
-)
+);

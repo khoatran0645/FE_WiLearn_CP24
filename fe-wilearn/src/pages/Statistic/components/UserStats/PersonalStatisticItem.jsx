@@ -10,7 +10,7 @@ export default function PersonalStatisticItem() {
   const dispatch = useDispatch();
   const { statsData, userInfo } = useSelector((state) => state.user);
 
-  console.log(statsData);
+  // console.log(statsData);
 
   useEffect(() => {
     // Call your function with the default value when the component loads

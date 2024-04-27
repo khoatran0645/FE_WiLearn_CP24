@@ -61,6 +61,7 @@ const initialState = {
   groupNotJoin: [],
   listFile: [],
   groupStats: null,
+  moreGroupStats: null,
 };
 
 const studyGroupSlice = createSlice({
@@ -659,7 +660,18 @@ const studyGroupSlice = createSlice({
     });
 
     //GET MORE GROUP STATS
-
+    builder.addCase(getMoreGroupStats.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(getMoreGroupStats.fulfilled, (state, { payload }) => {
+      state.loading = false;
+      state.moreGroupStats = payload;
+    });
+    builder.addCase(getMoreGroupStats.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
   },
 });
 
@@ -695,6 +707,7 @@ export {
   uploadFile,
   checkFile,
   getGroupStats,
+  getMoreGroupStats,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions
