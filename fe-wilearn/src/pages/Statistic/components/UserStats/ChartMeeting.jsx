@@ -1,48 +1,71 @@
-import { Grid, Typography } from '@mui/material';
-import { Bar } from 'react-chartjs-2';
-import { useSelector } from 'react-redux';
+import { Grid, Typography } from "@mui/material";
+import { Bar } from "react-chartjs-2";
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
+
 const ChartMeeting = () => {
-  const {statsData} = useSelector((state) => state.user);
-  console.log(statsData);
+  const { moreUserStats } = useSelector((state) => state.user);
+  // console.log("moreUserStats", moreUserStats);
+
+  let months = [];
+  let attendedMeetings = [];
+  let absentMeetings = [];
+  let totalMeetings = [];
+
+  if (moreUserStats) {
+    moreUserStats
+      .slice()
+      .reverse()
+      .forEach((stats) => {
+        months.push(dayjs(stats.month).format("MMMM YYYY"));
+        attendedMeetings.push(stats.atendedMeetingsCount);
+        absentMeetings.push(stats.missedMeetingsCount);
+        totalMeetings.push(stats.totalMeetingsCount);
+      });
+  }
+  // console.log("absentMeetings", absentMeetings);
+
   const data = {
-    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'],
+    labels: months,
     datasets: [
       {
-        label: 'Attended Meetings',
-        data: [10, 15, 12, 8, 10, 11, 14, 13, 9, 10, 16, 18],
-        backgroundColor: 'rgba(54, 162, 235, 0.5)',
+        label: "Total Meetings",
+        data: totalMeetings,
+        backgroundColor: "rgba(54, 162, 235, 0.5)",
       },
       {
-        label: 'Absent Meetings',
-        data: [7, 12, 9, 6, 8, 9, 11, 10, 7, 8, 13, 15],
-        backgroundColor: 'rgba(75, 192, 192, 0.5)',
+        label: "Attended Meetings",
+        data: attendedMeetings,
+        backgroundColor: "rgba(75, 192, 192, 0.5)",
       },
       {
-        label: 'Total Meetings',
-        data: [3, 3, 3, 2, 2, 2, 3, 3, 2, 2, 3, 3],
-        backgroundColor: 'rgba(255, 99, 132, 0.5)',
+        label: "Absent Meetings",
+        data: absentMeetings,
+        backgroundColor: "rgba(255, 99, 132, 0.5)",
       },
     ],
   };
 
+
   const options = {
+    responsive: true,
     scales: {
-      x: {
-        stacked: true,
-      },
       y: {
-        stacked: true,
+        stacked: false,
         beginAtZero: true,
+        ticks: {
+          stepSize: 1,
+        },
       },
     },
   };
 
   return (
-  <Grid style={{maxWidth:'800px', marginLeft:'200px'}}>
-    <Typography variant='h5'>Number of meetings</Typography>
-    <Bar data={data} options={options} />
-  </Grid>
-  )
+    <Grid style={{ maxWidth: "800px", marginLeft: "200px" }}>
+      <Typography variant="h5">Number of meetings</Typography>
+      <Bar data={data} options={options} />
+    </Grid>
+  );
 };
 
 export default ChartMeeting;

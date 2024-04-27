@@ -1,17 +1,29 @@
+import { useEffect } from "react";
 import { Grid, Typography } from "@mui/material";
 import ChartMeeting from "./ChartMeeting";
-import StatisticItem from "../StatisticItem";
 import HoursChart from "./HoursChart";
 import DiscussionChart from "./DiscussionChart";
+import PersonalStatisticItem from "./PersonalStatisticItem";
+
+import { useDispatch, useSelector } from "react-redux";
+import { getMoreUserStats } from "../../../../app/reducer/userReducer";
 
 export default function PersonalStatistics() {
+  const { userInfo, moreUserStats } = useSelector((state) => state.user);
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+
+    userInfo && dispatch(getMoreUserStats(userInfo?.id));
+  }, [userInfo]);
+  // console.log("moreUserStats", moreUserStats);
   return (
     <Grid>
       <Grid paddingLeft={20}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Your Statistics
         </Typography>
-        <StatisticItem />
+        <PersonalStatisticItem />
       </Grid>
       <Grid paddingTop={4}>
         <ChartMeeting />

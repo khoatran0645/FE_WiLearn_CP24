@@ -1,6 +1,5 @@
 //  export const BE_URL = "https://www.groupstudy.somee.com";
 //  export const BE_URL = " https://we-learn.somee.com";
-
 export const BE_URL = "http://localhost:8001";
 // export const BE_URL = "http://localhost:5000";
 // link to swagger api: "https://www.groupstudy.somee.com/swagger/index.html";
@@ -105,24 +104,28 @@ export const API_UPLOAD_DISCUSSION =
 export const API_GET_DISCUSSION_BY_GROUP_ID = "/api/Discussion/Get/{groupId}";
 export const API_GET_DISCUSSION_BY_ID =
   "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
-export const API_POST_ANSWER_DISCUSSION =
-  "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}";
 
 // discussion answer
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
-
+export const API_POST_ANSWER_DISCUSSION =
+  "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}";
 
 // personal stats
-export const API_GET_PERSONAL_STATS ="/api/Stats/Account/{userId}/{time}";
+export const API_GET_PERSONAL_STATS = "/api/Stats/Account/{userId}/{time}";
+export const API_GET_MORE_PERSONAL_STATS =
+  "/api/Stats/ForStudentInMonths/{userId}";
 
 // group stats
-export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{year}-{month}"
+export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{time}";
+export const API_GET_MORE_GROUP_STATS =
+  "/api/Stats/ForGroupInMonths/{userId}?groupId={groupId}";
 
-export const API_GET_REPORTS = "/api/Reports"
-export const API_CREATE_REPORTS = "/api/Reports"
-export const API_RESOLVED_REPORTS = "/api/Reports?reportId={id}&isApproved={isApproved}"
-export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve"
+export const API_GET_REPORTS = "/api/Reports";
+export const API_CREATE_REPORTS = "/api/Reports";
+export const API_RESOLVED_REPORTS =
+  "/api/Reports?reportId={id}&isApproved={isApproved}";
+export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve";
 
 // export const publicRoutes = {
 //   root: "/",
