@@ -9,6 +9,7 @@ import {
   Tabs,
   Grid,
   Autocomplete,
+  CircularProgress,
 } from "@mui/material";
 import CheckIcon from "@mui/icons-material/Check";
 import * as Yup from 'yup'
@@ -54,8 +55,8 @@ const daysOfWeek = [
     label: "Saturday",
   },
   {
-    id: 8,
-    value: 8,
+    id: 1,
+    value: 1,
     label: "Sunday",
   },
 ];
@@ -72,7 +73,7 @@ export default function CreateSchedule() {
   const dispatch = useDispatch();
   const {groupId} = useParams();
   let subjectLists = [];
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo, loading } = useSelector((state) => state.studyGroup);
   if(groupInfo){
     subjectLists= groupInfo.subjects
   }
@@ -141,7 +142,7 @@ export default function CreateSchedule() {
           dispatch(getGroupLists());
           dispatch(getUserInfo())
           formik.resetForm();
-          // handleCloseDialog();
+          handleClose();
           toast.success("Create repeating meetings successfully")
         } else {
           toast.error("Fail to create new meetings")
@@ -193,6 +194,7 @@ export default function CreateSchedule() {
           dispatch(getUserInfo())
           formik.resetForm();
           // handleCloseDialog();
+          handleClose();
           toast.success("Create meeting successfully")
         } else {
           toast.error("Fail to create a new meeting")
@@ -240,7 +242,6 @@ export default function CreateSchedule() {
     setCurrentTab(newValue);
   };
 
-  const today = new Date();
   return (
     <>
       <Button
@@ -477,7 +478,8 @@ export default function CreateSchedule() {
                       sx={{width:"100%"}}
                       disablePast
                       format="DD/MM/YYYY"
-                      minDate={dayjs().add(1,'day')}
+                      // minDate={dayjs().add(1,'day')}
+                      minDate={formik.values.startDate?formik.values.startDate:dayjs().add(1,'day')}
                     />
                     {(formik.touched.endDate && formik.errors.endDate) && (
                       <Typography variant="caption" gutterBottom sx={{color:"red"}}>
@@ -579,9 +581,13 @@ export default function CreateSchedule() {
             </Box>
           </Box>
           {/* <Button onClick={handleCreateMeeting} color="success"> */}
-          <Button type="submit" color="success">
-            Create
-          </Button>
+          {loading?(
+            <CircularProgress/>
+          ):(
+            <Button type="submit" color="success">
+              Create
+            </Button>
+          )}
           <Button onClick={handleClose} color="inherit">
             Close
           </Button>
