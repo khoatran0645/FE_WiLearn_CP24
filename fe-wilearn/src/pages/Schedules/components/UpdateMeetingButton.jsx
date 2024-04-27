@@ -116,11 +116,12 @@ export default function UpdateMeetingButton({ meeting }) {
         content: values.content,
         scheduleStartTime: values.startTime + ":00",
         scheduleEndTime: values.endTime + ":00",
-        date: values.startDate.format(),
+        date: values.startDate.startOf('day').format(),
         subjectIds: values.subjects.map(sub => parseInt(sub.id)),
       }
       console.log("updateMeeting submit values", values);
       console.log("updateMeeting submit data", data);
+      toast.success("Updated function "+ data.date)
       const response = await dispatch(updateMeeting(data));
       if (response.type === updateMeeting.fulfilled.type) {
         dispatch(getGroupLists());
