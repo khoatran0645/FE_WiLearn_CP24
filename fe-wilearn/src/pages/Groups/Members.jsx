@@ -14,6 +14,8 @@ import {
   TextField,
   Paper,
   Button,
+  Dialog,
+  DialogTitle,
 } from "@mui/material";
 // import { Copy } from '@mui/icons-material';
 import ContentCopyIcon from "@mui/icons-material/ContentCopy";
@@ -29,6 +31,14 @@ export default function MemberList() {
   const { groupInfo, loading } = useSelector((state) => state.studyGroup);
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
+  const [openDialog, setOpenDialog] = useState(false);
+  const handleOpenDialog = () => {
+    setOpenDialog(true);
+  };
+
+  const handleCloseDialog = () => {
+    setOpenDialog(false);
+  };
 
   const { groupId } = useParams();
   let leadGroups = [];
@@ -71,11 +81,11 @@ export default function MemberList() {
         elevation={5}
       >
         <CardContent>
-          {isFirst && (
-            <Typography variant="h6" align="center" >
+          {(isFirst && (
+            <Typography variant="h6" align="center">
               Group leader
             </Typography>
-          ) || (
+          )) || (
             <Typography variant="h6" align="center">
               Member
             </Typography>
@@ -97,7 +107,10 @@ export default function MemberList() {
             </Typography>
           </Container>
         </CardContent>
-        <CardActions disableSpacing sx={{ mt: "auto", justifyContent: 'center' }}>
+        <CardActions
+          disableSpacing
+          sx={{ mt: "auto", justifyContent: "center" }}
+        >
           <UserMoreInfo
             fullname={user.fullName}
             email={user.email}
@@ -124,11 +137,18 @@ export default function MemberList() {
           Members
         </Typography>
       </Grid>
-      <Grid item container justifyContent="flex-end" paddingLeft={35}>
-        <Stack spacing={1} direction="row">
-          {isLead && <RequestJoin />}
-          {isLead && <InviteUser />}
-        </Stack>
+      <Grid container item justifyContent="space-between" paddingBottom={2}>
+        <Grid item container xs={6} justifyContent="flex-start">
+          <Button variant="contained" size="small" onClick={handleOpenDialog}>
+            Invite Link
+          </Button>
+        </Grid>
+        <Grid item container xs={6} justifyContent="flex-end">
+          <Stack direction="row" spacing={2}>
+            <RequestJoin />
+            <InviteUser />
+          </Stack>
+        </Grid>
       </Grid>
       <Grid item container spacing={2}>
         {loading ? (
@@ -154,39 +174,30 @@ export default function MemberList() {
       )}
       {/* <Grid item container xs={12} justifyContent="flex-start"> */}
       {/* <Container maxWidth="lg"> */}
-      <Container>
-        <Paper elevation={3} sx={{ padding: 3, marginTop: 4 }}>
-          <Typography variant="h5" gutterBottom>
-            Invite link
-          </Typography>
-          <TextField
-            label="Invitation Code"
-            variant="outlined"
-            fullWidth
-            // value={window.location.host + '/groups/search/code/' + groupInfo?.inviteCode}
-            value={invitationCode}
-            // onChange={handleInputChange}invitationCode
-            sx={{ marginBottom: 2 }}
-            disabled
-          />
-          <Button
-            variant="contained"
-            color="primary"
-            onClick={handleCopyClick}
-            startIcon={<ContentCopyIcon />}
-            // disabled={!invitationCode.trim()}
-          >
-            Copy Invitation Code
-          </Button>
-          {/* {invitationCode && (
-          <Box mt={2}>
-            <Typography variant="body1">
-              Your Invitation Code: <strong>{invitationCode}</strong>
-            </Typography>
+      <Grid>
+        <Dialog open={openDialog} onClose={handleCloseDialog}>
+          <DialogTitle>Invite Link</DialogTitle>
+          <Box padding={2}>
+            <TextField
+              label="Invitation Code"
+              variant="outlined"
+              value={invitationCode}
+              sx={{ marginBottom: 2, width: 400 }}
+              disabled
+            />
+            <Box display="flex" justifyContent="flex-end">
+              <Button
+                variant="contained"
+                color="primary"
+                onClick={handleCopyClick}
+                startIcon={<ContentCopyIcon />}
+              >
+                Copy Invitation Code
+              </Button>
+            </Box>
           </Box>
-        )} */}
-        </Paper>
-      </Container>
+        </Dialog>
+      </Grid>
       {/* </Grid> */}
     </Grid>
   );

@@ -36,6 +36,7 @@ import {
   searchGroupsCode,
   getGroupStats,
   getMoreGroupStats,
+  uploadDiscussionFile,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -615,6 +616,19 @@ const studyGroupSlice = createSlice({
       state.listFile = payload;
     });
     builder.addCase(getDocumentListByGroup.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    // UPLOAD Discusion body FILE
+    builder.addCase(uploadDiscussionFile.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(uploadDiscussionFile.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(uploadDiscussionFile.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

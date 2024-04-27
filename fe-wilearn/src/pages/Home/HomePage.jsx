@@ -14,7 +14,14 @@ import { useDispatch, useSelector } from "react-redux";
 import GroupsIcon from "@mui/icons-material/Groups";
 import CreateGroup from "../Groups/CreateGroup";
 import Paginate from "./../../components/Paginate";
-import { requestJoinGroup } from "../../app/reducer/studyGroupReducer";
+import {
+  getGroupNotJoin,
+  getStudentInvites,
+  getSubjectLists,
+  requestJoinGroup,
+} from "../../app/reducer/studyGroupReducer";
+import { toast } from "react-toastify";
+import { getUserInfo, getUsermMeetings } from "../../app/reducer/userReducer";
 
 export default function HomePage() {
   const dispatch = useDispatch();
@@ -31,16 +38,19 @@ export default function HomePage() {
     setCurrentPage(page);
   };
 
-  const {userInfo} = useSelector(state=>state.user)
-  const onRequestJoinGroup = async(groupId, gname) => {
-
-    const response = await dispatch(requestJoinGroup({ groupId, studentId: userInfo?.id }));
+  const { userInfo } = useSelector((state) => state.user);
+  const onRequestJoinGroup = async (groupId, gname) => {
+    const response = await dispatch(
+      requestJoinGroup({ groupId, studentId: userInfo?.id })
+    );
     if (response.type === requestJoinGroup.fulfilled.type) {
-      toast.success("Request to join group "+ gname + "successflly");
+      toast.success("Request to join group " + gname + "successflly");
       dispatch(getGroupMemberLists());
       handleCloseDialog();
-    }else{
-      toast.error(`Something went wrong when requesting to join group ${gname}`)
+    } else {
+      toast.error(
+        `Something went wrong when requesting to join group ${gname}`
+      );
     }
     dispatch(getStudentInvites());
 
@@ -48,7 +58,7 @@ export default function HomePage() {
     dispatch(getUsermMeetings());
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
-    dispatch(getStudentInvites())
+    dispatch(getStudentInvites());
   };
   useEffect(() => {}, [dispatch]);
 
@@ -74,7 +84,7 @@ export default function HomePage() {
                   {group.name}
                 </Typography>
                 {/* <Chip label={group.subjects.join(', ')} size="small" variant="filled" /> */}
-                {group.subjects.map(s=>(
+                {group.subjects.map((s) => (
                   <Chip label={s} size="small" variant="filled" />
                 ))}
                 <Grid container alignItems="center" spacing={1}>
@@ -85,7 +95,11 @@ export default function HomePage() {
                     <Typography variant="body1">{group.memberCount}</Typography>
                   </Grid>
                 </Grid>
-                <Typography variant="body1">{group.description}</Typography>
+                <Typography variant="body1">
+                  {group.description.length > 40
+                    ? group.description.substring(0, 40) + " "
+                    : group.description}
+                </Typography>
               </CardContent>
               <Grid container justifyContent="center" paddingBottom={2}>
                 <Button
@@ -97,7 +111,7 @@ export default function HomePage() {
                     backgroundImage:
                       "linear-gradient(to left, #00b4db, #0083b0)",
                   }}
-                  onClick={()=>onRequestJoinGroup(group.id, group.name)}
+                  onClick={() => onRequestJoinGroup(group.id, group.name)}
                 >
                   Join group
                 </Button>

@@ -240,6 +240,7 @@ export default function CreateSchedule() {
     setCurrentTab(newValue);
   };
 
+  const today = new Date();
   return (
     <>
       <Button
@@ -332,6 +333,7 @@ export default function CreateSchedule() {
                 sx={{width:"100%"}}
                 disablePast
                 format="DD/MM/YYYY"
+                minDate={dayjs().add(1,'day')}
               />
               {(formik.touched.startDate && formik.errors.startDate) && (
                 <Typography variant="caption" gutterBottom sx={{color:"red"}}>
@@ -449,6 +451,7 @@ export default function CreateSchedule() {
                       fullWidth
                       format="DD/MM/YYYY"
                       disablePast
+                      minDate={dayjs().add(1,'day')}
                     />
                     {(formik.touched.startDate && formik.errors.startDate) && (
                       <Typography variant="caption" gutterBottom sx={{color:"red"}}>
@@ -474,6 +477,7 @@ export default function CreateSchedule() {
                       sx={{width:"100%"}}
                       disablePast
                       format="DD/MM/YYYY"
+                      minDate={dayjs().add(1,'day')}
                     />
                     {(formik.touched.endDate && formik.errors.endDate) && (
                       <Typography variant="caption" gutterBottom sx={{color:"red"}}>

@@ -41,7 +41,6 @@ export default function DiscussionList() {
     setCurrentPage(page);
   };
 
-
   const formats = [
     "background",
     "bold",
@@ -85,6 +84,9 @@ export default function DiscussionList() {
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
         /> */}
+        {(!currentDiscussions || currentDiscussions.length==0)&&(
+          <Typography align="center" variant="h5">No discussion yet</Typography>
+        )}
         <List>
           {currentDiscussions.map((discussion) => (
             <ListItem key={discussion.id} mb={3}>
@@ -111,12 +113,16 @@ export default function DiscussionList() {
                     component="p"
                   >
                     {discussion.account.fullName} -{" "}
-                    {dayjs(discussion.createAt).format("DD/MM/YYYY")}
+                    {dayjs(discussion.createAt).format("DD/MM/YYYY HH:MM")}
                   </Typography>
                   {/* <Typography variant="body1">{discussion.content}</Typography> */}
 
                   <ReactQuill
-                    value={discussion.content}
+                    value={
+                      discussion.content.length > 200
+                        ? discussion.content.substring(0, 200) + "..."
+                        : discussion.content
+                    }
                     readOnly
                     theme={"bubble"}
                     formats={formats}
