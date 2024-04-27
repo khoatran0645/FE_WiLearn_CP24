@@ -36,6 +36,8 @@ import {
   API_UPDATE_MEETING,
   API_SEARCH_GROUP_CODE,
   API_CREATE_REPORTS,
+  API_GET_GROUP_STATS,
+  API_GET_MORE_GROUP_STATS,
   API_UPLOAD_DISCUSSION_FILE,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
@@ -367,13 +369,13 @@ export const requestJoinGroup = createAsyncThunk(
       })
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
-      // .then((response) => {
-      //   toast.success("Xin vào thành công");
-      // })
-      // .catch((error) => {
-      //   // toast.error("Đã xảy ra sự cố khi vào nhóm");
-      //   rejectWithValue(error.response.data);
-      // });
+    // .then((response) => {
+    //   toast.success("Xin vào thành công");
+    // })
+    // .catch((error) => {
+    //   // toast.error("Đã xảy ra sự cố khi vào nhóm");
+    //   rejectWithValue(error.response.data);
+    // });
   }
 );
 
@@ -551,6 +553,38 @@ export const createReport = createAsyncThunk(
 
     return await axiosClient
       .post(API_CREATE_REPORTS, submitData)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getGroupStats = createAsyncThunk(
+  "studyGroup/getGroupStats",
+  async (data, { rejectWithValue }) => {
+    return await axiosClient
+      .get(
+        API_GET_GROUP_STATS.replace("{groupId}", data.groupId).replace(
+          "{time}",
+          data.time
+        )
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getMoreGroupStats = createAsyncThunk(
+  "studyGroup/getMoreGroupStats",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    // console.log("submitData", submitData);
+    return await axiosClient
+      .get(
+        API_GET_MORE_GROUP_STATS.replace("{userId}", submitData.userId).replace(
+          "{groupId}",
+          submitData.groupId
+        )
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

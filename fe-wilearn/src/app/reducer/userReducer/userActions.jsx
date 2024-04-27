@@ -10,6 +10,7 @@ import {
   API_YOUR_MEETINGS,
   API_FORGOT_PASSWORD,
   API_GET_PERSONAL_STATS,
+  API_GET_MORE_PERSONAL_STATS,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
@@ -131,12 +132,26 @@ export const getPersonalStatistics = createAsyncThunk(
   "auth/getPersonalStatistics",
   async (data, { rejectWithValue }) => {
     const submitData = data;
-    console.log("getPersonalStatistics", submitData);
+    // console.log("getPersonalStatistics", submitData);
     return await axiosClient
       .get(
-        API_GET_PERSONAL_STATS.replace("{userId}", submitData.userId)
-          .replace("{time}", submitData.time)
+        API_GET_PERSONAL_STATS.replace("{userId}", submitData.userId).replace(
+          "{time}",
+          submitData.time
+        )
       )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const getMoreUserStats = createAsyncThunk(
+  "auth/getMoreUserStats",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    // console.log("getMoreUserStats", submitData);
+    return await axiosClient
+      .get(API_GET_MORE_PERSONAL_STATS.replace("{userId}", submitData))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

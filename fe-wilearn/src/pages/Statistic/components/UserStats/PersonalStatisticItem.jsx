@@ -3,13 +3,30 @@ import { Box, Card, Grid, Typography } from "@mui/material";
 import { DatePicker } from "@mui/x-date-pickers";
 import dayjs from "dayjs";
 import { useSelector, useDispatch } from "react-redux";
-import { getPersonalStatistics } from "../../../app/reducer/userReducer/userActions";
+import { getPersonalStatistics } from "../../../../app/reducer/userReducer/userActions";
 
-export default function StatisticItem() {
+
+export default function PersonalStatisticItem() {
   const dispatch = useDispatch();
   const { statsData, userInfo } = useSelector((state) => state.user);
 
-  console.log(statsData);
+  // console.log(statsData);
+
+  useEffect(() => {
+    // Call your function with the default value when the component loads
+    userInfo ? handleTimeCHange(dayjs()) : null;
+    // handleTimeCHange(dayjs());
+  }, [userInfo]);
+
+  const handleTimeCHange = (timeData) => {
+    const data = {
+      userId: userInfo.id,
+      time: dayjs(timeData).format("YYYY-MM"),
+    };
+    // console.log("data", data);
+    dispatch(getPersonalStatistics(data));
+    // console.log(statsData);
+  };
 
   return (
     <Grid container direction="column" paddingTop={5}>
@@ -20,15 +37,8 @@ export default function StatisticItem() {
           views={["month", "year"]}
           // defaultValue={dayjs()}
           closeOnSelect
-          onChange={(timeData) => {
-            const data = {
-              userId: userInfo.id,
-              time: dayjs(timeData).format("YYYY-MM"),
-            };
-            // console.log("data", data);
-            dispatch(getPersonalStatistics(data));
-            // console.log(statsData);
-          }}
+          defaultValue={dayjs()}
+          onAccept={handleTimeCHange}
         />
       </Grid>
       <Grid container direction="row" paddingTop={4} spacing={2}>
@@ -84,7 +94,9 @@ export default function StatisticItem() {
             }}
           >
             <Typography variant="h6">Meeting Hours Statistics</Typography>
-            <Typography>Total meeting hours: {statsData ? statsData.totalMeetingTme : 0}</Typography>
+            <Typography>
+              Total meeting hours: {statsData ? statsData.totalMeetingTme : 0}
+            </Typography>
           </Card>
         </Grid>
         <Grid item>
@@ -106,8 +118,14 @@ export default function StatisticItem() {
             }}
           >
             <Typography variant="h6">Discussion Statistics</Typography>
-            <Typography>Total Discussion: {statsData ? statsData.totalDiscussionsCount : 0}</Typography>
-            <Typography>Total Answer: {statsData ? statsData.totalAnswerDiscussionsCount : 0}</Typography>
+            <Typography>
+              Total Discussion:{" "}
+              {statsData ? statsData.totalDiscussionsCount : 0}
+            </Typography>
+            <Typography>
+              Total Answer:{" "}
+              {statsData ? statsData.totalAnswerDiscussionsCount : 0}
+            </Typography>
           </Card>
         </Grid>
       </Grid>

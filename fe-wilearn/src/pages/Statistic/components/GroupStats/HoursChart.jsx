@@ -1,19 +1,31 @@
 import { Line } from 'react-chartjs-2';
 import 'chart.js/auto';
 import { Grid, Typography } from '@mui/material';
-
+import { useSelector } from "react-redux";
+import dayjs from "dayjs";
 const HoursChart = () => {
-  const data = [
-    { month: 'Jan', count: 1 },
-    { month: 'Feb', count: 0 },
-    { month: 'Mar', count: 2 },
-    { month: 'Apr', count: 5 },
-    { month: 'May', count: 3 },
-    { month: 'Jun', count: 1 },
-    { month: 'Jul', count: 0 },
-    { month: 'Aug', count: 4 },
-    { month: 'Sep', count: 2 },
-  ];
+  const { moreGroupStats } = useSelector((state) => state.studyGroup);
+
+  const data = [];
+  if (moreGroupStats) {
+    moreGroupStats
+      .slice()
+      .reverse()
+      .forEach((stats) => {
+        const [hoursStr, minutesStr] = stats.totalMeetingTme
+          .split(":")
+          .slice(0, 2);
+        const [hours, minutes] = [
+          parseInt(hoursStr, 10),
+          parseInt(minutesStr, 10),
+        ];
+        const totalHours = hours + minutes / 60;
+        data.push({
+          month: dayjs(stats.month).format("MMMM YYYY"),
+          count: totalHours,
+        });
+      });
+  }
 
   const chartData = {
     labels: data.map(row => row.month),
