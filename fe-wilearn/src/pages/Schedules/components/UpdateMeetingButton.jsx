@@ -121,7 +121,7 @@ export default function UpdateMeetingButton({ meeting }) {
       }
       console.log("updateMeeting submit values", values);
       console.log("updateMeeting submit data", data);
-      toast.success("Updated function "+ data.date)
+      // toast.success("Updated function "+ data.date)
       const response = await dispatch(updateMeeting(data));
       if (response.type === updateMeeting.fulfilled.type) {
         dispatch(getGroupLists());
