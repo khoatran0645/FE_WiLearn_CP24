@@ -102,7 +102,7 @@ export default function UpdateMeetingButton({ meeting }) {
       endTime: dayjs(meeting.scheduleEnd).format("HH:mm"),
       //Date for not repeat, startDate for Repeat
       // startDate: null,
-      startDate: dayjs(meeting.scheduleStart),
+      startDate: dayjs(meeting.scheduleStart).startOf('day'),
       // startDate: dayjs(),
       subjects: meeting.subjects
     },
