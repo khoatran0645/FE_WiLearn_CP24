@@ -101,10 +101,10 @@ function Schedule() {
       event.state === "live"
         ? "green"
         : event.canStart
-        ? "orange"
-        : event.state === "past"
-        ? "gray"
-        : "red";
+          ? "orange"
+          : event.state === "past"
+            ? "gray"
+            : "red";
     return (
       <Box onClick={() => alert("a")} style={{ backgroundColor: color }}>
         <Typography>{event.title}</Typography>
@@ -125,10 +125,10 @@ function Schedule() {
       event.state === "live"
         ? "green"
         : event.canStart
-        ? "orange"
-        : event.state === "past"
-        ? "gray"
-        : "red";
+          ? "orange"
+          : event.state === "past"
+            ? "gray"
+            : "red";
     var style = {
       backgroundColor: backgroundColor,
       borderRadius: "10px",
@@ -153,7 +153,7 @@ function Schedule() {
         sx={{ maxWidth: 345, minWidth: 345, border: `3px solid green` }}
       >
         <CardContent sx={{ textAlign: "left" }}>
-          <Grid sx={{height:"170px"}}>
+          <Grid sx={{ height: "170px" }}>
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
@@ -358,48 +358,46 @@ function Schedule() {
                       <Typography variant="body1" color="text.secondary">
                         Content: {meeting.content}
                       </Typography>
-                      <Typography variant="body1" color="text.secondary">
-                        Expected:{" "}
-                        {(meeting.scheduleStart || meeting.start) && (
+                      {(meeting.scheduleStart) && (
+                        <Typography variant="body1" color="text.secondary">
+                          Expected:{" "}
                           <>
                             {meeting.scheduleStart &&
                               moment(meeting.scheduleStart).format(
                                 "DD/MM HH:mm"
                               )}
-                            {meeting.scheduleStart && meeting.start && " - "}
-                            {meeting.start &&
-                              moment(meeting.start).format("DD/MM HH:mm")}
+                            {meeting.scheduleEnd &&
+                              " - " + moment(meeting.scheduleEnd).format("DD/MM HH:mm")}
                           </>
-                        )}
-                      </Typography>
+                        </Typography>
+                      )}
+                        {(meeting.start || meeting.end) && (
                       <Typography variant="body1" color="text.secondary">
                         Happened:{" "}
-                        {(meeting.scheduleEnd || meeting.end) && (
                           <>
-                            {meeting.scheduleEnd &&
-                              moment(meeting.scheduleEnd).format("DD/MM HH:mm")}
-                            {meeting.scheduleEnd && meeting.end && " - "}
+                            {meeting.start &&
+                              moment(meeting.start).format("DD/MM HH:mm")}
                             {meeting.end &&
-                              moment(meeting.end).format("DD/MM HH:mm")}
+                              " - "+moment(meeting.end).format("DD/MM HH:mm")}
                           </>
-                        )}
                       </Typography>
+                        )}
                       <Typography variant="body1" color="text.secondary">
-                        Status: Happened
+                        Status: {meeting.end?"Happened":"Forgotten"}
                       </Typography>
                       <Grid
                         container
                         justifyContent="center"
                         sx={{ paddingTop: "1rem" }}
                       >
-                        <HistoryChat chatHistory={meeting.chats}/>
+                        <HistoryChat chatHistory={meeting.chats} />
                       </Grid>
                       <Grid
                         container
                         justifyContent="center"
                         sx={{ paddingTop: "0.3rem" }}
                       >
-                        <HistoryReview reviewHistory={meeting.reviews}/>
+                        <HistoryReview reviewHistory={meeting.reviews} />
                       </Grid>
                     </CardContent>
                   </Card>

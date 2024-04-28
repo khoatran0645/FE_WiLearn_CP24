@@ -396,7 +396,7 @@ export default function CreateSchedule() {
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Select group subjects"
+                    label="Meeting subjects"
                     placeholder="Select subjects"
                     error={formik.touched.subjects && Boolean(formik.errors.subjects)}
                     helperText={formik.touched.subjects && formik.errors.subjects}
