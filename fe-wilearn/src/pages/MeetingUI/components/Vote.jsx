@@ -42,7 +42,7 @@ const Vote = () => {
           onClick={() => onOpenVoteResultDetail(voteData?.details)}
           style={{ margin: "5px" }}
         >
-          Kết quả đánh giá
+          Valuations
         </Button>
         {voteData.revieweeUsername !== userName && (
           <Button
@@ -51,7 +51,7 @@ const Vote = () => {
             onClick={() => onOpenVoteForm(voteData.id)}
             style={{ margin: "5px" }}
           >
-            Đánh giá
+            Evaluate
           </Button>
         )}
       </>
@@ -133,7 +133,7 @@ const Vote = () => {
                     }}
                     component={"span"}
                   >
-                    {v.revieweeUsername} trả bài
+                    {v.revieweeUsername} review
                   </Typography>
                   <Typography
                     sx={{
@@ -141,7 +141,7 @@ const Vote = () => {
                     }}
                     component={"span"}
                   >
-                    Số người đã chấm: {v.details.length}
+                    Number of reviewers: {v.details.length}
                   </Typography>
                   <Typography
                     sx={{
@@ -149,7 +149,7 @@ const Vote = () => {
                     }}
                     component={"span"}
                   >
-                    Trung bình điểm: {v.average}
+                    Average: {v.average}
                   </Typography>
 
                   <Box
