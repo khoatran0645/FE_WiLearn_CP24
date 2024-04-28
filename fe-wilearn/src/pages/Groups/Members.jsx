@@ -112,6 +112,8 @@ export default function MemberList() {
           sx={{ mt: "auto", justifyContent: "center" }}
         >
           <UserMoreInfo
+            username={user.username}
+            id={user.id}
             fullname={user.fullName}
             email={user.email}
             phone={user.phone}

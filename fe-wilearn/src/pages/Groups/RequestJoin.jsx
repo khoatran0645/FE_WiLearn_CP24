@@ -84,14 +84,14 @@ export default function RequestJoin() {
           {requestFormList.map(request=>(
           <Box>
             <Grid container justifyContent="center">
-              <Avatar src={request.avatar} sx={{ width: 100, height: 100, marginBottom: '10px' }} />
+              <Avatar src={request.accountImagePath} sx={{ width: 100, height: 100, marginBottom: '10px' }} />
             </Grid>
             <Grid sx={{ display: 'flex', flexDirection: 'column', paddingLeft: '120px' }}>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>Account name:</span> {request.userName}
+                <span style={{ fontWeight: 'bold' }}>Username:</span> {request.userName}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
-                <span style={{ fontWeight: 'bold' }}>User name:</span> {request.fullName}
+                <span style={{ fontWeight: 'bold' }}>Full name:</span> {request.fullName}
               </Typography>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
                 <span style={{ fontWeight: 'bold' }}>Email:</span> {request.email}

@@ -24,6 +24,8 @@ export default function UserMoreInfo(props) {
   }
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
+  console.log("UserMoreInfo ", props.username)
+
   return (
     <>
       <Button
@@ -45,6 +47,15 @@ export default function UserMoreInfo(props) {
             }}
             sx={{ marginTop: "10px" }}
           />
+            <TextField
+              label="Username"
+              fullWidth
+              defaultValue={props.username}
+              InputProps={{
+                readOnly: true,
+              }}
+              sx={{ marginTop: "10px" }}
+            />
           <TextField
             label="Email"
             defaultValue={props.email}
@@ -65,7 +76,7 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
-          {isLead && !props.isFirst && <DeleteMemButton />}
+          {isLead && !props.isFirst && <DeleteMemButton id={props.id} username={props.username}/>}
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
