@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Typography,
   TextareaAutosize,
@@ -24,7 +24,7 @@ import {
   getAnswerByDiscussionId,
   getDiscussionById,
 } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
-
+import { badWords, blackList } from "vn-badwords";
 export default function DiscussionDetail() {
   const { discussionDetail, loading, error } = useSelector(
     (state) => state.studyGroup
@@ -36,6 +36,8 @@ export default function DiscussionDetail() {
   dayjs.extend(customParseFormat);
   const dispatch = useDispatch();
   const { discussionId } = useParams();
+
+  const inputRef = useRef(null);
 
   useEffect(() => {
     dispatch(getAnswerByDiscussionId(discussionId));
@@ -55,29 +57,44 @@ export default function DiscussionDetail() {
   // console.log("error", error);
 
   const handleReplyChange = (event) => {
-    setReplyText(event.target.value);
+    // if(badWords((event.target.value, "*"))){
+    //   toast.error("Bài viết có chứa từ ngữ không tolerant");
+    //   setReplyText(event.target.value.replace(badWords((event.target.value, "*")), "*"))
+    // }
+    // else{
+    //   setReplyText(event.target.value);
+    // }
+    // console.log("rerender");
+    // setReplyText(event.target.value);
   };
 
   const handleReplySubmit = () => {
-    // console.log(`Reply submitted: ${replyText}`);
-    const data = {
-      userId: userInfo.id,
-      discussionId: discussionId,
-      content: replyText.trim(),
-      file: "",
-    };
-    // console.log("data", data);
-    dispatch(addAnswer(data))
-      .then(() => {
-        // Fetch updated comments after adding a new comment
-        dispatch(getAnswerByDiscussionId(discussionId));
-      })
-      .catch((error) => {
-        // Handle error if necessary
-        console.error("Error adding answer:", error);
-        // Display error message to the user
-        toast.error("Failed to add answer. Please try again.");
-      });
+    console.log("Reply submitted:", inputRef.current.value);
+    console.log(badWords(inputRef.current.value.trim(), { validate: true }));
+    if (badWords(inputRef.current.value, { validate: true })) {
+      toast.warning("Answer not accepted");
+      setReplyText("");
+      return;
+    } else {
+      const data = {
+        userId: userInfo.id,
+        discussionId: discussionId,
+        content: replyText.trim(),
+        file: "",
+      };
+      console.log("data", data);
+      dispatch(addAnswer(data))
+        .then(() => {
+          // Fetch updated comments after adding a new comment
+          dispatch(getAnswerByDiscussionId(discussionId));
+        })
+        .catch((error) => {
+          // Handle error if necessary
+          console.error("Error adding answer:", error);
+          // Display error message to the user
+          toast.error("Failed to add answer. Please try again.");
+        });
+    }
     setReplyText("");
   };
 
@@ -173,8 +190,9 @@ export default function DiscussionDetail() {
         }}
       >
         <TextareaAutosize
-          value={replyText}
-          onChange={handleReplyChange}
+          // value={replyText}
+          ref={inputRef}
+          // onChange={handleReplyChange}
           style={{
             width: "100%",
             minHeight: "80px",
@@ -187,7 +205,7 @@ export default function DiscussionDetail() {
           onClick={handleReplySubmit}
           variant="contained"
           size="small"
-          {...(replyText.trim() === "" ? { disabled: true } : {})}
+          {...(inputRef?.current?.value.trim() === "" ? { disabled: true } : {})}
           style={{
             marginTop: "8px",
           }}

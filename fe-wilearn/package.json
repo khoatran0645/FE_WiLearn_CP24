@@ -22,6 +22,7 @@
     "@mui/material": "^5.15.15",
     "@mui/x-date-pickers": "^6.19.8",
     "@reduxjs/toolkit": "^2.1.0",
+    "@types/bad-words": "^3.0.3",
     "axios": "^1.6.7",
     "chart.js": "^4.4.2",
     "date-fns": "^3.3.1",
@@ -48,6 +49,7 @@
     "reactjs-popup": "^2.0.6",
     "recharts": "^2.12.2",
     "uuid": "^9.0.1",
+    "vn-badwords": "^1.2.1-fix-2",
     "yup": "^1.4.0"
   },
   "devDependencies": {
