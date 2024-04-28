@@ -14,9 +14,13 @@ import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import { toast } from "react-toastify";
 import { useSelector, useDispatch } from "react-redux";
-import { addDiscussion, getDiscussionByGroupId, uploadDiscussionFile } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import {
+  addDiscussion,
+  getDiscussionByGroupId,
+  uploadDiscussionFile,
+} from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useFormik } from "formik";
-import * as Yup from 'yup'
+import * as Yup from "yup";
 
 export default function AddDiscussion() {
   const [open, setOpen] = useState(false);
@@ -36,12 +40,12 @@ export default function AddDiscussion() {
   };
 
   const handleContentChange = (value) => {
-    formik.setFieldValue('Content', value);
+    formik.setFieldValue("Content", value);
   };
 
   const imageHandler = useCallback(() => {
     const editor = reactQuillRef.current.getEditor();
-    console.log("editor", editor)
+    console.log("editor", editor);
     const input = document.createElement("input");
     input.setAttribute("type", "file");
     input.setAttribute("accept", "image/*");
@@ -50,22 +54,27 @@ export default function AddDiscussion() {
     input.onchange = async () => {
       const file = input.files[0];
       if (/^image\//.test(file.type)) {
-        console.log("file", file)
-        const res = await dispatch(uploadDiscussionFile({ file: file }))
+        console.log("file", file);
+        const res = await dispatch(uploadDiscussionFile({ file: file }));
         if (res.type === uploadDiscussionFile.fulfilled.type) {
           const url = res?.payload ? res?.payload : "";
           editor.insertEmbed(editor.getSelection(), "image", url);
         } else {
-          toast.error("Something went wrong when adding image to discussion's body")
-          res?.payload?.failures && res.payload.failures.forEach(error => {
-            toast.error(error)
-          });
+          toast.error(
+            "Something went wrong when adding image to discussion's body"
+          );
+          res?.payload?.failures &&
+            res.payload.failures.forEach((error) => {
+              toast.error(error);
+            });
         }
       } else {
-        toast.info('You could only upload images.');
+        toast.info("You could only upload images.");
       }
     };
+
   }, [])
+
 
   const modules = useMemo(() => ({
     toolbar: {
@@ -84,17 +93,17 @@ export default function AddDiscussion() {
         ["clean"],
       ],
       handlers: {
-        image: imageHandler,   // <- 
+        image: imageHandler, // <-
       },
-    }
+    },
     // clipboard: {
     //   matchVisual: false,
     // },
-  }))
+  }));
 
   const validationSchema = Yup.object({
-    Question: Yup.string().trim().required('Require information.'),
-    Content: Yup.string().trim().required('Require information.'),
+    Question: Yup.string().trim().required("Require information."),
+    Content: Yup.string().trim().required("Require information."),
   });
   const formik = useFormik({
     initialValues: {
@@ -106,20 +115,23 @@ export default function AddDiscussion() {
     validationSchema,
     enableReinitialize: true,
     onSubmit: async (values) => {
-      console.log("values", values)
+      console.log("values", values);
       const response = await dispatch(addDiscussion(values));
       if (response.type == addDiscussion.fulfilled.type) {
-        toast.success("Create discussion " + values.Question + " successfully")
-        dispatch(getDiscussionByGroupId(values.groupId))
+        toast.success("Create discussion " + values.Question + " successfully");
+        dispatch(getDiscussionByGroupId(values.groupId));
         formik.resetForm();
         handleClose();
       } else {
-        toast.error("Something went wrong when creating disscusion " + values.Question)
-        response?.payload?.failures && response?.payload?.failures.forEach(fail => {
-          toast.error(fail)
-        });
+        toast.error(
+          "Something went wrong when creating disscusion " + values.Question
+        );
+        response?.payload?.failures &&
+          response?.payload?.failures.forEach((fail) => {
+            toast.error(fail);
+          });
       }
-    }
+    },
   });
 
   return (
@@ -145,7 +157,6 @@ export default function AddDiscussion() {
           {/* <input name="groupId" value={formik.values.groupId}/> */}
           <DialogTitle>Add Discussion</DialogTitle>
           <DialogContent>
-
             <TextField
               autoFocus
               margin="dense"

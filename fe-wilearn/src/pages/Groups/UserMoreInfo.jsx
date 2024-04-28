@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteMemButton from "./DeleteMemButton";
+import ReportButton from "./ReportButton";
 
 export default function UserMoreInfo(props) {
   const [open, setOpen] = useState(false);
@@ -28,11 +29,7 @@ export default function UserMoreInfo(props) {
 
   return (
     <>
-      <Button
-        variant="outlined"
-        size="small"
-        onClick={() => handleOpen()}
-      >
+      <Button variant="outlined" size="small" onClick={() => handleOpen()}>
         More info
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -76,7 +73,13 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
+
+          {!isLead && !(props.userId === userInfo.id) && (
+            <ReportButton userId={props.userId} />
+          )}
+          
           {isLead && !props.isFirst && <DeleteMemButton id={props.id} username={props.username}/>}
+
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>

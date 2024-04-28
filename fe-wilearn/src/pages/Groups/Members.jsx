@@ -32,6 +32,8 @@ export default function MemberList() {
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
+
+  // console.log("groupInfo",groupInfo);
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -112,8 +114,10 @@ export default function MemberList() {
           sx={{ mt: "auto", justifyContent: "center" }}
         >
           <UserMoreInfo
+
             username={user.username}
             id={user.id}
+
             fullname={user.fullName}
             email={user.email}
             phone={user.phone}
@@ -147,8 +151,8 @@ export default function MemberList() {
         </Grid>
         <Grid item container xs={6} justifyContent="flex-end">
           <Stack direction="row" spacing={2}>
-            <RequestJoin />
-            <InviteUser />
+            {isLead && <RequestJoin />}
+            {isLead && <InviteUser />}
           </Stack>
         </Grid>
       </Grid>

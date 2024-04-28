@@ -91,8 +91,7 @@ export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset?email={email}";
 export const API_YOUR_MEETINGS = "/api/Meetings/All/Student";
 export const DELETE_MEMBER = "/api/GroupMembers/Group";
 
-//New Stat
-export const NEW_STAT_API = "/api/Stats";
+
 //DELETE MEETING
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 export const API_UPDATE_MEETING = "/api/Meetings/Schedule/{id}";
@@ -119,13 +118,15 @@ export const API_GET_MORE_PERSONAL_STATS =
 // group stats
 export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{time}";
 export const API_GET_MORE_GROUP_STATS =
-  "/api/Stats/ForGroupInMonths/{userId}?groupId={groupId}";
+  "/api/Stats/ForGroupInMonths?groupId={groupId}";
 
+// reports
 export const API_GET_REPORTS = "/api/Reports";
-export const API_CREATE_REPORTS = "/api/Reports";
+export const API_CREATE_REPORTS = "/api/Reports/SendReport";
 export const API_RESOLVED_REPORTS =
   "/api/Reports?reportId={id}&isApproved={isApproved}";
 export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve";
+
 
 // export const publicRoutes = {
 //   root: "/",

@@ -37,6 +37,7 @@ import {
   getGroupStats,
   getMoreGroupStats,
   uploadDiscussionFile,
+  createReport,
   kickMember,
 } from "./studyGroupActions";
 
@@ -688,6 +689,20 @@ const studyGroupSlice = createSlice({
       state.error = payload;
     });
 
+
+    // CREATE REPORT
+    builder.addCase(createReport.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(createReport.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(createReport.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+     });
+
      //Kick member
      builder.addCase(kickMember.pending, (state) => {
       state.loading = true;
@@ -736,6 +751,7 @@ export {
   checkFile,
   getGroupStats,
   getMoreGroupStats,
+  createReport,
 }; // export asynchronous actions
 
 export const { reset, clearSearchGroup } = studyGroupSlice.actions; // export synchronous actions

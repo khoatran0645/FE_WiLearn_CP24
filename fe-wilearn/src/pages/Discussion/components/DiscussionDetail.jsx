@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import {
   Typography,
   TextareaAutosize,
@@ -24,7 +24,7 @@ import {
   getAnswerByDiscussionId,
   getDiscussionById,
 } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
-
+import { badWords, blackList } from "vn-badwords";
 export default function DiscussionDetail() {
   const { discussionDetail, loading, error } = useSelector(
     (state) => state.studyGroup
@@ -36,6 +36,8 @@ export default function DiscussionDetail() {
   dayjs.extend(customParseFormat);
   const dispatch = useDispatch();
   const { discussionId } = useParams();
+
+  // const inputRef = useRef(null);
 
   useEffect(() => {
     dispatch(getAnswerByDiscussionId(discussionId));
@@ -59,14 +61,13 @@ export default function DiscussionDetail() {
   };
 
   const handleReplySubmit = () => {
-    // console.log(`Reply submitted: ${replyText}`);
     const data = {
       userId: userInfo.id,
       discussionId: discussionId,
-      content: replyText.trim(),
+      content: badWords(replyText.trim(), "*"),
       file: "",
     };
-    // console.log("data", data);
+    console.log("data", data);
     dispatch(addAnswer(data))
       .then(() => {
         // Fetch updated comments after adding a new comment
@@ -174,6 +175,7 @@ export default function DiscussionDetail() {
       >
         <TextareaAutosize
           value={replyText}
+          // ref={inputRef}
           onChange={handleReplyChange}
           style={{
             width: "100%",
@@ -187,7 +189,7 @@ export default function DiscussionDetail() {
           onClick={handleReplySubmit}
           variant="contained"
           size="small"
-          {...(replyText.trim() === "" ? { disabled: true } : {})}
+          disabled={!replyText.trim()}
           style={{
             marginTop: "8px",
           }}
