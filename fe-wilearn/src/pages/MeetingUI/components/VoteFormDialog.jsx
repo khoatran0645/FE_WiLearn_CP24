@@ -49,7 +49,7 @@ const VoteFormDialog = (props) => {
       open={open}
     >
       <CustomDialogTitle onClose={onClose}>
-        ĐÁNH GIÁ KẾT QUẢ HỌC CỦA
+        Evaluate
       </CustomDialogTitle>
       <DialogContent>
         <Box component={"form"} onSubmit={formik.handleSubmit}>
@@ -68,7 +68,7 @@ const VoteFormDialog = (props) => {
                 name="comment"
                 value={formik.values.comment}
                 onChange={formik.handleChange}
-                placeholder="Nêu cảm nhận của bạn"
+                placeholder="Leave your comment"
                 multiline
                 rows={10}
                 maxRows={10}
@@ -83,23 +83,27 @@ const VoteFormDialog = (props) => {
                 <FormControlLabel
                   value="1"
                   control={<Radio />}
-                  label="Rất tệ"
+                  label="Very bad"
                 />
                 <FormControlLabel
                   value="2"
                   control={<Radio />}
-                  label="Khá tệ"
+                  label="Bad"
                 />
                 <FormControlLabel
                   value="3"
                   control={<Radio />}
-                  label="Bình thường"
+                  label="Average"
                 />
-                <FormControlLabel value="4" control={<Radio />} label="Tốt" />
+                <FormControlLabel 
+                  value="4" 
+                  control={<Radio />} 
+                  label="Good" 
+                />
                 <FormControlLabel
                   value="5"
                   control={<Radio />}
-                  label="Rất tốt"
+                  label="Very good"
                 />
               </RadioGroup>
             </FormControl>
@@ -110,7 +114,7 @@ const VoteFormDialog = (props) => {
             variant="contained"
             sx={{ marginLeft: "auto", display: "inherit" }}
           >
-            Gửi đánh giá
+            Send
           </Button>
         </Box>
       </DialogContent>

@@ -19,7 +19,7 @@ const VoteResultDetailDialog = (props) => {
             mb: '18px'
           }}
         >
-          Kết quả đánh giá
+          Evaluation
         </Typography>
         <Box
           sx={{
@@ -40,19 +40,19 @@ const VoteResultDetailDialog = (props) => {
             >
               <Typography>
                 <Typography component={'span'} sx={{ fontWeight: 'bold' }}>
-                  Username:{' '}
+                  Reviewer:{' '}
                 </Typography>
                 {item?.reviewerUsername}
               </Typography>
               <Typography>
                 <Typography component={'span'} sx={{ fontWeight: 'bold' }}>
-                  Điểm:{' '}
+                  Result:{' '}
                 </Typography>
                 {item?.result}
               </Typography>
               <Typography>
                 <Typography component={'span'} sx={{ fontWeight: 'bold' }}>
-                  Nhận xét:{' '}
+                  Comment:{' '}
                 </Typography>
                 {item?.comment}
               </Typography>

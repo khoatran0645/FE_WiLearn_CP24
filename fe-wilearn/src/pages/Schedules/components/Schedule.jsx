@@ -27,6 +27,7 @@ import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import HistoryChat from "./../../Meeting/HistoryChat";
+import HistoryReview from "../../Meeting/HistoryReview";
 
 const localizer = momentLocalizer(moment);
 
@@ -392,6 +393,13 @@ function Schedule() {
                         sx={{ paddingTop: "1rem" }}
                       >
                         <HistoryChat chatHistory={meeting.chats}/>
+                      </Grid>
+                      <Grid
+                        container
+                        justifyContent="center"
+                        sx={{ paddingTop: "0.3rem" }}
+                      >
+                        <HistoryReview reviewHistory={meeting.reviews}/>
                       </Grid>
                     </CardContent>
                   </Card>
