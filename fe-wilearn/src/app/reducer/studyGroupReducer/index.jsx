@@ -37,6 +37,7 @@ import {
   getGroupStats,
   getMoreGroupStats,
   uploadDiscussionFile,
+  kickMember,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -683,6 +684,19 @@ const studyGroupSlice = createSlice({
       state.moreGroupStats = payload;
     });
     builder.addCase(getMoreGroupStats.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+     //Kick member
+     builder.addCase(kickMember.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(kickMember.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(kickMember.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
