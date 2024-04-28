@@ -119,7 +119,7 @@ export const API_GET_MORE_PERSONAL_STATS =
 // group stats
 export const API_GET_GROUP_STATS = "/api/Stats/Group/{groupId}/{time}";
 export const API_GET_MORE_GROUP_STATS =
-  "/api/Stats/ForGroupInMonths/{userId}?groupId={groupId}";
+  "/api/Stats/ForGroupInMonths?groupId={groupId}";
 
 export const API_GET_REPORTS = "/api/Reports";
 export const API_CREATE_REPORTS = "/api/Reports";
