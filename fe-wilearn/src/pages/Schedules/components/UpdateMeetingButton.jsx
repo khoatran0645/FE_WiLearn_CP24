@@ -253,7 +253,7 @@ export default function UpdateMeetingButton({ meeting }) {
                 fullWidth
                 sx={{ width: "100%" }}
                 disablePast
-                // format="DD/MM/YYYY"
+                format="DD/MM/YYYY"
                 minDate={dayjs().add(1, 'day')}
               />
               {(formik.touched.startDate && formik.errors.startDate) && (
@@ -304,7 +304,8 @@ export default function UpdateMeetingButton({ meeting }) {
               <Autocomplete
                 multiple
                 id="subjects"
-                disabled={!isLead}
+                // disabled={!isLead}
+                disabled
                 options={subjectLists}
                 isOptionEqualToValue={
                   (option, value) => option.id == value.id || option.name == value.name
@@ -319,8 +320,8 @@ export default function UpdateMeetingButton({ meeting }) {
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Select group subjects"
-                    placeholder="Select subjects"
+                    label="Meeting subjects"
+                    // placeholder="Select subjects"
                     error={formik.touched.subjects && Boolean(formik.errors.subjects)}
                     helperText={formik.touched.subjects && formik.errors.subjects}
                   />
