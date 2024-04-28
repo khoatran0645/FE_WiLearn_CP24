@@ -8,6 +8,10 @@ import {
   Grid,
   Button,
   Stack,
+  Avatar,
+  AvatarGroup,
+  Box,
+  Tooltip,
 } from "@mui/material";
 import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
@@ -85,16 +89,27 @@ export default function HomePage() {
                 </Typography>
                 {/* <Chip label={group.subjects.join(', ')} size="small" variant="filled" /> */}
                 {group.subjects.map((s) => (
-                  <Chip label={s} size="small" variant="filled" />
+                  <Chip style={{marginRight: 3}} label={s} size="small" variant="filled" />
                 ))}
-                <Grid container alignItems="center" spacing={1}>
+                <Box paddingTop={1.2}>
+                <Grid container alignItems="center" height={"100%"} spacing={1}>
                   <Grid item>
                     <GroupsIcon />
                   </Grid>
                   <Grid item>
                     <Typography variant="body1">{group.memberCount}</Typography>
                   </Grid>
+                  <Grid>
+                  <AvatarGroup max={5}>
+                    {group.members.map(mem => (
+                      <Tooltip title={(mem.memberRole==1?"Leader: ":"Member: ")+ mem.username}>
+                        <Avatar alt={mem.username} src={mem.imagePath} />
+                      </Tooltip>
+                    ))}
+                  </AvatarGroup>
+                  </Grid>
                 </Grid>
+                </Box>
                 <Typography variant="body1">
                   {group.description.length > 40
                     ? group.description.substring(0, 40) + " "
