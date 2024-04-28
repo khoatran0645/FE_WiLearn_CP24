@@ -32,6 +32,8 @@ export default function MemberList() {
   const [userList, setUserList] = useState([]);
   const [currentPage, setCurrentPage] = useState(1);
   const [openDialog, setOpenDialog] = useState(false);
+
+  // console.log("groupInfo",groupInfo);
   const handleOpenDialog = () => {
     setOpenDialog(true);
   };
@@ -112,6 +114,7 @@ export default function MemberList() {
           sx={{ mt: "auto", justifyContent: "center" }}
         >
           <UserMoreInfo
+            userId={user.id}
             fullname={user.fullName}
             email={user.email}
             phone={user.phone}

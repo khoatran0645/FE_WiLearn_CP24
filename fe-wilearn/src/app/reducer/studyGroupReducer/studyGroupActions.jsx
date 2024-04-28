@@ -445,9 +445,7 @@ export const uploadDiscussionFile = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log("discussion data", data);
     return await axiosClient
-      .postForm(
-        API_UPLOAD_DISCUSSION_FILE, data
-      )
+      .postForm(API_UPLOAD_DISCUSSION_FILE, data)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
@@ -550,7 +548,7 @@ export const createReport = createAsyncThunk(
   "studyGroup/createReport",
   async (values, { rejectWithValue }) => {
     const submitData = values;
-
+    console.log("submitData", submitData);
     return await axiosClient
       .post(API_CREATE_REPORTS, submitData)
       .then((response) => response)
