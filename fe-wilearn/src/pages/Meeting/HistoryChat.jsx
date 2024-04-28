@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemText } from '@mui/material';
+import { Box, Button, Dialog, DialogActions, DialogContent, DialogTitle, List, ListItem, ListItemText, Typography } from '@mui/material';
 import dayjs from 'dayjs';
 import ChatBubble from '../MeetingUI/components/chat/ChatBubble';
 
@@ -50,6 +50,9 @@ export default function HistoryChat(props) {
           open={open} onClose={handleClose} >
           <DialogContent >
             <DialogTitle fullWidth align='center'>Chat History</DialogTitle>
+            {(!chatHistory || chatHistory.length==0)&&(
+              <Typography align='center'>No chat found</Typography>
+            )}
             <List >
               {/* {chatHistory.map((chat, index) => (
                 <ListItem key={index}>

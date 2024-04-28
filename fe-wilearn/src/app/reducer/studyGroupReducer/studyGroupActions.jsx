@@ -39,6 +39,7 @@ import {
   API_GET_GROUP_STATS,
   API_GET_MORE_GROUP_STATS,
   API_UPLOAD_DISCUSSION_FILE,
+  DELETE_MEMBER,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -587,3 +588,18 @@ export const getMoreGroupStats = createAsyncThunk(
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
+
+export const kickMember = createAsyncThunk(
+  "studyGroup/kickMember",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    // console.log("submitData", submitData);
+    return await axiosClient
+      .delete(
+        `${DELETE_MEMBER}/${data.groupId}/Account/${data.accId}`
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+

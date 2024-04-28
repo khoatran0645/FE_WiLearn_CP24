@@ -113,7 +113,7 @@ export default function Groups() {
 
         <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
           <Stack direction="row" spacing={3} paddingBottom={"1rem"}>
-            <JoinNewGroup />
+            <JoinNewGroup lable="Join new group"/>
             <Invitation />
           </Stack>
         </Grid>

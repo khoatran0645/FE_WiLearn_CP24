@@ -8,6 +8,7 @@ import {
   DialogActions,
   TextField,
   Box,
+  CircularProgress,
 } from "@mui/material";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
@@ -28,7 +29,7 @@ export default function AddDiscussion() {
   const dispatch = useDispatch();
 
   const { userInfo } = useSelector((state) => state.user);
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo, loading } = useSelector((state) => state.studyGroup);
 
   const handleOpen = () => {
     setOpen(true);
@@ -71,7 +72,9 @@ export default function AddDiscussion() {
         toast.info("You could only upload images.");
       }
     };
-  }, []);
+
+  }, [])
+
 
   const modules = useMemo(() => ({
     toolbar: {
@@ -183,9 +186,13 @@ export default function AddDiscussion() {
             <Button onClick={handleClose} color="primary">
               Cancel
             </Button>
-            <Button type="submit" color="primary">
-              Submit
-            </Button>
+            {loading ? (
+              <CircularProgress />
+            ) : (
+              <Button type="submit" color="primary">
+                Submit
+              </Button>
+            )}
           </DialogActions>
         </Box>
       </Dialog>

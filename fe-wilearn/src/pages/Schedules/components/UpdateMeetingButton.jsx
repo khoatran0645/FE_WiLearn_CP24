@@ -2,6 +2,7 @@ import {
   Autocomplete,
   Box,
   Button,
+  CircularProgress,
   Grid,
   Modal,
   TextField,
@@ -18,7 +19,7 @@ import { getGroupInfo, getGroupLists, updateMeeting } from "../../../app/reducer
 import { toast } from "react-toastify";
 import { getUserInfo } from "../../../app/reducer/userReducer";
 
-export default function UpdateMeetingButton({meeting}) {
+export default function UpdateMeetingButton({ meeting }) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   // const [meetingName, setMeetingName] = useState(meeting.name);
@@ -27,9 +28,9 @@ export default function UpdateMeetingButton({meeting}) {
   // const [startTime, setStartTime] = useState("");
   // const [endTime, setEndTime] = useState("");
   let subjectLists = [];
-  const { groupInfo } = useSelector((state) => state.studyGroup);
-  if(groupInfo){
-    subjectLists= groupInfo.subjects
+  const { groupInfo, loading } = useSelector((state) => state.studyGroup);
+  if (groupInfo) {
+    subjectLists = groupInfo.subjects
   }
   const { groupId } = useParams();
   let leadGroups = [];
@@ -101,7 +102,7 @@ export default function UpdateMeetingButton({meeting}) {
       endTime: dayjs(meeting.scheduleEnd).format("HH:mm"),
       //Date for not repeat, startDate for Repeat
       // startDate: null,
-      startDate:dayjs(meeting.scheduleStart),
+      startDate: dayjs(meeting.scheduleStart).startOf('day'),
       // startDate: dayjs(),
       subjects: meeting.subjects
     },
@@ -115,11 +116,12 @@ export default function UpdateMeetingButton({meeting}) {
         content: values.content,
         scheduleStartTime: values.startTime + ":00",
         scheduleEndTime: values.endTime + ":00",
-        date: values.startDate.format(),
+        date: values.startDate.startOf('day').format(),
         subjectIds: values.subjects.map(sub => parseInt(sub.id)),
       }
       console.log("updateMeeting submit values", values);
       console.log("updateMeeting submit data", data);
+      // toast.success("Updated function "+ data.date)
       const response = await dispatch(updateMeeting(data));
       if (response.type === updateMeeting.fulfilled.type) {
         dispatch(getGroupLists());
@@ -233,7 +235,7 @@ export default function UpdateMeetingButton({meeting}) {
               error={formik.touched.content && Boolean(formik.errors.content)}
               helperText={formik.touched.content && formik.errors.content}
             />
-             <Box>
+            <Box>
               <Typography variant="subtitle1" gutterBottom>
                 Meeting date
               </Typography>
@@ -249,12 +251,13 @@ export default function UpdateMeetingButton({meeting}) {
                 error={formik.touched.startDate && Boolean(formik.errors.startDate)}
                 helperText={formik.touched.startDate && formik.errors.startDate}
                 fullWidth
-                sx={{width:"100%"}}
+                sx={{ width: "100%" }}
                 disablePast
-                // format="DD/MM/YYYY"
+                format="DD/MM/YYYY"
+                minDate={dayjs().add(1, 'day')}
               />
               {(formik.touched.startDate && formik.errors.startDate) && (
-                <Typography variant="caption" gutterBottom sx={{color:"red"}}>
+                <Typography variant="caption" gutterBottom sx={{ color: "red" }}>
                   {formik.errors.startDate}
                 </Typography>
               )}
@@ -301,10 +304,11 @@ export default function UpdateMeetingButton({meeting}) {
               <Autocomplete
                 multiple
                 id="subjects"
-                disabled={!isLead}
+                // disabled={!isLead}
+                disabled
                 options={subjectLists}
                 isOptionEqualToValue={
-                  (option, value)=>option.id==value.id || option.name==value.name
+                  (option, value) => option.id == value.id || option.name == value.name
                 }
                 getOptionLabel={(option) => option.name}
                 value={formik.values.subjects}
@@ -316,8 +320,8 @@ export default function UpdateMeetingButton({meeting}) {
                   <TextField
                     {...params}
                     variant="outlined"
-                    label="Select group subjects"
-                    placeholder="Select subjects"
+                    label="Meeting subjects"
+                    // placeholder="Select subjects"
                     error={formik.touched.subjects && Boolean(formik.errors.subjects)}
                     helperText={formik.touched.subjects && formik.errors.subjects}
                   />
@@ -325,13 +329,17 @@ export default function UpdateMeetingButton({meeting}) {
               />
             </Box>
           </Box>
-          {isLead&&(
+          {isLead && (
             <>
-              <Button type="submit" color="success" onClick={handleUpdateMeeting}>Update</Button>
+              {loading ? (
+                <CircularProgress />
+              ) : (
+                <Button type="submit" color="success" onClick={handleUpdateMeeting}>Update</Button>
+              )}
               <Button onClick={handleDeleteMeeting} color="error">Delete</Button>
             </>
           )}
-          <Button sx={isLead?{ marginLeft: '100px' }:{}} onClick={handleClose}>Close</Button>
+          <Button sx={isLead ? { marginLeft: '100px' } : {}} onClick={handleClose}>Close</Button>
         </Box>
       </Modal>
     </>
