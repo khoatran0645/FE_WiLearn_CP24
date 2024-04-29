@@ -8,13 +8,16 @@ import {
   DialogActions,
   Tooltip,
 } from "@mui/material";
-import {useDispatch} from "react-redux";
-import {createReport} from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+import { createReport } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 
-export default function ReportButton(props) {
+export default function ReportGroup(props) {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
+
+  const { error } = useSelector((state) => state.studyGroup);
+  
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -29,28 +32,33 @@ export default function ReportButton(props) {
     const formData = new FormData(e.currentTarget);
     const formJson = Object.fromEntries(formData.entries());
     const reason = formJson.reason;
-    // console.log(reason);
-    // console.log(props.userId);
+    console.log(props.groupId);
+
     const data = {
-        detail: reason,
-        accountId: props.userId,
+      detail: reason,
+      groupId: props.groupId,
+    };
+    // console.log("data", data);
+    dispatch(createReport(data));
+    if (!error) {
+      toast.success("Report sent successfully");
+    } else {
+      toast.error("Something went wrong when sending report");
     }
-    dispatch(createReport(data))
-    .then(() => {
-       toast.success("Report sent successfully");
-       handleClose();
-     })
-    .catch((err) => {
-       toast.error("Something went wrong when sending report");
-     });
+
     handleClose();
   };
 
   return (
     <>
       <Tooltip title="Report this user">
-        <Button variant="text" color="error" onClick={handleClickOpen}>
-          Report
+        <Button
+          variant="outlined"
+          color="error"
+          fullWidth
+          onClick={handleClickOpen}
+        >
+          Report this group
         </Button>
       </Tooltip>
       <Dialog
@@ -58,18 +66,18 @@ export default function ReportButton(props) {
         onClose={handleClose}
         PaperProps={{
           component: "form",
-        //   onSubmit: (event) => {
-        //     event.preventDefault();
-        //     const formData = new FormData(event.currentTarget);
-        //     const formJson = Object.fromEntries(formData.entries());
-        //     const reason = formJson.reason;
-        //     console.log(reason);
-        //     handleClose();
-        //   },
-        onSubmit: handleSubmit,
+          //   onSubmit: (event) => {
+          //     event.preventDefault();
+          //     const formData = new FormData(event.currentTarget);
+          //     const formJson = Object.fromEntries(formData.entries());
+          //     const reason = formJson.reason;
+          //     console.log(reason);
+          //     handleClose();
+          //   },
+          onSubmit: handleSubmit,
         }}
       >
-        <DialogTitle>Report this user</DialogTitle>
+        <DialogTitle>Report this group</DialogTitle>
         <DialogContent>
           <TextField
             autoFocus
@@ -85,7 +93,9 @@ export default function ReportButton(props) {
         </DialogContent>
         <DialogActions>
           <Button onClick={handleClose}>Cancel</Button>
-          <Button type="submit" color="error">Report</Button>
+          <Button type="submit" color="error">
+            Report
+          </Button>
         </DialogActions>
       </Dialog>
     </>
