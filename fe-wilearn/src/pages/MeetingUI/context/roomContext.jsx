@@ -562,9 +562,12 @@ export const RoomProvider = ({ children }) => {
       newConnect.on("get-messages", addHistory);
       // toast.info("meId " + meId);
 
+      // alert("if (meId) "+ meId);
       if (meId) {
         // toast.info("new COnnect" + meId);
-        await newConnect.start();
+      // toast.info("start (meId) "+ meId);
+      await newConnect.start();
+      // await newConnect.start().catch((err) => console.log("meetHub.start err", err));;
         // newConnect.start().then(() =>{
         //   newConnect.invoke("JoinRoom", {
         //     roomId: roomId,
