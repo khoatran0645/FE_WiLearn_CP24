@@ -153,7 +153,8 @@ export const RoomProvider = ({ children }) => {
         roomId: roomId,
         peerId: meId,
       }).then(() => {
-        toast.success("Đã rời phòng thành công");
+        // toast.success("Đã rời phòng thành công");
+        toast.success("Left meeting successfully");
         //reset roomId
         setRoomId("");
         //reset peers state
@@ -544,7 +545,8 @@ export const RoomProvider = ({ children }) => {
         .build();
 
       newConnect.on("add-message", (message) => {
-        toast.info("Có tin nhắn mới");
+        // toast.info("Có tin nhắn mới");
+        toast.info("New chat message");
         addMessage(message);
       });
 
@@ -553,7 +555,8 @@ export const RoomProvider = ({ children }) => {
       //   userJoin(newUser);
       // });
       newConnect.on("user-disconnected", (peerId, userName) => {
-        toast.info(userName + " rời phòng học");
+        // toast.info(userName + " rời phòng học");
+        toast.info(userName + " left meeting");
         removePeer(peerId);
       });
       newConnect.on("get-messages", addHistory);
@@ -574,13 +577,13 @@ export const RoomProvider = ({ children }) => {
         });
         newConnect.on("OnVoteChange", () => handleVoteChange(roomId));
         newConnect.on("OnEndVote", (review) => {
-          toast.info(
-            review.revieweeUsername + " đã trả bài xong. Xin hãy chấm điểm."
-          );
+          // toast.info(review.revieweeUsername + " đã trả bài xong. Xin hãy chấm điểm.");
+          toast.info(review.revieweeUsername + " finneshed reviewing. Please give "+review.revieweeUsername+" an evaluation.");
           handleVoteChange(roomId);
         });
         newConnect.on("OnStartVote", (reviewee) =>
-          toast.info(reviewee + " bắt đầu trả bài")
+          // toast.info(reviewee + " bắt đầu trả bài")
+          toast.info(reviewee + " start reviewing")
         );
         newConnect.on("get-focusList", (list) => {
           // toast.info("get-focusList");
@@ -734,7 +737,8 @@ export const RoomProvider = ({ children }) => {
     if (connection) {
       connection.off("user-joined");
       connection.on("user-joined", (newUser) => {
-        toast.info(newUser.userName + " vào phòng học");
+        // toast.info(newUser.userName + " vào phòng học");
+        toast.info(newUser.userName + " joined meeting");
         userJoin(newUser);
       });
     }
@@ -793,7 +797,8 @@ export const RoomProvider = ({ children }) => {
     });
 
     connection.on("user-joined", (newUser) => {
-      toast.info(newUser.userName + " vào phòng học");
+      // toast.info(newUser.userName + " vào phòng học");
+      toast.info(newUser.userName + " joined meeting");
       userJoin(newUser);
     });
     connection.invoke("JoinRoom", {

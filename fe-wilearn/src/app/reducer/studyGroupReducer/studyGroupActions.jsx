@@ -240,7 +240,8 @@ export const getGroupInfo = createAsyncThunk(
       .get(API_GET_LEAD_GROUP_INFO.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => {
-        toast.error("Bạn không phải thành viên nhóm mã số " + groupId);
+        // toast.error("Bạn không phải thành viên nhóm mã số " + groupId);
+        toast.error("You are not a member of group id " + groupId);
         return rejectWithValue(error.response.data);
       });
   }
