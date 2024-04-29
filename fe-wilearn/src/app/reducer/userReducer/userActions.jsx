@@ -51,9 +51,8 @@ export const register = createAsyncThunk(
       .post(API_SIGNUP_URL, submitData)
       // .then((response) => response)
       .then((response) => {
-        toast.success(
-          "Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn."
-        );
+        // toast.success("Đăng ký thành công! Vui lòng đăng nhập vào tài khoản của bạn.");
+        toast.success("Register successfully! Please sign into your account.");
       })
       .catch((error) => {
         rejectWithValue(error.response.data);
