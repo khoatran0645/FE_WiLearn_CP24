@@ -25,6 +25,7 @@ import {
   getDiscussionById,
 } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { badWords, blackList } from "vn-badwords";
+import ReportIconButton from "../../../components/ReportIconButton";
 export default function DiscussionDetail() {
   const { discussionDetail, loading, error } = useSelector(
     (state) => state.studyGroup
@@ -102,21 +103,19 @@ export default function DiscussionDetail() {
           }}
         >
           <Grid container alignItems="center" justifyContent="center">
-            <Typography
-              variant="h6"
-              style={{
-                color: "#333",
-                marginRight: "10px",
-                textAlign: "center",
-              }}
-            >
-              {discussionDetail?.question}
-              <Tooltip title="Report this discussion">
-                <IconButton>
-                  <FlagCircleIcon />
-                </IconButton>
-              </Tooltip>
-            </Typography>
+            <Grid item xs={11} style={{ textAlign: "center" }}>
+              <Typography
+                variant="h6"
+                style={{
+                  color: "#333",
+                }}
+              >
+                {discussionDetail?.question}
+              </Typography>
+            </Grid>
+            <Grid item xs={1} style={{ textAlign: "right" }}>
+              <ReportIconButton type={"discussion"} />
+            </Grid>
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "end" }}>
             <Avatar

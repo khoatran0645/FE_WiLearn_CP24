@@ -16,6 +16,7 @@ import {
   Tab,
   Button,
   Stack,
+  Tooltip
 } from "@mui/material";
 
 import TabContext from "@mui/lab/TabContext";
@@ -25,6 +26,7 @@ import TabPanel from "@mui/lab/TabPanel";
 import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
+import FlagCircleIcon from "@mui/icons-material/FlagCircle";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -34,6 +36,7 @@ import {
 } from "../app/reducer/studyGroupReducer/studyGroupActions";
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
+import ReportIconButton from "./ReportIconButton";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -87,7 +90,7 @@ export default function StudyDocs() {
         // console.log(loading);
         // console.log(error);
         // Check if upload was successful
-        if(loading){
+        if (loading) {
           toast.loading("Uploading...");
         }
         if (loading === false && error === null) {
@@ -115,9 +118,9 @@ export default function StudyDocs() {
       checkFile: false,
     };
     const res = dispatch(checkFile(data));
-    if(error != null){
+    if (error != null) {
       toast.error(error);
-    }else {
+    } else {
       toast.promise("File deny.");
     }
     console.log("handleDenyFile", res);
@@ -130,9 +133,9 @@ export default function StudyDocs() {
       checkFile: true,
     };
     const res = dispatch(checkFile(data));
-    if(error != null){
+    if (error != null) {
       toast.error(error);
-    }else {
+    } else {
       toast.info("File approved.");
     }
     console.log("handleApproveFile", res);
@@ -156,7 +159,11 @@ export default function StudyDocs() {
 
   const showApprovedList = approvedList.map((file) => (
     <Paper elevation={0} key={file.id}>
-      <ListItem>
+      <ListItem
+        secondaryAction={
+          <ReportIconButton type={"file"} fileId={file.id}/>
+        }
+      >
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
             <Avatar>
@@ -263,18 +270,26 @@ export default function StudyDocs() {
                 </Box>
                 <TabPanel value="1">
                   <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
-                    {(!showApprovedList || showApprovedList.length==0) && (
+                    {(!showApprovedList || showApprovedList.length == 0) && (
                       <Typography align="center">No file yet</Typography>
                     )}
                     <List overflow="auto">{showApprovedList}</List>
                   </Paper>
                 </TabPanel>
                 <TabPanel value="2">
-                  <Paper style={{ minHeight:"30vh", maxHeight: "70vh", overflow: "auto" }}>
-                    {(!showcheckList || showcheckList.length==0) && (
-                      <Typography align="center">No pending file yet</Typography>
+                  <Paper
+                    style={{
+                      minHeight: "30vh",
+                      maxHeight: "70vh",
+                      overflow: "auto",
+                    }}
+                  >
+                    {(!showcheckList || showcheckList.length == 0) && (
+                      <Typography align="center">
+                        No pending file yet
+                      </Typography>
                     )}
-                    
+
                     <List overflow="auto">{showcheckList}</List>
                   </Paper>
                 </TabPanel>

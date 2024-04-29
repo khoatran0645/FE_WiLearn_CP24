@@ -25,7 +25,7 @@ export default function Groups() {
   // const {leadGroups, joinGroups} = userInfo;
   const navigate = useNavigate();
 
-  console.log("userInfo", userInfo);
+  // console.log("userInfo", userInfo);
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);

@@ -514,10 +514,10 @@ export const getDocumentListByGroup = createAsyncThunk(
 export const uploadFile = createAsyncThunk(
   "studyGroup/uploadFile",
   async (data, { rejectWithValue }) => {
-    console.log("upload action", data);
+    // console.log("upload action", data);
     const form = new FormData();
     form.append("file", data.file);
-    console.log("uploading", form);
+    // console.log("uploading", form);
     return await axiosClient
       .post(
         CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace(
