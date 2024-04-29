@@ -41,6 +41,7 @@ import { toast } from "react-toastify";
 import Hidden from "@mui/material/Hidden";
 import IconButton from "@mui/material/IconButton";
 import MenuIcon from "@mui/icons-material/Menu";
+import { getUsermMeetings } from "../../app/reducer/userReducer";
 
 const drawerWidth = 220;
 
@@ -60,6 +61,8 @@ export default function ClippedDrawer() {
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
     dispatch(getDiscussionByGroupId(groupId));
+    // toast.info("getUsermMeetings")
+    dispatch(getUsermMeetings())
   };
 
   useEffect(() => {

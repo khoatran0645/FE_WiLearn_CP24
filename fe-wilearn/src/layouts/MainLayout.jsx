@@ -11,6 +11,8 @@ import {
   getStudentInvites,
   getSubjectLists,
 } from "../app/reducer/studyGroupReducer";
+import { HubConnectionBuilder } from "@microsoft/signalr";
+import { BE_URL } from "../constants";
 
 export default function MainLayout() {
   const { userInfo } = useSelector((state) => state.user);
@@ -21,7 +23,8 @@ export default function MainLayout() {
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
     dispatch(getStudentInvites());
-    if (!userInfo) { 
+    const accessTokenFactory = localStorage.getItem("token");
+    if (!userInfo) {
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
           const token = localStorage.getItem("token");
@@ -32,11 +35,33 @@ export default function MainLayout() {
           // alert(response.type);
           // alert("You have not login")
           navigate("signin");
+        } else if (response.type === getUserInfo.fulfilled.type) {
+          const groupHub = new HubConnectionBuilder()
+            .withUrl(BE_URL + "/hubs/grouphub?groupId=all" , {
+              accessTokenFactory: () => accessTokenFactory,
+            })
+            .build();
+          groupHub.start().catch((err) => console.log("groupHub.start err", err));
+
+          groupHub.on("OnReloadMeeting", () => {
+            dispatch(getUsermMeetings());
+          });
         }
       });
-    }else{
-      if(userInfo.roleName=="Admin"){
+    } else {
+      if (userInfo.roleName == "Admin") {
         navigate("admin")
+      } else {
+        const groupHub = new HubConnectionBuilder()
+          .withUrl(BE_URL + "/hubs/grouphub?groupId=all", {
+            accessTokenFactory: () => accessTokenFactory,
+          })
+          .build();
+        groupHub.start().catch((err) => console.log("groupHub.start err", err));
+
+        groupHub.on("OnReloadMeeting", () => {
+          dispatch(getUsermMeetings());
+        });
       }
     }
   }, [userInfo]);
