@@ -1,6 +1,6 @@
- export const BE_URL = "https://www.groupstudy.somee.com";
+// export const BE_URL = "https://www.groupstudy.somee.com";
 //  export const BE_URL = " https://we-learn.somee.com";
-// export const BE_URL = "http://localhost:8001";
+export const BE_URL = "http://localhost:8001";
 // export const BE_URL = "http://localhost:5000";
 // link to swagger api: "https://www.groupstudy.somee.com/swagger/index.html";
 
@@ -91,7 +91,6 @@ export const API_FORGOT_PASSWORD = "/api/Accounts/Password/Reset?email={email}";
 export const API_YOUR_MEETINGS = "/api/Meetings/All/Student";
 export const DELETE_MEMBER = "/api/GroupMembers/Group";
 
-
 //DELETE MEETING
 export const API_DELETE_MEETING = "/api/Meetings/Schedule";
 export const API_UPDATE_MEETING = "/api/Meetings/Schedule/{id}";
@@ -99,7 +98,7 @@ export const API_UPDATE_MEETING = "/api/Meetings/Schedule/{id}";
 // discussion
 export const API_UPLOAD_DISCUSSION =
   "/api/Discussion/Upload?accountId={accountId}&groupId={groupId}";
-  export const API_UPLOAD_DISCUSSION_FILE ="/api/Discussion/Upload/File"
+export const API_UPLOAD_DISCUSSION_FILE = "/api/Discussion/Upload/File";
 export const API_GET_DISCUSSION_BY_GROUP_ID = "/api/Discussion/Get/{groupId}";
 export const API_GET_DISCUSSION_BY_ID =
   "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
@@ -127,6 +126,8 @@ export const API_RESOLVED_REPORTS =
   "/api/Reports?reportId={id}&isApproved={isApproved}";
 export const API_GET_NEW_REPORTS = "/api/Reports/Unresolve";
 
+//leave group
+export const API_LEAVE_GROUP = "/api/GroupMembers/LeaveGroup?groupId={groupId}";
 
 // export const publicRoutes = {
 //   root: "/",

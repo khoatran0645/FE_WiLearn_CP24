@@ -31,6 +31,7 @@ import {
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 
 import ReportGroup from "./ReportGroup";
+import LeaveGroupButton from "./LeaveGroupButton";
 
 const defaultAvatar = "/src/assets/default.jpg";
 
@@ -302,9 +303,10 @@ export default function GroupSettings() {
             <Box border={1} color={"red"} sx={{ padding: "20px" }}>
               <>
                 <Box sx={{ padding: "5px" }}>
-                  <Button variant="contained" color="error" fullWidth>
+                  {/* <Button variant="contained" color="error" fullWidth>
                     Leave Group
-                  </Button>
+                  </Button> */}
+                  <LeaveGroupButton groupId={groupId} />
                 </Box>
                 <Box sx={{ padding: "5px" }}>
                   {/* <Button variant="outlined" color="error" fullWidth>
