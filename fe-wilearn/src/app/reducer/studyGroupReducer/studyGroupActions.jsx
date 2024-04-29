@@ -40,6 +40,7 @@ import {
   API_GET_MORE_GROUP_STATS,
   API_UPLOAD_DISCUSSION_FILE,
   DELETE_MEMBER,
+  API_LEAVE_GROUP,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -595,11 +596,20 @@ export const kickMember = createAsyncThunk(
     const submitData = data;
     // console.log("submitData", submitData);
     return await axiosClient
-      .delete(
-        `${DELETE_MEMBER}/${data.groupId}/Account/${data.accId}`
-      )
+      .delete(`${DELETE_MEMBER}/${data.groupId}/Account/${data.accId}`)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
 
+export const leaveGroup = createAsyncThunk(
+  "studyGroup/leaveGroup",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    console.log("leaveGroup", API_LEAVE_GROUP.replace("{groupId}", submitData));
+    return await axiosClient
+      .put(API_LEAVE_GROUP.replace("{groupId}", submitData))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
