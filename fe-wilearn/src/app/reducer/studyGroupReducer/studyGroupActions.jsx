@@ -40,6 +40,7 @@ import {
   API_GET_MORE_GROUP_STATS,
   API_UPLOAD_DISCUSSION_FILE,
   DELETE_MEMBER,
+  API_LEAVE_GROUP,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -446,9 +447,7 @@ export const uploadDiscussionFile = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     console.log("discussion data", data);
     return await axiosClient
-      .postForm(
-        API_UPLOAD_DISCUSSION_FILE, data
-      )
+      .postForm(API_UPLOAD_DISCUSSION_FILE, data)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
@@ -515,10 +514,10 @@ export const getDocumentListByGroup = createAsyncThunk(
 export const uploadFile = createAsyncThunk(
   "studyGroup/uploadFile",
   async (data, { rejectWithValue }) => {
-    console.log("upload action", data);
+    // console.log("upload action", data);
     const form = new FormData();
     form.append("file", data.file);
-    console.log("uploading", form);
+    // console.log("uploading", form);
     return await axiosClient
       .post(
         CREATE_DOCUMENT.replace("{groupId}", data.groupId).replace(
@@ -551,7 +550,7 @@ export const createReport = createAsyncThunk(
   "studyGroup/createReport",
   async (values, { rejectWithValue }) => {
     const submitData = values;
-
+    console.log("submitData", submitData);
     return await axiosClient
       .post(API_CREATE_REPORTS, submitData)
       .then((response) => response)
@@ -597,11 +596,20 @@ export const kickMember = createAsyncThunk(
     const submitData = data;
     // console.log("submitData", submitData);
     return await axiosClient
-      .delete(
-        `${DELETE_MEMBER}/${data.groupId}/Account/${data.accId}`
-      )
+      .delete(`${DELETE_MEMBER}/${data.groupId}/Account/${data.accId}`)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
 );
 
+export const leaveGroup = createAsyncThunk(
+  "studyGroup/leaveGroup",
+  async (data, { rejectWithValue }) => {
+    const submitData = data;
+    console.log("leaveGroup", API_LEAVE_GROUP.replace("{groupId}", submitData));
+    return await axiosClient
+      .put(API_LEAVE_GROUP.replace("{groupId}", submitData))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);

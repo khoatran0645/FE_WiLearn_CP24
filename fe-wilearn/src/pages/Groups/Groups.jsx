@@ -25,6 +25,7 @@ export default function Groups() {
   // const {leadGroups, joinGroups} = userInfo;
   const navigate = useNavigate();
 
+  // console.log("userInfo", userInfo);
   const [open, setOpen] = useState(false);
   const handleClose = () => {
     setOpen(false);
@@ -42,7 +43,7 @@ export default function Groups() {
           image={group.imagePath}
           alt="scene"
         />
-        <CardContent sx={{paddingBottom: "20px", height: "100px"}}>
+        <CardContent sx={{ paddingBottom: "20px", height: "100px" }}>
           <Typography gutterBottom variant="h5" align="center">
             {group.name}
           </Typography>
@@ -113,7 +114,7 @@ export default function Groups() {
 
         <Grid xs={6} container justifyContent={"flex-end"} paddingRight={5}>
           <Stack direction="row" spacing={3} paddingBottom={"1rem"}>
-            <JoinNewGroup lable="Join new group"/>
+            <JoinNewGroup lable="Join new group" />
             <Invitation />
           </Stack>
         </Grid>

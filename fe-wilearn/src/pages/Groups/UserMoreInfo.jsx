@@ -10,6 +10,7 @@ import {
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import DeleteMemButton from "./DeleteMemButton";
+import ReportButton from "./ReportButton";
 
 export default function UserMoreInfo(props) {
   const [open, setOpen] = useState(false);
@@ -24,15 +25,11 @@ export default function UserMoreInfo(props) {
   }
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
-  console.log("UserMoreInfo ", props.username)
+  // console.log("UserMoreInfo ", props.username);
 
   return (
     <>
-      <Button
-        variant="outlined"
-        size="small"
-        onClick={() => handleOpen()}
-      >
+      <Button variant="outlined" size="small" onClick={() => handleOpen()}>
         More info
       </Button>
       <Dialog open={open} onClose={handleClose} maxWidth="xs" fullWidth>
@@ -47,15 +44,15 @@ export default function UserMoreInfo(props) {
             }}
             sx={{ marginTop: "10px" }}
           />
-            <TextField
-              label="Username"
-              fullWidth
-              defaultValue={props.username}
-              InputProps={{
-                readOnly: true,
-              }}
-              sx={{ marginTop: "10px" }}
-            />
+          {/* <TextField
+            label="Username"
+            fullWidth
+            defaultValue={props.username}
+            InputProps={{
+              readOnly: true,
+            }}
+            sx={{ marginTop: "10px" }}
+          /> */}
           <TextField
             label="Email"
             defaultValue={props.email}
@@ -76,7 +73,14 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
-          {isLead && !props.isFirst && <DeleteMemButton id={props.id} username={props.username}/>}
+          {!isLead && !(props.userId === userInfo.id) && (
+            <ReportButton userId={props.userId} />
+          )}
+
+          {isLead && !props.isFirst && (
+            <DeleteMemButton id={props.id} fullname={props.fullname} />
+          )}
+
           <Button onClick={handleClose}>Close</Button>
         </DialogActions>
       </Dialog>
