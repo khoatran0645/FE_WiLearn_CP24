@@ -13,26 +13,29 @@ import { useParams } from "react-router-dom";
 
 export default function DeleteMemButton(props) {
   const dispatch = useDispatch();
-  const{username, id} =props
+  const { fullname, id } = props;
   const [open, setOpen] = React.useState(false);
-  const {groupId} = useParams();
+  const { groupId } = useParams();
 
   const handleClickOpen = () => {
     setOpen(true);
   };
-  
-  const handleConfirm= async()=>{
-    const response = await dispatch(kickMember({groupId: groupId, accId: id}))
-    if(response.type==kickMember.fulfilled.type){
-      toast.success('Kick '+ username+ " successfully");
+
+  const handleConfirm = async () => {
+    const response = await dispatch(
+      kickMember({ groupId: groupId, accId: id })
+    );
+    if (response.type == kickMember.fulfilled.type) {
+      toast.success("Kick " + fullname + " successfully");
       handleClose();
-    }else{
-      toast.error('Something went wrong when kicking '+ username);
-      response?.payload?.Failures && response?.payload?.Failures?.forEach(error => {
-        toast.error(error)
-      });
+    } else {
+      toast.error("Something went wrong when kicking " + fullname);
+      response?.payload?.Failures &&
+        response?.payload?.Failures?.forEach((error) => {
+          toast.error(error);
+        });
     }
-  }
+  };
   const handleClose = () => {
     setOpen(false);
   };
@@ -59,7 +62,7 @@ export default function DeleteMemButton(props) {
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to kick member {username}?
+            Are you sure you want to kick member {fullname}?
           </DialogContentText>
         </DialogContent>
         <DialogActions>
