@@ -22,8 +22,8 @@ export default function ReportIconButton(props) {
   const { error } = useSelector((state) => state.studyGroup);
 
   const { discussionId } = useParams();
-  console.log("discussionId", discussionId);
-  console.log("props", props);
+//   console.log("discussionId", discussionId);
+//   console.log("props", props);
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -57,8 +57,8 @@ export default function ReportIconButton(props) {
   return (
     <>
       <Tooltip title={`Report this ${props.type}`}>
-        <IconButton>
-          <FlagCircleIcon onClick={handleClickOpen} />
+        <IconButton size="large">
+          <FlagCircleIcon fontSize="inherit" onClick={handleClickOpen} />
         </IconButton>
       </Tooltip>
       <Dialog
