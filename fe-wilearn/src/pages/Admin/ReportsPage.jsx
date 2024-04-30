@@ -2,11 +2,11 @@ import { Box, Button, Paper, Typography } from '@mui/material'
 import dayjs from 'dayjs'
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { resolveReport } from '../../app/reducer/adminReducer/adminActions'
+import { getNewReportLists, getReportLists, resolveReport } from '../../app/reducer/adminReducer/adminActions'
 import { toast } from "react-toastify";
 
 function ReportsPage() {
-  const { reports } = useSelector(state => state.admin)
+  const { newReports } = useSelector(state => state.admin)
   const dispatch = useDispatch();
   const admin = useSelector(state => state.admin)
 
@@ -21,15 +21,17 @@ function ReportsPage() {
       });
 
     }
+    dispatch(getReportLists())
+    dispatch(getNewReportLists())
   }
   console.log("admin", admin);
   return (
-    <>
+    <Box padding={3}>
       <Typography variant='h3'>Resolve Reports</Typography>
-      {(!reports || reports.length == 0) && (
+      {(!newReports || newReports.length == 0) && (
         "No new report"
       )}
-      {reports.map(report => (
+      {newReports.map(report => (
         <Box key={report.id} marginTop={2}>
           <Paper elevation={3} sx={{ padding: 2, marginTop: 1 }}>
             <Typography><strong>Id: </strong>{report.id}</Typography>
@@ -70,12 +72,14 @@ function ReportsPage() {
                 <Typography><strong>File httpLink: </strong>{report.file.httpLink}</Typography>
               </Paper>
             )}
-            <Button variant='outlined' color='success' onClick={()=>handleReport(report.id, true)}>Approve</Button>
-            <Button variant='contained' color='warning' onClick={()=>handleReport(report.id, false)}>Reject</Button>
+            <Box paddingTop={2}>
+              <Button variant='outlined' color='success' onClick={()=>handleReport(report.id, true)}>Approve</Button>
+              <Button variant='contained' color='warning' onClick={()=>handleReport(report.id, false)}>Reject</Button>
+            </Box>
           </Paper>
         </Box>
       ))}
-    </>
+    </Box>
   )
 }
 

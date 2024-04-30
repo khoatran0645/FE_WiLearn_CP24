@@ -37,7 +37,7 @@ export default function MainLayout() {
           navigate("signin");
         } else if (response.type === getUserInfo.fulfilled.type) {
           const groupHub = new HubConnectionBuilder()
-            .withUrl(BE_URL + "/hubs/grouphub?groupId=all" , {
+            .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId"+ response.payload.id , {
               accessTokenFactory: () => accessTokenFactory,
             })
             .build();
@@ -45,6 +45,7 @@ export default function MainLayout() {
 
           groupHub.on("OnReloadMeeting", () => {
             dispatch(getUsermMeetings());
+            dispatch(getUserInfo());
           });
         }
       });
@@ -53,7 +54,7 @@ export default function MainLayout() {
         navigate("admin")
       } else {
         const groupHub = new HubConnectionBuilder()
-          .withUrl(BE_URL + "/hubs/grouphub?groupId=all", {
+          .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId="+ userInfo.id, {
             accessTokenFactory: () => accessTokenFactory,
           })
           .build();
@@ -61,6 +62,7 @@ export default function MainLayout() {
 
         groupHub.on("OnReloadMeeting", () => {
           dispatch(getUsermMeetings());
+          dispatch(getUserInfo());
         });
       }
     }
