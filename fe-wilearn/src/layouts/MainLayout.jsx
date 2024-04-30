@@ -44,8 +44,8 @@ export default function MainLayout() {
           groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
           groupHub.on("OnReloadMeeting", () => {
-            dispatch(getUserInfo());
             dispatch(getUsermMeetings());
+            dispatch(getUserInfo());
           });
         }
       });
@@ -62,6 +62,7 @@ export default function MainLayout() {
 
         groupHub.on("OnReloadMeeting", () => {
           dispatch(getUsermMeetings());
+          dispatch(getUserInfo());
         });
       }
     }
