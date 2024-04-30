@@ -29,12 +29,12 @@ export default function AdminLayout() {
           navigate("/signin");
         }
       });
-    }else{
-      if(userInfo.roleName!="Admin"){
+    } else {
+      if (userInfo.roleName != "Admin") {
         navigate("/home")
-      }else{
-    dispatch(getSubjectLists());
-    dispatch(getReportLists())
+      } else {
+        dispatch(getSubjectLists());
+        dispatch(getReportLists())
         dispatch(getNewReportLists())
       }
     }

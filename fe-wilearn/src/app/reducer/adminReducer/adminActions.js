@@ -27,7 +27,7 @@ export const resolveReport = createAsyncThunk(
   async (values, { rejectWithValue }) => {
     
     return await axiosClient
-    .get(API_RESOLVED_REPORTS.replace("{id}", values.id).replace("{isApproved}", values.isApproved))
+    .put(API_RESOLVED_REPORTS.replace("{id}", values.id).replace("{isApproved}", values.isApproved))
     .then((response) => response)
     .catch((error) => rejectWithValue(error.response.data));
   }
