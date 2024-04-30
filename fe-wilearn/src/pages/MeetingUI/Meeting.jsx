@@ -257,8 +257,10 @@ const Meeting = () => {
   }, connection, me, shareScreenTrack, stream)
   return (
     <Box sx={{ height: "100%" }}>
-      <Grid container sx={{ flexGrow: 1 }}>
-        <Grid item xs={9.5}>
+      <Grid container 
+        sx={{ flexGrow: 1 , height: "90vh"}}
+      >
+        <Grid item xs={7.5} md={9} lg={9.5}>
           <Wrapper direction={direction}>
             <Box sx={{ flex: 1 }}>
               <Box
@@ -281,6 +283,7 @@ const Meeting = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   gap: "32px",
+                  position: "fixed", bottom: "0", width:"100%"
                 }}
               >
                 {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}
@@ -289,7 +292,7 @@ const Meeting = () => {
             </Box>
           </Wrapper>
         </Grid>
-        <Grid item xs={2.5}>
+        <Grid item xs={4.5} md={3} lg={2.5}>
           <TabComponent />
         </Grid>
       </Grid>

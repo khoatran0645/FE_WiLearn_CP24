@@ -1,6 +1,6 @@
 import React, { useContext } from 'react';
 import PropTypes from 'prop-types';
-import { Box, Divider, Tab, Tabs, styled } from '@mui/material';
+import { Box, Divider, Grid, Tab, Tabs, Tooltip, styled } from '@mui/material';
 import Vote from './Vote';
 import Chat from './chat/Chat';
 import UserPaper from './UserPaper';
@@ -56,10 +56,13 @@ const TabComponent = () => {
       display="flex"
       flexDirection="column"
       width="100%"
+      // minWidth={"300px"}
       // height="calc(100vh - 49px)"
       // height= "80vh"
       height="100%"
       maxHeight="80vh"
+      // alignContent="center"
+      // alignItems="center"
       // maxHeight={"calc(100vh - 49px)"}
       sx={{
         backgroundColor: 'background.main',
@@ -69,22 +72,43 @@ const TabComponent = () => {
       <Box width="100%" sx={{ borderBottom: 1, borderColor: 'divider' }}>
         <Tabs variant="fullWidth" value={value} onChange={handleChange} >
           {/* <Box sx={{ width:"100%",  }}> */}
-          <Tab icon={<PeopleAltOutlinedIcon />} label="Members" />
-          <Tab icon={<MessageIcon />} label="Chats" />
-          <Tab icon={<LocalLibraryOutlinedIcon />} label="Reviews" />
+          {/* <Tab icon={<PeopleAltOutlinedIcon />} label="Members" /> */}
+          <Tab icon={<Tooltip title="Members"> <PeopleAltOutlinedIcon /></Tooltip>} />
+          {/* <Tab icon={<MessageIcon />} label="Chats" /> */}
+          <Tab icon={<Tooltip title="Chats"><MessageIcon /></Tooltip>} />
+          {/* <Tab icon={<LocalLibraryOutlinedIcon />} label="Reviews" /> */}
+          <Tab icon={<Tooltip title="Reviews"><LocalLibraryOutlinedIcon /></Tooltip>} />
           {/* </Box> */}
         </Tabs>
       </Box>
       <TabPanel value={value} index={0} id="TabPanel">
-        <MemberWrapperTab id="MemberWrapperTab">
+        {/* <MemberWrapperTab id="MemberWrapperTab"> */}
           <Box
+            display="flex"
             sx={{
               width: "100%",
+              // maxWidth: "300px",
               display: 'flex',
               flexDirection: 'column',
-              gap: '8px'
+              gap: '8px',
+      // alignContent:"center",
+      // alignItems:"center"
             }}
+            alignContent="center"
+            alignItems="center"
+            border={'ActiveBorder'}
           >
+          {/* <Grid
+  container
+  spacing={0}
+  direction="column"
+  alignItems="center"
+  alignSelf="center"
+  justifyContent="center"
+  // sx={{ minHeight: '100vh' }}
+  // sx={{maxWidth:"300px"}}
+>
+<Grid item > */}
             <UserPaper
               key={meId}
               stream={stream}
@@ -110,8 +134,10 @@ const TabComponent = () => {
                   peerId={peer.id}
               />
               ))}
+              {/* </Grid>
+              </Grid> */}
           </Box>
-        </MemberWrapperTab>
+        {/* </MemberWrapperTab> */}
       </TabPanel>
       <TabPanel value={value} index={1}>
         <Chat />
@@ -130,7 +156,8 @@ const MemberWrapperTab = styled(Box)(() => {
     maxWidth: '200px',
     display: "flex",
     flexWrap: 'wrap',
-    justifyContent: 'center'
+    justifyContent: 'center',
+    alignItems: 'center'
   };
 });
 
