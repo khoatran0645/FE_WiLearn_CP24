@@ -222,7 +222,7 @@ export const Room = () => {
         timeout={2000}
       >
         {state => (
-          <Grid container spacing={1}
+          <Grid container spacing={1} alignItems="center" display={"flex"} justifyContent="center"
             sx={{
               transition: 'all 2s ease',
               // display: (state === 'exited' || state === 'exiting')?"none":"",
@@ -245,7 +245,7 @@ export const Room = () => {
         timeout={2000}
       >
         {state => (
-          <Grid container spacing={1}
+          <Grid container spacing={1} alignItems="center" display={"flex"} justifyContent="center"
             sx={{
               transition: 'all 2s ease',
               // display: (state === 'exited' || state === 'exiting')?"none":"",
@@ -283,7 +283,7 @@ export const Room = () => {
           .filter((peer) =>peer!=null && !!peer.stream);
           console.log("peersObjMapped", peersObjMapped)
           return(
-            <Grid container spacing={1}
+            <Grid container spacing={1} alignItems="center" display={"flex"} justifyContent="center"
               sx={{
                 transition: 'all 2s ease',
                 // display: (state === 'exited' || state === 'exiting')?"none":"",
