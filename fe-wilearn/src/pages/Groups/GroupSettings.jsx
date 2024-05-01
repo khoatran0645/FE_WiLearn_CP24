@@ -161,16 +161,19 @@ export default function GroupSettings() {
             </Typography>
             <Stack spacing={2} paddingTop={2}>
               <TextField
+                disabled={!isLead}
                 label="Group Name"
                 fullWidth
                 sx={{ marginTop: "10px" }}
                 name="name"
                 value={formik.values.name}
+                defaultValue={formik.values.name}
                 onChange={formik.handleChange}
                 error={formik.touched.name && Boolean(formik.errors.name)}
                 helperText={formik.touched.name && formik.errors.name}
               />
               <TextField
+                disabled={!isLead}
                 label="Introduction"
                 fullWidth
                 multiline
@@ -178,6 +181,7 @@ export default function GroupSettings() {
                 sx={{ marginTop: "15px" }}
                 name="description"
                 value={formik.values.description}
+                defaultValue={formik.values.description}
                 onChange={formik.handleChange}
                 error={
                   formik.touched.description &&
@@ -189,6 +193,7 @@ export default function GroupSettings() {
               />
               <Box sx={{ marginTop: "1rem" }}>
                 <Autocomplete
+                  disabled={!isLead}
                   multiple
                   id="subjects"
                   options={subjectLists}
@@ -197,6 +202,7 @@ export default function GroupSettings() {
                   }
                   getOptionLabel={(option) => option.name}
                   value={formik.values.subjects}
+                  defaultValue={formik.values.subjects}
                   onChange={(event, selectedOptions) => {
                     formik.setFieldValue("subjects", selectedOptions);
                   }}
@@ -218,7 +224,8 @@ export default function GroupSettings() {
                   )}
                 />
               </Box>
-              <Button type="submit">Submit</Button>
+              {isLead && <Button type="submit">Submit</Button>}
+              {/* <Button type="submit">Submit</Button> */}
             </Stack>
           </Grid>
 
@@ -258,7 +265,7 @@ export default function GroupSettings() {
                 error={formik.touched.image && Boolean(formik.errors.image)}
                 // helperText={formik.touched.image && formik.errors.image}
               />
-              <label htmlFor="avatar-upload">
+              <label htmlFor="avatar-upload" hidden={!isLead}>
                 <Button
                   variant="contained"
                   component="span"
@@ -274,7 +281,22 @@ export default function GroupSettings() {
                   Choose File
                 </Button>
               </label>
-              {selectedFile ? (
+              {isLead && (
+                <>
+                  {!selectedFile && (
+                    <Typography variant="body2" marginTop="10px">
+                      No local avatar is set. Use the upload field to add a
+                      local image.
+                    </Typography>
+                  )}
+                  {selectedFile && (
+                    <Typography variant="body2" marginTop="10px">
+                      Local avatar selected: {selectedFile.name}
+                    </Typography>
+                  )}
+                </>
+              )}
+              {/* {selectedFile ? (
                 <Typography variant="body2" marginTop="10px">
                   Local avatar selected: {selectedFile.name}
                 </Typography>
@@ -283,11 +305,12 @@ export default function GroupSettings() {
                   No local avatar is set. Use the upload field to add a local
                   image.
                 </Typography>
-              )}
+              )} */}
             </Box>
           </Grid>
         </Grid>
       </Box>
+
       {!isLead && (
         <>
           <Grid item xs={12} sx={{ display: "flex", justifyContent: "center" }}>
