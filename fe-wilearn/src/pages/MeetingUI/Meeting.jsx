@@ -1,5 +1,11 @@
 import { Box, Drawer, Grid, styled } from "@mui/material";
-import React, { useContext, useEffect, useReducer, useRef, useState } from "react";
+import React, {
+  useContext,
+  useEffect,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
 // import { privateRoutes } from "src/common/constants.js";
 import CustomIcon from "./components/CustomIcon";
 // import UserPaper from "src/components/UserPaper";
@@ -18,7 +24,11 @@ import {
   useNavigate,
   useParams,
 } from "react-router-dom";
-import { startReview, endReview, getReviewInfos } from "../../app/reducer/voteReducer/votesActions";
+import {
+  startReview,
+  endReview,
+  getReviewInfos,
+} from "../../app/reducer/voteReducer/votesActions";
 import { useSelector } from "react-redux";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
 // import { clearVoteData } from "src/context/reducers";
@@ -28,8 +38,8 @@ import VideocamOffIcon from "@mui/icons-material/VideocamOff";
 import MicIcon from "@mui/icons-material/Mic";
 import MicOffIcon from "@mui/icons-material/MicOff";
 import CancelIcon from "@mui/icons-material/Cancel";
-import LocalLibraryOutlinedIcon from '@mui/icons-material/LocalLibraryOutlined';
-import BackHandOutlinedIcon from '@mui/icons-material/BackHandOutlined';
+import LocalLibraryOutlinedIcon from "@mui/icons-material/LocalLibraryOutlined";
+import BackHandOutlinedIcon from "@mui/icons-material/BackHandOutlined";
 // import { removeAllPeerAction } from "src/reducers/peersActions";
 // import peersReducer from "src/reducers/peersReducer";
 
@@ -79,7 +89,15 @@ const Meeting = () => {
   const { meetingId, groupId } = useParams();
   const [isDisableVoteButton, setIsDisableVoteButton] = useState(false);
   const { votesData } = useSelector((state) => state.votes);
-  const { connection, toogleSound, toogleVid, me, shareScreenTrack, stream, isCamOn } = useContext(RoomContext);
+  const {
+    connection,
+    toogleSound,
+    toogleVid,
+    me,
+    shareScreenTrack,
+    stream,
+    isCamOn,
+  } = useContext(RoomContext);
   const navigate = useNavigate();
 
   // eslint-disable-next-line no-unused-vars
@@ -130,9 +148,11 @@ const Meeting = () => {
     // });
   };
   const leadGroups = userInfo?.leadGroups;
-  const isLead = leadGroups && leadGroups.some((gr) => {
-    return gr.id === parseInt(groupId);
-  });
+  const isLead =
+    leadGroups &&
+    leadGroups.some((gr) => {
+      return gr.id === parseInt(groupId);
+    });
 
   const location = useLocation();
   const redirectToWhiteBoard = () => {
@@ -189,13 +209,13 @@ const Meeting = () => {
           />
         )}
         <CustomIcon
-            title="Lower hand"
-            titleOff="Raise hand"
-            key={3}
-            onClick={toogleRaiseHand}
-            activeIcon={<BackHandOutlinedIcon  />}
-            offIcon={<BackHandOutlinedIcon  />}
-          />
+          title="Lower hand"
+          titleOff="Raise hand"
+          key={3}
+          onClick={toogleRaiseHand}
+          activeIcon={<BackHandOutlinedIcon />}
+          offIcon={<BackHandOutlinedIcon />}
+        />
         <CustomIcon
           title="Whiteboard"
           key={4}
@@ -250,22 +270,28 @@ const Meeting = () => {
       });
     }
   }, [votesData]);
-  useEffect(() => {
-    return (() => {
-      setUpLeave();
-    })
-  }, connection, me, shareScreenTrack, stream)
+  useEffect(
+    () => {
+      return () => {
+        setUpLeave();
+      };
+    },
+    connection,
+    me,
+    shareScreenTrack,
+    stream
+  );
   return (
     <Box sx={{ height: "100%" }}>
-      <Grid container sx={{ flexGrow: 1 }}>
-        <Grid item xs={9.5}>
+      <Grid container sx={{ flexGrow: 1, height: "90vh" }}>
+        <Grid item xs={7.5} md={9} lg={9.5}>
           <Wrapper direction={direction}>
             <Box sx={{ flex: 1 }}>
               <Box
                 sx={{
                   display: "flex",
-                  // gap: "8px", 
-                  height: "100%"
+                  // gap: "8px",
+                  height: "100%",
                 }}
               >
                 <Box flex={1}>
@@ -289,7 +315,7 @@ const Meeting = () => {
             </Box>
           </Wrapper>
         </Grid>
-        <Grid item xs={2.5}>
+        <Grid item xs={4.5} md={3} lg={2.5}>
           <TabComponent />
         </Grid>
       </Grid>
