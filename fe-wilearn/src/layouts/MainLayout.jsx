@@ -23,7 +23,6 @@ export default function MainLayout() {
     dispatch(getGroupNotJoin());
     dispatch(getSubjectLists());
     dispatch(getStudentInvites());
-    const accessTokenFactory = localStorage.getItem("token");
     if (!userInfo) {
       dispatch(getUserInfo()).then((response) => {
         if (response.type === getUserInfo.rejected.type) {
@@ -36,23 +35,30 @@ export default function MainLayout() {
           // alert("You have not login")
           navigate("signin");
         } else if (response.type === getUserInfo.fulfilled.type) {
-          const groupHub = new HubConnectionBuilder()
-            .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId"+ response.payload.id , {
-              accessTokenFactory: () => accessTokenFactory,
-            })
-            .build();
-          groupHub.start().catch((err) => console.log("groupHub.start err", err));
+          // const groupHub = new HubConnectionBuilder()
+          //   .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId"+ response.payload.id , {
+          //     accessTokenFactory: () => accessTokenFactory,
+          //   })
+          //   .build();
+          // groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
-          groupHub.on("OnReloadMeeting", () => {
-            dispatch(getUsermMeetings());
-            dispatch(getUserInfo());
-          });
+          // groupHub.on("OnReloadSelfInfo", () => {
+          //   dispatch(getUsermMeetings());
+          //   dispatch(getUserInfo());
+          // });
+          // groupHub.on("OnReloadSelfMeeting", () => {
+          //   dispatch(getUsermMeetings());
+          //   // dispatch(getUserInfo());
+          // });
         }
       });
     } else {
       if (userInfo.roleName == "Admin") {
         navigate("admin")
       } else {
+        const accessTokenFactory = localStorage.getItem("token");
+        toast.info("new grouphub all")
+
         const groupHub = new HubConnectionBuilder()
           .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId="+ userInfo.id, {
             accessTokenFactory: () => accessTokenFactory,
@@ -60,9 +66,17 @@ export default function MainLayout() {
           .build();
         groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
-        groupHub.on("OnReloadMeeting", () => {
+        // groupHub.on("OnReloadSelf", () => {
+        //   dispatch(getUsermMeetings());
+        //   dispatch(getUserInfo());
+        // });
+        groupHub.on("OnReloadSelfInfo", () => {
           dispatch(getUsermMeetings());
           dispatch(getUserInfo());
+        });
+        groupHub.on("OnReloadSelfMeeting", () => {
+          dispatch(getUsermMeetings());
+          // dispatch(getUserInfo());
         });
       }
     }
