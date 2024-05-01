@@ -25,7 +25,15 @@ export const checkLogin = createAsyncThunk(
       .post(API_SIGNIN_URL, submitData)
       .then((response) => response)
       .catch((error) => {
-        dispatch(setLoginError("Tên đăng nhập hoặc mật khẩu không chính xác")); // Dispatch action lỗi
+        // console.log(error.request.status);
+        if (error.request.status === 400) {
+          dispatch(setLoginError("Tài khoản đã bị vô hiệu"));
+        } else {
+          dispatch(
+            setLoginError("Tên đăng nhập hoặc mật khẩu không chính xác")
+          ); // Dispatch action lỗi
+        }
+
         return rejectWithValue(error.response.data);
       });
   }
