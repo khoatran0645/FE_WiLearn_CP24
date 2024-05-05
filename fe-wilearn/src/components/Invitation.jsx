@@ -91,38 +91,40 @@ export default function Invitation() {
             marginLeft: "70px",
           }}
         >
-          {(!invitations || invitations.length == 0) &&
-            "No group is inviting you"}
-          {invitations.map((invite) => (
-            <Box>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Group name:</span>{" "}
-                {invite.groupName}
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Subject:</span>{" "}
-                {invite.subjects.join(", ")}
-              </Typography>
-              <Typography variant="body1" sx={{ marginBottom: "10px" }}>
-                <span style={{ fontWeight: "bold" }}>Number of members:</span>{" "}
-                {invite.memberCount}
-              </Typography>
-              <DialogActions sx={{ marginRight: "20px" }}>
-                <Button
-                  onClick={() => handleReject(invite.id, invite.groupName)}
-                  color="warning"
-                >
-                  Deny
-                </Button>
-                <Button
-                  onClick={() => handleAccept(invite.id, invite.groupName)}
-                  color="primary"
-                >
-                  Accept
-                </Button>
-              </DialogActions>
-            </Box>
-          ))}
+          {!invitations || invitations.length === 0 ? (
+            "No group is inviting you"
+          ) : (
+            invitations.map((invite) => (
+              <Box key={invite.id}>
+                <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold" }}>Group name:</span>{" "}
+                  {invite.groupName}
+                </Typography>
+                <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold" }}>Subject:</span>{" "}
+                  {invite.subjects.join(", ")}
+                </Typography>
+                <Typography variant="body1" sx={{ marginBottom: "10px" }}>
+                  <span style={{ fontWeight: "bold" }}>Number of members:</span>{" "}
+                  {invite.memberCount}
+                </Typography>
+                <DialogActions sx={{ marginRight: "20px" }}>
+                  <Button
+                    onClick={() => handleReject(invite.id, invite.groupName)}
+                    color="warning"
+                  >
+                    Deny
+                  </Button>
+                  <Button
+                    onClick={() => handleAccept(invite.id, invite.groupName)}
+                    color="primary"
+                  >
+                    Accept
+                  </Button>
+                </DialogActions>
+              </Box>
+            ))
+          )}
         </DialogContent>
       </Dialog>
     </>

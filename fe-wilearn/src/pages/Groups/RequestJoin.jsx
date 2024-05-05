@@ -11,14 +11,6 @@ export default function RequestJoin() {
   const {groupId} = useParams()
   const [openDialog, setOpenDialog] = useState(false);
   let { requestFormList  } = useSelector((state) => state.studyGroup);
-  // const [requestFormList, setRequestFormList] = useState([
-  //   {
-  //     accountName: 'lanpt',
-  //     name: 'Lan Anh',
-  //     email: 'lanpt88@gmail.com',
-  //     avatar: 'https://cdn.icon-icons.com/icons2/2560/PNG/512/woman_user_avatar_account_female_icon_153149.png',
-  //   }
-  // ]);
 
   const handleRequestClick = () => {
     setOpenDialog(true);
@@ -81,12 +73,12 @@ export default function RequestJoin() {
       <Dialog open={openDialog} onClose={handleCloseDialog} maxWidth="xs" fullWidth>
         <DialogContent>
           {(!requestFormList||requestFormList.length==0)&&"No student is requesting to join"}
-          {requestFormList.map(request=>(
-          <Box>
+          {requestFormList.map((request, index)=>(
+          <Box key={index}>
             <Grid container justifyContent="center">
               <Avatar src={request.accountImagePath} sx={{ width: 100, height: 100, marginBottom: '10px' }} />
             </Grid>
-            <Grid sx={{ display: 'flex', flexDirection: 'column', paddingLeft: '120px' }}>
+            <Grid sx={{ display: 'flex', flexDirection: 'column', paddingLeft: '85px' }}>
               <Typography variant="body1" sx={{ marginBottom: '10px' }}>
                 <span style={{ fontWeight: 'bold' }}>Username:</span> {request.userName}
               </Typography>
@@ -98,7 +90,7 @@ export default function RequestJoin() {
               </Typography>
             </Grid>
             <DialogActions sx={{ marginRight: '20px' }}>
-              <Button onClick={()=>handleReject(request.id, request.userName)} color="primary">
+              <Button onClick={()=>handleReject(request.id, request.userName)} color="warning">
                 Deny
               </Button>
               <Button onClick={()=>handleAccept(request.id, request.userName)} color="primary">
