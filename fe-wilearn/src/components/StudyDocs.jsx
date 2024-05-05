@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   Grid,
   Typography,
@@ -6,7 +6,6 @@ import {
   List,
   ListItem,
   ListItemAvatar,
-  ListItemIcon,
   ListItemText,
   ListItemButton,
   Avatar,
@@ -16,7 +15,6 @@ import {
   Tab,
   Button,
   Stack,
-  Tooltip
 } from "@mui/material";
 
 import TabContext from "@mui/lab/TabContext";
@@ -160,9 +158,7 @@ export default function StudyDocs() {
   const showApprovedList = approvedList.map((file) => (
     <Paper elevation={0} key={file.id}>
       <ListItem
-        secondaryAction={
-          <ReportIconButton type={"file"} fileId={file.id}/>
-        }
+        secondaryAction={<ReportIconButton type={"file"} fileId={file.id} />}
       >
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
@@ -296,21 +292,18 @@ export default function StudyDocs() {
               </TabContext>
             </Box>
           </Grid>
-          <Grid sx={{ marginLeft: "400px" }}>
-            <Button
-              component="label"
-              variant="contained"
-              // startIcon={<CloudUploadIcon />}
-              // onClick={handleUploadNewFile}
-            >
-              Share File
-              <VisuallyHiddenInput
-                type="file"
-                accept="application/pdf, image/jpeg, image/png"
-                onChange={handleFileChange}
-                disabled={loading}
-              />
-            </Button>
+          <Grid container justifyContent="center">
+            <Grid item>
+              <Button component="label" variant="contained">
+                Share File
+                <VisuallyHiddenInput
+                  type="file"
+                  accept="application/pdf, image/jpeg, image/png"
+                  onChange={handleFileChange}
+                  disabled={loading}
+                />
+              </Button>
+            </Grid>
           </Grid>
         </Grid>
       )}
