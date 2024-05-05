@@ -24,8 +24,8 @@ import dayjs from "dayjs";
 import advancedFormat from "dayjs/plugin/advancedFormat";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
-import HistoryReview from './../../Meeting/HistoryReview';
-import HistoryChat from './../../Meeting/HistoryChat';
+import HistoryReview from "./../../Meeting/HistoryReview";
+import HistoryChat from "./../../Meeting/HistoryChat";
 
 const localizer = momentLocalizer(moment);
 
@@ -130,7 +130,7 @@ function PersonalSchedule() {
         sx={{ maxWidth: 345, minWidth: 345, border: `3px solid green` }}
       >
         <CardContent sx={{ textAlign: "left" }}>
-          <Grid sx={{height: "200px"}}>
+          <Grid sx={{ height: "200px" }}>
             <Typography gutterBottom variant="h6">
               {meeting.name}
             </Typography>
@@ -342,90 +342,101 @@ function PersonalSchedule() {
         </Button>
         <Dialog open={open} onClose={handleClose}>
           <DialogContent>
-            <Box
-              display="flex"
-              justifyContent="space-between"
-              flexWrap="wrap"
-              flexDirection="column"
-            >
-              {pastMeetings.map((meeting) => (
-                <Card
-                  key={meeting.id}
-                  sx={{
-                    width: "500px",
-                    border: "3px solid red",
-                    margin: "0.5rem",
-                  }}
-                >
-                  <Card>
-                    <CardContent sx={{ textAlign: "left" }}>
-                      <Typography gutterBottom variant="h6">
-                        {meeting.name}
-                      </Typography>
-                      {meeting.subjects &&
-                        meeting.subjects.map((s, index) => (
-                          <Chip
-                            key={index}
-                            label={s.name}
-                            size="small"
-                            variant="filled"
-                          />
-                        ))}
-                      <Typography variant="body1" color="text.secondary">
-                        Content: {meeting.content}
-                      </Typography>
-                      {(meeting.scheduleStart) && (
-                        <Typography variant="body1" color="text.secondary">
-                          Expected:{" "}
-                          <>
-                            {meeting.scheduleStart &&
-                              moment(meeting.scheduleStart).format(
-                                "DD/MM HH:mm"
-                              )}
-                            {meeting.scheduleEnd &&
-                              " - " + moment(meeting.scheduleEnd).format("DD/MM HH:mm")}
-                          </>
+            {pastMeetings.length === 0 ? (
+              <Typography variant="body1">
+                No meeting history available.
+              </Typography>
+            ) : (
+              <Box
+                display="flex"
+                justifyContent="space-between"
+                flexWrap="wrap"
+                flexDirection="column"
+              >
+                {pastMeetings.map((meeting) => (
+                  <Card
+                    key={meeting.id}
+                    sx={{
+                      width: "500px",
+                      border: "3px solid red",
+                      margin: "0.5rem",
+                    }}
+                  >
+                    <Card>
+                      <CardContent sx={{ textAlign: "left" }}>
+                        <Typography gutterBottom variant="h6">
+                          {meeting.name}
                         </Typography>
-                      )}
-                        {(meeting.start || meeting.end) && (
-                      <Typography variant="body1" color="text.secondary">
-                        Happened:{" "}
-                          <>
-                            {meeting.start &&
-                              moment(meeting.start).format("DD/MM HH:mm")}
-                            {meeting.end &&
-                              " - "+moment(meeting.end).format("DD/MM HH:mm")}
-                          </>
-                      </Typography>
+                        {meeting.subjects &&
+                          meeting.subjects.map((s, index) => (
+                            <Chip
+                              key={index}
+                              label={s.name}
+                              size="small"
+                              variant="filled"
+                            />
+                          ))}
+                        <Typography variant="body1" color="text.secondary">
+                          Content: {meeting.content}
+                        </Typography>
+                        {meeting.scheduleStart && (
+                          <Typography variant="body1" color="text.secondary">
+                            Expected:{" "}
+                            <>
+                              {meeting.scheduleStart &&
+                                moment(meeting.scheduleStart).format(
+                                  "DD/MM HH:mm"
+                                )}
+                              {meeting.scheduleEnd &&
+                                " - " +
+                                  moment(meeting.scheduleEnd).format(
+                                    "DD/MM HH:mm"
+                                  )}
+                            </>
+                          </Typography>
                         )}
-                      <Typography variant="body1" color="text.secondary">
-                        Status: {meeting.end?"Happened":"Forgotten"}
-                      </Typography>
-                      <Grid
-                        container
-                        justifyContent="center"
-                        sx={{ paddingTop: "1rem" }}
-                      >
-                        <HistoryChat chatHistory={meeting.chats} />
-                      </Grid>
-                      <Grid
-                        container
-                        justifyContent="center"
-                        sx={{ paddingTop: "0.3rem" }}
-                      >
-                        <HistoryReview reviewHistory={meeting.reviews} />
-                      </Grid>
-                    </CardContent>
+                        {(meeting.start || meeting.end) && (
+                          <Typography variant="body1" color="text.secondary">
+                            Happened:{" "}
+                            <>
+                              {meeting.start &&
+                                moment(meeting.start).format("DD/MM HH:mm")}
+                              {meeting.end &&
+                                " - " +
+                                  moment(meeting.end).format("DD/MM HH:mm")}
+                            </>
+                          </Typography>
+                        )}
+                        <Typography variant="body1" color="text.secondary">
+                          Status: {meeting.end ? "Happened" : "Forgotten"}
+                        </Typography>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          sx={{ paddingTop: "1rem" }}
+                        >
+                          <HistoryChat chatHistory={meeting.chats} />
+                        </Grid>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          sx={{ paddingTop: "0.3rem" }}
+                        >
+                          <HistoryReview reviewHistory={meeting.reviews} />
+                        </Grid>
+                      </CardContent>
+                    </Card>
                   </Card>
-                </Card>
-              ))}
-            </Box>
+                ))}
+              </Box>
+            )}
           </DialogContent>
           <DialogActions>
             <Button onClick={handleClose}>Close</Button>
           </DialogActions>
         </Dialog>
       </Grid>
+
       {/* <Grid container paddingLeft={5}> */}
       <Grid container paddingTop={8}>
         <Grid item xs={6} sx={{ textAlign: "left" }}>
