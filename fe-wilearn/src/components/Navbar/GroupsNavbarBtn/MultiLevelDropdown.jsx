@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
-import { useSelector } from 'react-redux';
+import React, { useState } from "react";
+import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   Box,
   Button,
@@ -44,16 +44,16 @@ const MultiLevelDropdown = () => {
     handleClose();
   };
 
-  const { userInfo } = useSelector(state => state.user);
+  const { userInfo } = useSelector((state) => state.user);
 
   let leadGroups = [
     { id: 1, name: "Nhóm 1" },
     { id: 2, name: "Nhóm 2" },
-  ]
+  ];
   let joinGroups = [
     { id: 3, name: "Nhóm 3" },
     { id: 4, name: "Nhóm 4" },
-  ]
+  ];
   if (userInfo) {
     leadGroups = userInfo.leadGroups;
     joinGroups = userInfo.joinGroups;
@@ -85,27 +85,28 @@ const MultiLevelDropdown = () => {
             horizontal: "left",
           }}
         >
-          <MenuItem
-            component={Link}
-            to={`groups`}
-          >
+          <MenuItem component={Link} to={`groups`}>
             All
           </MenuItem>
-          <MenuItem onClick={handleSubMenu1Click}>
-            Manage
-            <ListItemIcon>
-              <KeyboardArrowRightIcon />
-            </ListItemIcon>
-          </MenuItem>
-          <MenuItem onClick={handleSubMenu2Click}>
-            Join
-            <ListItemIcon>
-              <KeyboardArrowRightIcon />
-            </ListItemIcon>
-          </MenuItem>
+          {leadGroups.length > 0 && (
+            <MenuItem onClick={handleSubMenu1Click}>
+              Manage
+              <ListItemIcon>
+                <KeyboardArrowRightIcon />
+              </ListItemIcon>
+            </MenuItem>
+          )}
+          {joinGroups.length > 0 && (
+            <MenuItem onClick={handleSubMenu2Click}>
+              Join
+              <ListItemIcon>
+                <KeyboardArrowRightIcon />
+              </ListItemIcon>
+            </MenuItem>
+          )}
         </Menu>
 
-         <Popover
+        <Popover
           open={Boolean(subMenu1AnchorEl)}
           anchorEl={subMenu1AnchorEl}
           onClose={handleSubMenu1Close}
@@ -157,7 +158,6 @@ const MultiLevelDropdown = () => {
               </MenuItem>
             ))}
           </div>
-
         </Popover>
       </div>
     </Box>
