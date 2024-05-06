@@ -25,7 +25,7 @@ export default function UserMoreInfo(props) {
   }
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
-  // console.log("UserMoreInfo ", props.username);
+  console.log("UserMoreInfo props", props);
 
   return (
     <>
@@ -73,8 +73,8 @@ export default function UserMoreInfo(props) {
           />
         </DialogContent>
         <DialogActions style={{ padding: "16px" }}>
-          {!isLead && !(props.userId === userInfo.id) && (
-            <ReportButton userId={props.userId} />
+          {!isLead && !(props.id === userInfo.id) && (
+            <ReportButton userId={props.id} />
           )}
 
           {isLead && !props.isFirst && (

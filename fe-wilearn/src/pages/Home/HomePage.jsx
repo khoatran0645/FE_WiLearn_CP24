@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import {
   Typography,
   CardContent,
@@ -16,9 +16,9 @@ import {
 import Chip from "@mui/material/Chip";
 import { useDispatch, useSelector } from "react-redux";
 import GroupsIcon from "@mui/icons-material/Groups";
-import CreateGroup from "../Groups/CreateGroup";
 import Paginate from "./../../components/Paginate";
 import {
+  getGroupMemberLists,
   getGroupNotJoin,
   getStudentInvites,
   getSubjectLists,
@@ -51,7 +51,6 @@ export default function HomePage() {
     if (response.type === requestJoinGroup.fulfilled.type) {
       toast.success("Request to join group " + gname + "successflly");
       dispatch(getGroupMemberLists());
-      handleCloseDialog();
     } else {
       toast.error(
         `Something went wrong when requesting to join group ${gname}`
@@ -91,7 +90,7 @@ export default function HomePage() {
                 </Typography>
                 {/* <Chip label={group.subjects.join(', ')} size="small" variant="filled" /> */}
                 {group.subjects.map((s) => (
-                  <Chip style={{ marginRight: 3 }} label={s} size="small" variant="filled" />
+                  <Chip key={s} style={{ marginRight: 3 }} label={s} size="small" variant="filled" />
                 ))}
                 <Box paddingTop={1.2}>
                   <Grid container alignItems="center" height={"100%"} spacing={1}>
@@ -104,8 +103,8 @@ export default function HomePage() {
                     <Grid>
                       <AvatarGroup max={5}>
                         {group.members.map(mem => (
-                          <Tooltip title={(mem.memberRole == 1 ? "Leader: " : "Member: ") + mem.username}>
-                            <Avatar alt={mem.username} src={mem.imagePath} />
+                          <Tooltip key={mem.username} title={(mem.memberRole === 1 ? "Leader: " : "Member: ") + mem.username}>
+                            <Avatar key={mem.id} alt={mem.username} src={mem.imagePath} />
                           </Tooltip>
                         ))}
                       </AvatarGroup>

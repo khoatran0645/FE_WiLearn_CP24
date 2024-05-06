@@ -61,9 +61,11 @@ const ChartMeeting = () => {
   };
 
   return (
-    <Grid style={{ maxWidth: "800px", marginLeft: "200px" }}>
-      <Typography variant="h5">Number of meetings</Typography>
-      <Bar data={data} options={options} />
+    <Grid container justifyContent="center">
+      <Grid item xs={12} style={{ maxWidth: "800px" }}>
+        <Typography variant="h5" align="center">Number of meetings</Typography>
+        <Bar data={data} options={options} />
+      </Grid>
     </Grid>
   );
 };

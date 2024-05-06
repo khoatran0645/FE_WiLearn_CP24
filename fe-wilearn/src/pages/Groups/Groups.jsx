@@ -5,14 +5,11 @@ import {
   Card,
   CardContent,
   CardMedia,
-  CardActionArea,
-  Backdrop,
-  CircularProgress,
   CardActions,
   Button,
 } from "@mui/material";
 
-import { useNavigate, Navigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import CreateGroup from "./CreateGroup";
 import Invitation from "../../components/Invitation";
 

@@ -57,7 +57,7 @@ export default function MainLayout() {
         navigate("admin")
       } else {
         const accessTokenFactory = localStorage.getItem("token");
-        toast.info("new grouphub all")
+        // toast.info("new grouphub all")
 
         const groupHub = new HubConnectionBuilder()
           .withUrl(BE_URL + "/hubs/grouphub?groupId=all&accId="+ userInfo.id, {

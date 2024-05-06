@@ -29,7 +29,6 @@ const HoursChart = () => {
       });
   }
 
-
   // const data = [
   //   { month: "Jan", count: 1 },
   //   { month: "Feb", count: 0 },
@@ -73,9 +72,11 @@ const HoursChart = () => {
   };
 
   return (
-    <Grid style={{ maxWidth: "800px", marginLeft: "200px" }}>
-      <Typography variant="h5">Meeting Hours Chart</Typography>
-      <Line data={chartData} options={chartOptions} />
+    <Grid container justifyContent="center">
+      <Grid item xs={12} style={{ maxWidth: "800px" }}>
+        <Typography variant="h5" align="center">Meeting Hours Chart</Typography>
+        <Line data={chartData} options={chartOptions} />
+      </Grid>
     </Grid>
   );
 };

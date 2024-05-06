@@ -19,19 +19,19 @@ export default function PersonalStatistics() {
   // console.log("moreUserStats", moreUserStats);
   return (
     <Grid>
-      <Grid paddingLeft={20}>
+      <Grid paddingLeft={40} paddingTop={5}>
         <Typography variant="h4" sx={{ fontWeight: "bold" }}>
           Your Statistics
         </Typography>
         <PersonalStatisticItem />
       </Grid>
-      <Grid paddingTop={4}>
+      <Grid paddingTop={7}>
         <ChartMeeting />
       </Grid>
-      <Grid paddingTop={4}>
+      <Grid paddingTop={7}>
         <HoursChart />
       </Grid>
-      <Grid paddingTop={4} paddingLeft={20}>
+      <Grid paddingTop={7}>
         <DiscussionChart />
       </Grid>
     </Grid>

@@ -1,6 +1,6 @@
-export const BE_URL = "https://www.groupstudy.somee.com";
-//  export const BE_URL = " https://we-learn.somee.com";
-// export const BE_URL = "http://localhost:8001";
+//export const BE_URL = "https://www.groupstudy.somee.com";
+// export const BE_URL = "https://we-learn.somee.com";
+ export const BE_URL = "http://localhost:8000";
 // export const BE_URL = "http://localhost:5000";
 // link to swagger api: "https://www.groupstudy.somee.com/swagger/index.html";
 

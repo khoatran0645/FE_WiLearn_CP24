@@ -183,7 +183,7 @@ export default function AddDiscussion() {
             />
           </DialogContent>
           <DialogActions>
-            <Button onClick={handleClose} color="primary">
+            <Button onClick={handleClose} color="warning">
               Cancel
             </Button>
             {loading ? (

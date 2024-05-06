@@ -114,7 +114,6 @@ export default function PersonalStatisticItem() {
               display: "flex",
               flexDirection: "column",
               justifyContent: "center",
-              alignItems: "center",
             }}
           >
             <Typography variant="h6">Discussion Statistics</Typography>
