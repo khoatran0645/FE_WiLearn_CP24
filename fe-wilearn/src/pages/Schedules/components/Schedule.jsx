@@ -398,14 +398,30 @@ function Schedule() {
                           justifyContent="center"
                           sx={{ paddingTop: "1rem" }}
                         >
-                          <HistoryChat chatHistory={meeting.chats} />
-                        </Grid>
+                          {
+                            meeting.chats.length==0?(
+                              <Typography variant="body1" color="red">
+                                No chat recorded
+                              </Typography>
+                            ):(
+                              <HistoryChat chatHistory={meeting.chats} />
+                            )
+                          }
+                          </Grid>
                         <Grid
                           container
                           justifyContent="center"
                           sx={{ paddingTop: "0.3rem" }}
                         >
-                          <HistoryReview reviewHistory={meeting.reviews} />
+                          {
+                            meeting.reviews.length==0?(
+                              <Typography variant="body1" color="red">
+                                No review recorded
+                              </Typography>
+                            ):(
+                              <HistoryReview reviewHistory={meeting.reviews} />
+                            )
+                          }
                         </Grid>
                       </CardContent>
                     </Card>
