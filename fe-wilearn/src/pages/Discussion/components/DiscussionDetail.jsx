@@ -26,6 +26,7 @@ import {
 } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { badWords, blackList } from "vn-badwords";
 import ReportIconButton from "../../../components/ReportIconButton";
+import EditIconButton from "../../../components/EditIconButton";
 export default function DiscussionDetail() {
   const { discussionDetail, loading, error } = useSelector(
     (state) => state.studyGroup
@@ -43,10 +44,12 @@ export default function DiscussionDetail() {
   useEffect(() => {
     dispatch(getAnswerByDiscussionId(discussionId));
     dispatch(getDiscussionById(discussionId));
-  }, [discussionId]);
+  }, [discussionId, dispatch]);
 
   if (loading) {
     return <Loading />; // Render loading indicator
+  } else {
+    console.log("isCreatedUser", discussionDetail?.account?.id === userInfo?.id);
   }
 
   if (!discussionDetail) {
@@ -114,7 +117,9 @@ export default function DiscussionDetail() {
               </Typography>
             </Grid>
             <Grid item xs={1} style={{ textAlign: "right" }}>
-              <ReportIconButton type={"discussion"} />
+              {(discussionDetail?.account?.id === userInfo?.id && (
+                <EditIconButton/>
+              )) || <ReportIconButton type={"discussion"} />}
             </Grid>
           </Grid>
           <Grid sx={{ display: "flex", alignItems: "end" }}>

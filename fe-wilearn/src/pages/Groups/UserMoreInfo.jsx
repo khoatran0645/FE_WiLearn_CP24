@@ -25,7 +25,7 @@ export default function UserMoreInfo(props) {
   }
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
-  console.log("UserMoreInfo props", props);
+  // console.log("UserMoreInfo props", props);
 
   return (
     <>

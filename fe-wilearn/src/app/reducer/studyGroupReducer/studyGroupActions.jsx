@@ -28,6 +28,7 @@ import {
   API_GET_DISCUSSION_BY_GROUP_ID,
   API_GET_ANSWER_BY_DISCUSSION_ID,
   API_POST_ANSWER_DISCUSSION,
+  API_UPDATE_DISCUSSION,
   API_GET_GROUP_NOT_JOIN,
   GET_LIST_DOCUMENTS_BY_GROUP,
   CREATE_DOCUMENT,
@@ -468,6 +469,21 @@ export const getDiscussionById = createAsyncThunk(
   async (id, { rejectWithValue }) => {
     return await axiosClient
       .get(API_GET_DISCUSSION_BY_ID.replace("{discussionId}", id))
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const updateDiscussion = createAsyncThunk(
+  "studyGroup/updateDiscussion",
+  async (data, { rejectWithValue }) => {
+    console.log("discussion update", data);
+    return await axiosClient
+      .put(
+        API_UPDATE_DISCUSSION.replace("{discussionId}", data.discussionId)
+          .replace("{question}", data.Question)
+          .replace("{content}", data.Content)
+      )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
