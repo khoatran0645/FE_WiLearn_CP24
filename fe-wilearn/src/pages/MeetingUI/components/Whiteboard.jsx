@@ -207,6 +207,10 @@ const WhiteBoard = (props) => {
         // textContext.fillStyle = "black";
         // textContext.textAlign = "center";
         // textContext.fillText(names, startX, mousey+5)
+        let backgroundLength = textContext.measureText(uniqueGoodDrawings.map(d=>d.uname).join(" ")).width;
+        textContext.fillStyle = "rgba(255,255,255,.5)";
+        textContext.fillRect(mousex+5, mousey-10, backgroundLength+10, 25);
+
         uniqueGoodDrawings.forEach(d => {
           textContext.fillStyle = d.color;
           textContext.fillText(d.uname+ " ", startX, mousey+5)
@@ -276,25 +280,9 @@ const WhiteBoard = (props) => {
         // onMouseDown={canvasMouseDown}
         //#endregion
         />
-        <canvas 
-          id="text"
-          ref={textRef}
-          // onMouseMove={showNames}
-          // onMouseLeave={showNames}
-          // onMouseEnter={showNames}
-          style={{
-            // cursor: "crosshair",
-            border: "2px solid red",
-            position:"absolute",
-            // top:0,
-            // left:100,
-            zIndex:-5
-          }}
-        ></canvas>
+        
         <canvas
           id="canvas"
-          // height="5000"
-          // width="100"
           onMouseUp={canvasMouseUp}
           onMouseDown={canvasMouseDown}
           onMouseOut={clearMousePositions}
@@ -303,10 +291,22 @@ const WhiteBoard = (props) => {
           style={{
             cursor: "crosshair",
             border: "1px solid #000000",
-            // x
           }}
         ></canvas>
-        
+        <canvas 
+          id="text"
+          onMouseUp={canvasMouseUp}
+          onMouseDown={canvasMouseDown}
+          onMouseOut={clearMousePositions}
+          onMouseMove={canvasMouseMove}
+          ref={textRef}
+          style={{
+            cursor: "crosshair",
+            border: "2px solid red",
+            position:"absolute",
+            // zIndex:-5
+          }}
+        ></canvas>
       </div>
     </>
   );
