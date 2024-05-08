@@ -58,7 +58,7 @@ export default function ReportIconButton(props) {
     <>
       <Tooltip title={`Report this ${props.type}`}>
         <IconButton size="large">
-          <FlagCircleIcon fontSize="inherit" onClick={handleClickOpen} />
+          <FlagCircleIcon fontSize="inherit" onClick={handleClickOpen} color="error" />
         </IconButton>
       </Tooltip>
       <Dialog
