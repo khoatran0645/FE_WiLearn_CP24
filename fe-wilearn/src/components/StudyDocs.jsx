@@ -21,10 +21,9 @@ import TabContext from "@mui/lab/TabContext";
 import TabList from "@mui/lab/TabList";
 import TabPanel from "@mui/lab/TabPanel";
 
-import InsertDriveFileIcon from "@mui/icons-material/InsertDriveFile";
 import CheckIcon from "@mui/icons-material/Check";
 import BlockIcon from "@mui/icons-material/Block";
-import FlagCircleIcon from "@mui/icons-material/FlagCircle";
+import PictureAsPdfIcon from "@mui/icons-material/PictureAsPdf";
 
 import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
@@ -35,6 +34,7 @@ import {
 import { toast } from "react-toastify";
 import Loading from "../components/Loading";
 import ReportIconButton from "./ReportIconButton";
+import ImageIcon from "@mui/icons-material/Image";
 
 const VisuallyHiddenInput = styled("input")({
   clip: "rect(0 0 0 0)",
@@ -151,7 +151,12 @@ export default function StudyDocs() {
   };
 
   const handleViewfile = (httpLink) => {
-    // console.log("handleViewfile", httpLink);
+    console.log(
+      "handleViewfile",
+      decodeURIComponent(httpLink.match(/_(.*?)\?/)[1]).substring(
+        decodeURIComponent(httpLink.match(/_(.*?)\?/)[1]).lastIndexOf(".") + 1
+      )
+    );
     window.open(httpLink, "_blank");
   };
 
@@ -162,8 +167,16 @@ export default function StudyDocs() {
       >
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
-            <Avatar>
-              <InsertDriveFileIcon />
+            <Avatar style={{ backgroundColor: '#F1FAFF' }}>
+              {decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1]).substring(
+                decodeURIComponent(
+                  file.httpLink.match(/_(.*?)\?/)[1]
+                ).lastIndexOf(".") + 1
+              ) === "pdf" ? (
+                <PictureAsPdfIcon color="primary" />
+              ) : (
+                <ImageIcon color="primary" />
+              )}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
@@ -226,8 +239,16 @@ export default function StudyDocs() {
       >
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
-            <Avatar>
-              <InsertDriveFileIcon />
+            <Avatar style={{ backgroundColor: '#FFF5EA' }}>
+              {decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1]).substring(
+                decodeURIComponent(
+                  file.httpLink.match(/_(.*?)\?/)[1]
+                ).lastIndexOf(".") + 1
+              ) === "pdf" ? (
+                <PictureAsPdfIcon background color="warning" />
+              ) : (
+                <ImageIcon color="warning" />
+              )}
             </Avatar>
           </ListItemAvatar>
           <ListItemText
@@ -255,7 +276,24 @@ export default function StudyDocs() {
             </Typography>
           </Grid>
 
-          <Grid xs={12}>
+          <Grid container justifyContent="center" alignItems="center" xs={4}>
+            <Grid item textAlign="center">
+              <Button component="label" variant="contained">
+                Share File
+                <VisuallyHiddenInput
+                  type="file"
+                  accept="application/pdf, image/jpeg, image/png"
+                  onChange={handleFileChange}
+                  disabled={loading}
+                />
+              </Button>
+              <Typography variant="body2" color="text.secondary" paddingTop={2}>
+                * Only pdf, jpeg, png files are accepted
+              </Typography>
+            </Grid>
+          </Grid>
+
+          <Grid xs={8}>
             <Box sx={{ width: "100%", typography: "body1" }}>
               <TabContext value={initTab}>
                 <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
@@ -265,7 +303,13 @@ export default function StudyDocs() {
                   </TabList>
                 </Box>
                 <TabPanel value="1">
-                  <Paper style={{ maxHeight: "70vh", overflow: "auto" }}>
+                  <Paper
+                    style={{
+                      maxHeight: "70vh",
+                      minHeight: "70vh",
+                      overflow: "auto",
+                    }}
+                  >
                     {(!showApprovedList || showApprovedList.length == 0) && (
                       <Typography align="center">No file yet</Typography>
                     )}
@@ -275,7 +319,7 @@ export default function StudyDocs() {
                 <TabPanel value="2">
                   <Paper
                     style={{
-                      minHeight: "30vh",
+                      minHeight: "70vh",
                       maxHeight: "70vh",
                       overflow: "auto",
                     }}
@@ -291,19 +335,6 @@ export default function StudyDocs() {
                 </TabPanel>
               </TabContext>
             </Box>
-          </Grid>
-          <Grid container justifyContent="center">
-            <Grid item>
-              <Button component="label" variant="contained">
-                Share File
-                <VisuallyHiddenInput
-                  type="file"
-                  accept="application/pdf, image/jpeg, image/png"
-                  onChange={handleFileChange}
-                  disabled={loading}
-                />
-              </Button>
-            </Grid>
           </Grid>
         </Grid>
       )}
