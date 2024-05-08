@@ -6,10 +6,12 @@ import { useParams } from "react-router-dom";
 
 const WhiteBoard = (props) => {
   const canvasRef = useRef(null);
+  const textRef = useRef(null);
   const colorRef = useRef(null);
+  let drawings = []
 
   const { meetingId } = useParams();
-  
+
   const clearMousePositions = () => {
     last_mousex = 0;
     last_mousey = 0;
@@ -41,7 +43,7 @@ const WhiteBoard = (props) => {
         last_mousex,
         last_mousey,
         mousex,
-        mousey, 
+        mousey,
         clr,
         parseInt(brushSize)
       );
@@ -50,7 +52,15 @@ const WhiteBoard = (props) => {
     last_mousey = mousey;
   };
 
-  const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize) => {
+  const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize, username) => {
+    const drawing = {
+      x: prev_x,
+      y: prev_y,
+      r: brushSize,
+      color: clr,
+      uname: username
+    }
+    drawings.push({})
     // console.log('draw')
     canvasContext.beginPath();
     // console.log(`PREV X: ${prev_x}, PREV Y: ${prev_y}`);
@@ -90,9 +100,7 @@ const WhiteBoard = (props) => {
     // const urlParts = window.location.href.split("/");
     // const meetingId = urlParts[urlParts.length - 2];
     const hubConnection = new HubConnectionBuilder()
-      // .withUrl('http://localhost:8000/hubs/meetinghub?tempConnection=ok&meetingId=' + roomId, {
       .withUrl(
-        // BE_URL + "/hubs/meetinghub?tempConnection=ok&meetingId=" + roomId,
         BE_URL + "/hubs/drawhub?meetingId=" + meetingId,
         {
           accessTokenFactory: () => accessTokenFactory,
@@ -101,15 +109,15 @@ const WhiteBoard = (props) => {
       .withAutomaticReconnect()
       .build();
     hubConnection.start().catch((err) => console.log(err));
-    hubConnection.on("draw", (prev_x, prev_y, x, y, color, size) => {
-      drawCanvas(prev_x, prev_y, x, y, color, size);
+    hubConnection.on("draw", (prev_x, prev_y, x, y, color, size, username) => {
+      drawCanvas(prev_x, prev_y, x, y, color, size, username);
     });
 
     hubConnection.on("get-drawings", (drawings) => {
       // alert("get-drawings")
       console.log("get-drawings", drawings)
       drawings.forEach((d) => {
-        drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size);
+        drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size, d.username);
       });
     });
     console.log('hubConnection', hubConnection);
@@ -121,6 +129,31 @@ const WhiteBoard = (props) => {
     // toast.success('Đã vào bảng trắng');
     clearMousePositions();
     const canvas = canvasRef.current;
+
+    var sizeWidth = 100 * window.innerWidth / 100 - 10 || 800;//-2 cái border
+    var sizeHeight = 85 * window.innerHeight / 100 || 800;
+
+    //Setting the canvas site and width to be responsive 
+    canvas.width = sizeWidth;
+    canvas.height = sizeHeight;
+    canvas.style.width = sizeWidth;
+    canvas.style.height = sizeHeight;
+
+    const textVas = textRef.current;
+
+    textVas.width = sizeWidth;
+    textVas.height = sizeHeight;
+    textVas.style.width = sizeWidth;
+    textVas.style.height = sizeHeight;
+
+    // textVas.top = canvas.offsetTop;
+    // textVas.top = "10000px";
+    textVas.style.top = canvas.offsetTop+"px";
+    textVas.style.left = canvas.offsetLeft+"px";
+    // textVas.style.top = "10000px";
+
+    console.log("textVas", textVas)
+
     setCanvasX(canvas.offsetLeft);
     setCanvasY(canvas.offsetTop);
 
@@ -132,30 +165,45 @@ const WhiteBoard = (props) => {
     // }
   }, [meetingId]);
   const moveCircle = (e) => {
-    circle.style.left = `${e.clientX + window.scrollX - size.value/2}px`;
-    circle.style.top = `${e.clientY + window.scrollY - size.value/2}px`;
+    circle.style.left = `${e.clientX + window.scrollX - size.value / 2}px`;
+    circle.style.top = `${e.clientY + window.scrollY - size.value / 2}px`;
     // circle.style.left = `${e.clientX }px`;
     // circle.style.top = `${e.clientY }px`;
     // circle.style.left = e.clientX - 48 + 'px';
     // circle.style.top = e.clientY - 48 + 'px';
   };
   const changeCircleSize = () => {
-    circle.style.width=size.value+'px';
-    circle.style.height=size.value+'px';
+    circle.style.width = size.value + 'px';
+    circle.style.height = size.value + 'px';
   };
   const changeCircleColor = () => {
-    circle.style.backgroundColor=color.value;
+    circle.style.backgroundColor = color.value;
   };
+
+  function dist(x1, y1, x2, y2) {
+    let dx = x2 - x1;
+    let dy = y2 - y1;
+    return Math.sqrt(dx * dx + dy * dy);
+  }
+
+  const showNames = ()=>{
+    console.log("canvasContext.isPointInPath(mousex, mousey)", canvasContext.isPointInPath(mousex, mousey))
+    if(canvasContext.isPointInPath(mousex, mousey)){
+      let names = ""
+      const goodDrawings = drawings.filter(d=>dist(d.prevX, d.prevY, mousex, mousey)<d.size);
+      console.log("goodDrawings", goodDrawings)
+    }
+  }
   const genSizeOpt = () => {
     // const mult = color?.value==='white'? 10 : 1;
-    return Array.from({length: 100}, (_, i) => i + 1).map(i => (
+    return Array.from({ length: 100 }, (_, i) => i + 1).map(i => (
       // <option value={mult*i}>{mult*i}px</option>
       <option key={i} value={i}>{i}px</option>
     ))
   };
   return (
     <>
-      <h1>Bảng trắng</h1>
+      {/* <h1>Bảng trắng</h1> */}
       <select id="color" onChange={changeCircleColor}>
         <option value="black">Black</option>
         <option value="red">Red</option>
@@ -165,30 +213,18 @@ const WhiteBoard = (props) => {
         <option value="white">Eraser(x10 size)</option>
       </select>
       <select id="size" defaultValue={20} onChange={changeCircleSize}>
-        {/* <option value="1">1px</option>
-        <option value="2">2px</option>
-        <option value="3">3px</option>
-        <option value="4">4px</option>
-        <option value="5">5px</option>
-        <option value="6">6px</option>
-        <option value="7">7px</option>
-        <option value="8">8px</option>
-        <option value="9">9px</option>
-        <option value="10">10px</option>
-        <option value="11">11px</option>
-        <option value="12">12px</option>
-        <option value="13">13px</option>
-        <option value="14">14px</option>
-        <option value="15">15px</option>
-        <option value="16">16px</option>
-        <option value="17">17px</option>
-        <option value="18">18px</option>
-        <option value="19">19px</option>
-        <option value="20">20px</option> */}
         {genSizeOpt()}
       </select>
-      <div onMouseMove={moveCircle}>
-        <div id="circle" 
+      <div
+        onMouseMove={moveCircle}
+        style={{
+          width: "100vw",
+          // position: "relative"
+          // alignItems: "center",
+          // border: "3px solid blue",
+        }}
+      >
+        <div id="circle"
           style={{
             width: '20px',
             height: '20px',
@@ -200,20 +236,37 @@ const WhiteBoard = (props) => {
             cursor: "crosshair",
             zIndex: -1
           }}
-          // onMouseUp={()=>{
-          //   circle.style.zIndex = 2;
-          // }}
-          // onMouseDown={()=>{
-          //   circle.style.zIndex = -1;
-          // }}
-          // onMouseMove={canvasMouseMove}
-          // onMouseUp={canvasMouseUp}
-          // onMouseDown={canvasMouseDown}
+        //#region old code 
+        // onMouseUp={()=>{
+        //   circle.style.zIndex = 2;
+        // }}
+        // onMouseDown={()=>{
+        //   circle.style.zIndex = -1;
+        // }}
+        // onMouseMove={canvasMouseMove}
+        // onMouseUp={canvasMouseUp}
+        // onMouseDown={canvasMouseDown}
+        //#endregion
         />
+        <canvas 
+          id="text"
+          ref={textRef}
+          onMouseMove={showNames}
+          onMouseLeave={showNames}
+          onMouseEnter={showNames}
+          style={{
+            // cursor: "crosshair",
+            border: "2px solid red",
+            position:"absolute",
+            // top:0,
+            // left:100,
+            zIndex:-5
+          }}
+        ></canvas>
         <canvas
           id="canvas"
-          height="5000"
-          width="5000"
+          // height="5000"
+          // width="100"
           onMouseUp={canvasMouseUp}
           onMouseDown={canvasMouseDown}
           onMouseOut={clearMousePositions}
@@ -222,8 +275,10 @@ const WhiteBoard = (props) => {
           style={{
             cursor: "crosshair",
             border: "1px solid #000000",
+            // x
           }}
         ></canvas>
+        
       </div>
     </>
   );
