@@ -195,20 +195,23 @@ const WhiteBoard = (props) => {
   }
 
   const showNames = ()=>{
-      let names = ""
-      // const d=drawings[0];
-      // console.log("dist(d.prevX, d.prevY, mousex, mousey)", dist(d.x, d.y, mousex, mousey))
       const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r).map(d=>({color: d.color, uname: d.uname}));
       const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
+      textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
       if(uniqueGoodDrawings.length>0) {
         console.log("goodDrawings", uniqueGoodDrawings)
-        names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
-        textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
-        textContext.fillStyle = "black";
+        let names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
         textContext.font = "15px Comic Sans MS";
-        // textContext.textAlign = "center";
+        let startX = mousex+10
 
-        textContext.fillText(names, mousex+10, mousey+5)
+        // textContext.fillStyle = "black";
+        // textContext.textAlign = "center";
+        // textContext.fillText(names, startX, mousey+5)
+        uniqueGoodDrawings.forEach(d => {
+          textContext.fillStyle = d.color;
+          textContext.fillText(d.uname+ " ", startX, mousey+5)
+          startX += textContext.measureText(d.uname+" ").width;
+        });
       }
   }
   function unique(arr, keyProps) {
