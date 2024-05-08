@@ -58,7 +58,7 @@ const VoteResultDetailDialog = (props) => {
               </Typography>
             </Box>
           ))}
-          {!data?.length && <Typography>No data</Typography>}
+          {!data?.length && <Typography>No one has evaluated yet</Typography>}
         </Box>
       </DialogContent>
     </Dialog>
