@@ -20,8 +20,12 @@ const WhiteBoard = (props) => {
   const circle = document.getElementById('circle');
   const size = document.getElementById("size");
   const [canvasContext, setCanvasContext] = useState();
+  const [textContext, setTextContext] = useState();
+  // let textContext;
   const [canvasX, setCanvasX] = useState();
   const [canvasY, setCanvasY] = useState();
+
+  const username = localStorage.getItem("userName");
   // const [meetHub, setMeetHub] = useState();
   let meetHub;
   var last_mousex = 0;
@@ -37,7 +41,7 @@ const WhiteBoard = (props) => {
     var brushSize = size.value;
 
     if (last_mousex > 0 && last_mousey > 0 && mousedown) {
-      drawCanvas(mousex, mousey, last_mousex, last_mousey, clr, brushSize);
+      drawCanvas(mousex, mousey, last_mousex, last_mousey, clr, brushSize, username);
       meetHub.invoke(
         "draw",
         last_mousex,
@@ -50,6 +54,7 @@ const WhiteBoard = (props) => {
     }
     last_mousex = mousex;
     last_mousey = mousey;
+    showNames();
   };
 
   const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize, username) => {
@@ -60,7 +65,7 @@ const WhiteBoard = (props) => {
       color: clr,
       uname: username
     }
-    drawings.push({})
+    drawings.push(drawing)
     // console.log('draw')
     canvasContext.beginPath();
     // console.log(`PREV X: ${prev_x}, PREV Y: ${prev_y}`);
@@ -158,6 +163,8 @@ const WhiteBoard = (props) => {
     setCanvasY(canvas.offsetTop);
 
     setCanvasContext(canvas.getContext("2d"));
+    // textContext=canvas.getContext("2d");
+    setTextContext(textVas.getContext("2d"));
     // if(!meetHub){
 
     //   const meetHub = newConnection();
@@ -181,19 +188,37 @@ const WhiteBoard = (props) => {
   };
 
   function dist(x1, y1, x2, y2) {
+    // console.log("dist", {x1, y1, x2, y2})
     let dx = x2 - x1;
     let dy = y2 - y1;
     return Math.sqrt(dx * dx + dy * dy);
   }
 
   const showNames = ()=>{
-    console.log("canvasContext.isPointInPath(mousex, mousey)", canvasContext.isPointInPath(mousex, mousey))
-    if(canvasContext.isPointInPath(mousex, mousey)){
       let names = ""
-      const goodDrawings = drawings.filter(d=>dist(d.prevX, d.prevY, mousex, mousey)<d.size);
-      console.log("goodDrawings", goodDrawings)
-    }
+      // const d=drawings[0];
+      // console.log("dist(d.prevX, d.prevY, mousex, mousey)", dist(d.x, d.y, mousex, mousey))
+      const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r).map(d=>({color: d.color, uname: d.uname}));
+      const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
+      if(uniqueGoodDrawings.length>0) {
+        console.log("goodDrawings", uniqueGoodDrawings)
+        names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
+        textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
+        textContext.fillStyle = "black";
+        textContext.font = "15px Comic Sans MS";
+        // textContext.textAlign = "center";
+
+        textContext.fillText(names, mousex+10, mousey+5)
+      }
   }
+  function unique(arr, keyProps) {
+    const kvArray = arr.map(entry => {
+     const key = keyProps.map(k => entry[k]).join('|');
+     return [key, entry];
+    });
+    const map = new Map(kvArray);
+    return Array.from(map.values());
+   }
   const genSizeOpt = () => {
     // const mult = color?.value==='white'? 10 : 1;
     return Array.from({ length: 100 }, (_, i) => i + 1).map(i => (
@@ -251,9 +276,9 @@ const WhiteBoard = (props) => {
         <canvas 
           id="text"
           ref={textRef}
-          onMouseMove={showNames}
-          onMouseLeave={showNames}
-          onMouseEnter={showNames}
+          // onMouseMove={showNames}
+          // onMouseLeave={showNames}
+          // onMouseEnter={showNames}
           style={{
             // cursor: "crosshair",
             border: "2px solid red",
