@@ -40,6 +40,7 @@ import {
   createReport,
   kickMember,
   leaveGroup,
+  updateDiscussion,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -635,6 +636,20 @@ const studyGroupSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+
+    // update discussion
+    builder.addCase(updateDiscussion.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateDiscussion.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(updateDiscussion.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
 
     // UPLOAD FILE
     builder.addCase(uploadFile.pending, (state) => {

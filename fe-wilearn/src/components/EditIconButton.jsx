@@ -1,37 +1,47 @@
 import { useCallback, useMemo, useRef, useState } from "react";
 import {
   Button,
-  Grid,
   Dialog,
   DialogTitle,
   DialogContent,
-  DialogActions,
   TextField,
-  Box,
+  DialogActions,
+  IconButton,
+  Tooltip,
   CircularProgress,
+  Box
 } from "@mui/material";
+
+import EditIcon from "@mui/icons-material/Edit";
+import { toast } from "react-toastify";
+import { useDispatch, useSelector } from "react-redux";
+
+import { useFormik } from "formik";
+import * as Yup from "yup";
+
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
-import { toast } from "react-toastify";
-import { useSelector, useDispatch } from "react-redux";
+
 import {
   addDiscussion,
   getDiscussionByGroupId,
   uploadDiscussionFile,
-} from "../../../app/reducer/studyGroupReducer/studyGroupActions";
-import { useFormik } from "formik";
-import * as Yup from "yup";
+  updateDiscussion,
+  getDiscussionById,
+} from "../app/reducer/studyGroupReducer/studyGroupActions";
 
-export default function AddDiscussion() {
+export default function EditIconButton() {
   const [open, setOpen] = useState(false);
-  const reactQuillRef = useRef(null);
-
   const dispatch = useDispatch();
+  const reactQuillRef = useRef(null);
 
   const { userInfo } = useSelector((state) => state.user);
   const { groupInfo, loading } = useSelector((state) => state.studyGroup);
+  const { discussionDetail } = useSelector((state) => state.studyGroup);
 
-  const handleOpen = () => {
+  console.log("discussionDetail", discussionDetail.id);
+
+  const handleClickOpen = () => {
     setOpen(true);
   };
 
@@ -98,26 +108,25 @@ export default function AddDiscussion() {
     //   matchVisual: false,
     // },
   }));
-
   const validationSchema = Yup.object({
     Question: Yup.string().trim().required("Require information."),
     Content: Yup.string().trim().required("Require information."),
   });
   const formik = useFormik({
     initialValues: {
-      userId: userInfo?.id,
-      groupId: groupInfo?.id,
-      Question: "",
-      Content: "",
+      discussionId: discussionDetail?.id,
+      // groupId: groupInfo?.id,
+      Question: discussionDetail?.question,
+      Content: discussionDetail?.content,
     },
     validationSchema,
-    enableReinitialize: true,
+    // enableReinitialize: true,
     onSubmit: async (values) => {
       console.log("values", values);
-      const response = await dispatch(addDiscussion(values));
-      if (response.type == addDiscussion.fulfilled.type) {
-        toast.success("Create discussion " + values.Question + " successfully");
-        dispatch(getDiscussionByGroupId(values.groupId));
+      const response = await dispatch(updateDiscussion(values));
+      if (response.type == updateDiscussion.fulfilled.type) {
+        toast.success("Update discussion " + values.Question + " successfully");
+        dispatch(getDiscussionById(discussionDetail.id));
         formik.resetForm();
         handleClose();
       } else {
@@ -133,27 +142,15 @@ export default function AddDiscussion() {
   });
 
   return (
-    <Grid>
-      <Button
-        onClick={handleOpen}
-        style={{
-          textAlign: "center",
-          fontSize: "14px",
-          backgroundColor: "#4CAF50",
-          color: "white",
-          border: "none",
-          borderRadius: "5px",
-          marginLeft: "900px",
-          boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
-        }}
-      >
-        + Add Discussion
-      </Button>
-      <Dialog open={open} onClose={handleClose} maxWidth="md" fullWidth>
+    <>
+      <Tooltip title="Edit this discussion">
+        <IconButton size="large">
+          <EditIcon fontSize="inherit" onClick={handleClickOpen} />
+        </IconButton>
+      </Tooltip>
+      <Dialog maxWidth="md" fullWidth open={open} onClose={handleClose}>
         <Box component="form" onSubmit={formik.handleSubmit}>
-          {/* <input type="hidden" name="userId" value={formik.values.userId}/> */}
-          {/* <input name="groupId" value={formik.values.groupId}/> */}
-          <DialogTitle>Add Discussion</DialogTitle>
+          <DialogTitle>Edit</DialogTitle>
           <DialogContent>
             <TextField
               autoFocus
@@ -194,6 +191,6 @@ export default function AddDiscussion() {
           </DialogActions>
         </Box>
       </Dialog>
-    </Grid>
+    </>
   );
 }

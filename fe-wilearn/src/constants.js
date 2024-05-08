@@ -1,6 +1,6 @@
 //export const BE_URL = "https://www.groupstudy.somee.com";
 // export const BE_URL = "https://we-learn.somee.com";
- export const BE_URL = "http://localhost:8000";
+export const BE_URL = "http://localhost:8000";
 // export const BE_URL = "http://localhost:5000";
 // link to swagger api: "https://www.groupstudy.somee.com/swagger/index.html";
 
@@ -102,6 +102,8 @@ export const API_UPLOAD_DISCUSSION_FILE = "/api/Discussion/Upload/File";
 export const API_GET_DISCUSSION_BY_GROUP_ID = "/api/Discussion/Get/{groupId}";
 export const API_GET_DISCUSSION_BY_ID =
   "/api/Discussion/GetByDiscussionId?dicussionId={discussionId}";
+export const API_UPDATE_DISCUSSION =
+  "/api/Discussion/Update?discussionId={discussionId}&Question={question}&Content={content}";
 
 // discussion answer
 export const API_GET_ANSWER_BY_DISCUSSION_ID =
