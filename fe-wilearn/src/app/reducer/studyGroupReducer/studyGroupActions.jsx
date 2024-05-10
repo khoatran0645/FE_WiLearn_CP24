@@ -42,6 +42,7 @@ import {
   API_UPLOAD_DISCUSSION_FILE,
   DELETE_MEMBER,
   API_LEAVE_GROUP,
+  API_MEETING_CANVAS,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -325,6 +326,18 @@ export const updateMeeting = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     return await axiosClient
       .put(API_UPDATE_MEETING.replace("{id}", data.id), data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const uploadMeetingCanvas = createAsyncThunk(
+  "studyGroup/uploadMeetingCanvas",
+  async ({id, file}, { rejectWithValue }) => {
+    console.log("canvas data", file);
+    console.log("canvas id", id);
+    return await axiosClient
+      .postForm(API_MEETING_CANVAS.replace("{meetingId}", id), {file: file})
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

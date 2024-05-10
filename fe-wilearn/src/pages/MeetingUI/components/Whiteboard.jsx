@@ -2,9 +2,13 @@ import React, { useEffect, useRef, useState } from "react";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { BE_URL } from "../../../constants";
 import { useParams } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { uploadMeetingCanvas } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { toast } from "react-toastify";
 // import { RoomContext } from 'src/context/roomContext';
 
 const WhiteBoard = (props) => {
+  const dispatch = useDispatch();
   const canvasRef = useRef(null);
   const textRef = useRef(null);
   const colorRef = useRef(null);
@@ -233,6 +237,49 @@ const WhiteBoard = (props) => {
       <option key={i} value={i}>{i}px</option>
     ))
   };
+   const SaveToComputer = ()=>{
+    alert("SaveToComputer")
+    let downloadLink = document.createElement('a');
+    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    let canvas = canvasRef.current;
+    // let dataURL = canvas.toDataURL('image/png');
+    // let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+    // downloadLink.setAttribute('href',url);
+    // downloadLink.click();
+    canvas.toBlob(function(blob){
+      // var image = new Image();
+      // image.src = blob;
+      // var response 
+      console.log("blob", blob);
+      let url = URL.createObjectURL(blob);
+      downloadLink.setAttribute('href', url);
+      downloadLink.click();
+    }); 
+   }
+   const SaveToGroup = async()=>{
+    alert("SaveToGroup")
+    let canvas = canvasRef.current;
+    // let dataURL = canvas.toDataURL('image/png');
+    // let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
+    // downloadLink.setAttribute('href',url);
+    // downloadLink.click();
+    canvas.toBlob(async function(blob){
+      // var image = new Image();
+      // image.src = blob;
+      // var response 
+      console.log("blob", blob);
+      var response = await dispatch(uploadMeetingCanvas({id: meetingId, file: blob}));
+      if(response.type===uploadMeetingCanvas.fulfilled.type){
+        toast.success("Save whiteboard successfully");
+      }else {
+        toast.error("Something went wrong with saving whiteboard")
+        response.payload.failures.forEach(fail => {
+          toast.error(fail)
+        });
+      }
+      let url = URL.createObjectURL(blob);
+    }); 
+   }
   return (
     <>
       {/* <h1>Bảng trắng</h1> */}
@@ -247,6 +294,8 @@ const WhiteBoard = (props) => {
       <select id="size" defaultValue={20} onChange={changeCircleSize}>
         {genSizeOpt()}
       </select>
+      <button onClick={SaveToGroup}>Save to group</button>
+      <button onClick={SaveToComputer}>Save to computer</button>
       <div
         onMouseMove={moveCircle}
         style={{
@@ -268,17 +317,6 @@ const WhiteBoard = (props) => {
             cursor: "crosshair",
             zIndex: -1
           }}
-        //#region old code 
-        // onMouseUp={()=>{
-        //   circle.style.zIndex = 2;
-        // }}
-        // onMouseDown={()=>{
-        //   circle.style.zIndex = -1;
-        // }}
-        // onMouseMove={canvasMouseMove}
-        // onMouseUp={canvasMouseUp}
-        // onMouseDown={canvasMouseDown}
-        //#endregion
         />
         
         <canvas

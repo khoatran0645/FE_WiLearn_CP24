@@ -41,6 +41,7 @@ import {
   kickMember,
   leaveGroup,
   updateDiscussion,
+  uploadMeetingCanvas,
 } from "./studyGroupActions";
 
 const initialState = {
@@ -491,6 +492,20 @@ const studyGroupSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+    
+    //Save canvas to group
+    builder.addCase(uploadMeetingCanvas.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(uploadMeetingCanvas.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(uploadMeetingCanvas.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
 
     builder.addCase(updateMeeting.pending, (state) => {
       state.loading = true;
