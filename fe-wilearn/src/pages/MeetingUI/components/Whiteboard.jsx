@@ -3,6 +3,8 @@ import { HubConnectionBuilder } from "@microsoft/signalr";
 import { BE_URL } from "../../../constants";
 import { useParams } from "react-router-dom";
 import { useDispatch } from "react-redux";
+import { uploadMeetingCanvas } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
+import { toast } from "react-toastify";
 // import { RoomContext } from 'src/context/roomContext';
 
 const WhiteBoard = (props) => {
@@ -254,23 +256,28 @@ const WhiteBoard = (props) => {
       downloadLink.click();
     }); 
    }
-   const SaveToGroup = ()=>{
+   const SaveToGroup = async()=>{
     alert("SaveToGroup")
-    let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('download', 'CanvasAsImage.png');
     let canvas = canvasRef.current;
     // let dataURL = canvas.toDataURL('image/png');
     // let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
     // downloadLink.setAttribute('href',url);
     // downloadLink.click();
-    canvas.toBlob(function(blob){
+    canvas.toBlob(async function(blob){
       // var image = new Image();
       // image.src = blob;
       // var response 
       console.log("blob", blob);
+      var response = await dispatch(uploadMeetingCanvas({id: meetingId, file: blob}));
+      if(response.type===uploadMeetingCanvas.fulfilled.type){
+        toast.success("Save whiteboard successfully");
+      }else {
+        toast.error("Something went wrong with saving whiteboard")
+        response.payload.failures.forEach(fail => {
+          toast.error(fail)
+        });
+      }
       let url = URL.createObjectURL(blob);
-      downloadLink.setAttribute('href', url);
-      downloadLink.click();
     }); 
    }
   return (
@@ -287,7 +294,7 @@ const WhiteBoard = (props) => {
       <select id="size" defaultValue={20} onChange={changeCircleSize}>
         {genSizeOpt()}
       </select>
-      <button >Save to group</button>
+      <button onClick={SaveToGroup}>Save to group</button>
       <button onClick={SaveToComputer}>Save to computer</button>
       <div
         onMouseMove={moveCircle}

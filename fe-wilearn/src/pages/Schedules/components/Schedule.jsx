@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import HistoryChat from "./../../Meeting/HistoryChat";
 import HistoryReview from "../../Meeting/HistoryReview";
+import HistoryCanvas from "../../Meeting/HistoryCanvas";
 
 const localizer = momentLocalizer(moment);
 
@@ -420,6 +421,21 @@ function Schedule() {
                               </Typography>
                             ):(
                               <HistoryReview reviewHistory={meeting.reviews} />
+                            )
+                          }
+                        </Grid>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          sx={{ paddingTop: "0.3rem" }}
+                        >
+                          {
+                            !meeting.canvasPath||meeting.canvasPath.length==0?(
+                              <Typography variant="body1" color="red">
+                                No whiteboard saved
+                              </Typography>
+                            ):(
+                              <HistoryCanvas canvasPath={meeting.canvasPath} />
                             )
                           }
                         </Grid>
