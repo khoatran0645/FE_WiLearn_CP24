@@ -25,12 +25,10 @@ const WhiteBoard = (props) => {
   const size = document.getElementById("size");
   const [canvasContext, setCanvasContext] = useState();
   const [textContext, setTextContext] = useState();
-  // let textContext;
   const [canvasX, setCanvasX] = useState();
   const [canvasY, setCanvasY] = useState();
 
   const username = localStorage.getItem("userName");
-  // const [meetHub, setMeetHub] = useState();
   let meetHub;
   var last_mousex = 0;
   var last_mousey = 0;
@@ -70,13 +68,9 @@ const WhiteBoard = (props) => {
       uname: username
     }
     drawings.push(drawing)
-    // console.log('draw')
     canvasContext.beginPath();
-    // console.log(`PREV X: ${prev_x}, PREV Y: ${prev_y}`);
-    // console.log(`X: ${x}, Y: ${y}`);
     canvasContext.globalCompositeOperation = "source-over";
     canvasContext.strokeStyle = clr;
-    // canvasContext.lineWidth = 3;
     if (clr == "white") {
       brushSize = brushSize * 10;
     }
@@ -89,11 +83,9 @@ const WhiteBoard = (props) => {
     canvasContext.closePath();
     canvasContext.save();
 
-    // setOutput(`from: ${prev_x}, ${prev_y}<br/>last: ${x}, ${y}<br/>color: ${clr}`);
   };
   const canvasMouseUp = () => {
     mousedown = false;
-    // circle.style.zIndex = null;
   };
   const canvasMouseDown = (e) => {
     last_mousex = parseInt(e.clientX - canvasX + window.scrollX);
@@ -106,8 +98,6 @@ const WhiteBoard = (props) => {
 
   const newConnection = () => {
     const accessTokenFactory = localStorage.getItem("token");
-    // const urlParts = window.location.href.split("/");
-    // const meetingId = urlParts[urlParts.length - 2];
     const hubConnection = new HubConnectionBuilder()
       .withUrl(
         BE_URL + "/hubs/drawhub?meetingId=" + meetingId,
@@ -134,15 +124,36 @@ const WhiteBoard = (props) => {
   };
   meetHub = newConnection();
 
+  window.onresize=()=>{
+    clearMousePositions();
+    const canvas = canvasRef.current;
+
+    var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
+    var sizeHeight = 85 * window.innerHeight / 100 || 800;
+
+    // Setting the canvas site and width to be responsive 
+    canvas.width = sizeWidth;
+    canvas.height = sizeHeight;
+    canvas.style.width = sizeWidth;
+    canvas.style.height = sizeHeight;
+
+    const textVas = textRef.current;
+
+    textVas.width = sizeWidth;
+    textVas.height = sizeHeight;
+    textVas.style.width = sizeWidth;
+    textVas.style.height = sizeHeight;
+  }
+
   useEffect(() => {
     // toast.success('Đã vào bảng trắng');
     clearMousePositions();
     const canvas = canvasRef.current;
 
-    var sizeWidth = 100 * window.innerWidth / 100 - 10 || 800;//-2 cái border
+    var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
     var sizeHeight = 85 * window.innerHeight / 100 || 800;
 
-    //Setting the canvas site and width to be responsive 
+    // Setting the canvas site and width to be responsive 
     canvas.width = sizeWidth;
     canvas.height = sizeHeight;
     canvas.style.width = sizeWidth;
@@ -155,11 +166,8 @@ const WhiteBoard = (props) => {
     textVas.style.width = sizeWidth;
     textVas.style.height = sizeHeight;
 
-    // textVas.top = canvas.offsetTop;
-    // textVas.top = "10000px";
     textVas.style.top = canvas.offsetTop+"px";
     textVas.style.left = canvas.offsetLeft+"px";
-    // textVas.style.top = "10000px";
 
     console.log("textVas", textVas)
 
@@ -167,21 +175,11 @@ const WhiteBoard = (props) => {
     setCanvasY(canvas.offsetTop);
 
     setCanvasContext(canvas.getContext("2d"));
-    // textContext=canvas.getContext("2d");
     setTextContext(textVas.getContext("2d"));
-    // if(!meetHub){
-
-    //   const meetHub = newConnection();
-    //   setMeetHub(meetHub);
-    // }
   }, [meetingId]);
   const moveCircle = (e) => {
     circle.style.left = `${e.clientX + window.scrollX - size.value / 2}px`;
     circle.style.top = `${e.clientY + window.scrollY - size.value / 2}px`;
-    // circle.style.left = `${e.clientX }px`;
-    // circle.style.top = `${e.clientY }px`;
-    // circle.style.left = e.clientX - 48 + 'px';
-    // circle.style.top = e.clientY - 48 + 'px';
   };
   const changeCircleSize = () => {
     circle.style.width = size.value + 'px';
@@ -208,9 +206,6 @@ const WhiteBoard = (props) => {
         textContext.font = "15px Comic Sans MS";
         let startX = mousex+10
 
-        // textContext.fillStyle = "black";
-        // textContext.textAlign = "center";
-        // textContext.fillText(names, startX, mousey+5)
         let backgroundLength = textContext.measureText(uniqueGoodDrawings.map(d=>d.uname).join(" ")).width;
         textContext.fillStyle = "rgba(255,255,255,.5)";
         textContext.fillRect(mousex+5, mousey-10, backgroundLength+10, 25);
@@ -242,14 +237,7 @@ const WhiteBoard = (props) => {
     let downloadLink = document.createElement('a');
     downloadLink.setAttribute('download', 'CanvasAsImage.png');
     let canvas = canvasRef.current;
-    // let dataURL = canvas.toDataURL('image/png');
-    // let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
-    // downloadLink.setAttribute('href',url);
-    // downloadLink.click();
     canvas.toBlob(function(blob){
-      // var image = new Image();
-      // image.src = blob;
-      // var response 
       console.log("blob", blob);
       let url = URL.createObjectURL(blob);
       downloadLink.setAttribute('href', url);
@@ -259,14 +247,7 @@ const WhiteBoard = (props) => {
    const SaveToGroup = async()=>{
     alert("SaveToGroup")
     let canvas = canvasRef.current;
-    // let dataURL = canvas.toDataURL('image/png');
-    // let url = dataURL.replace(/^data:image\/png/,'data:application/octet-stream');
-    // downloadLink.setAttribute('href',url);
-    // downloadLink.click();
     canvas.toBlob(async function(blob){
-      // var image = new Image();
-      // image.src = blob;
-      // var response 
       console.log("blob", blob);
       var response = await dispatch(uploadMeetingCanvas({id: meetingId, file: blob}));
       if(response.type===uploadMeetingCanvas.fulfilled.type){
@@ -281,9 +262,12 @@ const WhiteBoard = (props) => {
     }); 
    }
   return (
-    <>
+    <div style={{
+      marginLeft: 5
+    }}>
       {/* <h1>Bảng trắng</h1> */}
-      <select id="color" onChange={changeCircleColor}>
+      <div style={{marginBottom: 5}}>
+      <select id="color" onChange={changeCircleColor} style={{marginRight: 5}}>
         <option value="black">Black</option>
         <option value="red">Red</option>
         <option value="yellow">Yellow</option>
@@ -291,18 +275,16 @@ const WhiteBoard = (props) => {
         <option value="blue">Blue</option>
         <option value="white">Eraser(x10 size)</option>
       </select>
-      <select id="size" defaultValue={20} onChange={changeCircleSize}>
+      <select id="size" defaultValue={20} onChange={changeCircleSize} style={{marginRight: 5}}>
         {genSizeOpt()}
       </select>
-      <button onClick={SaveToGroup}>Save to group</button>
-      <button onClick={SaveToComputer}>Save to computer</button>
+      <button onClick={SaveToGroup} style={{marginRight: 5}}>Save to group</button>
+      <button onClick={SaveToComputer} style={{marginRight: 5}}>Save to computer</button>
+      </div>
       <div
         onMouseMove={moveCircle}
         style={{
-          width: "100vw",
-          // position: "relative"
-          // alignItems: "center",
-          // border: "3px solid blue",
+          width: "95vw",
         }}
       >
         <div id="circle"
@@ -326,6 +308,8 @@ const WhiteBoard = (props) => {
           onMouseOut={clearMousePositions}
           onMouseMove={canvasMouseMove}
           ref={canvasRef}
+          // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
+          // height="calc(85 * window.innerHeight / 100 || 800)"
           style={{
             cursor: "crosshair",
             border: "1px solid #000000",
@@ -338,6 +322,8 @@ const WhiteBoard = (props) => {
           onMouseOut={clearMousePositions}
           onMouseMove={canvasMouseMove}
           ref={textRef}
+          // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
+          // height="calc(85 * window.innerHeight / 100 || 800)"
           style={{
             cursor: "crosshair",
             border: "2px solid red",
@@ -346,7 +332,7 @@ const WhiteBoard = (props) => {
           }}
         ></canvas>
       </div>
-    </>
+    </div>
   );
 };
 
