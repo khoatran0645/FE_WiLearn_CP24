@@ -124,6 +124,27 @@ const WhiteBoard = (props) => {
   };
   meetHub = newConnection();
 
+  window.onresize=()=>{
+    clearMousePositions();
+    const canvas = canvasRef.current;
+
+    var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
+    var sizeHeight = 85 * window.innerHeight / 100 || 800;
+
+    // Setting the canvas site and width to be responsive 
+    canvas.width = sizeWidth;
+    canvas.height = sizeHeight;
+    canvas.style.width = sizeWidth;
+    canvas.style.height = sizeHeight;
+
+    const textVas = textRef.current;
+
+    textVas.width = sizeWidth;
+    textVas.height = sizeHeight;
+    textVas.style.width = sizeWidth;
+    textVas.style.height = sizeHeight;
+  }
+
   useEffect(() => {
     // toast.success('Đã vào bảng trắng');
     clearMousePositions();
@@ -132,7 +153,7 @@ const WhiteBoard = (props) => {
     var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
     var sizeHeight = 85 * window.innerHeight / 100 || 800;
 
-    //Setting the canvas site and width to be responsive 
+    // Setting the canvas site and width to be responsive 
     canvas.width = sizeWidth;
     canvas.height = sizeHeight;
     canvas.style.width = sizeWidth;
@@ -287,6 +308,8 @@ const WhiteBoard = (props) => {
           onMouseOut={clearMousePositions}
           onMouseMove={canvasMouseMove}
           ref={canvasRef}
+          // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
+          // height="calc(85 * window.innerHeight / 100 || 800)"
           style={{
             cursor: "crosshair",
             border: "1px solid #000000",
@@ -299,6 +322,8 @@ const WhiteBoard = (props) => {
           onMouseOut={clearMousePositions}
           onMouseMove={canvasMouseMove}
           ref={textRef}
+          // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
+          // height="calc(85 * window.innerHeight / 100 || 800)"
           style={{
             cursor: "crosshair",
             border: "2px solid red",
