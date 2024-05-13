@@ -1,20 +1,33 @@
 import React, { useEffect, useRef, useState } from "react";
 import { HubConnectionBuilder } from "@microsoft/signalr";
 import { BE_URL } from "../../../constants";
-import { useParams } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { uploadMeetingCanvas } from "../../../app/reducer/studyGroupReducer/studyGroupActions";
 import { toast } from "react-toastify";
 // import { RoomContext } from 'src/context/roomContext';
 
 const WhiteBoard = (props) => {
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   const canvasRef = useRef(null);
   const textRef = useRef(null);
   const colorRef = useRef(null);
   let drawings = []
 
-  const { meetingId } = useParams();
+  const { groupId, meetingId } = useParams();
+  let isLead = false;
+  const { userInfo } = useSelector((state) => state.user);
+  try{
+    let leadGroups = [];
+    if (userInfo) {
+      leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
+    }
+    isLead = leadGroups.some((g) => g.id == parseInt(groupId));
+    }
+  catch(ex){
+    alert(ex)
+  }
 
   const clearMousePositions = () => {
     last_mousex = 0;
@@ -98,9 +111,10 @@ const WhiteBoard = (props) => {
 
   const newConnection = () => {
     const accessTokenFactory = localStorage.getItem("token");
+    const userName = localStorage.getItem("userName")
     const hubConnection = new HubConnectionBuilder()
       .withUrl(
-        BE_URL + "/hubs/drawhub?meetingId=" + meetingId,
+        BE_URL + "/hubs/drawhub?meetingId=" + meetingId+"&username="+userName,
         {
           accessTokenFactory: () => accessTokenFactory,
         }
@@ -108,12 +122,19 @@ const WhiteBoard = (props) => {
       .withAutomaticReconnect()
       .build();
     hubConnection.start().catch((err) => console.log(err));
+    hubConnection.on("MeetingEnd", () => {
+      // toast.info("Meeting ended")
+      navigate("/groups/"+groupId);
+    })
     hubConnection.on("draw", (prev_x, prev_y, x, y, color, size, username) => {
       drawCanvas(prev_x, prev_y, x, y, color, size, username);
     });
 
     hubConnection.on("get-drawings", (drawings) => {
       // alert("get-drawings")
+      textRef.current.style.borderColor = "green"
+      // canvasRef.current.style.borderColor = "green"
+      // toast.info("Connected to meeting white board")
       console.log("get-drawings", drawings)
       drawings.forEach((d) => {
         drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size, d.username);
@@ -197,7 +218,7 @@ const WhiteBoard = (props) => {
   }
 
   const showNames = ()=>{
-      const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r).map(d=>({color: d.color, uname: d.uname}));
+      const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/1.5).map(d=>({color: d.color, uname: d.uname}));
       const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
       textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
       if(uniqueGoodDrawings.length>0) {
@@ -254,6 +275,9 @@ const WhiteBoard = (props) => {
         toast.success("Save whiteboard successfully");
       }else {
         toast.error("Something went wrong with saving whiteboard")
+        alert(response.payload.type)
+        console.log("uploadMeetingCanvas res", response)
+        toast.error(response.payload)
         response.payload.failures.forEach(fail => {
           toast.error(fail)
         });
@@ -278,7 +302,7 @@ const WhiteBoard = (props) => {
       <select id="size" defaultValue={20} onChange={changeCircleSize} style={{marginRight: 5}}>
         {genSizeOpt()}
       </select>
-      <button onClick={SaveToGroup} style={{marginRight: 5}}>Save to group</button>
+      {isLead && (<button onClick={SaveToGroup} style={{marginRight: 5}}>Save to group</button>)}
       <button onClick={SaveToComputer} style={{marginRight: 5}}>Save to computer</button>
       </div>
       <div
@@ -312,7 +336,7 @@ const WhiteBoard = (props) => {
           // height="calc(85 * window.innerHeight / 100 || 800)"
           style={{
             cursor: "crosshair",
-            border: "1px solid #000000",
+            // border: "1px solid #000000",
           }}
         ></canvas>
         <canvas 
