@@ -9,7 +9,7 @@ import {
 } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import ButtonGetStarted from "./ButtonGetStarted";
-import { AccountBalance, Home, HowToReg, MenuBook } from "@mui/icons-material";
+import { AccountBalance, HowToReg, MenuBook } from "@mui/icons-material";
 
 export default function Content() {
   const navigate = useNavigate();
@@ -24,27 +24,16 @@ export default function Content() {
 
   const cardsData = [
     {
-      title: "Financing your studies",
-      description: "How to pay for your studies? Find a scholarship.",
-      icon: <AccountBalance />,
+      title: "Find your friend to form group",
+      icon: <AccountBalance sx={{ fontSize: 50, color: "white" }} />,
     },
     {
-      title: "Find a study programme",
-      description:
-        "Search through our database of English-taught study programmes.",
-      icon: <MenuBook />,
+      title: "Online study session",
+      icon: <MenuBook sx={{ fontSize: 50, color: "white" }} />,
     },
     {
-      title: "How to apply",
-      description:
-        "Find out about admission requirements and how to apply for a study programme.",
-      icon: <HowToReg />,
-    },
-    {
-      title: "Finding a place to live",
-      description:
-        "Finding a room is a challenge, so start looking as soon as possible.",
-      icon: <Home />,
+      title: "Space for study discussion and share study resources",
+      icon: <HowToReg sx={{ fontSize: 50, color: "white" }} />,
     },
   ];
 
@@ -95,6 +84,7 @@ export default function Content() {
               justifyContent={"flex-end"}
               paddingTop={3}
               paddingRight={2}
+              alignItems="center"
             >
               <Button
                 onClick={handleRegister}
@@ -113,6 +103,11 @@ export default function Content() {
               >
                 Register
               </Button>
+              <Divider
+                orientation="vertical"
+                flexItem
+                sx={{ borderColor: 'white', height: '100%' }}
+              />
               <Button
                 onClick={handleSignIn}
                 color="inherit"
@@ -175,29 +170,31 @@ export default function Content() {
           </Grid>
         </Grid>
       </Grid>
-      <Grid item container spacing={3} justifyContent="center" paddingTop={2}>
+      <Grid item container spacing={8} justifyContent="center" paddingTop={2}>
         {cardsData.map((card, index) => (
           <Grid item key={index}>
             <Card
               style={{
-                position: "relative",
-                padding: "20px",
+                display: "flex",
+                flexDirection: "column",
+                justifyContent: "center",
+                alignItems: "center",
+                padding: "30px",
                 boxShadow: "0 4px 8px rgba(0, 128, 128, 0.2)",
                 borderRadius: "8px",
                 border: "2px solid #2374c0",
                 backgroundColor: "#5466ae",
-                width: "270px",
-                height: "200px",
+                width: "350px",
+                height: "250px",
+                margin: "20px",
+                textAlign: "center",
               }}
             >
               {card.icon}
-              <Typography variant="h6" style={{ color: "white" }}>
+              <Typography variant="h6" style={{ color: "white", marginTop: "10px" }}>
                 {card.title}
               </Typography>
-              <Divider style={{ backgroundColor: "white", margin: "10px 0" }} />
-              <Typography variant="body2" style={{ color: "white" }}>
-                {card.description}
-              </Typography>
+              <Divider style={{ backgroundColor: "white", margin: "10px 0", width: "80%" }} />
             </Card>
           </Grid>
         ))}
