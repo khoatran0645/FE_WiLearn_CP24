@@ -46,6 +46,7 @@ import {
 
 const initialState = {
   loading: false,
+  loadingGroup: false,
   error: null,
   rooms: [],
   subjectLists: [],
@@ -362,7 +363,7 @@ const studyGroupSlice = createSlice({
     //   state.error = null;
     // },
     builder.addCase(getGroupInfo.pending, (state) => {
-      state.loading = true;
+      state.loadingGroup = true;
       state.error = null;
     });
     // [getGroupInfo.fulfilled]: (state, { payload }) => {
@@ -370,7 +371,7 @@ const studyGroupSlice = createSlice({
     //   state.groupInfo = payload;
     // },
     builder.addCase(getGroupInfo.fulfilled, (state, { payload }) => {
-      state.loading = false;
+      state.loadingGroup = false;
       state.groupInfo = payload;
     });
     // [getGroupInfo.rejected]: (state, { payload }) => {
@@ -378,7 +379,7 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // },
     builder.addCase(getGroupInfo.rejected, (state, { payload }) => {
-      state.loading = false;
+      state.loadingGroup = false;
       state.error = payload;
     });
 
