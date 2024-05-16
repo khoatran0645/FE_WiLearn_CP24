@@ -11,6 +11,7 @@ import {
   ListItemText,
   Avatar,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -47,7 +48,7 @@ const drawerWidth = 220;
 
 export default function ClippedDrawer() {
   const { groupId } = useParams();
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo, loadingGroup } = useSelector((state) => state.studyGroup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
@@ -95,7 +96,7 @@ export default function ClippedDrawer() {
     });
 
     return () => {
-      groupHub.stop().catch((error) => {});
+      groupHub.stop().catch((error) => { });
     };
   }, [groupId]);
 
@@ -127,14 +128,18 @@ export default function ClippedDrawer() {
                 marginTop: "30px",
               }}
             >
-              <Avatar
-                style={{ width: 80, height: 80 }}
-                alt="Group Avatar"
-                src={
-                  groupInfo?.imagePath ||
-                  "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
-                }
-              />
+              {loadingGroup ? (
+                <CircularProgress />
+              ) : (
+                <Avatar
+                  style={{ width: 80, height: 80 }}
+                  alt="Group Avatar"
+                  src={
+                    groupInfo?.imagePath ||
+                    "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                  }
+                />
+              )}
               <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
                 {groupInfo?.name}
               </Typography>
@@ -161,24 +166,6 @@ export default function ClippedDrawer() {
 
             <ListItem>
               <NavLink
-                to="discussions"
-                style={({ isActive, isPending }) => {
-                  return {
-                    color: isActive ? "#ff8080" : "black",
-                    textDecoration: "none",
-                  };
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LocalLibraryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Discussion" />
-                </ListItemButton>
-              </NavLink>
-            </ListItem>
-            <ListItem>
-              <NavLink
                 to="meetings"
                 style={({ isActive, isPending }) => {
                   return {
@@ -192,6 +179,24 @@ export default function ClippedDrawer() {
                     <CalendarMonthIcon />
                   </ListItemIcon>
                   <ListItemText primary="Schedule" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
                 </ListItemButton>
               </NavLink>
             </ListItem>
