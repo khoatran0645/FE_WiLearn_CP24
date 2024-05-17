@@ -20,7 +20,7 @@ import {
   getRequestFormList,
   declineJoinGroup,
   meetingNow,
-  getMeetingList,
+  getGrouptMeetingList,
   getClassLists,
   addDiscussion,
   getDiscussionByGroupId,
@@ -387,7 +387,7 @@ const studyGroupSlice = createSlice({
     //   state.loading = true;
     //   state.error = null;
     // },
-    builder.addCase(getMeetingList.pending, (state) => {
+    builder.addCase(getGrouptMeetingList.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
@@ -395,15 +395,18 @@ const studyGroupSlice = createSlice({
     //   state.loading = false;
     //   state.meetingList = payload;
     // },
-    builder.addCase(getMeetingList.fulfilled, (state, { payload }) => {
+    builder.addCase(getGrouptMeetingList.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.meetingList = payload;
+      state.groupInfo.pastMeetings = payload.past
+      state.groupInfo.scheduleMeetings = payload.schedule
+      state.groupInfo.liveMeetings = payload.live
     });
     // [getMeetingList.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
-    builder.addCase(getMeetingList.rejected, (state, { payload }) => {
+    builder.addCase(getGrouptMeetingList.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -783,7 +786,7 @@ export {
   getRequestFormList,
   declineJoinGroup,
   meetingNow,
-  getMeetingList,
+  getGrouptMeetingList as getMeetingList,
   getClassLists,
   addDiscussion,
   getDiscussionById,

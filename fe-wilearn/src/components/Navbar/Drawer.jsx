@@ -34,6 +34,7 @@ import {
   getDocumentListByGroup,
   getStudentInvites,
   getDiscussionByGroupId,
+  getGrouptMeetingList,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -92,6 +93,13 @@ export default function ClippedDrawer() {
 
     groupHub.on("OnReloadGroup", (message) => {
       onRefreshGroup();
+      message && toast.info(message);
+    });
+
+    groupHub.on("OnReloadMeeting", (message) => {
+      toast.info("OnReloadMeeting")
+      dispatch(getGrouptMeetingList(groupId));
+      toast.info("Finish OnReloadMeeting")
       message && toast.info(message);
     });
 
