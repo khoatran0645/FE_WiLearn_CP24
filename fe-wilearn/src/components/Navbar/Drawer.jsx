@@ -90,7 +90,7 @@ export default function ClippedDrawer() {
       .build();
     groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
-    groupHub.on("OnReloadMeeting", (message) => {
+    groupHub.on("OnReloadGroup", (message) => {
       onRefreshGroup();
       message && toast.info(message);
     });
@@ -325,24 +325,6 @@ export default function ClippedDrawer() {
 
             <ListItem>
               <NavLink
-                to="discussions"
-                style={({ isActive }) => {
-                  return {
-                    color: isActive ? "#ff8080" : "black",
-                    textDecoration: "none",
-                  };
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LocalLibraryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Discussion" />
-                </ListItemButton>
-              </NavLink>
-            </ListItem>
-            <ListItem>
-              <NavLink
                 to="meetings"
                 style={({ isActive }) => {
                   return {
@@ -359,6 +341,25 @@ export default function ClippedDrawer() {
                 </ListItemButton>
               </NavLink>
             </ListItem>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            
             <ListItem>
               <NavLink
                 to="docs"
