@@ -63,7 +63,8 @@ export default function ClippedDrawer() {
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
     dispatch(getDiscussionByGroupId(groupId));
-    // toast.info("getUsermMeetings")
+    dispatch(getGrouptMeetingList(groupId));
+      // toast.info("getUsermMeetings")
     dispatch(getUsermMeetings())
   };
 
@@ -74,8 +75,9 @@ export default function ClippedDrawer() {
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
-    // dispatch(getDocumentListByGroup(groupId));
-    // dispatch(getDiscussionByGroupId(groupId));
+    dispatch(getDocumentListByGroup(groupId));
+    dispatch(getDiscussionByGroupId(groupId));
+    dispatch(getGrouptMeetingList(groupId));
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
