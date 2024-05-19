@@ -36,12 +36,11 @@ export const API_GET_LEAD_GROUP_INFO = "/api/Groups/Lead/{groupId}";
 export const API_GET_GROUP_MEMBER = "/api/Groups/Member";
 export const API_GET_MEMBER_GROUP_INFO = "/api/Groups/Member/{groupId}";
 export const API_UPDATE_GROUP_INFO = "/api/Groups/{groupId}";
-export const API_ADD_GROUP = "/api/studyGroup/add";
 
 export const API_GET_GROUP_NOT_JOIN = "/api/Groups/NotJoined";
 
 export const API_GET_MEMBER_BY_GROUP_ID = "/api/GroupMembers/Group/{groupId}";
-export const API_GET_ROOM_BY_GROUP_ID = "/api/studyGroup/{groupId}/room";
+export const API_GET_ALL_MEETING_BY_GROUP = "/api/Meetings/All/Group/{groupId}";
 export const API_SCHEDULE_MEETING = "/api/Meetings/Schedule";
 export const API_MEETING_NOW = "/api/Meetings/Instant";
 export const API_MEETING_CANVAS = "/api/Meetings/{meetingId}/Canvas";
