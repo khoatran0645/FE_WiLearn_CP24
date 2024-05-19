@@ -56,7 +56,7 @@ export default function ClippedDrawer() {
   const onRefreshGroup = () => {
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
-    dispatch(getGroupInfoAsMember(groupId));
+    // dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
@@ -70,12 +70,12 @@ export default function ClippedDrawer() {
   useEffect(() => {
     dispatch(getSubjectLists());
     const response = dispatch(getGroupInfo(groupId));
-    const response2 = dispatch(getGroupInfoAsMember(groupId));
+    // const response2 = dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
-    dispatch(getDocumentListByGroup(groupId));
-    dispatch(getDiscussionByGroupId(groupId));
+    // dispatch(getDocumentListByGroup(groupId));
+    // dispatch(getDiscussionByGroupId(groupId));
 
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
@@ -97,9 +97,17 @@ export default function ClippedDrawer() {
     });
 
     groupHub.on("OnReloadMeeting", (message) => {
-      toast.info("OnReloadMeeting")
       dispatch(getGrouptMeetingList(groupId));
-      toast.info("Finish OnReloadMeeting")
+      message && toast.info(message);
+    });
+
+    groupHub.on("OnReloadDicussion", (message) => {
+    dispatch(getDiscussionByGroupId(groupId));
+      message && toast.info(message);
+    });
+
+    groupHub.on("OnReloadDocument", (message) => {
+      dispatch(getDocumentListByGroup(groupId));
       message && toast.info(message);
     });
 
