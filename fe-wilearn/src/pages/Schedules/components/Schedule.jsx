@@ -54,14 +54,14 @@ function Schedule() {
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
   // let { liveMeetings, scheduleMeetings } = groupInfo;
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { meetingList } = useSelector((state) => state.studyGroup);
   let liveMeetings = [];
   let scheduleMeetings = [];
   let pastMeetings = [];
-  if (groupInfo) {
-    liveMeetings = groupInfo.liveMeetings;
-    scheduleMeetings = groupInfo.scheduleMeetings;
-    pastMeetings = groupInfo.pastMeetings;
+  if (meetingList) {
+    liveMeetings = meetingList.live;
+    scheduleMeetings = meetingList.schedule;
+    pastMeetings = meetingList.past;
   }
   const liveMeetingsCal = liveMeetings.map((m) => ({
     id: m.id,
@@ -259,7 +259,7 @@ function Schedule() {
               justifyContent={"flex-end"}
               paddingRight={6}
             >
-              <MeetingNowButton groupId={groupInfo?.id} />
+              <MeetingNowButton groupId={groupId} />
             </Stack>
           </Grid>
         </Grid>
@@ -392,7 +392,10 @@ function Schedule() {
                           </Typography>
                         )}
                         <Typography variant="body1" color="text.secondary">
-                          Status: {meeting.end ? "Happened" : "Forgotten"}
+                          {meeting.countMember} participants
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          Status: {meeting.end ? "Ended" : "Forgotten"}
                         </Typography>
                         <Grid
                           container

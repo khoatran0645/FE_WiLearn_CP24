@@ -398,9 +398,9 @@ const studyGroupSlice = createSlice({
     builder.addCase(getGrouptMeetingList.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.meetingList = payload;
-      state.groupInfo.pastMeetings = payload.past
-      state.groupInfo.scheduleMeetings = payload.schedule
-      state.groupInfo.liveMeetings = payload.live
+      // state.groupInfo.pastMeetings = payload.past
+      // state.groupInfo.scheduleMeetings = payload.schedule
+      // state.groupInfo.liveMeetings = payload.live
     });
     // [getMeetingList.rejected]: (state, { payload }) => {
     //   state.loading = false;

@@ -63,20 +63,22 @@ export default function ClippedDrawer() {
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
     dispatch(getDiscussionByGroupId(groupId));
-    // toast.info("getUsermMeetings")
+    dispatch(getGrouptMeetingList(groupId));
+      // toast.info("getUsermMeetings")
     dispatch(getUsermMeetings())
   };
 
   useEffect(() => {
     dispatch(getSubjectLists());
-    const response = dispatch(getGroupInfo(groupId));
     // const response2 = dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
-    // dispatch(getDocumentListByGroup(groupId));
-    // dispatch(getDiscussionByGroupId(groupId));
-
+    dispatch(getDocumentListByGroup(groupId));
+    dispatch(getDiscussionByGroupId(groupId));
+    dispatch(getGrouptMeetingList(groupId));
+    
+    const response = dispatch(getGroupInfo(groupId));
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
         navigate("/groups");
