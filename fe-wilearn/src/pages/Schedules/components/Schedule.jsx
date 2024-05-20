@@ -392,7 +392,10 @@ function Schedule() {
                           </Typography>
                         )}
                         <Typography variant="body1" color="text.secondary">
-                          Status: {meeting.end ? "Happened" : "Forgotten"}
+                          {meeting.countMember} participants
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          Status: {meeting.end ? "Ended" : "Forgotten"}
                         </Typography>
                         <Grid
                           container
