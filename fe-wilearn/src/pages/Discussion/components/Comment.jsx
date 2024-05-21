@@ -1,9 +1,16 @@
-import { Avatar, Grid, Typography, IconButton } from "@mui/material";
+import { Avatar, Grid, Typography, IconButton, Tooltip } from "@mui/material";
 import PropTypes from "prop-types";
 
-import FlagCircleIcon from "@mui/icons-material/FlagCircle";
+import EditIcon from "@mui/icons-material/Edit";
 
-const Comment = ({ avatarUrl, username, content, timestamp }) => {
+import { useDispatch, useSelector } from "react-redux";
+import EditCommentButton from "./EditCommentButton";
+
+const Comment = ({ answerId, avatarUrl, username, content, timestamp, accId }) => {
+  const { userInfo } = useSelector((state) => state.user);
+
+  // console.log("userInfo", userInfo);
+  // console.log("answerId", answerId);
   const styles = {
     commentContainer: {
       display: "flex",
@@ -47,11 +54,8 @@ const Comment = ({ avatarUrl, username, content, timestamp }) => {
         <Grid style={styles.userDetail}>
           <Grid sx={{ display: "flex" }}>
             <Avatar src={avatarUrl} alt="Avatar" style={styles.avatar} />
-
             <Typography style={styles.username}>{username}</Typography>
-            {/* <IconButton size="small">
-              <FlagCircleIcon fontSize="small" />
-            </IconButton> */}
+            {accId === userInfo.id && <EditCommentButton answerId={answerId} />}
           </Grid>
           <Typography style={styles.content}>{content}</Typography>
           <Typography style={styles.timestamp}>{timestamp}</Typography>
@@ -62,6 +66,8 @@ const Comment = ({ avatarUrl, username, content, timestamp }) => {
 };
 
 Comment.propTypes = {
+  key: PropTypes.number.isRequired,
+  accId: PropTypes.number.isRequired,
   avatarUrl: PropTypes.string.isRequired,
   username: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,

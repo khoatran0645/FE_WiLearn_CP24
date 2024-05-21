@@ -1,5 +1,6 @@
 //export const BE_URL = "https://www.groupstudy.somee.com";
 // export const BE_URL = "https://we-learn.somee.com";
+// export const BE_URL = "https://group-study.azurewebsites.net";
 export const BE_URL = "http://localhost:8000";
 // export const BE_URL = "http://localhost:5000";
 // link to swagger api: "https://www.groupstudy.somee.com/swagger/index.html";
@@ -110,6 +111,7 @@ export const API_GET_ANSWER_BY_DISCUSSION_ID =
   "/api/AnswerDiscussion/Get?discussionId={discussionId}";
 export const API_POST_ANSWER_DISCUSSION =
   "/api/AnswerDiscussion/Upload?accountId={accountId}&discussionId={discussionId}&Content={content}";
+  export const API_UPDATE_ANSWER_DISCUSSION ="/api/AnswerDiscussion/Update?answerDiscussionId={answerDiscussionId}&Content={content}";
 
 // personal stats
 export const API_GET_PERSONAL_STATS = "/api/Stats/Account/{userId}/{time}";

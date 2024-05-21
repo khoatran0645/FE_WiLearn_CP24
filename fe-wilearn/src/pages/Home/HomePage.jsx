@@ -77,7 +77,7 @@ export default function HomePage() {
         </Grid>
         {currentGroups.map((group) => (
           <Grid item key={group.id} xs={12} sm={6} md={4}>
-            <Card>
+            <Card sx={{ backgroundColor: "#F8F7F4" }}>
               <CardMedia
                 component="img"
                 height="120"
