@@ -125,6 +125,11 @@ export default function ClippedDrawer() {
       <CssBaseline />
       <Hidden mdDown>
         <Drawer
+          PaperProps={{
+            sx: {
+              backgroundColor: "#F8F7F4",
+            },
+          }}
           sx={{
             width: drawerWidth,
             flexShrink: 0,
@@ -287,6 +292,7 @@ export default function ClippedDrawer() {
         </IconButton>
         <Drawer
           sx={{
+            backgroundColor: "#f2ffe6",
             width: miniVariant ? 220 : drawerWidth,
             flexShrink: 0,
             "& .MuiDrawer-paper": {

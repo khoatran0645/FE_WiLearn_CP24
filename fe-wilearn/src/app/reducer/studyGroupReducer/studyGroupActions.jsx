@@ -38,6 +38,7 @@ import {
   API_GET_GROUP_STATS,
   API_GET_MORE_GROUP_STATS,
   API_UPLOAD_DISCUSSION_FILE,
+  API_UPDATE_ANSWER_DISCUSSION,
   DELETE_MEMBER,
   API_LEAVE_GROUP,
   API_MEETING_CANVAS,
@@ -509,6 +510,22 @@ export const addAnswer = createAsyncThunk(
           .replace("{discussionId}", data.discussionId)
           .replace("{content}", data.content),
         form
+      )
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const updateAnswer = createAsyncThunk(
+  "studyGroup/updateAnswer",
+  async (data, { rejectWithValue }) => {
+    console.log("answer data", data);
+    return await axiosClient
+      .put(
+        API_UPDATE_ANSWER_DISCUSSION.replace(
+          "{answerDiscussionId}",
+          data.answerId
+        ).replace("{content}", data.content)
       )
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));

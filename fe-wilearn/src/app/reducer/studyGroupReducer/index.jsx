@@ -41,6 +41,7 @@ import {
   kickMember,
   leaveGroup,
   updateDiscussion,
+  updateAnswer,
   uploadMeetingCanvas,
 } from "./studyGroupActions";
 
@@ -665,6 +666,19 @@ const studyGroupSlice = createSlice({
       state.loading = false;
     });
     builder.addCase(updateDiscussion.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
+    // update answer
+    builder.addCase(updateAnswer.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(updateAnswer.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(updateAnswer.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });

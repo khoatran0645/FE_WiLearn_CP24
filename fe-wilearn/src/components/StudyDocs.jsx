@@ -61,8 +61,8 @@ export default function StudyDocs() {
 
   const approvedList = listFile?.filter((doc) => doc.approved && doc.isActive);
   const pendingList = listFile?.filter((doc) => !doc.approved && doc.isActive);
-  // console.log("approvedList", approvedList);
-  // console.log("pendingList", pendingList);
+  console.log("approvedList", approvedList);
+  console.log("pendingList", pendingList);
 
   const handleFileChange = (event) => {
     // console.log("file", event.target.files[0]);
@@ -71,8 +71,9 @@ export default function StudyDocs() {
     } else {
       const fileType = event.target.files[0].type.toLowerCase();
       // console.log("fileType", fileType);
-      const validFileTypes = ["application/pdf", "image/jpeg", "image/png"];
-      if (!validFileTypes.includes(fileType)) {
+      // const validFileTypes = ["application/pdf", "image/jpeg", "image/png"];
+      const validFileTypes = [];
+      if (validFileTypes.includes(fileType)) {
         toast.error("Wrong format.");
         toast.info("Only pdf, jpeg, png file is accepted");
       } else {
@@ -282,13 +283,13 @@ export default function StudyDocs() {
                 Share File
                 <VisuallyHiddenInput
                   type="file"
-                  accept="application/pdf, image/jpeg, image/png"
+                  // accept="application/pdf, image/jpeg, image/png"
                   onChange={handleFileChange}
                   disabled={loading}
                 />
               </Button>
               <Typography variant="body2" color="text.secondary" paddingTop={2}>
-                * Only pdf, jpeg, png files are accepted
+                * All file types are accepted
               </Typography>
             </Grid>
           </Grid>

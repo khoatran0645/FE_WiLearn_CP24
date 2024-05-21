@@ -49,7 +49,7 @@ export default function DiscussionDetail() {
   if (loading) {
     return <Loading />; // Render loading indicator
   } else {
-    console.log("isCreatedUser", discussionDetail?.account?.id === userInfo?.id);
+    // console.log("isCreatedUser", discussionDetail?.account?.id === userInfo?.id);
   }
 
   if (!discussionDetail) {
