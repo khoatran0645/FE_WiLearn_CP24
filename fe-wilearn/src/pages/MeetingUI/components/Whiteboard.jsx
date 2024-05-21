@@ -29,10 +29,6 @@ const WhiteBoard = (props) => {
     alert(ex)
   }
 
-  const clearMousePositions = () => {
-    last_mousex = 0;
-    last_mousey = 0;
-  };
   const color = document.getElementById("color");
   const circle = document.getElementById('circle');
   const size = document.getElementById("size");
@@ -40,7 +36,12 @@ const WhiteBoard = (props) => {
   const [textContext, setTextContext] = useState();
   const [canvasX, setCanvasX] = useState();
   const [canvasY, setCanvasY] = useState();
-
+  
+  const clearMousePositions = () => {
+    last_mousex = 0;
+    last_mousey = 0;
+    if(circle){circle.style.display='none'}
+  };
   const username = localStorage.getItem("userName");
   let meetHub;
   var last_mousex = 0;
@@ -80,7 +81,16 @@ const WhiteBoard = (props) => {
       color: clr,
       uname: username
     }
-    drawings.push(drawing)
+    if(clr=="white"){
+      for (var i = 0; i < drawings.length; i++) {
+        if(dist(drawings[i].x, drawings[i].y, prev_x, prev_y)<brushSize*5){
+          drawings.splice(i,1);
+          // console.log(`Eraser remove`, {prev_x, prev_y})
+        }
+      }
+    }else{
+      drawings.push(drawing)
+    }
     canvasContext.beginPath();
     canvasContext.globalCompositeOperation = "source-over";
     canvasContext.strokeStyle = clr;
@@ -199,15 +209,31 @@ const WhiteBoard = (props) => {
     setTextContext(textVas.getContext("2d"));
   }, [meetingId]);
   const moveCircle = (e) => {
-    circle.style.left = `${e.clientX + window.scrollX - size.value / 2}px`;
-    circle.style.top = `${e.clientY + window.scrollY - size.value / 2}px`;
+    if(color.value!="white"){
+      circle.style.left = `${e.clientX + window.scrollX - size.value / 2}px`;
+      circle.style.top = `${e.clientY + window.scrollY - size.value / 2}px`;
+     
+    }else{
+      circle.style.left = `${e.clientX + window.scrollX - size.value * 5}px`;
+      circle.style.top = `${e.clientY + window.scrollY - size.value * 5}px`;
+    }
   };
   const changeCircleSize = () => {
-    circle.style.width = size.value + 'px';
-    circle.style.height = size.value + 'px';
+    if(color.value!="white"){
+      circle.style.width = size.value + 'px';
+      circle.style.height = size.value + 'px';
+    }else{
+      circle.style.width = size.value*10 + 'px';
+      circle.style.height = size.value*10 + 'px';
+    }
   };
   const changeCircleColor = () => {
-    circle.style.backgroundColor = color.value;
+    if(color.value!="white"){
+      circle.style.backgroundColor = color.value;
+    }else {
+      circle.style.backgroundColor = "black"
+    }
+    changeCircleSize();
   };
 
   function dist(x1, y1, x2, y2) {
@@ -218,11 +244,11 @@ const WhiteBoard = (props) => {
   }
 
   const showNames = ()=>{
-      const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/1.5).map(d=>({color: d.color, uname: d.uname}));
+      // const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/1.5).map(d=>({color: d.color, uname: d.uname}));
+      const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).map(d=>({color: d.color, uname: d.uname}));
       const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
       textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
       if(uniqueGoodDrawings.length>0) {
-        console.log("goodDrawings", uniqueGoodDrawings)
         let names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
         textContext.font = "15px Comic Sans MS";
         let startX = mousex+10
@@ -285,13 +311,14 @@ const WhiteBoard = (props) => {
       let url = URL.createObjectURL(blob);
     }); 
    }
+  //  const
   return (
     <div style={{
       marginLeft: 5
     }}>
       {/* <h1>Bảng trắng</h1> */}
       <div style={{marginBottom: 5}}>
-      <select id="color" onChange={changeCircleColor} style={{marginRight: 5}}>
+      <select id="color" onChange={changeCircleColor} style={{marginRight: 5, zIndex: 100}}>
         <option value="black">Black</option>
         <option value="red">Red</option>
         <option value="yellow">Yellow</option>
@@ -299,11 +326,11 @@ const WhiteBoard = (props) => {
         <option value="blue">Blue</option>
         <option value="white">Eraser(x10 size)</option>
       </select>
-      <select id="size" defaultValue={20} onChange={changeCircleSize} style={{marginRight: 5}}>
+      <select id="size" defaultValue={20} onChange={changeCircleSize} style={{marginRight: 5, zIndex: 100}}>
         {genSizeOpt()}
       </select>
-      {isLead && (<button onClick={SaveToGroup} style={{marginRight: 5}}>Save to group</button>)}
-      <button onClick={SaveToComputer} style={{marginRight: 5}}>Save to computer</button>
+      {isLead && (<button onClick={SaveToGroup} style={{marginRight: 5, zIndex: 100}}>Save to group</button>)}
+      <button onClick={SaveToComputer} style={{marginRight: 5, zIndex: 100}}>Save to computer</button>
       </div>
       <div
         onMouseMove={moveCircle}
@@ -321,7 +348,7 @@ const WhiteBoard = (props) => {
             border: '2px solid black',
             position: 'absolute',
             cursor: "crosshair",
-            zIndex: -1
+            // zIndex: -1
           }}
         />
         
@@ -330,6 +357,7 @@ const WhiteBoard = (props) => {
           onMouseUp={canvasMouseUp}
           onMouseDown={canvasMouseDown}
           onMouseOut={clearMousePositions}
+          onMouseEnter={()=>{circle.style.display="block"}}
           onMouseMove={canvasMouseMove}
           ref={canvasRef}
           // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
@@ -345,6 +373,7 @@ const WhiteBoard = (props) => {
           onMouseDown={canvasMouseDown}
           onMouseOut={clearMousePositions}
           onMouseMove={canvasMouseMove}
+          onMouseEnter={()=>{circle.style.display="block"}}
           ref={textRef}
           // width="calc(100 * window.innerWidth / 100 - 15 || 800)"
           // height="calc(85 * window.innerHeight / 100 || 800)"
