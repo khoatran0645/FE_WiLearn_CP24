@@ -2,7 +2,6 @@ import { createAsyncThunk } from "@reduxjs/toolkit";
 import {
   API_ACCEPT_INVITATION,
   API_ACCEPT_JOIN_REQUEST,
-  API_ADD_GROUP,
   API_CREATE_GROUP,
   API_DECLINE_INVITATION,
   API_DECLINE_JOIN_REQUEST,
@@ -12,7 +11,6 @@ import {
   API_GET_LIST_CLASS,
   API_GET_MEMBER_GROUP_INFO,
   API_GET_REQUEST_FORM_LIST,
-  API_GET_ROOM_BY_GROUP_ID,
   API_GET_STUDENT_INVITES,
   API_GET_SUBJECT_LISTS,
   API_INVITE_STUDENT,
@@ -43,6 +41,8 @@ import {
   API_UPDATE_ANSWER_DISCUSSION,
   DELETE_MEMBER,
   API_LEAVE_GROUP,
+  API_MEETING_CANVAS,
+  API_GET_ALL_MEETING_BY_GROUP,
 } from "../../../constants";
 // import mockStudyGroupService from "./mockStudyGroupService";
 import { toast } from "react-toastify";
@@ -51,33 +51,6 @@ import axiosClient from "../../../services/axiosClient";
 // import { useNavigate } from 'react-router-dom';
 // import * as RequestUtils from 'src/common/requestUtils';
 
-// export const addNewGroup = createAsyncThunk(
-//   "studyGroup/addNewGroup",
-//   async ({ name }, { rejectWithValue }) => {
-//     // Call API checkLogin
-//     const submitData = { name };
-//     return await mockStudyGroupService
-//       .fetchAddNewGroup(API_ADD_GROUP, submitData)
-//       .then((response) => response.data)
-//       .catch((error) => {
-//         return rejectWithValue(error.messageCode);
-//       });
-//   }
-// );
-
-// export const getRoomsByGroupId = createAsyncThunk(
-//   "studyGroup/getRoomsByGroupId",
-//   async ({ id }, { rejectWithValue }) => {
-//     // Call API checkLogin
-//     const submitData = { id };
-//     return await mockStudyGroupService
-//       .fetchGetRoomsByGroupId(API_GET_ROOM_BY_GROUP_ID, submitData)
-//       .then((response) => response.data)
-//       .catch((error) => {
-//         return rejectWithValue(error.messageCode);
-//       });
-//   }
-// );
 
 export const getSubjectLists = createAsyncThunk(
   "studyGroup/getSubjectLists",
@@ -89,11 +62,11 @@ export const getSubjectLists = createAsyncThunk(
   }
 );
 
-export const getMeetingList = createAsyncThunk(
-  "studyGroup/getMeetingLists",
-  async (_, { rejectWithValue }) => {
+export const getGrouptMeetingList = createAsyncThunk(
+  "studyGroup/getGrouptMeetingList",
+  async (groupId, { rejectWithValue }) => {
     return await axiosClient
-      .get(API_MEETING_PARENT)
+      .get(API_GET_ALL_MEETING_BY_GROUP.replace("{groupId}", groupId))
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }
@@ -235,6 +208,18 @@ export const getGroupMemberLists = createAsyncThunk(
   }
 );
 
+export const getGroupMeetings = createAsyncThunk(
+  "studyGroup/getGroupMeetings",
+  async (groupId, { rejectWithValue }) => {
+    return await axiosClient
+      .get(API_GET_LEAD_GROUP_INFO.replace("{groupId}", groupId))
+      .then((response) => response)
+      .catch((error) => {
+        return rejectWithValue(error.response.data);
+      });
+  }
+);
+
 export const getGroupInfo = createAsyncThunk(
   "studyGroup/getGroupInfo",
   async (groupId, { rejectWithValue }) => {
@@ -326,6 +311,18 @@ export const updateMeeting = createAsyncThunk(
   async (data, { rejectWithValue }) => {
     return await axiosClient
       .put(API_UPDATE_MEETING.replace("{id}", data.id), data)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const uploadMeetingCanvas = createAsyncThunk(
+  "studyGroup/uploadMeetingCanvas",
+  async ({id, file}, { rejectWithValue }) => {
+    console.log("canvas data", file);
+    console.log("canvas id", id);
+    return await axiosClient
+      .postForm(API_MEETING_CANVAS.replace("{meetingId}", id), {file: file})
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

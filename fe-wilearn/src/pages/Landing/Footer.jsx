@@ -19,8 +19,8 @@ export default function Footer() {
     >
       <Divider sx={{ marginBottom: "2rem", width: "100%" }} />
       <Container maxWidth="lg">
-        <Grid container spacing={12}>
-          <Grid item xs={12} sm={6} md={3}>
+        <Grid container spacing={4} justifyContent="space-between">
+          <Grid item xs={12} sm={6} md={4}>
             <Box style={{ display: "flex", alignItems: "center" }}>
               <img
                 src="logo.png"
@@ -30,7 +30,7 @@ export default function Footer() {
               <Typography variant="h6">Group Study</Typography>
             </Box>
             <Typography variant="body2">
-              Online meeting system for learning
+              Online system for studying in group
             </Typography>
             <Grid>
               <Grid item xs={12} paddingTop={3}>
@@ -63,56 +63,19 @@ export default function Footer() {
             <Typography variant="body2">
               <Grid container direction="column" spacing={1}>
                 <Grid item>
-                  <Link href="#" color="inherit">
-                    .Net
+                  <Link href="https://fe-wi-learn-cp-24.vercel.app" color="inherit">
+                    vercel
                   </Link>
                 </Grid>
                 <Grid item>
-                  <Link href="#" color="inherit">
-                    Reactjs
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Vite
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Microsoft
+                  <Link href="https://www.groupstudy.somee.com/swagger/index.html" color="inherit">
+                    somee swagger
                   </Link>
                 </Grid>
               </Grid>
             </Typography>
           </Grid>
-          <Grid item xs={12} sm={6} md={3}>
-            <Typography variant="h6">USEFUL LINKS</Typography>
-            <Typography variant="body2">
-              <Grid container direction="column" spacing={1}>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Pricing
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Settings
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Orders
-                  </Link>
-                </Grid>
-                <Grid item>
-                  <Link href="#" color="inherit">
-                    Help
-                  </Link>
-                </Grid>
-              </Grid>
-            </Typography>
-          </Grid>
-          <Grid item xs={12} sm={6} md={3}>
+          <Grid item xs={12} sm={6} md={4}>
             <Typography variant="h6">CONTACT</Typography>
             <Typography
               variant="body2"
@@ -126,7 +89,7 @@ export default function Footer() {
                 <Grid container paddingBottom={1}>
                   <EmailOutlined />{" "}
                   <Link href="mailto:info@example.com" color="inherit">
-                    info@example.com
+                    groupstudysystem@gmail.com
                   </Link>
                 </Grid>
                 <Grid container>

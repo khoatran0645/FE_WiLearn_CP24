@@ -11,6 +11,7 @@ import {
   ListItemText,
   Avatar,
   Typography,
+  CircularProgress,
 } from "@mui/material";
 
 import { NavLink, useNavigate, useParams } from "react-router-dom";
@@ -33,6 +34,7 @@ import {
   getDocumentListByGroup,
   getStudentInvites,
   getDiscussionByGroupId,
+  getGrouptMeetingList,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -47,34 +49,36 @@ const drawerWidth = 220;
 
 export default function ClippedDrawer() {
   const { groupId } = useParams();
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { groupInfo, loadingGroup } = useSelector((state) => state.studyGroup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const onRefreshGroup = () => {
     dispatch(getSubjectLists());
     dispatch(getGroupInfo(groupId));
-    dispatch(getGroupInfoAsMember(groupId));
+    // dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getStudentInvites());
     dispatch(getDiscussionByGroupId(groupId));
-    // toast.info("getUsermMeetings")
-    dispatch(getUsermMeetings());
+    dispatch(getGrouptMeetingList(groupId));
+      // toast.info("getUsermMeetings")
+    dispatch(getUsermMeetings())
   };
 
   useEffect(() => {
     dispatch(getSubjectLists());
-    const response = dispatch(getGroupInfo(groupId));
-    const response2 = dispatch(getGroupInfoAsMember(groupId));
+    // const response2 = dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
     dispatch(getRequestFormList(groupId));
     dispatch(getDocumentListByGroup(groupId));
     dispatch(getDiscussionByGroupId(groupId));
-
+    dispatch(getGrouptMeetingList(groupId));
+    
+    const response = dispatch(getGroupInfo(groupId));
     response.then((r) => {
       if (r.type === getGroupInfo.rejected.type) {
         navigate("/groups");
@@ -89,13 +93,28 @@ export default function ClippedDrawer() {
       .build();
     groupHub.start().catch((err) => console.log("groupHub.start err", err));
 
-    groupHub.on("OnReloadMeeting", (message) => {
+    groupHub.on("OnReloadGroup", (message) => {
       onRefreshGroup();
       message && toast.info(message);
     });
 
+    groupHub.on("OnReloadMeeting", (message) => {
+      dispatch(getGrouptMeetingList(groupId));
+      message && toast.info(message);
+    });
+
+    groupHub.on("OnReloadDicussion", (message) => {
+    dispatch(getDiscussionByGroupId(groupId));
+      message && toast.info(message);
+    });
+
+    groupHub.on("OnReloadDocument", (message) => {
+      dispatch(getDocumentListByGroup(groupId));
+      message && toast.info(message);
+    });
+
     return () => {
-      groupHub.stop().catch((error) => {});
+      groupHub.stop().catch((error) => { });
     };
   }, [groupId]);
 
@@ -132,14 +151,18 @@ export default function ClippedDrawer() {
                 marginTop: "30px",
               }}
             >
-              <Avatar
-                style={{ width: 80, height: 80 }}
-                alt="Group Avatar"
-                src={
-                  groupInfo?.imagePath ||
-                  "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
-                }
-              />
+              {loadingGroup ? (
+                <CircularProgress />
+              ) : (
+                <Avatar
+                  style={{ width: 80, height: 80 }}
+                  alt="Group Avatar"
+                  src={
+                    groupInfo?.imagePath ||
+                    "https://www.adorama.com/alc/wp-content/uploads/2018/11/landscape-photography-tips-yosemite-valley-feature.jpg"
+                  }
+                />
+              )}
               <Typography style={{ fontWeight: "bold", fontSize: 20 }}>
                 {groupInfo?.name}
               </Typography>
@@ -166,24 +189,6 @@ export default function ClippedDrawer() {
 
             <ListItem>
               <NavLink
-                to="discussions"
-                style={({ isActive, isPending }) => {
-                  return {
-                    color: isActive ? "#ff8080" : "black",
-                    textDecoration: "none",
-                  };
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LocalLibraryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Discussion" />
-                </ListItemButton>
-              </NavLink>
-            </ListItem>
-            <ListItem>
-              <NavLink
                 to="meetings"
                 style={({ isActive, isPending }) => {
                   return {
@@ -197,6 +202,24 @@ export default function ClippedDrawer() {
                     <CalendarMonthIcon />
                   </ListItemIcon>
                   <ListItemText primary="Schedule" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive, isPending }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
                 </ListItemButton>
               </NavLink>
             </ListItem>
@@ -326,24 +349,6 @@ export default function ClippedDrawer() {
 
             <ListItem>
               <NavLink
-                to="discussions"
-                style={({ isActive }) => {
-                  return {
-                    color: isActive ? "#ff8080" : "black",
-                    textDecoration: "none",
-                  };
-                }}
-              >
-                <ListItemButton>
-                  <ListItemIcon>
-                    <LocalLibraryIcon />
-                  </ListItemIcon>
-                  <ListItemText primary="Discussion" />
-                </ListItemButton>
-              </NavLink>
-            </ListItem>
-            <ListItem>
-              <NavLink
                 to="meetings"
                 style={({ isActive }) => {
                   return {
@@ -360,6 +365,25 @@ export default function ClippedDrawer() {
                 </ListItemButton>
               </NavLink>
             </ListItem>
+            <ListItem>
+              <NavLink
+                to="discussions"
+                style={({ isActive }) => {
+                  return {
+                    color: isActive ? "#ff8080" : "black",
+                    textDecoration: "none",
+                  };
+                }}
+              >
+                <ListItemButton>
+                  <ListItemIcon>
+                    <LocalLibraryIcon />
+                  </ListItemIcon>
+                  <ListItemText primary="Discussion" />
+                </ListItemButton>
+              </NavLink>
+            </ListItem>
+            
             <ListItem>
               <NavLink
                 to="docs"

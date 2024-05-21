@@ -149,7 +149,7 @@ const Vote = () => {
                     }}
                     component={"span"}
                   >
-                    Average: {v.average}
+                    Average: {( (v.average!=0||v.details.length==0)?v.average:v.details.map(vd=>vd.result?vd.result:0).reduce( ( p, c ) => p + c, 0 ) / v.details.length)}
                   </Typography>
 
                   <Box

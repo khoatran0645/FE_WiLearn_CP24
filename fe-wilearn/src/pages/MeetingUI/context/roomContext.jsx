@@ -425,6 +425,7 @@ export const RoomProvider = ({ children }) => {
           dispatch(addPeerNameAction(call.peer, userName));
           console.log('peers reducer addPeerNameAction', peers);
           call.on("stream", (userVideoStream) => {
+            // toast.info("Receive video from "+userName)
             console.log('peerOnCallOnStream userVideoStream', userVideoStream);
             dispatch(addPeerStreamAction(call.peer, userVideoStream));
             console.log('peers reducer addPeerStreamAction', peers);
@@ -581,12 +582,13 @@ export const RoomProvider = ({ children }) => {
         newConnect.on("OnVoteChange", () => handleVoteChange(roomId));
         newConnect.on("OnEndVote", (review) => {
           // toast.info(review.revieweeUsername + " đã trả bài xong. Xin hãy chấm điểm.");
-          toast.info(review.revieweeUsername + " finneshed reviewing. Please give "+review.revieweeUsername+" an evaluation.");
+          review.revieweeUsername !=userName && toast.info(review.revieweeUsername + " finneshed reviewing. Please give "+review.revieweeUsername+" an evaluation.");
+          review.revieweeUsername ==userName && toast.info("You finneshed reviewing. Please wait for other members to evaluate");
           handleVoteChange(roomId);
         });
         newConnect.on("OnStartVote", (reviewee) =>
           // toast.info(reviewee + " bắt đầu trả bài")
-          toast.info(reviewee + " start reviewing")
+          toast.info((reviewee==userName?"You":reviewee) + " start reviewing")
         );
         newConnect.on("get-focusList", (list) => {
           // toast.info("get-focusList");
@@ -694,13 +696,13 @@ export const RoomProvider = ({ children }) => {
     const call =
       // stream &&
       me.call(peerId, stream, {
-        // me.call(peerId, createEmptyVideoStream(), {
         metadata: {
           userName,
         },
       });
     console.log('userJoin call', call);
     call.on("stream", (userVideoStream) => {
+      // toast.info("Receive video from "+name)
       //userVideoStream: MediaStream
       console.log('userJoin call on stream', userVideoStream);
       dispatch(addPeerStreamAction(peerId, userVideoStream));
@@ -730,6 +732,8 @@ export const RoomProvider = ({ children }) => {
       dispatch(addPeerNameAction(call.peer, userName));
       console.log('peers reducer addPeerNameAction', peers);
       call.on("stream", (userVideoStream) => {
+        // toast.info("Receive video from "+userName)
+
         console.log('meOnCallOnStream 1 userVideoStream', userVideoStream);
         dispatch(addPeerStreamAction(call.peer, userVideoStream));
         console.log('peers reducer addPeerStreamAction', peers);
@@ -741,8 +745,8 @@ export const RoomProvider = ({ children }) => {
       connection.off("user-joined");
       connection.on("user-joined", (newUser) => {
         // toast.info(newUser.userName + " vào phòng học");
-        toast.info(newUser.userName + " joined meeting");
-        userJoin(newUser);
+        toast.info((newUser.userName==userName?"You":newUser.userName) + " joined meeting");
+        newUser.userName!=userName && userJoin(newUser);
       });
     }
 
@@ -781,6 +785,7 @@ export const RoomProvider = ({ children }) => {
       dispatch(addPeerNameAction(call.peer, userName));
       console.log('peers reducer addPeerNameAction', peers);
       call.on("stream", (userVideoStream) => {
+        // toast.info("Receive video from "+userName)
         console.log('meOnCallOnStream 2 userVideoStream', userVideoStream);
         dispatch(addPeerStreamAction(call.peer, userVideoStream));
         console.log('peers reducer addPeerStreamAction', peers);
@@ -801,8 +806,8 @@ export const RoomProvider = ({ children }) => {
 
     connection.on("user-joined", (newUser) => {
       // toast.info(newUser.userName + " vào phòng học");
-      toast.info(newUser.userName + " joined meeting");
-      userJoin(newUser);
+      toast.info((newUser.userName==userName?"You":newUser.userName) + " joined meeting");
+      newUser.userName!=userName && userJoin(newUser);
     });
     connection.invoke("JoinRoom", {
       roomId: roomId,

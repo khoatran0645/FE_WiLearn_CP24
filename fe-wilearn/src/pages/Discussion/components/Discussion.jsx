@@ -84,8 +84,10 @@ export default function DiscussionList() {
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
         /> */}
-        {(!currentDiscussions || currentDiscussions.length==0)&&(
-          <Typography align="center" variant="h5">No discussion yet</Typography>
+        {(!currentDiscussions || currentDiscussions.length == 0) && (
+          <Typography align="center" variant="h5">
+            No discussion yet
+          </Typography>
         )}
         <List>
           {currentDiscussions.map((discussion) => (
@@ -137,18 +139,23 @@ export default function DiscussionList() {
             </ListItem>
           ))}
         </List>
-        {totalPages > 1 && (
-          <Grid
-            item
-            container
-            justifyContent="center"
-            alignItems="center"
-            paddingTop={5}
-          >
-            <Paginate count={totalPages} onPageChange={handlePageChange} />
-          </Grid>
-        )}
+        
       </Grid>
+      <div
+          style={{
+            position: "fixed",
+            bottom: "0",
+            width: "100%",
+            backgroundColor: "#fff",
+            padding: "50px 0",
+          }}
+        >
+          {totalPages > 1 && (
+            <Grid item container justifyContent="center">
+              <Paginate count={totalPages} onPageChange={handlePageChange} />
+            </Grid>
+          )}
+        </div>
     </Grid>
   );
 }

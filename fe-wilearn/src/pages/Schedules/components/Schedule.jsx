@@ -28,6 +28,7 @@ import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import HistoryChat from "./../../Meeting/HistoryChat";
 import HistoryReview from "../../Meeting/HistoryReview";
+import HistoryCanvas from "../../Meeting/HistoryCanvas";
 
 const localizer = momentLocalizer(moment);
 
@@ -53,14 +54,14 @@ function Schedule() {
   const isLead = leadGroups.some((g) => g.id == parseInt(groupId));
 
   // let { liveMeetings, scheduleMeetings } = groupInfo;
-  const { groupInfo } = useSelector((state) => state.studyGroup);
+  const { meetingList } = useSelector((state) => state.studyGroup);
   let liveMeetings = [];
   let scheduleMeetings = [];
   let pastMeetings = [];
-  if (groupInfo) {
-    liveMeetings = groupInfo.liveMeetings;
-    scheduleMeetings = groupInfo.scheduleMeetings;
-    pastMeetings = groupInfo.pastMeetings;
+  if (meetingList) {
+    liveMeetings = meetingList.live;
+    scheduleMeetings = meetingList.schedule;
+    pastMeetings = meetingList.past;
   }
   const liveMeetingsCal = liveMeetings.map((m) => ({
     id: m.id,
@@ -258,7 +259,7 @@ function Schedule() {
               justifyContent={"flex-end"}
               paddingRight={6}
             >
-              <MeetingNowButton groupId={groupInfo?.id} />
+              <MeetingNowButton groupId={groupId} />
             </Stack>
           </Grid>
         </Grid>
@@ -391,21 +392,55 @@ function Schedule() {
                           </Typography>
                         )}
                         <Typography variant="body1" color="text.secondary">
-                          Status: {meeting.end ? "Happened" : "Forgotten"}
+                          {meeting.countMember} participants
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          Status: {meeting.end ? "Ended" : "Forgotten"}
                         </Typography>
                         <Grid
                           container
                           justifyContent="center"
                           sx={{ paddingTop: "1rem" }}
                         >
-                          <HistoryChat chatHistory={meeting.chats} />
+                          {
+                            meeting.chats.length==0?(
+                              <Typography variant="body1" color="red">
+                                No chat recorded
+                              </Typography>
+                            ):(
+                              <HistoryChat chatHistory={meeting.chats} />
+                            )
+                          }
+                          </Grid>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          sx={{ paddingTop: "0.3rem" }}
+                        >
+                          {
+                            meeting.reviews.length==0?(
+                              <Typography variant="body1" color="red">
+                                No review recorded
+                              </Typography>
+                            ):(
+                              <HistoryReview reviewHistory={meeting.reviews} />
+                            )
+                          }
                         </Grid>
                         <Grid
                           container
                           justifyContent="center"
                           sx={{ paddingTop: "0.3rem" }}
                         >
-                          <HistoryReview reviewHistory={meeting.reviews} />
+                          {
+                            !meeting.canvasPath||meeting.canvasPath.length==0?(
+                              <Typography variant="body1" color="red">
+                                No whiteboard saved
+                              </Typography>
+                            ):(
+                              <HistoryCanvas canvasPath={meeting.canvasPath} />
+                            )
+                          }
                         </Grid>
                       </CardContent>
                     </Card>

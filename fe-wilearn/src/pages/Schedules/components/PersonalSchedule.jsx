@@ -168,7 +168,7 @@ function PersonalSchedule() {
               Status: Can join now
             </Typography> */}
             <Typography variant="body1" color="text.secondary">
-              {meeting.countMember} people
+              {meeting.countMember} participants
             </Typography>
           </Grid>
           <Grid container justifyContent="center" sx={{ paddingTop: "1rem" }}>
@@ -408,21 +408,55 @@ function PersonalSchedule() {
                           </Typography>
                         )}
                         <Typography variant="body1" color="text.secondary">
-                          Status: {meeting.end ? "Happened" : "Forgotten"}
+                          {meeting.countMember} participants
+                        </Typography>
+                        <Typography variant="body1" color="text.secondary">
+                          Status: {meeting.end ? "Ended" : "Forgotten"}
                         </Typography>
                         <Grid
                           container
                           justifyContent="center"
                           sx={{ paddingTop: "1rem" }}
                         >
-                          <HistoryChat chatHistory={meeting.chats} />
+                          {
+                            meeting.chats.length==0?(
+                              <Typography variant="body1" color="red">
+                                No chat recorded
+                              </Typography>
+                            ):(
+                              <HistoryChat chatHistory={meeting.chats} />
+                            )
+                          }
                         </Grid>
                         <Grid
                           container
                           justifyContent="center"
                           sx={{ paddingTop: "0.3rem" }}
                         >
-                          <HistoryReview reviewHistory={meeting.reviews} />
+                          {
+                            meeting.reviews.length==0?(
+                              <Typography variant="body1" color="red">
+                                No review recorded
+                              </Typography>
+                            ):(
+                              <HistoryReview reviewHistory={meeting.reviews} />
+                            )
+                          }
+                        </Grid>
+                        <Grid
+                          container
+                          justifyContent="center"
+                          sx={{ paddingTop: "0.3rem" }}
+                        >
+                          {
+                            !meeting.canvasPath||meeting.canvasPath.length==0?(
+                              <Typography variant="body1" color="red">
+                                No whiteboard saved
+                              </Typography>
+                            ):(
+                              <HistoryCanvas canvasPath={meeting.canvasPath} />
+                            )
+                          }
                         </Grid>
                       </CardContent>
                     </Card>

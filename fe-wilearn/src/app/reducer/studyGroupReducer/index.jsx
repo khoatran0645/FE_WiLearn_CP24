@@ -20,7 +20,7 @@ import {
   getRequestFormList,
   declineJoinGroup,
   meetingNow,
-  getMeetingList,
+  getGrouptMeetingList,
   getClassLists,
   addDiscussion,
   getDiscussionByGroupId,
@@ -42,10 +42,12 @@ import {
   leaveGroup,
   updateDiscussion,
   updateAnswer,
+  uploadMeetingCanvas,
 } from "./studyGroupActions";
 
 const initialState = {
   loading: false,
+  loadingGroup: false,
   error: null,
   rooms: [],
   subjectLists: [],
@@ -362,7 +364,7 @@ const studyGroupSlice = createSlice({
     //   state.error = null;
     // },
     builder.addCase(getGroupInfo.pending, (state) => {
-      state.loading = true;
+      state.loadingGroup = true;
       state.error = null;
     });
     // [getGroupInfo.fulfilled]: (state, { payload }) => {
@@ -370,7 +372,7 @@ const studyGroupSlice = createSlice({
     //   state.groupInfo = payload;
     // },
     builder.addCase(getGroupInfo.fulfilled, (state, { payload }) => {
-      state.loading = false;
+      state.loadingGroup = false;
       state.groupInfo = payload;
     });
     // [getGroupInfo.rejected]: (state, { payload }) => {
@@ -378,7 +380,7 @@ const studyGroupSlice = createSlice({
     //   state.error = payload;
     // },
     builder.addCase(getGroupInfo.rejected, (state, { payload }) => {
-      state.loading = false;
+      state.loadingGroup = false;
       state.error = payload;
     });
 
@@ -386,7 +388,7 @@ const studyGroupSlice = createSlice({
     //   state.loading = true;
     //   state.error = null;
     // },
-    builder.addCase(getMeetingList.pending, (state) => {
+    builder.addCase(getGrouptMeetingList.pending, (state) => {
       state.loading = true;
       state.error = null;
     });
@@ -394,15 +396,18 @@ const studyGroupSlice = createSlice({
     //   state.loading = false;
     //   state.meetingList = payload;
     // },
-    builder.addCase(getMeetingList.fulfilled, (state, { payload }) => {
+    builder.addCase(getGrouptMeetingList.fulfilled, (state, { payload }) => {
       state.loading = false;
       state.meetingList = payload;
+      // state.groupInfo.pastMeetings = payload.past
+      // state.groupInfo.scheduleMeetings = payload.schedule
+      // state.groupInfo.liveMeetings = payload.live
     });
     // [getMeetingList.rejected]: (state, { payload }) => {
     //   state.loading = false;
     //   state.error = payload;
     // },
-    builder.addCase(getMeetingList.rejected, (state, { payload }) => {
+    builder.addCase(getGrouptMeetingList.rejected, (state, { payload }) => {
       state.loading = false;
       state.error = payload;
     });
@@ -492,6 +497,20 @@ const studyGroupSlice = createSlice({
       state.loading = false;
       state.error = payload;
     });
+    
+    //Save canvas to group
+    builder.addCase(uploadMeetingCanvas.pending, (state) => {
+      state.loading = true;
+      state.error = null;
+    });
+    builder.addCase(uploadMeetingCanvas.fulfilled, (state) => {
+      state.loading = false;
+    });
+    builder.addCase(uploadMeetingCanvas.rejected, (state, { payload }) => {
+      state.loading = false;
+      state.error = payload;
+    });
+
 
     builder.addCase(updateMeeting.pending, (state) => {
       state.loading = true;
@@ -781,7 +800,7 @@ export {
   getRequestFormList,
   declineJoinGroup,
   meetingNow,
-  getMeetingList,
+  getGrouptMeetingList as getMeetingList,
   getClassLists,
   addDiscussion,
   getDiscussionById,
