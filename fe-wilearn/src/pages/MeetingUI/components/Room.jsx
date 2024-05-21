@@ -117,7 +117,11 @@ export const Room = () => {
       //7-8: 4x2
       width = 2;
     }
-    const ava = showAvaList.find(focus => focus.peerId == peerId);
+    let ava =  showAvaList.find(focus => focus.peerId == peerId);
+    if(meId==peerId && focusScreenList.find(f=>f.peerId == meId)){
+      ava=false;
+    }
+    console.log("vidGrid cam", ava)
     return (
       <Grid item xs={width} key={peerId} 
       sx={{
