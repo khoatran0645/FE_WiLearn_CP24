@@ -179,6 +179,10 @@ export const RoomProvider = ({ children }) => {
         setMe(null);
         //reset stream
         setStream(null);
+        //turn off cam
+        if (camStream.getVideoTracks()[0]) {
+          camStream.getVideoTracks()[0].stop()
+        }
         return true;
       })
         .catch((error) => {
@@ -451,6 +455,9 @@ export const RoomProvider = ({ children }) => {
           if (stream.getAudioTracks()[0]) {
             stream.getAudioTracks()[0].enabled = false;
           }
+          if (stream.getVideoTracks()[0]) {
+            stream.getVideoTracks()[0].enabled = false;
+          }
           setCamStream(stream)
           setStream(stream);
           return stream;
@@ -644,10 +651,11 @@ export const RoomProvider = ({ children }) => {
 
   const toogleVid = (isActive) => {
     // console.log()
-    // if (stream.getVideoTracks()[0]) {
-    //   stream.getVideoTracks()[0].enabled = isActive;
-    // }
+    
     if (isActive) {
+      // if (stream.getVideoTracks()[0]) {
+      //   stream.getVideoTracks()[0].enabled = true;
+      // }
       connection.invoke("EndAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
       if (stream == defaultStream) {
         if (camStream) {
@@ -679,6 +687,9 @@ export const RoomProvider = ({ children }) => {
       connection.invoke("StartAva", { roomId: roomId, peerId: meId, imagePath: userInfo?.imagePath })
     }
     setIsCamOn(isActive);
+    if (camStream.getVideoTracks()[0]) {
+      camStream.getVideoTracks()[0].enabled = isActive;
+    }
   };
 
   const userJoin = ({ peerId, userName: name }) => {
