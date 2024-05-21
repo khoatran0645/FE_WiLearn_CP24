@@ -180,9 +180,22 @@ export const RoomProvider = ({ children }) => {
         //reset stream
         setStream(null);
         //turn off cam
-        if (camStream.getVideoTracks()[0]) {
-          camStream.getVideoTracks()[0].stop()
+        try{
+          if (camStream.getVideoTracks()) {
+            camStream.getVideoTracks().forEach(camVidTrack => {
+              camVidTrack.stop()
+            });
+          }
         }
+        catch(e){}
+        try{
+          if (camStream.getAudioTracks()) {
+            camStream.getAudioTracks().forEach(camSoundTrack => {
+              camSoundTrack.stop()
+            });
+          }
+        }
+        catch(e){}
         return true;
       })
         .catch((error) => {
