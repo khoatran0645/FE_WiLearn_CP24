@@ -283,7 +283,9 @@ const Meeting = () => {
   );
   return (
     <Box sx={{ height: "100%" }}>
-      <Grid container sx={{ flexGrow: 1, height: "90vh" }}>
+      <Grid container 
+        sx={{ flexGrow: 1 , height: "90vh"}}
+      >
         <Grid item xs={7.5} md={9} lg={9.5}>
           <Wrapper direction={direction}>
             <Box sx={{ flex: 1 }}>
@@ -307,6 +309,7 @@ const Meeting = () => {
                   justifyContent: "center",
                   alignItems: "center",
                   gap: "32px",
+                  position: "fixed", bottom: "0", width:"100%"
                 }}
               >
                 {/* {renderActions(openDrawer, shareScreen, handleCreateVote)} */}

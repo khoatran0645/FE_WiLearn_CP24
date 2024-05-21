@@ -25,7 +25,8 @@ const UserPaper = (props) => {
         // borderColor: { isFocus ? "blue" :"red"}
         border: isFocus ? 2 : 0,
         // border: 0,
-        borderColor: 'border.red'
+        borderColor: 'border.red',
+        maxWidth: '300px'
       }}
     >
       <Box
