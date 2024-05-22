@@ -127,7 +127,7 @@ export default function ClippedDrawer() {
         <Drawer
           PaperProps={{
             sx: {
-              backgroundColor: "#F8F7F4",
+              // backgroundColor: "#F8F7F4",
             },
           }}
           sx={{

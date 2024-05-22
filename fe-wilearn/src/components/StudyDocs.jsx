@@ -240,7 +240,8 @@ export default function StudyDocs() {
       >
         <ListItemButton divider onClick={() => handleViewfile(file.httpLink)}>
           <ListItemAvatar>
-            <Avatar style={{ backgroundColor: '#FFF5EA' }}>
+            {/* <Avatar style={{ backgroundColor: '#FFF5EA' }}> */}
+            <Avatar>
               {decodeURIComponent(file.httpLink.match(/_(.*?)\?/)[1]).substring(
                 decodeURIComponent(
                   file.httpLink.match(/_(.*?)\?/)[1]
