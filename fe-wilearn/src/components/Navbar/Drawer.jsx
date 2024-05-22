@@ -55,7 +55,6 @@ export default function ClippedDrawer() {
 
   const onRefreshGroup = () => {
     dispatch(getSubjectLists());
-    dispatch(getGroupInfo(groupId));
     // dispatch(getGroupInfoAsMember(groupId));
     dispatch(getGroupLists());
     dispatch(getGroupMemberLists());
@@ -64,8 +63,14 @@ export default function ClippedDrawer() {
     dispatch(getStudentInvites());
     dispatch(getDiscussionByGroupId(groupId));
     dispatch(getGrouptMeetingList(groupId));
-      // toast.info("getUsermMeetings")
+    // toast.info("getUsermMeetings")
     dispatch(getUsermMeetings())
+    const response = dispatch(getGroupInfo(groupId));
+    response.then((r) => {
+      if (r.type === getGroupInfo.rejected.type) {
+        navigate("/groups");
+      }
+    });
   };
 
   useEffect(() => {
