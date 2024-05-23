@@ -7,6 +7,7 @@
 
 export const API_SIGNIN_URL = "/api/Auth/Login";
 export const API_GOOGLE_SIGNIN_URL = "/api/Auth/Login/Google/Access-Token";
+export const API_GOOGLE_SIGNIN_JWT_URL = "/api/Auth/Login/Google/Id-Token";
 export const API_SIGNUP_URL = "/api/Auth/Register/Student";
 export const API_GET_USER_INFO = "/api/Accounts/profile";
 export const API_UPDATE_PASSWORD = "/api/Accounts/{id}/Password";

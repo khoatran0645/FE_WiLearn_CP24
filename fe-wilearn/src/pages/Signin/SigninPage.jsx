@@ -29,6 +29,9 @@ import {
   resetPassword,
 } from "../../app/reducer/userReducer";
 import { toast } from "react-toastify";
+import { GoogleLogin, googleLogout, useGoogleLogin } from "@react-oauth/google";
+import { checkLoginGoogle, checkLoginGoogleJWT } from "../../app/reducer/userReducer/userActions";
+import axios from "axios";
 
 const defaultTheme = createTheme();
 const validationSchema = Yup.object({
@@ -38,6 +41,7 @@ const validationSchema = Yup.object({
 
 export default function SignIn() {
   const [open, setOpen] = useState(false);
+  const [ggProfile, setGgProfile] = useState();
   const { userInfo, loading, loginError } = useSelector((state) => state.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -63,6 +67,33 @@ export default function SignIn() {
       dispatch(setLoginError(null));
     }
   }, [userInfo, loginError]);
+
+  const login = useGoogleLogin({
+    onSuccess: (codeResponse) => {
+      console.log('GG Login Success:', codeResponse)
+      axios.get(`https://www.googleapis.com/oauth2/v1/userinfo?access_token=${codeResponse.access_token}`, {
+          headers: {
+            Authorization: `Bearer ${codeResponse.access_token}`,
+            Accept: 'application/json'
+          }
+        }).then((res) => {
+            console.log('gg profile: ', res)
+            setGgProfile(res.data);
+          }).catch((err) => console.log(err));
+      dispatch(checkLoginGoogle(codeResponse.access_token))
+    },
+    onError: (error) => console.log('GG Login Failed:', error)
+  });
+  const googleLoginSuccess = (response) =>{
+    console.log('googleLoginSuccess', response)
+    dispatch(checkLoginGoogleJWT(response.credential))
+  }
+  const googleLoginError = (response) =>{
+    console.log('googleLoginError:', response)
+  }
+  const logOut = () => {
+    googleLogout();
+  };
 
   const handleClickOpen = () => {
     setOpen(true);
@@ -171,10 +202,42 @@ export default function SignIn() {
                   mb: 2,
                   backgroundImage: "linear-gradient(to left, #00b4db, #0083b0)",
                 }}
+                id="my-login-btn"
                 // onClick={handleLogin}
               >
                 {!loading ? "Sign In" : <CircularProgress />}
               </Button>
+              <Box alignItems="center" alignContent="center" width="100%">
+                {/* <div class="g-signin2" ondata data-onsuccess={onGgSignIn}>abc xyz</div> */}
+                  {/* {ggProfile && (
+                    <div>
+                      <img src={ggProfile.picture} alt="user image" />
+                      <h3>User Logged in</h3>
+                      <p>Name: {ggProfile.name}</p>
+                      <p>Email Address: {ggProfile.email}</p>
+                      <button onClick={logOut}>Log out</button>
+                    </div>
+                  )}                     */}
+                  <button onClick={() => login()}>Đăng nhập với Google 🚀 </button>
+                  <GoogleLogin 
+                    onSuccess={googleLoginSuccess} 
+                    onError={googleLoginError} 
+                    text="Đăng nhập với Google"
+                    flow='implicit'
+                    shape="pill"
+                    // theme="filled_blue"
+                    locale="en-us"
+                    size="large"
+                    auto_select={false}
+                    logo_alignment="center"
+                    width="10000px"
+                    // style={{
+                    //   alignContent:"center",
+                    //   alignItems:"center",
+                    //   width:"100%",
+                    // }}
+                  />
+              </Box>
               <Grid container>
                 <Grid item xs>
                   <Link to="#" onClick={handleClickOpen}>
