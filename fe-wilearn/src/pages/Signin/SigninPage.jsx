@@ -218,7 +218,7 @@ export default function SignIn() {
                       <button onClick={logOut}>Log out</button>
                     </div>
                   )}                     */}
-                  <button onClick={() => login()}>Đăng nhập với Google 🚀 </button>
+                  {/* <button onClick={() => login()}>Đăng nhập với Google 🚀 </button> */}
                   <GoogleLogin 
                     onSuccess={googleLoginSuccess} 
                     onError={googleLoginError} 
