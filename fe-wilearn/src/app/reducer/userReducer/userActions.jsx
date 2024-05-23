@@ -11,6 +11,7 @@ import {
   API_FORGOT_PASSWORD,
   API_GET_PERSONAL_STATS,
   API_GET_MORE_PERSONAL_STATS,
+  API_GOOGLE_SIGNIN_JWT_URL,
 } from "../../../constants";
 import { toast } from "react-toastify";
 import axiosClient from "../../../services/axiosClient";
@@ -45,6 +46,17 @@ export const checkLoginGoogle = createAsyncThunk(
     // Call API checkLogin
     return await axiosClient
       .post(API_GOOGLE_SIGNIN_URL + `?accessToken=${access_token}`)
+      .then((response) => response)
+      .catch((error) => rejectWithValue(error.response.data));
+  }
+);
+
+export const checkLoginGoogleJWT = createAsyncThunk(
+  "auth/login",
+  async (access_token, { rejectWithValue }) => {
+    // Call API checkLogin
+    return await axiosClient
+      .post(API_GOOGLE_SIGNIN_JWT_URL + `?idToken=${access_token}`)
       .then((response) => response)
       .catch((error) => rejectWithValue(error.response.data));
   }

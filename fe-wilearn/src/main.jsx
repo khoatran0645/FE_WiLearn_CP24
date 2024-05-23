@@ -17,10 +17,11 @@ import { Provider } from "react-redux";
 import store from "./app/store";
 import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import { GoogleOAuthProvider } from '@react-oauth/google'
 const theme = createTheme({
   palette: {
     mode: "light",
-    border:{
+    border: {
       red: "red",
       blue: "blue"
     }
@@ -31,13 +32,15 @@ ReactDOM.createRoot(document.getElementById("root")).render(
     {/* <ToastContainer> */}
     <ThemeProvider theme={theme}>
       <Provider store={store}>
-        <LocalizationProvider dateAdapter={AdapterDayjs}>
-          <BrowserRouter>
-            <CssBaseline />
-            <Router />
-            <ToastContainer />
-          </BrowserRouter>
-        </LocalizationProvider>
+        <GoogleOAuthProvider clientId="422799108764-meidfkt2ig8vk0280fojs5ifsvmhsp3k.apps.googleusercontent.com">
+          <LocalizationProvider dateAdapter={AdapterDayjs}>
+            <BrowserRouter>
+              <CssBaseline />
+              <Router />
+              <ToastContainer />
+            </BrowserRouter>
+          </LocalizationProvider>
+        </GoogleOAuthProvider>
       </Provider>
     </ThemeProvider>
     {/* // </ToastContainer> */}

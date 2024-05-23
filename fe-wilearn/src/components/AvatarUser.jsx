@@ -15,6 +15,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import { getUserInfo } from "../app/reducer/userReducer";
+import { googleLogout } from "@react-oauth/google";
 
 const settings = [
   {
@@ -47,6 +48,7 @@ export default function AvatarUser() {
 
   const handleLogout = () => {
     localStorage.clear();
+    googleLogout();
     navigate("/");
     window.location.reload();
     console.log("logout complete");
