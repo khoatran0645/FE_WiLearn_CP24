@@ -26,6 +26,7 @@ import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
 import HistoryReview from "./../../Meeting/HistoryReview";
 import HistoryChat from "./../../Meeting/HistoryChat";
+import HistoryCanvas from "../../Meeting/HistoryCanvas";
 
 const localizer = momentLocalizer(moment);
 
