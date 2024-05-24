@@ -21,24 +21,33 @@ import dayjs from "dayjs";
 export default function DiscussionList() {
   const { discussionList } = useSelector((state) => state.studyGroup);
 
-  // console.log("discussionList", discussionList);
-  // console.log("answerList", answerList);
-
-  const options = ["Newest", "Oldest"];
-
   const [currentPage, setCurrentPage] = useState(1);
+  const [sortOrder, setSortOrder] = useState("Newest");
   const discussionsPerPage = 2;
 
-  const totalPages = Math.ceil(discussionList.length / discussionsPerPage);
+  // Sorting logic
+  const sortedDiscussionList = [...discussionList].sort((a, b) => {
+    if (sortOrder === "Newest") {
+      return new Date(b.createAt) - new Date(a.createAt);
+    } else {
+      return new Date(a.createAt) - new Date(b.createAt);
+    }
+  });
+
+  const totalPages = Math.ceil(sortedDiscussionList.length / discussionsPerPage);
   const startIndex = (currentPage - 1) * discussionsPerPage;
   const endIndex = Math.min(
     startIndex + discussionsPerPage,
-    discussionList.length
+    sortedDiscussionList.length
   );
-  const currentDiscussions = discussionList.slice(startIndex, endIndex);
+  const currentDiscussions = sortedDiscussionList.slice(startIndex, endIndex);
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
+  };
+
+  const handleSortChange = (event, value) => {
+    setSortOrder(value);
   };
 
   const formats = [
@@ -74,17 +83,17 @@ export default function DiscussionList() {
       </Grid>
       <AddDiscussion />
       <Grid item xs={12} md={8}>
-        {/* <Autocomplete
+        <Autocomplete
           disablePortal
           id="combo-box-demo"
-          options={options}
-          defaultValue={"Newest"}
-          sx={{ width: 150 }}
-          getOptionLabel={(option) => option}
+          options={["Newest", "Oldest"]}
+          value={sortOrder}
+          onChange={handleSortChange}
+          sx={{ width: 150, mb: 2 }}
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
-        /> */}
-        {(!currentDiscussions || currentDiscussions.length == 0) && (
+        />
+        {(!currentDiscussions || currentDiscussions.length === 0) && (
           <Typography align="center" variant="h5">
             No discussion yet
           </Typography>
@@ -117,8 +126,6 @@ export default function DiscussionList() {
                     {discussion.account.fullName} -{" "}
                     {dayjs(discussion.createAt).format("DD/MM/YYYY HH:MM")}
                   </Typography>
-                  {/* <Typography variant="body1">{discussion.content}</Typography> */}
-
                   <ReactQuill
                     value={
                       discussion.content.length > 200
@@ -129,8 +136,6 @@ export default function DiscussionList() {
                     theme={"bubble"}
                     formats={formats}
                   />
-
-                  {/* <SeeMore discussionId={discussion.id} /> */}
                   <Link to={`./${discussion.id}`}>
                     <Button variant="outlined">See more</Button>
                   </Link>
@@ -139,23 +144,22 @@ export default function DiscussionList() {
             </ListItem>
           ))}
         </List>
-        
       </Grid>
       <div
-          style={{
-            position: "fixed",
-            bottom: "0",
-            width: "100%",
-            backgroundColor: "#fff",
-            padding: "50px 0",
-          }}
-        >
-          {totalPages > 1 && (
-            <Grid item container justifyContent="center">
-              <Paginate count={totalPages} onPageChange={handlePageChange} />
-            </Grid>
-          )}
-        </div>
+        style={{
+          position: "fixed",
+          bottom: "0",
+          width: "100%",
+          backgroundColor: "#fff",
+          padding: "20px 0",
+        }}
+      >
+        {totalPages > 1 && (
+          <Grid item container justifyContent="center">
+            <Paginate count={totalPages} onPageChange={handlePageChange} />
+          </Grid>
+        )}
+      </div>
     </Grid>
   );
 }
