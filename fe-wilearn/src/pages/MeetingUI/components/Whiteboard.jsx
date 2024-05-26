@@ -124,7 +124,7 @@ const WhiteBoard = (props) => {
     const userName = localStorage.getItem("userName")
     const hubConnection = new HubConnectionBuilder()
       .withUrl(
-        BE_URL + "/hubs/drawhub?meetingId=" + meetingId+"&username="+userName,
+        "https://www.groupstudy.somee.com/hubs/drawhub?meetingId=" + meetingId+"&username="+userName,
         {
           accessTokenFactory: () => accessTokenFactory,
         }
