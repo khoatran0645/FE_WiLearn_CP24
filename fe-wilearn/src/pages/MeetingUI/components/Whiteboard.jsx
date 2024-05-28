@@ -13,8 +13,8 @@ const WhiteBoard = (props) => {
   const canvasRef = useRef(null);
   const textRef = useRef(null);
   const colorRef = useRef(null);
-  let drawings = []
-
+  // const drawings = []
+  
   const { groupId, meetingId } = useParams();
   let isLead = false;
   const { userInfo } = useSelector((state) => state.user);
@@ -24,17 +24,22 @@ const WhiteBoard = (props) => {
       leadGroups = userInfo.leadGroups ? userInfo.leadGroups : [];
     }
     isLead = leadGroups.some((g) => g.id == parseInt(groupId));
-    }
+  }
   catch(ex){
     alert(ex)
   }
-
+  
   const color = document.getElementById("color");
   const circle = document.getElementById('circle');
   const size = document.getElementById("size");
-  const [canvasContext, setCanvasContext] = useState();
-  const [textContext, setTextContext] = useState();
+  // const [canvasContext, setCanvasContext] = useState();
+  // const [textContext, setTextContext] = useState();
+  console.log(`document.getElementById("canvas")`, document.getElementById("canvas"))
+  let canvasContext;// = document.getElementById("canvas")?.getContext("2d");
+  let textContext;// = document.getElementById("text")?.getContext("2d");
   const [canvasX, setCanvasX] = useState();
+  // const [drawings, setDrawings] = useState([]);
+  let drawings = [];
   const [canvasY, setCanvasY] = useState();
   
   const clearMousePositions = () => {
@@ -43,7 +48,8 @@ const WhiteBoard = (props) => {
     if(circle){circle.style.display='none'}
   };
   const username = localStorage.getItem("userName");
-  let meetHub;
+  // let meetHub;
+  const [meetHub, setMeetHub] = useState();
   var last_mousex = 0;
   var last_mousey = 0;
   var mousex = 0;
@@ -53,10 +59,10 @@ const WhiteBoard = (props) => {
   const canvasMouseMove = (e) => {
     mousex = parseInt(e.clientX - canvasX + window.scrollX);
     mousey = parseInt(e.clientY - canvasY + window.scrollY);
-    var clr = color.value;
-    var brushSize = size.value;
-
+    
     if (last_mousex > 0 && last_mousey > 0 && mousedown) {
+      var clr = color.value;
+      var brushSize = size.value;
       drawCanvas(mousex, mousey, last_mousex, last_mousey, clr, brushSize, username);
       meetHub.invoke(
         "draw",
@@ -70,7 +76,7 @@ const WhiteBoard = (props) => {
     }
     last_mousex = mousex;
     last_mousey = mousey;
-    showNames();
+    // showNames(drawings, e);
   };
 
   const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize, username) => {
@@ -81,15 +87,26 @@ const WhiteBoard = (props) => {
       color: clr,
       uname: username
     }
+    // console.log(`clr=="white"`, clr=="white")
     if(clr=="white"){
       for (var i = 0; i < drawings.length; i++) {
         if(dist(drawings[i].x, drawings[i].y, prev_x, prev_y)<brushSize*5){
           drawings.splice(i,1);
-          // console.log(`Eraser remove`, {prev_x, prev_y})
+          console.log(`Eraser remove`, {prev_x, prev_y})
         }
       }
     }else{
+      // console.log("push")
+      // drawings = drawings.push(drawing)
       drawings.push(drawing)
+      // drawings=[...drawings, drawing];
+      console.log("setDrawings([...drawings, drawing])", drawings)
+      // setDrawings([...drawings, drawing])
+      // console.log("push", drawings.length)
+      // console.log("push", drawings)
+    }
+    if(!canvasContext){
+      canvasContext = document.getElementById("canvas").getContext("2d");
     }
     canvasContext.beginPath();
     canvasContext.globalCompositeOperation = "source-over";
@@ -98,6 +115,7 @@ const WhiteBoard = (props) => {
       brushSize = brushSize * 10;
     }
     canvasContext.lineWidth = brushSize;
+
     canvasContext.moveTo(prev_x, prev_y);
     canvasContext.lineTo(x, y);
     canvasContext.lineJoin = canvasContext.lineCap = "round";
@@ -105,6 +123,7 @@ const WhiteBoard = (props) => {
     //yt
     canvasContext.closePath();
     canvasContext.save();
+
 
   };
   const canvasMouseUp = () => {
@@ -119,41 +138,93 @@ const WhiteBoard = (props) => {
     mousedown = true;
   };
 
-  const newConnection = () => {
+  const newConnection = async() => {
+    // toast.info("Connecting")
     const accessTokenFactory = localStorage.getItem("token");
     const userName = localStorage.getItem("userName")
     const hubConnection = new HubConnectionBuilder()
       .withUrl(
-        "https://www.groupstudy.somee.com/hubs/drawhub?meetingId=" + meetingId+"&username="+userName,
+        BE_URL + "/hubs/drawhub?meetingId=" + meetingId+"&username="+userName,
         {
           accessTokenFactory: () => accessTokenFactory,
         }
       )
       .withAutomaticReconnect()
+      // .withServerTimeout
       .build();
-    hubConnection.start().catch((err) => console.log(err));
-    hubConnection.on("MeetingEnd", () => {
-      // toast.info("Meeting ended")
-      navigate("/groups/"+groupId);
-    })
-    hubConnection.on("draw", (prev_x, prev_y, x, y, color, size, username) => {
-      drawCanvas(prev_x, prev_y, x, y, color, size, username);
-    });
-
-    hubConnection.on("get-drawings", (drawings) => {
-      // alert("get-drawings")
-      textRef.current.style.borderColor = "green"
-      // canvasRef.current.style.borderColor = "green"
-      // toast.info("Connected to meeting white board")
-      console.log("get-drawings", drawings)
-      drawings.forEach((d) => {
-        drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size, d.username);
+      hubConnection.on("MeetingEnd", () => {
+        // toast.info("Meeting ended")
+        navigate("/groups/"+groupId);
+      })
+      hubConnection.on("draw", (prev_x, prev_y, x, y, color, size, username) => {
+        // toast.info("hubConnection draw")
+        drawCanvas(prev_x, prev_y, x, y, color, size, username);
+        // const drawing = {
+        //   x: prev_x,
+        //   y: prev_y,
+        //   r: size,
+        //   color: color,
+        //   uname: username
+        // }
+        // if(color=="white"){
+        //   for (var i = 0; i < drawings.length; i++) {
+        //     if(dist(drawings[i].x, drawings[i].y, prev_x, prev_y)<brushSize*5){
+        //       drawings.splice(i,1);
+        //       // console.log(`Eraser remove`, {prev_x, prev_y})
+        //     }
+        //   }
+        // }else{
+        //   // drawings.push(drawing)
+        // }
       });
-    });
-    console.log('hubConnection', hubConnection);
+      
+      hubConnection.on("get-drawings", (existedDrawings) => {
+        // alert("get-drawings")
+        textRef.current.style.borderColor = "green"
+        // canvasRef.current.style.borderColor = "green"
+        toast.info("Connected to meeting white board")
+        console.log("get-drawings", existedDrawings)
+        existedDrawings.forEach((d) => {
+          drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size, d.username);
+        });
+
+        document.getElementById("text").addEventListener('mousemove', function(e) {
+          // toast.info("text mouse move")
+          // canvasMouseMove(e);
+          showNames(e)
+        });
+        // document.getElementById("canvas").onmousemove = canvasMouseMove;
+        document.getElementById("canvas").addEventListener('mousemove', function(e) {
+          // toast.info("canvas mouse move")
+          // canvasMouseMove(e);
+          showNames(e)
+        });
+      });
+      console.log('hubConnection', hubConnection);
+      console.log('hubConnection state', hubConnection.state);
+      await hubConnection.start()
+      .then(()=>{
+        toast.info("Connected")
+        // meetHub = hubConnection;
+        setMeetHub(hubConnection);
+      })
+      .catch((err) => console.log(err));
+      hubConnection.onclose(()=>{
+        toast.info("Disconnected")
+
+      })
+    // if(hubConnection.state.toLowerCase()=="connected"){
+    //   toast.info("Connected")
+    //   meetHub = hubConnection;
+    // }
     return hubConnection;
   };
-  meetHub = newConnection();
+  // meetHub = newConnection();
+  useEffect(()=>{
+    console.log("init drawings", drawings)
+    newConnection();
+
+  }, [meetingId])
 
   window.onresize=()=>{
     clearMousePositions();
@@ -175,6 +246,20 @@ const WhiteBoard = (props) => {
     textVas.style.width = sizeWidth;
     textVas.style.height = sizeHeight;
   }
+
+  // window.onload=()=>{
+  //   toast.info("onload")
+  //   document.getElementById("text").addEventListener('mousemove', function() {
+  //     toast.info("text mouse move")
+  //     canvasMouseMove();
+  //   });
+  //   // document.getElementById("canvas").onmousemove = canvasMouseMove;
+  //   document.getElementById("canvas").addEventListener('mousemove', function() {
+  //     toast.info("canvas mouse move")
+  //     canvasMouseMove();
+  //   });
+  //   toast.info("onload fin")
+  // }
 
   useEffect(() => {
     // toast.success('Đã vào bảng trắng');
@@ -205,8 +290,14 @@ const WhiteBoard = (props) => {
     setCanvasX(canvas.offsetLeft);
     setCanvasY(canvas.offsetTop);
 
-    setCanvasContext(canvas.getContext("2d"));
-    setTextContext(textVas.getContext("2d"));
+    canvasContext = document.getElementById("canvas").getContext("2d");
+    textContext = document.getElementById("text").getContext("2d");
+
+    console.log("init drawings", drawings)
+    // setCanvasContext(canvas.getContext("2d"));
+    // setTextContext(textVas.getContext("2d"));
+    // canvasContext = canvas.getContext("2d");
+    // textContext = textVas.getContext("2d")
   }, [meetingId]);
   const moveCircle = (e) => {
     if(color.value!="white"){
@@ -243,18 +334,35 @@ const WhiteBoard = (props) => {
     return Math.sqrt(dx * dx + dy * dy);
   }
 
-  const showNames = ()=>{
+  // const showNames = (drawings, e)=>{
+  const showNames = (e)=>{
       // const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/1.5).map(d=>({color: d.color, uname: d.uname}));
+      console.log("drawings", drawings)
+      console.log("drawings num", drawings.length)
+      console.log("canvasX canvasY", canvasX, canvasY)
+      // let mousex = parseInt(e.clientX - canvasX + window.scrollX);
+      // let mousey = parseInt(e.clientY - canvasY + window.scrollY);
+      let mousex = parseInt(e.clientX - canvasRef.current.offsetLeft + window.scrollX);
+      let mousey = parseInt(e.clientY - canvasRef.current.offsetTop + window.scrollY);
+
+      console.log("mousex mousey", mousex, mousey)
+      // console.log(`dist(${drawings[0].x}, ${drawings[0].y}, ${mousex}, ${mousey})`, dist(drawings[0].x, drawings[0].y, mousex, mousey))
+      console.log("drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3)", drawings.map(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3), drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).length)
       const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).map(d=>({color: d.color, uname: d.uname}));
+      console.log("goodDrawings", goodDrawings)
       const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
+      console.log("uniqueGoodDrawings", uniqueGoodDrawings)
+      if(!textContext){
+        textContext = document.getElementById("text").getContext("2d");
+      }
       textContext.clearRect(0, 0, window.innerWidth, window.innerWidth);
       if(uniqueGoodDrawings.length>0) {
-        let names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
+        // let names = uniqueGoodDrawings.map(d=>d.uname).join(", ")
         textContext.font = "15px Comic Sans MS";
         let startX = mousex+10
 
         let backgroundLength = textContext.measureText(uniqueGoodDrawings.map(d=>d.uname).join(" ")).width;
-        textContext.fillStyle = "rgba(255,255,255,.5)";
+        textContext.fillStyle = "rgba(200,200,200,.5)";
         textContext.fillRect(mousex+5, mousey-10, backgroundLength+10, 25);
 
         uniqueGoodDrawings.forEach(d => {
@@ -262,6 +370,7 @@ const WhiteBoard = (props) => {
           textContext.fillText(d.uname+ " ", startX, mousey+5)
           startX += textContext.measureText(d.uname+" ").width;
         });
+        console.log("uniqueGoodDrawings", uniqueGoodDrawings)
       }
   }
   function unique(arr, keyProps) {
