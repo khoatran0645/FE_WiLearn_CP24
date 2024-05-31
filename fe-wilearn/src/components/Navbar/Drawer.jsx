@@ -35,6 +35,8 @@ import {
   getStudentInvites,
   getDiscussionByGroupId,
   getGrouptMeetingList,
+  getAnswerByDiscussionId,
+  getDiscussionById,
 } from "../../app/reducer/studyGroupReducer/studyGroupActions";
 import { useDispatch, useSelector } from "react-redux";
 import { BE_URL } from "../../constants";
@@ -48,7 +50,7 @@ import { getUsermMeetings } from "../../app/reducer/userReducer";
 const drawerWidth = 220;
 
 export default function ClippedDrawer() {
-  const { groupId } = useParams();
+  const { groupId, discussionId } = useParams();
   const { groupInfo, loadingGroup } = useSelector((state) => state.studyGroup);
   const navigate = useNavigate();
   const dispatch = useDispatch();
@@ -109,8 +111,13 @@ export default function ClippedDrawer() {
     });
 
     groupHub.on("OnReloadDicussion", (message) => {
-    dispatch(getDiscussionByGroupId(groupId));
+      dispatch(getDiscussionByGroupId(groupId));
       message && toast.info(message);
+      console.log("discussionId", discussionId)
+      if(discussionId){
+        dispatch(getDiscussionById(discussionId));
+        dispatch(getAnswerByDiscussionId(discussionId));
+      }
     });
 
     groupHub.on("OnReloadDocument", (message) => {
@@ -121,7 +128,7 @@ export default function ClippedDrawer() {
     return () => {
       groupHub.stop().catch((error) => { });
     };
-  }, [groupId]);
+  }, [groupId, discussionId]);
 
   const [miniVariant, setMiniVariant] = useState(false);
 

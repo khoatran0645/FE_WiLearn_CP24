@@ -131,7 +131,7 @@ export default function EditIconButton() {
         handleClose();
       } else {
         toast.error(
-          "Something went wrong when creating disscusion " + values.Question
+          "Something went wrong when updating disscusion " + values.Question
         );
         response?.payload?.failures &&
           response?.payload?.failures.forEach((fail) => {

@@ -7,6 +7,7 @@ import {
   TextField,
   DialogActions,
   Button,
+  TextareaAutosize,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import { useState, useEffect } from "react";
@@ -72,6 +73,7 @@ export default function EditCommentButton(props) {
       </Tooltip>
       <Dialog
         open={open}
+        fullWidth
         onClose={handleClose}
         PaperProps={{
           component: "form",
@@ -88,16 +90,21 @@ export default function EditCommentButton(props) {
       >
         <DialogTitle>Edit comment</DialogTitle>
         <DialogContent>
-          <TextField
+          <TextareaAutosize 
             autoFocus
             required
-            margin="dense"
+            // margin="dense"
             id="content"
             name="content"
             label="Content"
             type="text"
-            fullWidth
-            variant="standard"
+            style={{
+              width: "100%",
+              minHeight: "80px",
+              borderRadius: "5px",
+              padding: "10px",
+            }}
+            placeholder="Type your reply here..."
           />
         </DialogContent>
         <DialogActions>
