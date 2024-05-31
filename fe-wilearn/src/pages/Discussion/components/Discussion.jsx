@@ -128,7 +128,7 @@ export default function DiscussionList() {
                     component="p"
                   >
                     {discussion.account.fullName} -{" "}
-                    {dayjs(discussion.createAt).format("DD/MM/YYYY HH:MM")}
+                    {dayjs(discussion.createAt).format("DD/MM/YYYY HH:mm")}
                   </Typography>
                   <ReactQuill
                     value={
