@@ -64,7 +64,7 @@ export default function HistoryChat(props) {
                   return {
                     username: chat.accountUsername,
                     content: chat.content,
-                    timeStamp: dayjs(chat.time).format("HH:MM:ss")
+                    timeStamp: dayjs(chat.time).format("HH:mm:ss")
                   }
                 })
                 .map((message, index) => (

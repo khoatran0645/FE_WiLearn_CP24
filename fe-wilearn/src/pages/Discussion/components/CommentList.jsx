@@ -54,7 +54,7 @@ const CommentList = () => {
           avatarUrl={comment.account.imagePath}
           username={comment.account.fullName}
           content={comment.content}
-          timestamp={dayjs(comment.createAt).format("DD/MM/YYYY HH:MM")}
+          timestamp={dayjs(comment.createAt).format("DD/MM/YYYY HH:mm")}
         />
       ))}
     </Grid>

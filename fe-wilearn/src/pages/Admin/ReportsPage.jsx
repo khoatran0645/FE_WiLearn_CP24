@@ -120,7 +120,7 @@ function ReportsPage() {
                 <Typography>
                   <strong>Discussion created date: </strong>
                   {dayjs(report.discussion.createdAt).format(
-                    "DD/MM/YYYY HH:MM"
+                    "DD/MM/YYYY HH:mm"
                   )}
                 </Typography>
               </Paper>
@@ -133,7 +133,7 @@ function ReportsPage() {
                 </Typography>
                 <Typography>
                   <strong>File created date: </strong>
-                  {dayjs(report.file.createdDate).format("DD/MM/YYYY HH:MM")}
+                  {dayjs(report.file.createdDate).format("DD/MM/YYYY HH:mm")}
                 </Typography>
                 <Typography>
                   <strong>File httpLink: </strong>
