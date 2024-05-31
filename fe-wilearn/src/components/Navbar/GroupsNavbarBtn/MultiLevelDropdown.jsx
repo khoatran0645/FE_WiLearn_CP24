@@ -55,8 +55,8 @@ const MultiLevelDropdown = () => {
     { id: 4, name: "Nhóm 4" },
   ];
   if (userInfo) {
-    leadGroups = userInfo.leadGroups;
-    joinGroups = userInfo.joinGroups;
+    leadGroups = userInfo?.leadGroups;
+    joinGroups = userInfo?.joinGroups;
   }
 
   return (
@@ -88,7 +88,7 @@ const MultiLevelDropdown = () => {
           <MenuItem component={Link} to={`groups`}>
             All
           </MenuItem>
-          {leadGroups.length > 0 && (
+          {leadGroups?.length > 0 && (
             <MenuItem onClick={handleSubMenu1Click}>
               Manage
               <ListItemIcon>
@@ -96,7 +96,7 @@ const MultiLevelDropdown = () => {
               </ListItemIcon>
             </MenuItem>
           )}
-          {joinGroups.length > 0 && (
+          {joinGroups?.length > 0 && (
             <MenuItem onClick={handleSubMenu2Click}>
               Join
               <ListItemIcon>
@@ -120,7 +120,7 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
-            {leadGroups.map((group) => (
+            {leadGroups?.map((group) => (
               <MenuItem
                 component={Link}
                 to={`groups/${group.id}`}
@@ -147,7 +147,7 @@ const MultiLevelDropdown = () => {
           }}
         >
           <div>
-            {joinGroups.map((group) => (
+            {joinGroups?.map((group) => (
               <MenuItem
                 component={Link}
                 to={`groups/${group.id}`}
