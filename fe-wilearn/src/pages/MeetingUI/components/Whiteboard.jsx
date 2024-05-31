@@ -81,8 +81,10 @@ const WhiteBoard = (props) => {
 
   const drawCanvas = (prev_x, prev_y, x, y, clr, brushSize, username) => {
     const drawing = {
-      x: prev_x,
-      y: prev_y,
+      prev_x: prev_x,
+      prev_y: prev_y,
+      x: x,
+      y: y,
       r: brushSize,
       color: clr,
       uname: username
@@ -92,7 +94,7 @@ const WhiteBoard = (props) => {
       for (var i = 0; i < drawings.length; i++) {
         if(dist(drawings[i].x, drawings[i].y, prev_x, prev_y)<brushSize*5){
           drawings.splice(i,1);
-          console.log(`Eraser remove`, {prev_x, prev_y})
+          // console.log(`Eraser remove`, {prev_x, prev_y})
         }
       }
     }else{
@@ -100,7 +102,7 @@ const WhiteBoard = (props) => {
       // drawings = drawings.push(drawing)
       drawings.push(drawing)
       // drawings=[...drawings, drawing];
-      console.log("setDrawings([...drawings, drawing])", drawings)
+      // console.log("setDrawings([...drawings, drawing])", drawings)
       // setDrawings([...drawings, drawing])
       // console.log("push", drawings.length)
       // console.log("push", drawings)
@@ -182,7 +184,7 @@ const WhiteBoard = (props) => {
         // alert("get-drawings")
         textRef.current.style.borderColor = "green"
         // canvasRef.current.style.borderColor = "green"
-        toast.info("Connected to meeting white board")
+        toast.info("Got meeting white board")
         console.log("get-drawings", existedDrawings)
         existedDrawings.forEach((d) => {
           drawCanvas(d.prevX, d.prevY, d.currentX, d.currentY, d.color, d.size, d.username);
@@ -199,6 +201,62 @@ const WhiteBoard = (props) => {
           // canvasMouseMove(e);
           showNames(e)
         });
+        window.onresize=()=>{
+          clearMousePositions();
+          const canvas = canvasRef.current;
+      
+          var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
+          var sizeHeight = 85 * window.innerHeight / 100 || 800;
+      
+          // Setting the canvas site and width to be responsive 
+          canvas.width = sizeWidth;
+          canvas.height = sizeHeight;
+          canvas.style.width = sizeWidth;
+          canvas.style.height = sizeHeight;
+      
+          const textVas = textRef.current;
+      
+          textVas.width = sizeWidth;
+          textVas.height = sizeHeight;
+          textVas.style.width = sizeWidth;
+          textVas.style.height = sizeHeight;
+      
+          if(drawings.length==0){
+            // toast.info("No drawings yet when resize")
+            return;
+          }
+          // toast.info("Yes drawings yet when resize")
+      
+          if(!canvasContext){
+            canvasContext = document.getElementById("canvas").getContext("2d");
+          }
+          canvasContext.clearRect(0, 0, sizeWidth, sizeHeight)
+          for (var i = 0; i < drawings.length; i++) {
+            let clr = drawings[i].color;
+            let brushSize = drawings[i].r;
+            let prev_x = drawings[i].prev_x;
+            let x = drawings[i].x;
+            let prev_y = drawings[i].prev_y;
+            let y = drawings[i].y;
+      
+            canvasContext.beginPath();
+            canvasContext.globalCompositeOperation = "source-over";
+            canvasContext.strokeStyle = clr;
+            if (clr == "white") {
+              brushSize = brushSize * 10;
+            }
+            canvasContext.lineWidth = brushSize;
+      
+            canvasContext.moveTo(prev_x, prev_y);
+            canvasContext.lineTo(x, y);
+            canvasContext.lineJoin = canvasContext.lineCap = "round";
+            canvasContext.stroke();
+            //yt
+            canvasContext.closePath();
+            canvasContext.save();
+            
+          }
+        }
       });
       console.log('hubConnection', hubConnection);
       console.log('hubConnection state', hubConnection.state);
@@ -221,31 +279,12 @@ const WhiteBoard = (props) => {
   };
   // meetHub = newConnection();
   useEffect(()=>{
-    console.log("init drawings", drawings)
+    // console.log("init drawings", drawings)
     newConnection();
 
   }, [meetingId])
 
-  window.onresize=()=>{
-    clearMousePositions();
-    const canvas = canvasRef.current;
-
-    var sizeWidth = 100 * window.innerWidth / 100 - 15 || 800;//-2 cái border
-    var sizeHeight = 85 * window.innerHeight / 100 || 800;
-
-    // Setting the canvas site and width to be responsive 
-    canvas.width = sizeWidth;
-    canvas.height = sizeHeight;
-    canvas.style.width = sizeWidth;
-    canvas.style.height = sizeHeight;
-
-    const textVas = textRef.current;
-
-    textVas.width = sizeWidth;
-    textVas.height = sizeHeight;
-    textVas.style.width = sizeWidth;
-    textVas.style.height = sizeHeight;
-  }
+ 
 
   // window.onload=()=>{
   //   toast.info("onload")
@@ -293,7 +332,7 @@ const WhiteBoard = (props) => {
     canvasContext = document.getElementById("canvas").getContext("2d");
     textContext = document.getElementById("text").getContext("2d");
 
-    console.log("init drawings", drawings)
+    // console.log("init drawings", drawings)
     // setCanvasContext(canvas.getContext("2d"));
     // setTextContext(textVas.getContext("2d"));
     // canvasContext = canvas.getContext("2d");
@@ -337,21 +376,21 @@ const WhiteBoard = (props) => {
   // const showNames = (drawings, e)=>{
   const showNames = (e)=>{
       // const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/1.5).map(d=>({color: d.color, uname: d.uname}));
-      console.log("drawings", drawings)
-      console.log("drawings num", drawings.length)
-      console.log("canvasX canvasY", canvasX, canvasY)
+      // console.log("drawings", drawings)
+      // console.log("drawings num", drawings.length)
+      // console.log("canvasX canvasY", canvasX, canvasY)
       // let mousex = parseInt(e.clientX - canvasX + window.scrollX);
       // let mousey = parseInt(e.clientY - canvasY + window.scrollY);
       let mousex = parseInt(e.clientX - canvasRef.current.offsetLeft + window.scrollX);
       let mousey = parseInt(e.clientY - canvasRef.current.offsetTop + window.scrollY);
 
-      console.log("mousex mousey", mousex, mousey)
+      // console.log("mousex mousey", mousex, mousey)
       // console.log(`dist(${drawings[0].x}, ${drawings[0].y}, ${mousex}, ${mousey})`, dist(drawings[0].x, drawings[0].y, mousex, mousey))
-      console.log("drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3)", drawings.map(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3), drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).length)
+      // console.log("drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3)", drawings.map(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3), drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).length)
       const goodDrawings = drawings.filter(d=>dist(d.x, d.y, mousex, mousey)<d.r/2+3).map(d=>({color: d.color, uname: d.uname}));
-      console.log("goodDrawings", goodDrawings)
+      // console.log("goodDrawings", goodDrawings)
       const uniqueGoodDrawings = unique(goodDrawings,["color", "uname"])
-      console.log("uniqueGoodDrawings", uniqueGoodDrawings)
+      // console.log("uniqueGoodDrawings", uniqueGoodDrawings)
       if(!textContext){
         textContext = document.getElementById("text").getContext("2d");
       }
@@ -370,7 +409,7 @@ const WhiteBoard = (props) => {
           textContext.fillText(d.uname+ " ", startX, mousey+5)
           startX += textContext.measureText(d.uname+" ").width;
         });
-        console.log("uniqueGoodDrawings", uniqueGoodDrawings)
+        // console.log("uniqueGoodDrawings", uniqueGoodDrawings)
       }
   }
   function unique(arr, keyProps) {
@@ -389,9 +428,11 @@ const WhiteBoard = (props) => {
     ))
   };
    const SaveToComputer = ()=>{
-    alert("SaveToComputer")
+    // alert("SaveToComputer")
     let downloadLink = document.createElement('a');
-    downloadLink.setAttribute('download', 'CanvasAsImage.png');
+    var utc = new Date().toJSON().slice(0,10).replace(/-/g,' ');
+    const name = "meeting "+meetingId+" "+utc;
+    downloadLink.setAttribute('download', `${name}.png`);
     let canvas = canvasRef.current;
     canvas.toBlob(function(blob){
       console.log("blob", blob);
@@ -401,7 +442,7 @@ const WhiteBoard = (props) => {
     }); 
    }
    const SaveToGroup = async()=>{
-    alert("SaveToGroup")
+    toast.info("Saving to group's archive")
     let canvas = canvasRef.current;
     canvas.toBlob(async function(blob){
       console.log("blob", blob);
