@@ -34,7 +34,9 @@ export default function DiscussionList() {
     }
   });
 
-  const totalPages = Math.ceil(sortedDiscussionList.length / discussionsPerPage);
+  const totalPages = Math.ceil(
+    sortedDiscussionList.length / discussionsPerPage
+  );
   const startIndex = (currentPage - 1) * discussionsPerPage;
   const endIndex = Math.min(
     startIndex + discussionsPerPage,
@@ -81,8 +83,7 @@ export default function DiscussionList() {
           Discussions
         </Typography>
       </Grid>
-      <AddDiscussion />
-      <Grid item xs={12} md={8}>
+      <Grid sx={{marginLeft:"0px"}}>
         <Autocomplete
           disablePortal
           id="combo-box-demo"
@@ -93,6 +94,9 @@ export default function DiscussionList() {
           disableClearable
           renderInput={(params) => <TextField {...params} label="Sort by" />}
         />
+      </Grid>
+      <AddDiscussion />
+      <Grid item xs={12} md={8}>
         {(!currentDiscussions || currentDiscussions.length === 0) && (
           <Typography align="center" variant="h5">
             No discussion yet
@@ -151,7 +155,7 @@ export default function DiscussionList() {
           bottom: "0",
           width: "100%",
           backgroundColor: "#fff",
-          padding: "20px 0",
+          padding: "10px 0",
         }}
       >
         {totalPages > 1 && (
